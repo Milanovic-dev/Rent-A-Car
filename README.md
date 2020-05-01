@@ -14,5 +14,6 @@ Download and install Docker: https://www.docker.com/get-started
 Fire up docker containers
 
 ```
+    docker-compose build
     docker-compose up
 ```
