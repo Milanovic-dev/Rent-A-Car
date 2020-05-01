@@ -5,6 +5,8 @@ Online car rental service made using XML, REST, SOAP and Docker with Microservic
 
 Startup:
 
+Download and install Docker: https://www.docker.com/get-started
+
 ```
     cd backend/microservices
 ```
