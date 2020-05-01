@@ -1,0 +1,25 @@
+version: '3'
+services:
+    auth:
+        build: './auth'
+        ports:
+            - "4000:4000"
+        depends_on: 
+            - db
+        environment: 
+            - MONGO_DB_URI=mongoDB://db/microservices
+    
+    search:
+        build: './search'
+        ports:
+            - "4001:4000"
+        depends_on: 
+            - db
+        environment: 
+            - MONGO_DB_URI=mongoDB://db/microservices
+
+    db:
+        image: mongo
+        ports:
+            - "27017:27017"
+    
