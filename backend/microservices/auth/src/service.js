@@ -66,6 +66,8 @@ const register = async (user) => {
     if(!user.password) return { status: 400 };
 
     user.password = bcrypt.hashSync(user.password, bcrypt.genSaltSync(10, 'b'));
+    user.role = 'user';
+    user.regTimestamp = new Date().getUTCMilliseconds();
 
     let storeResult = await db.collection(dbCollection).insertOne(user);
 
