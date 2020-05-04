@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<definitions name="Services"
+    targetNamespace="http://127.0. 0.1:8282/"
+    xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+    xmlns="http://schemas.xmlsoap.org/wsdl/"> 
+    <types>
+
+    </types>
+    <binding>
+
+    </binding>
+    <service name="CarService">
+    
+    </service>
+</definitions>
