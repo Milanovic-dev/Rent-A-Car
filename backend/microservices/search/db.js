@@ -8,7 +8,7 @@ module.exports = function(username, password, server, dbName) {
          resolve(connection)
 
       const uri = isDocker() ? `mongodb://db/${dbName}` : `mongodb://${username}:${encodeURIComponent(password)}@${server}/${dbName}`;
-
+      
       MongoClient.connect(uri, (err, db) => {
          if (err)
             reject(err)

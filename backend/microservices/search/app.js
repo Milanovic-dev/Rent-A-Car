@@ -18,7 +18,7 @@ app.get('/', (req, res) => {
     res.send('This is search service');
 });
 
-app.get('api/v1/search', async (req,res) => {
+app.get('/api/v1/search', async (req,res) => {
     const result = await service.search(req.body);
     res.status(result.status).send(result.response);
 });
