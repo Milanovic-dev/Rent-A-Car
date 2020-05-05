@@ -103,8 +103,10 @@ const users = async () => {
 
 const userJSON = (user) => {
     return {
-        id: user._id,
-        username: user.username
+        _id: user._id,
+        username: user.username,
+        role: user.role,
+        regTimestamp: user.regTimestamp
     };
 };
 
