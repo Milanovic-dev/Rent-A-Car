@@ -2,6 +2,8 @@ const MongoClient = require('mongodb').MongoClient;
 const isDocker = require('is-docker');
 let connection;
 
+// db.createUser( { user: "rootAgent", pwd: "EEskoqhm#~AJdK4iX", roles: [ { role: "readWrite", db: "agent" } ] } )
+
 module.exports = function(username, password, server, dbName) {
    return new Promise((resolve, reject) => {
       if (connection)

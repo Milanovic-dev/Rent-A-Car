@@ -9,6 +9,8 @@ app.use(bodyParser.json());
 app.use(bodyParser.raw({type: function(){return true;}, limit: '5mb'}));
 app.use(cors());
 
+require('./src/api/carApi') (app);
+require('./src/api/pricelistApi') (app);
 const server = http.createServer(app);
 
 server.listen(8282, () => {
@@ -19,7 +21,7 @@ server.listen(8282, () => {
 const service = {
     MyService: {
         MyPort: {
-            MyFunction: function(args) {
+            TestSoap: function(args) {
                 return {
                     name: args.name
                 };
