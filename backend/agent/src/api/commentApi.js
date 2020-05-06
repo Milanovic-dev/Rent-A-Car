@@ -31,9 +31,9 @@ module.exports = function(app){
         res.status(result.status).send(result.response);
 	});
 
-	app.post('/api/comments/v1/replay',async (req,res) =>{
+	app.post('/api/comments/v1/reply',async (req,res) =>{
 		console.log(req.method + req.route.path);
-        let result = await service.replay(req.body.id,req.body.comment);
+        let result = await service.reply(req.body.id,req.body.comment);
         res.status(result.status).send(result.response);
 	});
 

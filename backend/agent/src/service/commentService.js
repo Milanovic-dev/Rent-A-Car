@@ -96,7 +96,7 @@ const getAllApproved = async () => {
 
 };
 
-const addReplay = async (id,comment) => {
+const addReply = async (id,comment) => {
 	let result = await db.collection(dbCollection).updateOne(
 		{
 			_id: ObjectID(id),
@@ -122,5 +122,5 @@ module.exports = {
   approve: approveComment,
   reject: rejectComment,
   getAll: getAllApproved,
-  replay: addReplay
+  reply: addReply
 };
