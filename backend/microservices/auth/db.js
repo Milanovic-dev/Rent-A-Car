@@ -9,7 +9,10 @@ module.exports = function(username, password, server, dbName) {
 
       const uri = isDocker() ? `mongodb://db/${dbName}` : `mongodb://${username}:${encodeURIComponent(password)}@${server}/${dbName}`;
 
-      MongoClient.connect(uri, (err, db) => {
+      MongoClient.connect(uri, {
+         useUnifiedTopology: true,
+         useNewUrlParser: true,
+         }, (err, db) => {
          if (err)
             reject(err)
       
