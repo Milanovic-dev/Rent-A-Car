@@ -40,4 +40,15 @@ services:
         environment: 
             - MONGO_DB_URI=mongoDB://db/microservices
 
+    security:
+        build: './security'
+        ports:
+            - "4003:4000"
+        depends_on: 
+            - db
+        env_file:
+            - ./security/.env
+        environment: 
+            - MONGO_DB_URI=mongoDB://db/microservices
+
         
