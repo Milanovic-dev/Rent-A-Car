@@ -4,31 +4,40 @@ services:
         image: mongo
         ports:
             - "27017:27017"
+        logging:
+           driver: none 
     
-    nginx:
-        image: nginx:latest
-        ports:
-            - "8282:8282"
-        volumes:
-            - ./default.conf:/etc/nginx/conf.d/default.conf
-        depends_on: 
-            - auth
-            - search
-            
-    auth:
-        build: './auth'
+    webhook:
+        build: './webhook'
         ports:
             - "4000:4000"
         depends_on: 
             - db
+        env_file: 
+            - ./webhook/.env
+        environment: 
+            - MONGO_DB_URI=mongoDB://db/microservices
+            
+    auth:
+        build: './auth'
+        ports:
+            - "4001:4000"
+        depends_on: 
+            - db
+        env_file: 
+            - ./auth/.env
         environment: 
             - MONGO_DB_URI=mongoDB://db/microservices
     
     search:
         build: './search'
         ports:
-            - "4001:4000"
+            - "4002:4000"
         depends_on: 
             - db
+        env_file: 
+            - ./search/.env
         environment: 
             - MONGO_DB_URI=mongoDB://db/microservices
+
+        
