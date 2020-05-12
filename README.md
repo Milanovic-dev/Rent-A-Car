@@ -1,14 +1,14 @@
 # Rent-A-Car
 Online car rental service made using XML, REST, SOAP and Docker with Microservice Arhitecture
 
-## Backend
+## Microservices Backend
 
 Startup:
 
 Download and install Docker: https://www.docker.com/get-started
 
 ```
-    cd backend
+    cd backend/microservices
 ```
 
 Start up docker containers
