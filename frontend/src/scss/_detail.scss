@@ -1,0 +1,301 @@
+.detail-wrap{
+    float: left;
+    width: 100%;
+    background-color: $white;
+    position: absolute;
+    overflow-x: hidden;
+
+
+    .finance-button{
+        border-radius: 0;
+        border: 0;
+        outline: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .page-wrap{
+        float: left;
+        width: 100%;
+        padding-top: 50px;
+        @media only screen and (max-width: 1200px) {
+            padding-top: 0;
+        }
+
+        }
+
+        .detail-section{
+            position: relative;
+            padding-top: 0;
+            @media only screen and (max-width: 1200px) {
+                padding-top: 20px;
+            }
+
+            
+            .preview{
+                width: 100%;
+                height: 410px;
+                @media only screen and (max-width: 1200px) {
+                    height: 250px;
+                }
+            }
+
+            .images{
+                width: 100%;
+                padding-top: 20px;
+                overflow: auto;
+                white-space: nowrap;
+                -webkit-overflow-scrolling: touch;
+                cursor: grab;
+                -webkit-touch-callout: none; /* iOS Safari */
+                -webkit-user-select: none; /* Safari */
+                 -khtml-user-select: none; /* Konqueror HTML */
+                   -moz-user-select: none; /* Firefox */
+                    -ms-user-select: none; /* Internet Explorer/Edge */
+                        user-select: none; /* Non-prefixed version, currently*/
+            
+                .image{
+                    display: inline-block;
+                    margin-right: 10px;
+                    width: 150px;
+                    height: 100px;
+                    position: relative;
+
+                &::after{
+                    content: " ";
+                    display: block;
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background-color: rgba(255,255,255,0.7);
+                }
+                    > img {
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+
+                    
+
+                    &:last-child{
+                        margin-right: 0;
+                    }
+                }
+
+                
+            }
+
+            .active{
+                position: relative;
+
+                &::after{
+                    content: " ";
+                    display: block;
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background-color: transparent;
+                }
+            }
+
+            }
+
+            .info{
+                -webkit-box-shadow: 0px 4px 6px 0px rgba(0,0,0,0.16);
+                -moz-box-shadow: 0px 4px 6px 0px rgba(0,0,0,0.16);
+                box-shadow: 0px 4px 6px 0px rgba(0,0,0,0.16);
+                width: 100%;
+                float: left;
+                padding: 20px 15px;
+
+                > h1 {
+                    font-size: 32px;
+                    font-weight: 600;
+                    color: $black;
+
+                }
+                > h6 {
+                    font-size: 16px;
+                    color: $label-color;
+                    margin-bottom: 0;
+
+                }
+
+                .price{
+                    width: 100%;
+                    float: left;
+                    > label{
+                        color: $label-color;
+                        font-size: 14px;
+                        margin-bottom: 0;   
+
+
+                    }
+
+                    > div{
+                        display: flex;
+                        align-items: center;
+                        justify-content: space-between;
+                        width: 100%;
+                        iframe{
+                            width: 160px !important;
+                            height: 50px !important;
+                        }
+
+
+                    > p {
+                        color: $primary;
+                        font-size: 32px;
+                        font-weight: 600;
+                        margin-bottom: 0;
+
+                    }
+                   
+
+
+
+                }
+                .au-widget-trade-in{
+                    height: 50px;
+                }
+                .au-widget-car-rating{
+                    iframe{
+                        width: 100% !important;
+                    }
+                }
+                }
+
+                .row{
+                    float: left;
+                    width: 100%;
+                }
+
+                .attribute{
+                    display: flex;
+                    align-items: center;
+                    .isvg{
+                        width: 32px;
+                        float: left;
+                        margin-right: 10px;
+                        .cls-1, .cls-3{
+                            fill: unset;
+                        }
+                        svg{
+                            fill: $label-color;
+                        }
+                    }
+
+                    .guage{
+                        .cls-1, .cls-3{
+                            fill: none !important;
+                        }
+                    }
+
+
+
+                    > div{
+                        float: left;
+                        > label{
+                            color: $label-color;
+                            font-size: 14px; 
+                            margin-bottom: 0;   
+                            @media only screen and (max-width: 1200px) {
+                                font-size: 12px;
+                            }
+                        }
+                        
+                        > p {
+                            font-size: 22px;
+                            font-weight: 600;
+                            color: $black;
+                            margin-bottom: 0;
+
+                            @media only screen and (max-width: 1200px) {
+                                font-size: 16px;
+                            }
+                        }
+                    }
+
+
+
+                }
+
+                .spacer{
+                    margin: 12px 0;
+                    width: 100%;
+                    float: left;
+                    background-color: $label-color;
+                    height: 1px;
+                }
+
+            }
+
+
+
+            .extra-features{
+                padding-top: 56px;
+
+                > h3 {
+                    color: $black;
+                    font-size: 22px;
+                    font-weight: 600;
+                }
+
+                > div {
+                    -webkit-box-shadow: 0px 4px 6px 0px rgba(0,0,0,0.16);
+                    -moz-box-shadow: 0px 4px 6px 0px rgba(0,0,0,0.16);
+                    box-shadow: 0px 4px 6px 0px rgba(0,0,0,0.16);
+                    width: 100%;
+                    float: left;
+                    padding: 28px;
+                    
+
+                    .attr{
+                        margin-bottom: 26px;
+                        @media only screen and (max-width: 1200px) {
+                            font-size: 14px;
+                        }
+                        .check{
+                            width: 24px;
+                            height: 24px;
+                            border-radius: 4px;
+                            background-color:#E8E8E8;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            float: left;
+                            margin-right: 12px;
+                            &::after{
+                                content: " ";
+                                display: block;
+                                width: 8px;
+                                height: 14px;
+                                border-right: 3px solid $primary;
+                                border-bottom: 3px solid $primary;
+                                transform: rotate(45deg);
+                            }
+                        }
+                    }
+                }
+            }
+
+            .latest-cars{
+                padding-top: 56px;
+                
+                > h3 {
+                    color: $black;
+                    font-size: 22px;
+                    font-weight: 600;
+                }
+            }
+            
+        }
+
+
+    
+    
+}

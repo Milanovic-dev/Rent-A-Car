@@ -1,0 +1,106 @@
+.gallery-wrap{
+    float: left;
+    width: 100%;
+    background-color: $white;
+    position: absolute;
+    overflow-x: hidden;
+
+    .page-wrap{
+        float: left;
+        width: 100%;
+        padding-top: 50px;
+
+        }
+
+        .gallery-section{
+            position: relative;
+            
+            .gallery{
+                width: 100%;
+                float: left;
+                @media only screen and (max-width: 1200px) {
+                    margin: 0 !important;
+                }
+                .image{
+                    width: 33.33%;
+                    position: relative;
+                    height: 250px;
+                    @media only screen and (max-width: 1200px) {
+                        width: 50%;
+                    }
+                    > img{
+                        width: 100%;
+                        height: 100%;
+                        object-fit: cover;
+                        object-fit: cover;
+                    }
+
+                    .hover{
+                        display: none;
+                    }
+
+                    &:hover{
+                        .hover{
+                            cursor: pointer;
+                            display: block;
+                            position: absolute;
+                            top: 0;
+                            left: 0;
+                            background-color: rgba(218, 33, 46, 0.8);
+                            width: 100%;
+                            height: 100%;
+                            > div{
+                                position: absolute;
+                                bottom: 26px;
+                                width: 100%;
+                                padding: 0 30px;
+
+                                display: flex;
+                                align-items: center;
+
+                                .text{
+                                    width: 70%;
+                                    float: left;
+                                > h6 {
+                                    color: $white;
+                                    font-size: 12px;
+                                    float: left;
+                                    clear: both;
+                                }
+
+                                > h3 {
+                                    font-size: 18px;
+                                    font-weight: 600;
+                                    color: $white;
+                                    float: left;
+                                    clear: both;
+                                }
+                            }
+
+                                .magnify{
+                                    margin-left: auto;
+                                    border-radius: 50%;
+                                    background-color: $white;
+                                    width: 36px;
+                                    height: 36px;
+                                    display: flex;
+                                    align-items: center;
+                                    justify-content: center;
+                                    > i {
+                                        color: $primary;
+                                        font-size: 24px
+                                    }
+                                }
+                            }
+
+                        }
+                    }
+                }
+            }
+            
+        }
+
+
+    
+    
+}

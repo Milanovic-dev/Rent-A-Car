@@ -1,0 +1,454 @@
+.search-form{
+    margin-top: -110px;
+
+    -webkit-box-shadow: 0px 4px 6px 0px rgba(0,0,0,0.16);
+    -moz-box-shadow: 0px 4px 6px 0px rgba(0,0,0,0.16);
+    box-shadow: 0px 4px 6px 0px rgba(0,0,0,0.16);
+    
+    //padding: 20px 20px 0 20px;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+
+
+    @media only screen and (max-width: 1200px) {
+        position: fixed;
+        top: 0;
+        left: 0;
+        margin-top: 0;
+        width: 100%;
+        height: 100%;
+        height: 100vh;
+        background-color: $dark-black;
+        z-index: 9999;
+
+        overflow-x: hidden;
+    }
+
+    > h3{
+        font-size: 32px;
+        font-weight: 600;
+        margin-bottom: 22px;
+        color: $white;
+
+        @media only screen and (max-width: 1200px) {
+            width: 80%;
+            font-size: 18px;
+            padding: 20px 15px 30px 15px;
+            margin-bottom: 0;
+        }
+    }
+
+
+    .mdi-close{
+        color: $white;
+        position: absolute;
+        top: 16px;
+        right: 16px;
+        font-size: 24px;
+        
+    }
+
+    .num-results{
+        color: $primary;
+        padding-top: 10px;
+        text-align: right;
+        font-weight: 600;
+        font-size: 16px;
+        .isvg{
+            margin-right: 8px;
+        }
+    }
+
+    .tabs{
+        .btab{
+            background-color: $primary;
+            color: $white;
+            font-size: 20px;
+            font-weight: 600;
+            border: 0;
+            padding: 10px 25px;
+            margin-right: 2px;
+            outline: none;
+            width: auto;
+            float: left;
+            cursor: pointer;
+
+            @media only screen and (max-width: 1200px) {
+                font-size: 10px;
+                padding: 10px 0;
+                width: 33.33%;
+                margin-right: 0;
+                text-align: center;
+
+                border-right: 2px solid $dark-black;
+                &:last-child{
+                    border-right: 0;
+                }
+
+            }
+        }
+
+        .active{
+            background-color: $white;
+            color: $black;
+        }
+    }
+
+    form{
+        /*background-color: $white;
+        padding: 28px 30px 0 30px;*/
+    }
+
+    .form-wrap{
+        background-color: $white;
+        padding: 28px 30px 0 30px;
+
+        @media only screen and (max-width: 1200px) {
+            height: 100%;
+            height: 100vh;
+            height: calc(100vh - 127px);
+            padding-bottom: 64px;
+            overflow-y: scroll;
+        }
+
+    }
+
+
+    .buttons{
+        display: flex;
+        justify-content: flex-end;
+
+        .clear-btn{
+            color: $primary;
+            font-size: 12px;
+            background-color: transparent;
+            text-transform: uppercase;
+            padding: 0 16px;
+        }
+    }
+
+    .input-wrap{
+        width: 100%;
+        float: left;
+        position: relative;
+        margin-bottom: 20px;
+        label{
+            text-transform: uppercase;
+            font-size: 12px;
+            color: $label-color;
+            margin-top: 12px;
+        }
+
+        select{
+            width: 100%;
+            height: 50px;
+            float: left;
+            border: 1px solid $grey;
+            border-radius: 25px;
+            -webkit-appearance: none;
+            -moz-appearance:    none;
+            appearance:         none;
+            outline: none;
+            cursor: pointer;
+
+            &:hover{
+                border: 1px solid $primary        
+            }
+        }
+
+        .button{
+            float: left;
+            border-radius: 25px;
+            border: 0;
+            outline: none;
+        }
+
+
+        .black-btn{
+            background-color: $light-black;
+            color: $white;
+            font-size: 18px;
+            font-weight: 600;
+            height: 50px;
+            width: 150px;
+            text-transform: uppercase;
+        }
+
+        .clear-btn{
+            color: $primary !important;
+            font-size: 12px;
+            padding-top: 10px;
+        }
+
+        .right-chevron{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            &::after{
+                content: ' ';
+                border-top: 0;
+                border-right: 0;
+                border-bottom: 4px solid $white;
+                border-left: 4px solid $white;
+                padding: 4px;
+                transform: rotate(-135deg);
+                margin-left: 8px;
+                width: 10px;
+                height: 10px;
+                display: block;
+                float: left;
+            }   
+        }
+
+
+        
+    }
+
+    .range-slider{
+        > span{
+            float: left;
+            width: 20%;
+            font-size: 18px;
+            color: $black;
+            font-weight: 600;
+        }
+
+        .rc-slider{
+            float: left;
+            width: 80%
+        }
+    }
+
+}
+
+
+.filter-form{
+
+    -webkit-box-shadow: 0px 4px 6px 0px rgba(0,0,0,0.16);
+    -moz-box-shadow: 0px 4px 6px 0px rgba(0,0,0,0.16);
+    box-shadow: 0px 4px 6px 0px rgba(0,0,0,0.16);
+    
+    padding: 20px 20px 0 20px;
+    border-top: 5px solid $primary;
+
+    @media only screen and (max-width: 1200px) {
+        position: fixed;
+        top: 0;
+        left: 0;
+        margin-top: 0;
+        width: 100%;
+        height: 100%;
+        height: 100vh;
+        background-color: $white;
+        z-index: 9999;
+
+        overflow-x: hidden;
+    }
+
+    > h3{
+        font-size: 18px;
+        font-weight: 600;
+        margin-bottom: 22px;
+        color: $black;
+
+        @media only screen and (max-width: 1200px) {
+            width: 80%;
+            font-size: 18px;
+            padding: 20px 15px 30px 15px;
+            margin-bottom: 0;
+        }
+    }
+
+
+    .mdi-close{
+        color: $white;
+        position: absolute;
+        top: 16px;
+        right: 16px;
+        font-size: 24px;
+        
+    }
+
+    .num-results{
+        color: $primary;
+        padding-top: 10px;
+        text-align: right;
+        font-weight: 600;
+        font-size: 16px;
+        .isvg{
+            margin-right: 8px;
+        }
+    }
+
+    .tabs{
+        .btab{
+            background-color: $primary;
+            color: $white;
+            font-size: 20px;
+            font-weight: 600;
+            border: 0;
+            padding: 10px 25px;
+            margin-right: 2px;
+            outline: none;
+
+            @media only screen and (max-width: 1200px) {
+                font-size: 10px;
+                padding: 10px 0;
+                width: 33.33%;
+                margin-right: 0;
+                text-align: center;
+
+                border-right: 2px solid $dark-black;
+                &:last-child{
+                    border-right: 0;
+                }
+
+            }
+        }
+
+        .active{
+            background-color: $white;
+            color: $black;
+        }
+    }
+
+    form{
+        /*background-color: $white;
+        padding: 28px 30px 0 30px;*/
+    }
+
+    .form-wrap{
+        background-color: $white;
+        padding: 28px 30px 0 30px;
+
+        @media only screen and (max-width: 1200px) {
+            height: 100%;
+            height: 100vh;
+            height: calc(100vh - 127px);
+            padding-bottom: 64px;
+            overflow-y: scroll;
+        }
+
+    }
+
+
+    .buttons{
+        text-align: center;
+        width: 100%;
+        .clear-btn{
+            color: $primary;
+            font-size: 12px;
+            background-color: transparent;
+            text-transform: uppercase;
+            padding: 0 16px;
+            float: none !important;
+            margin: 0 auto;
+        }
+
+        .black-btn{
+            float: none !important;
+            margin: 0 auto;
+
+        }
+    }
+
+    .input-wrap{
+        width: 100%;
+        float: left;
+        position: relative;
+        margin-bottom: 20px;
+        label{
+            text-transform: uppercase;
+            font-size: 12px;
+            color: $label-color;
+            margin-top: 12px;
+        }
+
+        select{
+            width: 100%;
+            height: 50px;
+            float: left;
+            border: 1px solid $grey;
+            border-radius: 25px;
+            -webkit-appearance: none;
+            -moz-appearance:    none;
+            appearance:         none;
+            outline: none;
+            cursor: pointer;
+
+            &:hover{
+                border: 1px solid $primary        
+            }
+        }
+
+        .button{
+            float: left;
+            border-radius: 25px;
+            border: 0;
+            outline: none;
+        }
+
+
+        .black-btn{
+            background-color: $light-black;
+            color: $white;
+            font-size: 18px;
+            font-weight: 600;
+            height: 50px;
+            width: 150px;
+            text-transform: uppercase;
+        }
+
+        .clear-btn{
+            color: $primary !important;
+            font-size: 12px;
+            padding-top: 10px;
+        }
+
+        .right-chevron{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            &::after{
+                content: ' ';
+                border-top: 0;
+                border-right: 0;
+                border-bottom: 4px solid $white;
+                border-left: 4px solid $white;
+                padding: 4px;
+                transform: rotate(-135deg);
+                margin-left: 8px;
+                width: 10px;
+                height: 10px;
+                display: block;
+                float: left;
+            }   
+        }
+
+
+        
+    }
+
+    .range-slider{
+        display: unset;
+        margin-bottom: 32px;
+        float: left;
+        > span{
+            float: left;
+            width: 100%;
+            font-size: 18px;
+            color: $black;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .rc-slider{
+            float: left;
+            width: 100%;
+            width: calc(100% - 12px);
+            margin: 0 6px;
+
+        }
+    }
+
+}

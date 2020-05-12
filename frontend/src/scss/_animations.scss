@@ -1,0 +1,80 @@
+.car-animation{
+    position: relative;
+    animation-name: car-animation;
+    animation-duration: 2s;
+}
+
+
+@keyframes car-animation {
+    from   { top:-50px; right: -80px; transform: scale(0.7)}
+    to  {top:0px; right: 0; transform: scale(1)}
+}
+  
+.top-bottom-animation{
+    position: relative;
+    animation-name: top-bottom;
+    animation-duration: 1s;
+
+}
+
+@keyframes top-bottom {
+    from   { top:-200px;}
+    to  {top:0px;}
+}
+
+.dropdown-animation{
+    animation-name: dropdown-animation;
+    animation-duration: 0.2s;
+}
+
+@keyframes dropdown-animation {
+    from   {   transform: translateY(60px); opacity: 0;    }
+    to  {  transform: translateY(48px); opacity:1;    }
+}
+
+
+@keyframes bubble-animation {
+    0%   { border: 10px solid rgba(255,255,255,0);}
+    50% {border: 20px solid rgba(255,255,255,0.5);}
+    100% {border: 10px solid rgba(255,255,255,0.0);}
+  }
+
+.bubble-animation{
+    animation-iteration-count:infinite;
+    animation-name: bubble-animation;
+    animation-duration: 2s;
+}
+
+
+
+@keyframes active-menu-animation {
+    from   {   transform: translate3d(0,0,0);  }
+    to  {  transform: translate3d(70%,10vh,0);  }
+}
+
+.active-menu-animation{
+    transform: translate3d(70%,10vh,0);
+    //top: 0;
+    //left: 70% !important;
+    //height: 80vh;
+    position: fixed;
+    width: 100% !important;
+    position: fixed !important;
+    height: 80vh !important;
+    
+
+    //transform: scale(1.4, 0.7);
+
+    overflow-x: auto;
+    //border: 1px solid $primary;
+    overflow-y: scroll;
+    animation-name: active-menu-animation;
+    animation-duration: 1s;
+
+    -webkit-box-shadow: 0px 4px 6px 0px rgba(0,0,0,0.16);
+    -moz-box-shadow: 0px 4px 6px 0px rgba(0,0,0,0.16);
+    box-shadow: 0px 4px 6px 0px rgba(0,0,0,0.16);
+
+
+
+}

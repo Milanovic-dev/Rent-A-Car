@@ -1,0 +1,122 @@
+.contact-form{
+
+
+     h3{
+        font-size: 18px;
+        font-weight: 600;
+        color: $black;
+        margin-bottom: 22px;
+    }
+
+    form{
+        background-color: $white;
+        padding: 28px 30px 0 30px;
+    }
+
+    .buttons{
+        display: flex;
+        align-items: center;
+        height: 50px;
+        .clear-btn{
+            color: $primary;
+            font-size: 12px;
+            background-color: transparent;
+            text-transform: uppercase;
+            padding: 0 16px;
+        }
+    }
+
+    .input-wrap{
+        width: 100%;
+        float: left;
+        position: relative;
+        margin-bottom: 20px;
+        label{
+            text-transform: uppercase;
+            font-size: 12px;
+            color: $label-color;
+            margin-top: 12px;
+        }
+
+        input{
+            width: 100%;
+            height: 50px;
+            float: left;
+            border: 1px solid $grey;
+            border-radius: 25px;
+            -webkit-appearance: none;
+            -moz-appearance:    none;
+            appearance:         none;
+            outline: none;
+            cursor: pointer;
+            padding: 0 16px;
+
+            &:hover{
+                border: 1px solid $primary        
+            }
+        }
+
+        textarea{
+            width: 100%;
+            height: 200px;
+            float: left;
+            border: 1px solid $grey;
+            border-radius: 25px;
+            -webkit-appearance: none;
+            -moz-appearance:    none;
+            appearance:         none;
+            outline: none;
+            cursor: pointer;
+            padding: 10px 16px;
+
+            &:hover{
+                border: 1px solid $primary        
+            }
+
+        }
+
+        .button{
+            float: left;
+            border-radius: 25px;
+            border: 0;
+            outline: none;
+        }
+
+
+        .black-btn{
+            background-color: $light-black;
+            color: $white;
+            font-size: 18px;
+            font-weight: 600;
+            height: 50px;
+            width: 150px;
+            text-transform: uppercase;
+        }
+
+
+        .right-chevron{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            &::after{
+                content: ' ';
+                border-top: 0;
+                border-right: 0;
+                border-bottom: 4px solid $white;
+                border-left: 4px solid $white;
+                padding: 4px;
+                transform: rotate(-135deg);
+                margin-left: 8px;
+                width: 10px;
+                height: 10px;
+                display: block;
+                float: left;
+            }   
+        }
+
+
+        
+    }
+   
+
+}

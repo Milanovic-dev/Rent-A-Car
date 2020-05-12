@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="37.095" height="36.559" viewBox="0 0 37.095 36.559">
+  <defs>
+    <style>
+      .cls-1, .cls-3 {
+        fill: none;
+      }
+
+      .cls-2 {
+        fill: #888;
+      }
+
+      .cls-3 {
+        stroke: #888;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        stroke-miterlimit: 10;
+        stroke-width: 2px;
+      }
+    </style>
+  </defs>
+  <g id="iconfinder_speedometer_172557" transform="translate(0.268)">
+    <rect id="Rectangle_76" data-name="Rectangle 76" class="cls-1" width="36.559" height="36.559"/>
+    <path id="Path_30" data-name="Path 30" class="cls-2" d="M26.6,22.758l10.335-4.067.165.262-8.693,7.08Z" transform="translate(-7.156 -5.027)"/>
+    <path id="Path_31" data-name="Path 31" class="cls-3" d="M23.927,24a2.927,2.927,0,1,0,2.927,2.927A2.927,2.927,0,0,0,23.927,24Z" transform="translate(-5.647 -6.454)"/>
+    <path id="Path_32" data-name="Path 32" class="cls-3" d="M33.141,31.321a17.548,17.548,0,1,0-29.189,0" transform="translate(-0.268 -1.073)"/>
+    <line id="Line_1" data-name="Line 1" class="cls-3" x1="2.195" transform="translate(33.632 20.473)"/>
+    <line id="Line_2" data-name="Line 2" class="cls-3" x2="2.195" transform="translate(0.732 20.473)"/>
+    <line id="Line_3" data-name="Line 3" class="cls-3" y2="2.195" transform="translate(18.279 2.927)"/>
+    <line id="Line_4" data-name="Line 4" class="cls-3" x2="1.098" y2="1.901" transform="translate(9.505 5.279)"/>
+    <line id="Line_5" data-name="Line 5" class="cls-3" x1="1.901" y1="1.098" transform="translate(31.574 28.15)"/>
+    <line id="Line_6" data-name="Line 6" class="cls-3" x2="1.901" y2="1.098" transform="translate(3.084 11.699)"/>
+    <line id="Line_7" data-name="Line 7" class="cls-3" y1="1.098" x2="1.901" transform="translate(3.085 28.15)"/>
+    <line id="Line_8" data-name="Line 8" class="cls-3" x1="1.9" y2="1.098" transform="translate(31.574 11.699)"/>
+    <line id="Line_9" data-name="Line 9" class="cls-3" x1="1.098" y2="1.902" transform="translate(25.956 5.279)"/>
+    <rect id="Rectangle_77" data-name="Rectangle 77" class="cls-3" width="14.636" height="2.925" transform="translate(10.962 29.973)"/>
+  </g>
+</svg>
