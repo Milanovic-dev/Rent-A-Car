@@ -1,0 +1,16 @@
+
+
+.button{
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: $primary;
+    color: $white !important;
+    float: left;
+    border-radius: 27px;
+    padding: 8px 16px;
+    font-size: 18px;
+    font-weight: 600;
+    cursor: pointer;
+}

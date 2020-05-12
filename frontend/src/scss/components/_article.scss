@@ -1,0 +1,127 @@
+.article-box{
+    float: left;
+    width: 100%;
+    margin-bottom: 30px;
+    -webkit-box-shadow: 0px 4px 6px 0px rgba(0,0,0,0.16);
+    -moz-box-shadow: 0px 4px 6px 0px rgba(0,0,0,0.16);
+    box-shadow: 0px 4px 6px 0px rgba(0,0,0,0.16);
+
+    > img {
+        width: 100%;
+        height: 160px;
+        object-fit: cover;
+        @media only screen and (max-width: 1200px) {
+            height: 100px;
+        }
+
+    }
+
+    .content{
+        float: left;
+        width: 100%;
+
+        .title{
+            font-size: 18px;
+            color: $light-black;
+            font-weight: 600;
+            padding: 12px 12px;
+            margin-bottom: 0;
+            height: 80px;
+
+            @media only screen and (max-width: 1200px) {
+                font-size: 14px;
+                height: 70px;
+
+                padding: 8px 8px;
+            }
+        }
+
+        .attrs{
+            float: left;
+            width: 100%;
+            margin: 0;
+            padding: 0 12px;
+
+            @media only screen and (max-width: 1200px) {
+                padding: 0 8px;
+            }
+
+            list-style: none;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            > li {
+                float: left;
+                color: $dark-grey;
+                font-size: 12px;
+
+                .isvg{
+                    margin-right: 4px;
+
+                    svg{
+                        fill: $label-color !important;
+                        height: 16px;
+                        width: 16px;
+                    }
+
+                    .cls-1, .cls-3{
+                        fill: $label-color !important;
+                    }
+                }
+
+                &:last-child{
+                    .cls-1, .cls-3{
+                        fill: none !important;
+                    }
+
+                }
+
+                @media only screen and (max-width: 1200px) {
+                    text-align: center;
+                    .isvg{
+                        width: 100%;
+                        float: left;
+                    }
+                }
+
+            }
+        }
+
+        .divider{
+            height: 1px;
+            float: left;
+            width: 100%;
+            background-color: $label-color;
+            margin: 12px 0;
+            @media only screen and (max-width: 1200px) {
+                margin: 8px 0;
+            }
+        }
+
+        .price-container{
+            display: flex;
+            align-items: center;
+            width: 100%;
+            justify-content: space-between;
+            padding-right: 12px;
+            min-height: 53px;
+        }
+
+        .price{
+            float: left;
+            color: $primary;
+            font-weight: 600;
+            font-size: 20px;
+            padding: 0 12px 12px 12px;
+
+            @media only screen and (max-width: 1200px) {
+                padding: 0 8px 8px 8px;
+                font-size: 16px;
+
+            }
+            
+        }
+        
+    }
+}

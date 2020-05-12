@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 167.485 44.621">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #2f3234;
+      }
+
+      .cls-1, .cls-2 {
+        font-size: 29px;
+        font-family: Barlow-Bold, Barlow;
+        font-weight: 700;
+      }
+
+      .cls-2, .cls-4 {
+        fill: #db2d2e;
+      }
+
+      .cls-2 {
+        letter-spacing: -0.02em;
+      }
+
+      .cls-3 {
+        fill: #aaa;
+        font-size: 12px;
+        font-family: Barlow-Regular, Barlow;
+        letter-spacing: 0.002em;
+      }
+    </style>
+  </defs>
+  <g id="Group_56" data-name="Group 56" transform="translate(-375 -45)">
+    <g id="Group_55" data-name="Group 55">
+      <g id="Group_54" data-name="Group 54">
+        <text id="DEALER" class="cls-1" transform="translate(436 74)"><tspan x="0" y="0">DEALER</tspan></text>
+        <text id="C_R" data-name="C     R" class="cls-2" transform="translate(375 74)"><tspan x="0" y="0" xml:space="preserve">C     R</tspan></text>
+        <text id="REACT_CAR_DEALER_TEMPLATE" data-name="REACT CAR DEALER TEMPLATE" class="cls-3" transform="translate(375.485 87.621)"><tspan x="0" y="0">REACT CAR DEALER TEMPLATE</tspan></text>
+      </g>
+      <path id="Path_1" data-name="Path 1" class="cls-4" d="M23.352,6.291A1.91,1.91,0,0,0,21.537,5H7.474A1.922,1.922,0,0,0,5.659,6.291L3,13.949V24.176a1.282,1.282,0,0,0,1.278,1.278H5.557a1.282,1.282,0,0,0,1.278-1.278V22.9H22.176v1.278a1.282,1.282,0,0,0,1.278,1.278h1.278a1.282,1.282,0,0,0,1.278-1.278V13.949ZM7.922,7.557H21.076l1.381,3.976H6.541ZM23.454,20.341H5.557V13.949h17.9Z" transform="translate(390.925 48.48)"/>
+    </g>
+    <ellipse id="Ellipse_3" data-name="Ellipse 3" class="cls-4" cx="1.918" cy="1.918" rx="1.918" ry="1.918" transform="translate(397.76 63.707)"/>
+    <ellipse id="Ellipse_4" data-name="Ellipse 4" class="cls-4" cx="1.918" cy="1.918" rx="1.918" ry="1.918" transform="translate(409.266 63.707)"/>
+  </g>
+</svg>
