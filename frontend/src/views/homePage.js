@@ -65,9 +65,6 @@ import badge2 from '../assets/images/badge2.png';
 import badge3 from '../assets/images/badge3.png';
 import badge4 from '../assets/images/badge4.png';
 
-import videoFile from '../assets/promo.mp4';
-import videoFile1 from '../assets/1.mp4';
-
 
 class HomePage extends Component {
     constructor(props) {
@@ -374,44 +371,7 @@ class HomePage extends Component {
                     null
                 }
 
-                {this.props.section ?
-                    <section className="section solutions-section video-section">
-                        <Container >
-                            <div className="overlay">
-                                <img src={this.props.section[0].image} className="overlay-image" />
-                            </div>
-
-
-
-                            <Row>
-                                <Col md="12">
-                                    <div className="sub-title text-center">
-                                        <h2>PROMO <span className="text-primary">VIDEO</span></h2>
-                                    </div>
-                                </Col>
-
-                                <Col lg="6">
-                                    <video width="320" height="240" loop autoPlay="autoplay" muted={true} controls>
-                                        <source src={videoFile} type="video/mp4" />
-                                        Your browser does not support the video tag.
-</video>
-                                </Col>
-                                <Col lg="6">
-                                    <video width="320" height="240" loop autoPlay="autoplay" muted={true} controls>
-                                        <source src={videoFile1} type="video/mp4" />
-                                        Your browser does not support the video tag.
-</video>
-                                </Col>
-
-                            </Row>
-                        </Container>
-                    </section>
-                    :
-                    null
-                }
-
-
-
+                
                 {/*<section className="section news-section">
                     <Container>
                         <div className="overlay">

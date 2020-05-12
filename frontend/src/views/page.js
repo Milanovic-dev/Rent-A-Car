@@ -50,7 +50,6 @@ class DynamicPage extends Component {
         this.setState({
             _loading: true
         })
-        fetch('https://showroom-api.novamedia.agency/apply', {method: 'POST', headers: {'content-type': 'application/json'}, body: JSON.stringify(data) }).then((res) => res.json()).then((result) => { this.setState({ _done: true }); })
     }
 
     render() {
