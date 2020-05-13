@@ -1,7 +1,7 @@
 {
-  "name": "search",
+  "name": "cars",
   "version": "1.0.0",
-  "description": "Search microservice",
+  "description": "Cars microservice",
   "main": "app.js",
   "scripts": {
     "start": "nodemon app.js",
