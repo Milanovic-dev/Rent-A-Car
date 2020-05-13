@@ -29,14 +29,14 @@ services:
         environment: 
             - MONGO_DB_URI=mongoDB://db/microservices
     
-    search:
-        build: './search'
+    cars:
+        build: './cars'
         ports:
             - "4002:4000"
         depends_on: 
             - db
         env_file: 
-            - ./search/.env
+            - ./cars/.env
         environment: 
             - MONGO_DB_URI=mongoDB://db/microservices
 
@@ -48,6 +48,15 @@ services:
             - db
         env_file:
             - ./security/.env
+        environment: 
+            - MONGO_DB_URI=mongoDB://db/microservices
+
+    orders:
+        build: './orders'
+        ports:
+            - "4004:4000"
+        depends_on: 
+            - db
         environment: 
             - MONGO_DB_URI=mongoDB://db/microservices
 

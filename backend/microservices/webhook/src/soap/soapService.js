@@ -35,9 +35,12 @@ const createService = async (server, callback) => {
 }
 
 const getClient = async (url) => {
-    let ret;
-    let client = await soap.createClientAsync(url, options);
-    return client;
+    try{
+        let client = await soap.createClientAsync(url, options);
+        return client;
+    }catch(err){
+        console.error(`Unable to get client: ${err}`);
+    }
 }
 
 module.exports = {
@@ -46,3 +49,4 @@ module.exports = {
     getClient,
     createService
 }
+
