@@ -16,6 +16,11 @@ require('./src/api/pricelistApi') (app);
 // Server
 const server = http.createServer(app);
 
+//Connection example dbSync
+//const db = require('./dbSync');
+//db.connect();
+
+
 server.listen(8282, () => {
     console.log("============================")
     console.log("Agent Server running on port 8282!");

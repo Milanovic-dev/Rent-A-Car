@@ -13,7 +13,6 @@ const createService = async (server, callback) => {
 }
 
 const getClient = async (url) => {
-    let ret;
     let client = await soap.createClientAsync(url, options);
     return client;
 }
