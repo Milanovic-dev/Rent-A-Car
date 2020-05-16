@@ -2,9 +2,12 @@ const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
 const cors = require('cors');
-const soap = require('soap');
 const http = require('http');
 const fs = require('fs');
+
+const { registerForGateway } = require('./src/config/index');
+
+registerForGateway();
 
 app.use(cors());
 app.use(bodyParser.json());

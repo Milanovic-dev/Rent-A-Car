@@ -16,7 +16,7 @@ const registerForGateway = () => {
     internalIp.v4()
         .then(ip => {
             svc = {
-                prefix: '/api/cars',
+                prefix: '/api/webhook',
                 port: 4000,
                 address: ip
             };

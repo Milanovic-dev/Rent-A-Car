@@ -64,3 +64,5 @@ app.get('/getWsdl', async (req, res) => {
     res.type('application/xml');
     res.send(wsdl);
 });
+
+

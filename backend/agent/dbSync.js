@@ -27,11 +27,16 @@ const connectToDB = (username, password, server, dbName) => {
 }
 
 const connect = async () => {
-    let hostUrl = 'http://localhost:4000'
+    let hostUrl = 'http://localhost:8080/api/webhook'
     soapClient = await soapService.getClient(`${hostUrl}/getWsdl`).catch(err => { 
         console.error(err);
         console.error(`Cannot /getWsdl from ${hostUrl}`);
     });
+
+    if(soapClient){
+        console.log("Soap Webhook connected");
+    }
+
     db = await connectToDB(process.env.DB_USERNAME, process.env.DB_PASSWORD, process.env.DB_SERVER, process.env.DB_NAME)
         .catch(err => console.error(err));
 }
