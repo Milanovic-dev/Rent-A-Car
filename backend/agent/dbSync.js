@@ -45,55 +45,76 @@ const collection = (collection) => {
     return new DbSyncFunctions(collection);
 };
 
+const getDb = () => {
+    return db;
+};
+
 class DbSyncFunctions {
     constructor(collection){
         this.collection = collection;
     }
 
-    async insertOne(data) {
+    async insertOne(query, writeConcern) {
         // TODO: Sync with microservices
-        let result = await db.collection(this.collection).insertOne(data).catch(err => console.error(err));
+        let result = await db.collection(this.collection).insertOne(query, writeConcern).catch(err => console.error(err));
         return result;
     };
+
+    async insert(documents, options){
+        // TODO: Sync with microservices
+        let result = await db.collection(this.collection).insert(documents, options).catch(err => console.error(err));
+        return result;
+    }
     
-    async updateOne(data) {
+    async updateOne(filter, update, options) {
         // TODO: Sync with microservices
-        let result = await db.collection(this.collection).updateOne(data).catch(err => console.error(err));
+        let result = await db.collection(this.collection).updateOne(filter, update, options).catch(err => console.error(err));
         return result;
     };
 
-    async update(data) {
+    async update(query, update, options) {
         // TODO: Sync with microservices
-        let result = await db.collection(this.collection).update(data).catch(err => console.error(err));
+        let result = await db.collection(this.collection).update(query, update, options).catch(err => console.error(err));
         return result;
     }
 
-    async deleteOne(data) {
+    async deleteOne(filter, options) {
         // TODO: Sync with microservices
-        let result = await db.collection(this.collection).deleteOne(data).catch(err => console.error(err));
+        let result = await db.collection(this.collection).deleteOne(filter, options).catch(err => console.error(err));
         return result;
     };
 
-    async replaceOne(data) {
+    async replaceOne(filter, replacement, options) {
         // TODO: Sync with microservices
-        let result = await db.collection(this.collection).replaceOne(data).catch(err => console.error(err));
+        let result = await db.collection(this.collection).replaceOne(filter, replacement, options).catch(err => console.error(err));
         return result;
     }
 
-    async findOne(data) {
+    async findOne(query, projection) {
         // TODO: Sync with microservices
-        let result = await db.collection(this.collection).findOne(data).catch(err => console.error(err));
+        let result = await db.collection(this.collection).findOne(query, projection).catch(err => console.error(err));
         return result;
     };
 
-    async find(data) {
+    async remove(query, justOne) {
         // TODO: Sync with microservices
-        let result = await db.collection(this.collection).find(data).catch(err => console.error(err));
+        let result = await db.collection(this.collection).remove(query, justOne).catch(err => console.error(err));
+        return result;
+    }
+
+    async find(query, projection) {
+        // TODO: Sync with microservices
+        let result = await db.collection(this.collection).find(query, projection).catch(err => console.error(err));
         return result.ToArray();
     };
 
-    async count(data) {
+    async count() {
         let result = await db.collection(this.collection).count();
+        return result;
+    }
+
+    async drop(writeConcern) {
+        let result = await db.collection(this.collection).drop(writeConcern);
         return result;
     }
 };
@@ -101,5 +122,5 @@ class DbSyncFunctions {
 module.exports = {
     connect,
     collection,
-    db
+    getDb
 }
