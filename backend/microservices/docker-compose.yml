@@ -1,5 +1,6 @@
 version: '3'
 services:
+
     db:
         image: mongo
         ports:
@@ -9,6 +10,8 @@ services:
     
     webhook:
         build: './webhook'
+        volumes:
+            - "./test"
         ports:
             - "4000:4000"
         depends_on: 
@@ -39,18 +42,7 @@ services:
             - ./cars/.env
         environment: 
             - MONGO_DB_URI=mongoDB://db/microservices
-
-    security:
-        build: './security'
-        ports:
-            - "4003:4000"
-        depends_on: 
-            - db
-        env_file:
-            - ./security/.env
-        environment: 
-            - MONGO_DB_URI=mongoDB://db/microservices
-
+            
     orders:
         build: './orders'
         ports:
@@ -59,5 +51,11 @@ services:
             - db
         environment: 
             - MONGO_DB_URI=mongoDB://db/microservices
-
+    
+    gateway:
+        build: './gateway'
+        ports:
+            - "8080:8080"
+        logging:
+            driver: none 
         

@@ -47,41 +47,49 @@ class DbSyncFunctions {
 
     async insertOne(data) {
         // TODO: Sync with microservices
-        return await db.collection(this.collection).insertOne(data);
+        let result = await db.collection(this.collection).insertOne(data).catch(err => console.error(err));
+        return result;
     };
     
     async updateOne(data) {
         // TODO: Sync with microservices
-        return await db.collection(this.collection).updateOne(data);
+        let result = await db.collection(this.collection).updateOne(data).catch(err => console.error(err));
+        return result;
     };
 
     async update(data) {
         // TODO: Sync with microservices
-        return await db.collection(this.collection).update(data);
+        let result = await db.collection(this.collection).update(data).catch(err => console.error(err));
+        return result;
     }
 
     async deleteOne(data) {
         // TODO: Sync with microservices
-        return await db.collection(this.collection).deleteOne(data);
+        let result = await db.collection(this.collection).deleteOne(data).catch(err => console.error(err));
+        return result;
     };
 
     async replaceOne(data) {
         // TODO: Sync with microservices
-        return await db.collection(this.collection).replaceOne(data);
+        let result = await db.collection(this.collection).replaceOne(data).catch(err => console.error(err));
+        return result;
     }
 
     async findOne(data) {
         // TODO: Sync with microservices
-        return await db.collection(this.collection).findOne(data);
+        let result = await db.collection(this.collection).findOne(data).catch(err => console.error(err));
+        return result;
     };
 
     async find(data) {
         // TODO: Sync with microservices
-        return await db.collection(this.collection).find(data).ToArray();
+        let result = await db.collection(this.collection).find(data).catch(err => console.error(err));
+        return result.ToArray();
     };
 
     async count(data) {
-        return await db.collection(this.collection).count();
+        let result = await db.collection(this.collection).count();
+        return result;
     }
 };
 

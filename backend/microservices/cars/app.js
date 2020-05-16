@@ -3,6 +3,9 @@ const app = express();
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const service = require('./src/services/searchService');
+const { registerForGateway }= require('./src/config/index');
+
+registerForGateway();
 
 app.use(cors());
 app.use(bodyParser.json());
@@ -18,7 +21,13 @@ app.get('/', (req, res) => {
     res.send('This is car service');
 });
 
-app.get('/api/v1/search', async (req,res) => {
+app.get('/search', async (req,res) => {
     const result = await service.search(req.body);
     res.status(result.status).send(result.response);
 });
+
+app.get('/test', async (req,res) => {
+    res.send('Success');
+});
+
+
