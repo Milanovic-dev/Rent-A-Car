@@ -3,6 +3,8 @@ const app = express();
 const http = require('http');
 const bodyParser = require('body-parser');
 const cors = require('cors');
+const dotenv = require('dotenv');
+dotenv.config();
 
 const soapService = require('./src/soap/soapService');
 
@@ -33,30 +35,6 @@ server.listen(8282, () => {
 
 app.get('/', async (req, res) => {
     res.send('This is agent backend');
-});
-
-app.get('/test', async (req, res) => {
-    soapService.getClient('http://localhost:4000/getWsdl').then(client => {
-        client.SubscribeAgent({username:"Username", secret:"Pass", cars:[{make:"Audi"},{make:"BMW"}]}, function(err, result) {
-            if(err){
-                console.log(err);
-            }      
-    
-            console.log(result);
-        });
-
-        client.SyncAgent({username:"Username", secret:"Pass"}, function(err, result) {
-            if(err){
-                console.log(err);
-            }
-    
-            console.log(result)
-        });
-    }).catch((res) => {
-        console.error("REJECT REASON:" + res);
-    });
-
-    res.status(200).send("Test");
 });
 
 app.get('/getWsdl', async (req, res) => {
