@@ -99,11 +99,38 @@ const getAll = async () => {
         status: 200
     };
 };
+const rentedCar = async (data) => {
+    console.log(data);
+    if(data == undefined) return { status: 400 };
+    // let car = await db.collection('cars').find({ _id: ObjectID(data.carID)}).toArray();
+    // let newMileage = Number(car[0].mileage) + Number(data.mileage);
+
+    // await db.collection('cars').updateOne({ _id : ObjectID(car[0]._id)},{
+    //         $set: {
+    //             mileage: newMileage
+    //         }
+    //     }
+    // );
+
+    let result = await db.collection('mileageReport').insertOne(data);
+    if(result.insertedId)
+    {
+        return {
+            response: result.insertedId,
+            status: 201
+        };
+    }
+
+    return { status: 500 };
+
+    
+};
 
 module.exports = {
     create: createCar,
     update: updateCar,
     remove: removeCar,
     get: getCar,
+    rented: rentedCar,
     getAll
 };
