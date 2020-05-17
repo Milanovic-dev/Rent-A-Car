@@ -19,18 +19,43 @@ require('./src/api/pricelistApi') (app);
 const server = http.createServer(app);
 
 //Connection example dbSync
-//const db = require('./dbSync');
-//db.connect();
+const db = require('./dbSync');
+db.connect();
 
 
 server.listen(8282, () => {
-    console.log("============================")
     console.log("Agent Server running on port 8282!");
+    /*
     soapService.createService(server, () => {
         console.log("Soap Service Initialized");
-        console.log("============================");
     });
+    */
 });
+
+//Register to Microservices Webhook
+soapService.getClient(`${process.env.HOST_URL}/api/webhook/getWsdl`).then(soapClient => {
+    soapClient.SubscribeAgent({username: process.env.APP_USERNAME, password: process.env.APP_PASSWORD}, (err, res) => {
+        if(err){
+            console.error(err);
+            return;
+        }
+        console.log('Successfully subscribed to Webhook');
+        if(res.accessToken){
+            db.saveToken(res.accessToken);
+            soapClient.addSoapHeader(`<AuthToken>${res.accessToken}</AuthToken>`);
+            soapClient.SyncAgent({}, (err, res) => {
+                if(err){
+                    console.error(err);
+                    return;
+                }
+            })
+        }
+    });
+}).catch(err => { 
+    console.error(err);
+    console.error(`Cannot /getWsdl from ${process.env.HOST_URL}/api/webhook/`);
+});
+
 
 
 app.get('/', async (req, res) => {

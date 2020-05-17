@@ -1,9 +1,11 @@
 const MongoClient = require('mongodb').MongoClient;
 const isDocker = require('is-docker');
 const soapService = require('./src/soap/soapService');
+const soap = require('soap');
 var connection;
 var db;
 var soapClient;
+var accessToken;
 
 const connectToDB = (username, password, server, dbName) => {
     return new Promise((resolve, reject) => {
@@ -33,10 +35,6 @@ const connect = async () => {
         console.error(`Cannot /getWsdl from ${hostUrl}`);
     });
 
-    if(soapClient){
-        console.log("Soap Webhook connected");
-    }
-
     db = await connectToDB(process.env.DB_USERNAME, process.env.DB_PASSWORD, process.env.DB_SERVER, process.env.DB_NAME)
         .catch(err => console.error(err));
 }
@@ -47,6 +45,15 @@ const collection = (collection) => {
 
 const getDb = () => {
     return db;
+};
+
+const saveToken = async (token) => {
+    await db.collection('user').updateOne({id: 'agentUser'}, {$set: {accessToken: token}}, {upsert: true});
+};
+
+const getToken = async () => {
+    let result = await db.collection('user').findOne({id: 'agentUser'});
+    return result.accessToken;
 };
 
 class DbSyncFunctions {
@@ -105,7 +112,7 @@ class DbSyncFunctions {
     async find(query, projection) {
         // TODO: Sync with microservices
         let result = await db.collection(this.collection).find(query, projection).catch(err => console.error(err));
-        return result.ToArray();
+        return result.toArray();
     };
 
     async count() {
@@ -122,5 +129,7 @@ class DbSyncFunctions {
 module.exports = {
     connect,
     collection,
-    getDb
+    getDb,
+    saveToken,
+    getToken
 }

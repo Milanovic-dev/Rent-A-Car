@@ -10,17 +10,16 @@
     <wsdl:types>
         <xsd:schema targetNamespace="http://localhost:4000/webhook.xsd" xmlns:xsd="http://www.w3.org/2000/10/XMLSchema">
             
-            <xsd:element name="IntegrationRequest">
+            <xsd:element name="SubscribeRequest">
                 <xsd:complexType>
                     <xsd:all>
                         <xsd:element name="username" nillable="false" type="string" />
-                        <xsd:element name="secret" nillable="false" type="string"/>
-                        <xsd:element minOccurs="0" name="cars" nillable="true" type="string" />
+                        <xsd:element name="password" nillable="false" type="string"/>
                     </xsd:all>
                 </xsd:complexType>
             </xsd:element>
 
-            <xsd:element name="IntegrationResponse">
+            <xsd:element name="SubscribeResponse">
                 <xsd:complexType>
                     <xsd:all>
                         <xsd:element name="token" type="string" />
@@ -31,8 +30,7 @@
             <xsd:element name="SynchronizeRequest">
                 <xsd:complexType>
                     <xsd:all>
-                        <xsd:element name="username" nillable="false" type="string" />
-                        <xsd:element name="secret" nillable="false" type="string"/>
+                        <xsd:element name="token" nillable="false" type="string" />
                     </xsd:all>
                 </xsd:complexType>
             </xsd:element>
@@ -41,7 +39,6 @@
                 <xsd:complexType>
                     <xsd:all>
                         <xsd:element minOccurs="0" name="username" nillable="false" type="string" />
-                        <xsd:element minOccurs="0" name="cars" nillable="true" type="string" />
                     </xsd:all>
                 </xsd:complexType>
             </xsd:element>
@@ -49,12 +46,12 @@
         </xsd:schema>
     </wsdl:types>
 
-    <wsdl:message name="IntegrationRequestInput">
-        <wsdl:part name="body" element="xsd1:IntegrationRequest" />
+    <wsdl:message name="SubscribeRequestInput">
+        <wsdl:part name="body" element="xsd1:SubscribeRequest" />
     </wsdl:message>
 
-    <wsdl:message name="IntegrationRequestOutput">
-        <wsdl:part name="body" element="xsd1:IntegrationResponse" />
+    <wsdl:message name="SubscribeRequestOutput">
+        <wsdl:part name="body" element="xsd1:SubscribeResponse" />
     </wsdl:message>
 
     <wsdl:message name="SynchronizeRequestInput">
@@ -68,8 +65,8 @@
 
     <wsdl:portType name="WebhookPort">
         <wsdl:operation name="SubscribeAgent">
-            <wsdl:input message="tns:IntegrationRequestInput" />
-            <wsdl:output message="tns:IntegrationRequestOutput" />
+            <wsdl:input message="tns:SubscribeRequestInput" />
+            <wsdl:output message="tns:SubscribeRequestOutput" />
         </wsdl:operation>
         <wsdl:operation name="SyncAgent">
             <wsdl:input message="tns:SynchronizeRequestInput" />
