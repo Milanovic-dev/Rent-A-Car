@@ -1,5 +1,3 @@
-const dotenv = require('dotenv');
-dotenv.config();
 
 const registerForGateway = () => {
     const Pusher = require('pusher');
@@ -18,7 +16,7 @@ const registerForGateway = () => {
     internalIp.v4()
         .then(ip => {
             svc = {
-                prefix: '/api/auth',
+                prefix: '/api/webhook',
                 port: 4000,
                 address: ip
             };
@@ -32,7 +30,6 @@ const registerForGateway = () => {
         pusher.trigger('XML-Rent-a-Car', 'register', svc);
     });
 };
-
 
 module.exports = {
     registerForGateway

@@ -15,7 +15,6 @@ dbConnect(process.env.DB_USERNAME, process.env.DB_PASSWORD, process.env.DB_SERVE
 })
 
 
-
 const login = async (username, password) => {
     let user = await db.collection(dbCollection).findOne({ username: username });
 

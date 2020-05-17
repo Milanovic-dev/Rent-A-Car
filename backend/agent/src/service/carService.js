@@ -1,6 +1,4 @@
 const ObjectID = require('mongodb').ObjectID;
-const dotenv = require('dotenv');
-dotenv.config();
 const db = require('../../dbSync');
 const dbCollection = 'cars';
 db.connect();

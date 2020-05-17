@@ -4,7 +4,7 @@
   "description": "Webhook with SOAP",
   "main": "app.js",
   "scripts": {
-    "start": "nodemon app.js",
+    "start": "nodemon --quiet app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
@@ -21,6 +21,8 @@
     "mongodb": "^3.5.7",
     "nodemon": "^2.0.3",
     "soap": "^0.31.0",
-    "strong-soap": "^2.0.0"
+    "strong-soap": "^2.0.0",
+    "internal-ip": "^6.0.0",
+    "pusher": "^3.0.1"
   }
 }

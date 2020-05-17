@@ -1,5 +1,6 @@
 const fs = require('fs');
 const soap = require('soap');
+const jwt = require('jsonwebtoken');
 
 const { subscribeAgent, synchronize } = require('../service');
 
@@ -15,7 +16,7 @@ const service = {
                 return result;
             },
             SyncAgent: async (args, cb, soapHeader) => {
-                let result = await synchronize(args);
+                let result = await synchronize(args, soapHeader);
                 return result;
             }
         }
@@ -23,9 +24,10 @@ const service = {
 }
 
 const createService = async (server, callback) => {
-    soap.listen(server, '/wsdl', service, xml, (err, res) => {
+    const soapServer = soap.listen(server, '/wsdl', service, xml, (err, res) => {
         if(err){
             console.error(err);
+            return;
         }
         console.log("Soap Service Initialized");
         if(callback){
