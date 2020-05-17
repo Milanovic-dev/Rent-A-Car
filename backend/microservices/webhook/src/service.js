@@ -1,8 +1,8 @@
 const dotenv = require('dotenv');
+dotenv.config();
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
-
-dotenv.config();
+const ObjectID = require('mongodb').ObjectID;
 
 const dbConnect = require('../db');
 let db;
@@ -13,45 +13,56 @@ dbConnect(process.env.DB_USERNAME, process.env.DB_PASSWORD, process.env.DB_SERVE
     console.log(`DB error: ${e}`);
 })
 
-const dbCollection = 'agents'
-
 const subscribeAgent = async (args) => {
     
-    let integrationDb = await db.collection(dbCollection).findOne({username: args.username});
+    const agentCollection = await db.collection('agents').findOne({username: args.username});
 
-    if(integrationDb) return { status: 200 }; 
-
-    let result = await db.collection(dbCollection).insertOne({
-        username: args.username,
-        cars: args.cars
-    })
-
-    if(result.insertedId)
-    {   
-        return result.insertedId;
+    if(agentCollection){
+        if(bcrypt.compareSync(args.password, agentCollection.password)){
+            const accessToken = jwt.sign({"id": agentCollection._id}, process.env.JWT_AGENT_SECRET, { algorithm: 'HS256' });
+            return {
+                accessToken,
+                status: 200
+            };
+        }
     }
 
+    return {
+        status: 401
+    };
 };
 
 
-const synchronize = async(agent) => {
-    let integrationDb = await db.collection(dbCollection).findOne({username: agent.username});
-    
-    if(integrationDb) {
-        // TODO: Return database data for given agent
-        return syncData(integrationDb);
-    }
+const synchronize = async(agent, soapHeader) => {
+    const token = soapHeader.AuthToken;
 
-    return { status: 404 };
+    const result = await new Promise((resolve, reject) => {
+        jwt.verify(token, process.env.JWT_AGENT_SECRET, (err, tokenData) => {
+            if(err){
+                console.error(err);
+                reject('401');
+            }
+            const id = tokenData;
+            resolve(id);
+        });
+    });
+
+    if(result == '401') return result;
+
+    const id = result.id;
+
+    let agentCollection = await db.collection('agents').findOne({_id: ObjectID(id)});
+
+    if(!agentCollection) return '404';
+
+    const collectionName = agentCollection.username;
+    console.log(`${collectionName} Synced`);
+
+    // TODO: Sync
+
+    return '200';
 };
 
-
-const syncData = (integrationData) => {
-    let data = {};
-    data.username = integrationData.username;
-    data.cars = integrationData.cars;
-    return data;
-};
 
 module.exports = {
     subscribeAgent,

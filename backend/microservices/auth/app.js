@@ -21,7 +21,10 @@ app.get('/', (req, res) => {
 
 app.get('/login', async (req, res) => {
     const result = await service.login(req.body.username, req.body.password);
-    res.status(result.status).send(result.response);
+    if(res.status == 200){
+        res.cookie('auth', result.response);
+    }
+    res.status(result.status);
 });
 
 app.get('/users', async (req, res) => {
