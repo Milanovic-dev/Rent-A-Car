@@ -1,15 +1,9 @@
 const ObjectID = require('mongodb').ObjectID;
 const dotenv = require('dotenv');
 dotenv.config();
-const dbConnect = require('../../db');
+const db = require('../../dbSync');
 const dbCollection = 'cars';
-let db;
-dbConnect(process.env.DB_USERNAME, process.env.DB_PASSWORD, process.env.DB_SERVER, process.env.DB_NAME)
-.then((conn) => {
-    db = conn;
-}).catch((e) => {
-    console.log(`DB error: ${e}`);
-});
+db.connect();
 
 const createCar = async (car) => {
     
