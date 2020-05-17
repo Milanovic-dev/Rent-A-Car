@@ -99,11 +99,75 @@ const getAll = async () => {
         status: 200
     };
 };
+const rentedCar = async (data) => {
+    console.log(data);
+    if(data == undefined) return { status: 400 };
+
+    // let car = await db.collection('cars').find({ _id: ObjectID(data.carId)}).toArray();
+    // let newMileage = Number(car[0].mileage) + Number(data.mileage);
+
+    // await db.collection('cars').updateOne({ _id : ObjectID(car[0]._id)},{
+    //         $set: {
+    //             mileage: newMileage
+    //         }
+    //     }
+    // );
+
+    // let limit = 20; // limit koliko kilometara smije preci
+    // if(data.mileage > limit){
+    //     await db.collection('users').updateOne({ _id : ObjectID(data.userId)},{
+    //         $set: {
+    //             debt: "20" //neka vrijednost za dug
+    //         }
+    //     }
+    // );
+    // }
+
+    let result = await db.collection('mileageReport').insertOne(data);
+    if(result.insertedId)
+    {
+        return {
+            response: result.insertedId,
+            status: 201
+        };
+    }
+
+    return { status: 500 };
+
+};
+const carStats = async () => {
+    let cars = await db.collection('cars').find({}).toArray();
+    let comments = await db.collection('comments').find({}).toArray();
+    let result = [];
+  
+    let maxMileage = cars[0];
+    let maxComments = cars[0]; //potrebno je prebrojati komentare za sva auta i pronaci ono sa najvise njih
+    let maxRating = cars[0];
+    for(let i=1; i < cars.length; i++){
+        if(Number(cars[i].mileage) > Number(maxMileage.mileage)){
+            maxMileage = cars[i];
+        }
+        if(Number(cars[i].rating) > Number(maxRating.rating)){
+            maxRating = cars[i];
+        }
+    }
+
+    result[0] = maxMileage;
+    result[1] = maxComments;
+    result[2] = maxRating;
+
+    return {
+        response: result,
+        status: 200
+    };
+};
 
 module.exports = {
     create: createCar,
     update: updateCar,
     remove: removeCar,
     get: getCar,
+    rented: rentedCar,
+    stats: carStats,
     getAll
 };

@@ -9,7 +9,7 @@ import ReactPaginate from 'react-paginate';
 import FilterForm from '../components/forms/filterForm';
 import PageHeader from '../containers/header/pageHeader';
 import Footer from '../containers/footer';
-import videoFile from '../assets/promo.mp4';
+// import videoFile from '../assets/promo.mp4';
 
 import Map from '../components/map';
 import ankauf1 from '../assets/images/ankauf1.png';
@@ -95,7 +95,7 @@ class PurchasePage extends Component {
                                 </Col>
                                 <Col lg="12" className="promo-video">
                                     <video width="320" height="240" loop autoPlay="autoplay" controls>
-                                        <source src={videoFile} type="video/mp4" />
+                                        {/* <source src={videoFile} type="video/mp4" /> */}
                                         Your browser does not support the video tag.
 </video>
                                 </Col>
