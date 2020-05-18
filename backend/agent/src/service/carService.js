@@ -3,6 +3,8 @@ const db = require('../../dbSync');
 const dbCollection = 'cars';
 db.connect();
 
+console.log(db.collection);
+
 const createCar = async (car) => {
     
     if(car == undefined) return { status: 400 }; 
@@ -95,10 +97,11 @@ const getCar = async (id) => {
 }
 
 const getAll = async () => {
-    let result = await db.collection(dbCollection).find().toArray();
+    let result = await db.collection(dbCollection).find(null);
+    console.log(result)
 
     return {
-        response: result,
+        response:  result,
         status: 200
     };
 };
@@ -139,8 +142,8 @@ const rentedCar = async (data) => {
 
 };
 const carStats = async () => {
-    let cars = await db.collection('cars').find({}).toArray();
-    let comments = await db.collection('comments').find({}).toArray();
+    let cars = await db.collection('cars').find({});
+    let comments = await db.collection('comments').find({});
     let result = [];
   
     let maxMileage = cars[0];
