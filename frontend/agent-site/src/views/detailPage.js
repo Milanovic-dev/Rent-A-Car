@@ -107,22 +107,22 @@ class DetailPage extends Component {
 
     componentWillMount() {
 
-        document.title = this.props[0].match.params.alias.toUpperCase().replace(/-/g, ' ') + " - SHOWROOM";
     }
 
     componentDidMount() {
 
-        fetch('https://showroom-api.novamedia.agency/cars/fetch/' + this.props[0].match.params.id).then((res) => res.json()).then((product) => {
-            console.log(product);
-            this.setState({ product, previewImage: (product.images && product.images[0]) });
-        })
-
-        fetch('https://showroom-api.novamedia.agency/cars/latest').then((res) => res.json()).then((newestProducts) => {
-            this.setState({ newestProducts }, () => {
-                
-
-            });
-        })
+        fetch('http://localhost:8282/api/cars/v1/get/' + this.props[0].match.params.id, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('token')}`
+            },
+        }).then((res) => res.json()).then((result) => {
+            this.setState({
+                product: result,
+                previewImage: result.image
+            })
+        });
 
 
 
@@ -187,7 +187,7 @@ class DetailPage extends Component {
 
         let slides;
 
-        if (this.state.product) {
+        if (this.state.product && this.state.product.images) {
             slides = this.state.product.images.map((item) => {
                 return (
                     <CarouselItem
@@ -218,13 +218,13 @@ class DetailPage extends Component {
                         <Container >
                             <Row>
                                 <Col md="7">
-                                    <img className="preview" onClick={() => { this.setState({ activeIndex: this.state.modalIdx, lightbox: true }) }} src={'https://showroom-api.novamedia.agency/' + this.state.previewImage} />
+                                    <img className="preview" onClick={() => { this.setState({ activeIndex: this.state.modalIdx, lightbox: true }) }} src={ this.state.previewImage} />
 
                                     <div className="images" onMouseDown={this.onTouchStart} onMouseMove={this.onTouchMove} ref={(input) => { this.carousel = input; }}>
 
 
                                         {
-                                            this.state.product && this.state.product.images.map((image, idx) => {
+                                            this.state.product && this.state.product.images && this.state.product.images.map((image, idx) => {
                                                 return (
 
                                                     <div onClick={() => this.setState({ previewImage: image, modalIdx: idx })} className={this.state.previewImage == image ? "image active" : "image"}>
@@ -245,41 +245,37 @@ class DetailPage extends Component {
                                 </Col>
                                 <Col md="5">
                                     <div className="info">
-                                        <h1>{this.state.product && this.state.product.title}</h1>
-                                        <h6>{this.state.product && this.state.product.shortDescription}</h6>
+                                        <h1>{this.state.product && this.state.product.make} {this.state.product && this.state.product.model}</h1>
                                         <div className="spacer"></div>
                                         <div className="price">
                                             <label>PRICE</label>
                                             <div>
-                                                <p>{this.state.product && this.state.product.price && this.state.product.price.grs.localized}</p>
-                                                <div className='au-widget-trade-in'></div>
-
+                                                <p>{this.state.product && this.state.product.price}</p>
                                             </div>
-                                            {this.state.product && <div className="au-widget-car-rating" data-car-url={`https://showroom.gmbh/autos/${this.state.product.title}/${this.state.product._id}`} data-layout="wide_without_price_with_explanation" data-theme="transparent"></div>}
                                           
                                         </div>
 
 
                                         <div className="spacer"></div>
                                         <Row>
-                                            {this.state.product && this.state.product.attributes && this.state.product.attributes['firstRegistration'] ?
+                                            {this.state.product ?
                                                 <Col md="6" xs="6" className="attribute">
                                                     <Isvg src={calendar_icon} />
                                                     <div>
-                                                        <label>Erstzulassung</label>
-                                                        <p>{this.state.product.attributes['firstRegistration'].value}</p>
+                                                        <label>Year</label>
+                                                        <p>{this.state.product.productionYear}</p>
                                                     </div>
                                                 </Col>
 
                                                 : null
                                             }
-                                            {this.state.product && this.state.product.attributes && this.state.product.attributes['mileage'] ?
+                                            {this.state.product ?
 
                                                 <Col md="6" xs="6" className="attribute">
                                                     <Isvg src={guage_icon} className="guage" />
                                                     <div>
-                                                        <label>Kilometerstand</label>
-                                                        <p>{this.state.product.attributes['mileage'].value}</p>
+                                                        <label>Mileage</label>
+                                                        <p>{this.state.product.mileage}</p>
                                                     </div>
                                                 </Col>
                                                 :
@@ -289,46 +285,46 @@ class DetailPage extends Component {
                                         <div className="spacer"></div>
 
                                         <Row>
-                                            {this.state.product && this.state.product.attributes && this.state.product.attributes['fuel'] ?
+                                            {this.state.product ?
 
                                                 <Col md="6" xs="6" className="attribute">
                                                     <Isvg src={fuel_icon} />
                                                     <div>
-                                                        <label>Motortyp</label>
-                                                        <p>{this.state.product.attributes['fuel'].value}</p>
+                                                        <label>Fuel</label>
+                                                        <p>{this.state.product.fuel}</p>
                                                     </div>
                                                 </Col>
                                                 : null}
-                                            {this.state.product && this.state.product.attributes && this.state.product.attributes['color'] ?
+                                            {this.state.product ?
 
                                                 <Col md="6" xs="6" className="attribute">
                                                     <Isvg src={color_icon} />
                                                     <div>
-                                                        <label>Farbe</label>
-                                                        <p>{this.state.product.attributes['color'].value}</p>
+                                                        <label>Color</label>
+                                                        <p>{this.state.product.color}</p>
                                                     </div>
                                                 </Col>
                                                 : null}
                                         </Row>
                                         <div className="spacer"></div>
                                         <Row>
-                                            {this.state.product && this.state.product.attributes && this.state.product.attributes['power'] ?
+                                            {this.state.product ?
 
                                                 <Col md="6" xs="6" className="attribute">
                                                     <Isvg src={engine_icon} />
                                                     <div>
                                                         <label>Motorleistung (KW)</label>
-                                                        <p>{this.state.product.attributes['power'].value}</p>
+                                                        <p>{this.state.product.power}</p>
                                                     </div>
                                                 </Col>
                                                 : null}
-                                            {this.state.product && this.state.product.attributes && this.state.product.attributes['doorCount'] ?
+                                            {this.state.product ?
 
                                                 <Col md="6" xs="6" className="attribute">
                                                     <Isvg src={door_icon} />
                                                     <div>
-                                                        <label>Türen Anzahl</label>
-                                                        <p>{this.state.product.attributes['doorCount'].value}</p>
+                                                        <label>Seat count</label>
+                                                        <p>{this.state.product.seatCount}</p>
                                                     </div>
                                                 </Col>
                                                 : null}
@@ -336,65 +332,31 @@ class DetailPage extends Component {
                                         <div className="spacer"></div>
 
                                         <Row>
-                                            {this.state.product && this.state.product.attributes && this.state.product.attributes['getriebe'] ?
+                                            {this.state.product ?
 
                                                 <Col md="6" xs="6" className="attribute">
                                                     <Isvg src={transmission_icon} />
                                                     <div>
-                                                        <label>Getriebe</label>
-                                                        <p>{this.state.product.attributes['getriebe'].value}</p>
+                                                        <label>Transmission</label>
+                                                        <p>{this.state.product.transmission}</p>
                                                     </div>
                                                 </Col>
                                                 : null}
-                                            {this.state.product && this.state.product.attributes && this.state.product.attributes['auto-typ'] ?
+                                            {this.state.product ?
 
                                                 <Col md="6" xs="6" className="attribute">
                                                     <Isvg src={car_icon} />
                                                     <div>
-                                                        <label>Auto Typ</label>
-                                                        <p>{this.state.product.attributes['auto-typ'].value}</p>
+                                                        <label>Class</label>
+                                                        <p>{this.state.product.class}</p>
                                                     </div>
                                                 </Col>
                                                 : null}
 
-                                            <Col lg="12">
-                                                <Link to='/finanzierung'><button className="button finance-button">zur Finanzierung</button></Link>
-                                            </Col>
                                         </Row>
                                     </div>
                                 </Col>
 
-                                <Col md="12" className="extra-features">
-                                    <h3>EXTRA FEATURES</h3>
-
-                                    <div >
-
-
-
-                                        <Row>
-
-                                            {
-                                                this.state.product && this.state.product && this.state.product.features.map((attribute) => {
-
-                                                    return (
-
-                                                        <Col md="3" xs="6" className="attr">
-                                                            <div className="check"></div>
-                                                            {attribute}
-                                                        </Col>
-
-                                                    )
-                                                })
-
-
-                                            }
-
-
-
-                                        </Row>
-                                    </div>
-
-                                </Col>
 
                                 <Col md="12" className="extra-features">
                                     <h3>VEHICLE OVERVIEW</h3>
@@ -402,40 +364,12 @@ class DetailPage extends Component {
                                     <div >
                                         <Row>
                                             <Col md="12" >
-                                                <p dangerouslySetInnerHTML={{ __html: this.state.product && this.state.product.htmlDescription }}></p>
+                                                <p dangerouslySetInnerHTML={{ __html: this.state.product && this.state.product.description }}></p>
                                             </Col>
                                         </Row>
                                     </div>
                                 </Col>
 
-
-                                <Col md="12" className="latest-cars">
-                                    <h3><span className="text-primary">NEUESTE</span> AUTOS</h3>
-
-                                    <Row>
-
-                                        {
-                                            this.state.newestProducts.map((product) => {
-                                                return (
-                                                    <Col md="3" xs="6">
-
-                                                        <Article
-                                                            title={product.title}
-                                                            alias={product.alias}
-                                                            id={product._id}
-                                                            image={'https://showroom-api.novamedia.agency/' + product.images[0]}
-                                                            fuel={product.attributes && product.attributes['fuel'] && product.attributes['fuel'].value}
-                                                            mileage={product.attributes && product.attributes['mileage'] && product.attributes['mileage'].value}
-                                                            year={product.attributes && product.attributes['firstRegistration'] && product.attributes['firstRegistration'].value}
-                                                            price={product.price && product.price.grs.localized}
-                                                        />
-                                                    </Col>
-                                                )
-                                            })
-                                        }
-
-                                    </Row>
-                                </Col>
 
                             </Row>
                         </Container>

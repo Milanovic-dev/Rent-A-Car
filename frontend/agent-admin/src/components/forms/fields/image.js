@@ -13,53 +13,55 @@ class Image extends Component {
     selectFile(e) {
         let input = e.target;
         if (input.files && input.files[0]) {
-            var reader = new FileReader();
+            this.setState({
+                _loading: true
+            })
 
-            reader.onload = async (e) => {
+            let formData = new FormData();
+            formData.append('file', input.files[0]);
+
+            fetch('http://127.0.0.1:8282/api/upload/v1', {
+                method: 'POST',
+                headers: {
+                    Accept: 'application/json',
+                    //'Content-Type': 'multipart/form-data',
+                    //'Authorization': `Bearer ${localStorage.getItem('token')}`
+
+                },
+                body: formData
+            }).then((res) => res.json()).then((result) => {
+                if (result.file) {
+                    this.props.onChange(result.file);
+                }
                 this.setState({
-                    _loading: true
+                    _loading: null
                 })
-                fetch('http://127.0.0.1:4000/upload', {
-                    method: 'POST',
-                    headers: {
-                        Accept: 'application/json',
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${localStorage.getItem('token')}`
 
-                    },
-                    body: JSON.stringify({file: e.target.result})
-                }).then((res) => res.text()).then((img) => {
-                    this.props.onChange(img);
-                    this.setState({
-                        _loading: null
-                    })
-                });
-            }
-            reader.readAsDataURL(input.files[0]);
+            });
+
         }
     }
-
     render() {
         return (
-                        <div className="image-picker single-image-picker">
-                            <input type="file" onChange={this.selectFile} />
-                            {this.props.value ?
-                                <img src={this.props.value} />
+            <div className="image-picker single-image-picker">
+                <input type="file" onChange={this.selectFile} />
+                {this.props.value ?
+                    <img src={this.props.value} />
+                    :
+                    <div className="no-image">
+                        <Isvg src={image} />
+                        <span className="text">Izaberite sliku</span>
+                        {
+                            this.state._loading ?
+                                <div className="lds-ring"><div></div><div></div><div></div><div></div></div>
                                 :
-                                <div className="no-image">
-                                    <Isvg src={image} />
-                                    <span className="text">Izaberite sliku</span>
-                                    {
-                                        this.state._loading ?
-                                        <div className="lds-ring"><div></div><div></div><div></div><div></div></div>
-                                        :
-                                        null
-                                    }
-                                </div>
-                            }
-                        </div>
+                                null
+                        }
+                    </div>
+                }
+            </div>
         );
     }
-  }
+}
 
 export default Image;

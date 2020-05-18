@@ -113,6 +113,23 @@ const form = (props) => {
                                     </Col>
                                     <Col lg="6" className="input-wrap">
                                         <Field
+                                            name="limitMileage"
+                                            component={renderTextField}
+                                            label={"Limit Mileage"}
+                                            placeholder=""
+                                        ></Field>
+                                    </Col>
+                                    <Col lg="6" className="input-wrap">
+                                        <Field
+                                            name="power"
+                                            component={renderTextField}
+                                            label={"Power (kW)"}
+                                            placeholder=""
+                                        ></Field>
+                                    </Col>
+
+                                    <Col lg="6" className="input-wrap">
+                                        <Field
                                             name="color"
                                             component={renderSelectField}
                                             label={"Color"}
@@ -144,10 +161,18 @@ const form = (props) => {
                                             placeholder=""
                                         ></Field>
                                     </Col>
+                                    <Col lg="6" className="input-wrap">
+                                        <Field
+                                            name="price"
+                                            component={renderTextField}
+                                            label={"Price"}
+                                            placeholder=""
+                                        ></Field>
+                                    </Col>
 
                                     <Col lg="12" className="input-wrap">
                                         <Field
-                                            name="content"
+                                            name="description"
                                             component={renderHtmlField}
                                             label={"Tekst"}
                                             placeholder=""
