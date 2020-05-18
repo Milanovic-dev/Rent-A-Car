@@ -19,7 +19,7 @@ const subscribeAgent = async (args) => {
 
     if(agentCollection){
         if(bcrypt.compareSync(args.password, agentCollection.password)){
-            const accessToken = jwt.sign({"id": agentCollection._id}, process.env.JWT_AGENT_SECRET, { algorithm: 'HS256' });
+            const accessToken = jwt.sign({"username": args.username}, process.env.JWT_AGENT_SECRET, { algorithm: 'HS256' });
             return {
                 accessToken,
                 status: 200
@@ -34,20 +34,10 @@ const subscribeAgent = async (args) => {
 
 
 const synchronize = async(agent, soapHeader) => {
-    const token = soapHeader.AuthToken;
+    
+    let result = await verifyToken(soapHeader.accessToken);
 
-    const result = await new Promise((resolve, reject) => {
-        jwt.verify(token, process.env.JWT_AGENT_SECRET, (err, tokenData) => {
-            if(err){
-                console.error(err);
-                reject('401');
-            }
-            const id = tokenData;
-            resolve(id);
-        });
-    });
-
-    if(result == '401') return result;
+    if(result == '401' || result == '400') return result;
 
     const id = result.id;
 
@@ -63,8 +53,58 @@ const synchronize = async(agent, soapHeader) => {
     return '200';
 };
 
+const recieveUpdate = async ({documentName, action, filter, data, options}, soapHeader) => {
+
+    let verifyResult = await verifyToken(soapHeader.AuthToken).catch(err => console.error(err));
+
+    if(verifyResult == '401' || verifyResult == '400') return verifyResult;
+    // TODO: Update versioning
+    let result;
+    switch(action){
+        case 'insertOne':
+            result = await db.collection(documentName).insertOne(JSON.parse(data), options);
+            if(result.insertedId)
+            {
+                return { status: '201' };
+            }
+            break;
+        case 'updateOne':
+            result = await db.collection(documentName).updateOne(JSON.parse(filter), JSON.parse(data), options);
+            if(result.modifiedCount == 1){
+                return { status: '200' };
+            }
+            break;
+        case 'deleteOne':
+            result = await db.collection(documentName).deleteOne(JSON.parse(filter), options);
+            if(result.deletedCount == 1){
+                return { status: '200' };
+            }
+            break;
+    }
+        
+    return { status:'400', errorMessage: 'Wrong action requested.' };
+};
+
+
+const verifyToken = async (token) => {
+
+    if(!token) return '400';
+
+    const result = await new Promise((resolve, reject) => {
+        jwt.verify(token, process.env.JWT_AGENT_SECRET, (err, tokenData) => {
+            if(err){
+                console.error(err);
+                reject('401');
+            }
+            const username = tokenData;
+            resolve(username);
+        });
+    });
+    return result;
+}
 
 module.exports = {
     subscribeAgent,
-    synchronize
+    synchronize,
+    recieveUpdate
 }

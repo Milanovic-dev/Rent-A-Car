@@ -7,7 +7,7 @@ const { registerForGateway } = require('./src/config/index');
 app.use(bodyParser.json());
 app.use(cors());
 
-registerForGateway();
+registerForGateway('auth');
 
 app.listen(4000, () => {
     console.log("==========================");
