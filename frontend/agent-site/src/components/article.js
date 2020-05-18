@@ -36,7 +36,7 @@ export class Article extends Component {
 
     render() {
         return (
-            <a href={`/autos/${generateAlias(this.props.title)}/${this.props.id}`} className="article-box" key={this.props.id}>
+            <a href={`/cars/${this.props.id}`} className="article-box" key={this.props.id}>
                 <img src={this.props.image} />
                 <div className="content">
                     <h6 className="title">{this.props.title}</h6>
@@ -49,7 +49,6 @@ export class Article extends Component {
                     <div className="divider"></div>
                     <div className="price-container">
                         <span className="price">{this.props.price}</span>
-                        <div className="au-widget-car-rating" data-car-url={`https://showroom.gmbh/autos/${generateAlias(this.props.title)}/${this.props.id}`} data-layout="tall_smaller" data-theme="transparent"></div>
                     </div>
                 </div>
             </a>
