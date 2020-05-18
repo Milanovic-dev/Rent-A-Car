@@ -32,6 +32,18 @@ class Sidebar extends Component {
                                 Add new car
                             </Link>
                         </li>
+                        <li>
+                            <Link to='/mileageReport' className={this.props[0].location.pathname === '/mileageReport' ? 'active' : null}>
+                                <Isvg src={list} />
+                                Mileage report
+                            </Link>
+                        </li>
+                        <li>
+                            <Link to='/carStats' className={this.props[0].location.pathname === '/carStats' ? 'active' : null}>
+                                <Isvg src={list} />
+                                Car stats
+                            </Link>
+                        </li>
                     </ul>
                     <ul className="logout">
                         <li id="logout" onClick={() => { localStorage.removeItem('token'); localStorage.removeItem('clinicAdminToken'); localStorage.removeItem('clinicUserToken'); localStorage.removeItem('patientToken'); }}>
