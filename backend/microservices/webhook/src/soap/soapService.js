@@ -2,7 +2,7 @@ const fs = require('fs');
 const soap = require('soap');
 const jwt = require('jsonwebtoken');
 
-const { subscribeAgent, synchronize, recieveUpdate } = require('../service');
+const { subscribeAgent, synchronize, recieveUpdate, getUpdate } = require('../service');
 
 const xml = fs.readFileSync('service.wsdl', 'utf8');
 
@@ -21,7 +21,10 @@ const service = {
             },
             SyncUpdate: async (args, cb, soapHeader) => {
                 let result = await recieveUpdate(args, soapHeader);
-                console.log(result);
+                return result;
+            },
+            SyncGet: async (args, cb, soapHeader) => {
+                let result = await getUpdate(args, soapHeader);
                 return result;
             }
         }
