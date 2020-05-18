@@ -4,16 +4,20 @@ const http = require('http');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const dotenv = require('dotenv');
+const fileUpload = require('express-fileupload');
 dotenv.config();
 
 const soapService = require('./src/soap/soapService');
 
 app.use(bodyParser.json());
-app.use(bodyParser.raw({type: function(){return true;}, limit: '5mb'}));
+//app.use(bodyParser.raw({type: function(){return true;}, limit: '5mb'}));
 app.use(cors());
+app.use('/uploads', express.static('uploads'))
+app.use(fileUpload());
 
 require('./src/api/carApi') (app);
 require('./src/api/pricelistApi') (app);
+require('./src/api/uploadApi') (app);
 
 // Server
 const server = http.createServer(app);

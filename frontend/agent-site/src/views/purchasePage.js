@@ -70,7 +70,7 @@ class PurchasePage extends Component {
 
 
     componentWillUnmount() {
-
+        window.removeEventListener('scroll', this.listenToScroll);
     }
 
 

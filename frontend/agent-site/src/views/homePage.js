@@ -100,15 +100,20 @@ class HomePage extends Component {
 
 
 
-
-
-
-        fetch('https://showroom-api.novamedia.agency/cars/latest').then((res) => res.json()).then((newestProducts) => {
-
-             this.setState({ newestProducts }, () => {
-
-            });
+        fetch('http://127.0.0.1:8282/api/cars/v1/all', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('token')}`
+            },
+        }).then((res) => res.json()).then((result) => {
+            this.setState({
+                newestProducts: result
+            })
         })
+
+
+
         fetch('https://showroom-api.novamedia.agency/cars/filters').then((res) => res.json()).then((productFilters) => { console.log(productFilters); this.setState({ productFilters }); })
 
     }
@@ -209,14 +214,13 @@ class HomePage extends Component {
                                         <Col md="3" xs="6">
 
                                             <Article
-                                                title={product.title}
-                                                alias={product.alias}
+                                                title={product.make + ' ' + product.model}
                                                 id={product._id}
-                                                image={'https://showroom-api.novamedia.agency/' + product.images[0]}
-                                                fuel={product.attributes && product.attributes['fuel'] && product.attributes['fuel'].value}
-                                                mileage={product.attributes && product.attributes['mileage'] && product.attributes['mileage'].value}
-                                                year={product.attributes && product.attributes['firstRegistration'] && product.attributes['firstRegistration'].value}
-                                                price={product.price && product.price.grs.localized}
+                                                image={ product.image}
+                                                fuel={product.fuel}
+                                                mileage={product.mileage}
+                                                year={product.productionYear}
+                                                price={product.price}
                                             />
                                         </Col>
                                     )

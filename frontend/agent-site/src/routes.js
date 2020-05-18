@@ -85,7 +85,7 @@ class Routes extends Component {
 
 
                         <Route
-                            path="/autos/:alias/:id"
+                            path="/cars/:id"
                             exact
                             render={(...renderProps) => (
                                 <DetailPage {...renderProps} {...this.props} />

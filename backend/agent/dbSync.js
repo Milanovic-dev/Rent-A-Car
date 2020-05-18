@@ -151,9 +151,9 @@ class DbSyncFunctions {
     };
 
     async find(query, projection) {
-        // TODO: Sync with microservices    
-        let result = await db.collection(this.collection).find(query, projection).catch(err => console.error(err));
-        return result.toArray();
+        // TODO: Sync with microservices
+        let result = await db.collection(this.collection).find(query, projection).toArray();
+        return result;
     };
 
     async count() {

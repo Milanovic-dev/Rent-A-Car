@@ -3,6 +3,8 @@ const db = require('../../dbSync');
 const dbCollection = 'cars';
 db.connect();
 
+console.log(db.collection);
+
 const createCar = async (car) => {
     
     if(car == undefined) return { status: 400 }; 
@@ -46,8 +48,17 @@ const updateCar = async (car) => {
                 transmission: car.transmission ? car.transmission : dbCar.transmission,
                 class: car.class ? car.class : dbCar.class,
                 mileage: car.mileage ? car.mileage : dbCar.mileage,
+                limitMileage: car.limitMileage ? car.limitMileage : dbCar.limitMileage,
                 cdw: car.cdw ? car.cdw : dbCar.cdw,
-                seatCount: car.seatCount ? car.seatCount : dbCar.seatCount
+                seatCount: car.seatCount ? car.seatCount : dbCar.seatCount,
+                productionYear: car.productionYear ? car.productionYear : dbCar.productionYear,
+                color: car.color ? car.color : dbCar.color,
+                image: car.image ? car.image : dbCar.image,
+                price: car.price ? car.price : dbCar.price,
+                power: car.power ? car.power : dbCar.power,
+                description: car.description ? car.description : dbCar.description,
+
+
             }
         }
     );
@@ -92,10 +103,11 @@ const getCar = async (id) => {
 }
 
 const getAll = async () => {
-    let result = await db.collection(dbCollection).find().toArray();
+    let result = await db.collection(dbCollection).find(null);
+    console.log(result)
 
     return {
-        response: result,
+        response:  result,
         status: 200
     };
 };
@@ -136,8 +148,8 @@ const rentedCar = async (data) => {
 
 };
 const carStats = async () => {
-    let cars = await db.collection('cars').find({}).toArray();
-    let comments = await db.collection('comments').find({}).toArray();
+    let cars = await db.collection('cars').find({});
+    let comments = await db.collection('comments').find({});
     let result = [];
   
     let maxMileage = cars[0];
