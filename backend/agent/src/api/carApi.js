@@ -32,4 +32,15 @@ module.exports = function(app){
         res.status(result.status).send(result.response);
     });
 
+    app.post('/api/cars/v1/rented', async (req, res) => {
+        console.log(req.method + req.route.path);
+        let result = await service.rented(req.body);
+        res.status(result.status).send(result.response);
+    });
+    app.get('/api/cars/v1/stats', async (req, res) => {
+        console.log(req.method + req.route.path);
+        let result = await service.stats();
+        res.status(result.status).send(result.response);
+    });
 };
+

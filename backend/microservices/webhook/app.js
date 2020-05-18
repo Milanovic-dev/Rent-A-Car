@@ -7,7 +7,7 @@ const fs = require('fs');
 
 const { registerForGateway } = require('./src/config/index');
 
-registerForGateway();
+registerForGateway('webhook');
 
 app.use(cors());
 app.use(bodyParser.json());
@@ -36,11 +36,11 @@ app.get('/getWsdl', (req, res) => {
 const dbConnect = require('./db');
 let db;
 dbConnect(process.env.DB_USERNAME, process.env.DB_PASSWORD, process.env.DB_SERVER, process.env.DB_NAME)
-.then((conn) => {
+.then(async (conn) => {
     db = conn;
 
-    const coll = db.collection('agents').findOne({username:"AgentAdmin"});
-
+    const coll = await db.collection('agents').findOne({username:"AgentAdmin"});
+    const bcrypt = require('bcrypt');
     if(!coll){
         const pass = bcrypt.hashSync('agent', 10);
         db.collection('agents').insertOne({username:"AgentAdmin", password: pass});
@@ -48,3 +48,8 @@ dbConnect(process.env.DB_USERNAME, process.env.DB_PASSWORD, process.env.DB_SERVE
 }).catch((e) => {
     console.log(`DB error: ${e}`);
 })
+
+app.get('/testBase', async (req, res) => {
+    let result = await db.collection('cars').find().toArray();
+    res.json(result);
+});

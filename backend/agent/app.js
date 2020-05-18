@@ -39,8 +39,9 @@ soapService.getClient(`${process.env.HOST_URL}/api/webhook/getWsdl`).then(soapCl
             console.error(err);
             return;
         }
-        console.log('Successfully subscribed to Webhook');
+        
         if(res.accessToken){
+            console.log(`${res.status}: Successfully subscribed to Webhook`);
             db.saveToken(res.accessToken);
             soapClient.addSoapHeader(`<AuthToken>${res.accessToken}</AuthToken>`);
             soapClient.SyncAgent({}, (err, res) => {
@@ -49,6 +50,10 @@ soapService.getClient(`${process.env.HOST_URL}/api/webhook/getWsdl`).then(soapCl
                     return;
                 }
             })
+        }
+        else
+        {
+            console.error('Could not subscribe. Status:' + res.status);
         }
     });
 }).catch(err => { 
@@ -68,4 +73,8 @@ app.get('/getWsdl', async (req, res) => {
     res.send(wsdl);
 });
 
+app.post('/testInsert', async (req, res) => {
+    db.collection('cars').insertOne({make:'Audi', model:'A3'});
+    res.status(200);
+});
 

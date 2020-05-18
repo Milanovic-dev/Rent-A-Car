@@ -5,8 +5,7 @@ services:
         image: mongo
         ports:
             - "27017:27017"
-        logging:
-           driver: none 
+        
     
     webhook:
         build: './webhook'

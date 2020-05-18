@@ -43,6 +43,26 @@
                 </xsd:complexType>
             </xsd:element>
 
+            <xsd:element name="UpdateRequest">
+                <xsd:complexType>
+                    <xsd:all>
+                        <xsd:element name="documentName" nillable="false" type="string" />
+                        <xsd:element name="action" nillable="false" type="string" />
+                        <xsd:element name="filter" nillable="true" type="string" />
+                        <xsd:element name="data" nillable="true" type="string" />
+                        <xsd:element name="options" nillable="true" type="string" />
+                    </xsd:all>
+                </xsd:complexType>
+            </xsd:element>
+
+            <xsd:element name="UpdateResponse">
+                <xsd:complexType>
+                    <xsd:all>
+                        <xsd:element minOccurs="0" name="status" nillable="false" type="string" />
+                    </xsd:all>
+                </xsd:complexType>
+            </xsd:element>
+
         </xsd:schema>
     </wsdl:types>
 
@@ -61,6 +81,14 @@
     <wsdl:message name="SynchronizeRequestOutput">
         <wsdl:part name="body" element="xsd1:SynchronizeResponse" />
     </wsdl:message>
+
+    <wsdl:message name="UpdateRequestInput">
+        <wsdl:part name="body" element="xsd1:UpdateRequest" />
+    </wsdl:message>
+
+    <wsdl:message name="UpdateRequestOutput">
+        <wsdl:part name="body" element="xsd1:UpdateResponse" />
+    </wsdl:message>
     
 
     <wsdl:portType name="WebhookPort">
@@ -71,6 +99,10 @@
         <wsdl:operation name="SyncAgent">
             <wsdl:input message="tns:SynchronizeRequestInput" />
             <wsdl:output message="tns:SynchronizeRequestOutput" />
+        </wsdl:operation>
+        <wsdl:operation name="SyncUpdate">
+            <wsdl:input message="tns:UpdateRequestInput" />
+            <wsdl:output message="tns:UpdateRequestOutput" />
         </wsdl:operation>
     </wsdl:portType>
 
@@ -88,6 +120,16 @@
 
         <wsdl:operation name="SyncAgent">
             <soap:operation soapAction="http://localhost:4000/SyncAgent" />
+            <wsdl:input>
+                <soap:body use="literal" />
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal" />
+            </wsdl:output>
+        </wsdl:operation>
+
+        <wsdl:operation name="SyncUpdate">
+            <soap:operation soapAction="http://localhost:4000/SyncUpdate" />
             <wsdl:input>
                 <soap:body use="literal" />
             </wsdl:input>
