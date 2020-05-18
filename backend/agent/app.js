@@ -34,28 +34,23 @@ server.listen(8282, () => {
 
 //Register to Microservices Webhook
 soapService.getClient(`${process.env.HOST_URL}/api/webhook/getWsdl`).then(soapClient => {
-    soapClient.SubscribeAgent({username: process.env.APP_USERNAME, password: process.env.APP_PASSWORD}, (err, res) => {
-        if(err){
-            console.error(err);
-            return;
-        }
-        
-        if(res.accessToken){
-            console.log(`${res.status}: Successfully subscribed to Webhook`);
-            db.saveToken(res.accessToken);
-            soapClient.addSoapHeader(`<AuthToken>${res.accessToken}</AuthToken>`);
-            soapClient.SyncAgent({}, (err, res) => {
-                if(err){
-                    console.error(err);
-                    return;
-                }
-            })
-        }
-        else
-        {
-            console.error('Could not subscribe. Status:' + res.status);
-        }
-    });
+    db.connect().then(() => {
+        soapClient.SubscribeAgent({username: process.env.APP_USERNAME, password: process.env.APP_PASSWORD}, (err, res) => {
+            if(err){
+                console.error(err);
+                return;
+            }
+            
+            if(res.accessToken){
+                db.saveToken(res.accessToken);
+                console.log(`${res.status}: Successfully subscribed to Webhook`);
+            }
+            else
+            {
+                console.error('Could not subscribe. Status:' + res.status);
+            }
+        });
+    })
 }).catch(err => { 
     console.error(err);
     console.error(`Cannot /getWsdl from ${process.env.HOST_URL}/api/webhook/`);
@@ -74,7 +69,11 @@ app.get('/getWsdl', async (req, res) => {
 });
 
 app.post('/testInsert', async (req, res) => {
-    db.collection('cars').insertOne({make:'Audi', model:'A3'});
-    res.status(200);
+    db.collection('cars').updateOne({make:'BMW'}, {$set: {model:'M4'}});
+    res.send('Done');
 });
 
+app.get('/testGet', async (req, res) => {
+    let result = await db.collection('cars').findOne({make:'BMW'});
+    res.status(result.status).send(result.response);
+});

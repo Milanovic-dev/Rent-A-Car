@@ -28,19 +28,13 @@ const connectToDB = (username, password, server, dbName) => {
     })
 }
 
-const connect = async () => {
-    let hostUrl = 'http://localhost:8080/api/webhook'
-    soapClient = await soapService.getClient(`${hostUrl}/getWsdl`).catch(err => { 
-        console.error(err);
-        console.error(`Cannot /getWsdl from ${hostUrl}`);
-    });
-
+const connect = async () => {  
     db = await connectToDB(process.env.DB_USERNAME, process.env.DB_PASSWORD, process.env.DB_SERVER, process.env.DB_NAME)
         .catch(err => console.error(err));
 }
 
-const collection = (collection) => {
-    return new DbSyncFunctions(collection);
+const collection = (collection, sync = true) => {
+    return new DbSyncFunctions(collection, sync);
 };
 
 const getDb = () => {
@@ -48,7 +42,10 @@ const getDb = () => {
 };
 
 const saveToken = async (token) => {
-    await db.collection('user').updateOne({id: 'agentUser'}, {$set: {accessToken: token}}, {upsert: true});
+    let result = await db.collection('user').updateOne({id: 'agentUser'}, {$set: {accessToken: token}}, {upsert: true});
+    if(result.modifiedCount == 1){
+        console.log(`Saved token: ${token}`);
+    }
 };
 
 const getToken = async () => {
@@ -57,80 +54,104 @@ const getToken = async () => {
 };
 
 const sendUpdate = async (collection, action, filter, data, options) => {
+    let hostUrl = 'http://localhost:8080/api/webhook'
+    soapClient = await soapService.getClient(`${hostUrl}/getWsdl`).catch(err => { 
+        console.error(err);
+        console.error(`Cannot /getWsdl from ${hostUrl}`);
+    });
+    let token = await getToken();
+    soapClient.addSoapHeader(`<AuthToken>${token}</AuthToken>`);
+
+    const filterString = filter ? JSON.stringify(filter) : undefined;
+    const dataString = data ? JSON.stringify(data) : undefined;
+    
+    return new Promise((resolve, reject) => {
+        soapClient.SyncUpdate({documentName: collection, action, filter: filterString, data: dataString, options}, (err, res) => {
+            if(err){
+                console.error(err);
+                console.error(`Unable to syncUpdate: { action: ${action} collection:${collection}}`);
+                resolve(err);
+            }
+        
+            resolve(res);
+        });
+    });
+};
+
+const getUpdate = async (collection, action, filter, options) => {
+    let hostUrl = 'http://localhost:8080/api/webhook'
+    soapClient = await soapService.getClient(`${hostUrl}/getWsdl`).catch(err => { 
+        console.error(err);
+        console.error(`Cannot /getWsdl from ${hostUrl}`);
+    });
+    let token = await getToken();
+    soapClient.addSoapHeader(`<AuthToken>${token}</AuthToken>`);
+
+    const filterString = filter ? JSON.stringify(filter) : '';
+
+    return new Promise((resolve, reject) => {
+        soapClient.SyncGet({documentName: collection, action, filter: filterString, options}, (err, res) => {
+            if(err){
+                console.error(err);
+                console.error(`Unable to syncGet: { action: ${action} collection:${collection}}`);
+                reject(err);
+            }
+    
+            resolve(res);
+        });
+    })
+};
+
+const diff = (collection) => {
     getToken().then(token => {
         if(!token) {
             console.error('Cannot get token from the database, no synchronization.');
             return;
         }
-        
-        soapClient.addSoapHeader(`<AuthToken>${token}</AuthToken>`)
-        soapClient.SyncUpdate({documentName: collection, action, filter: JSON.stringify(filter), data: JSON.stringify(data), options}, (err, res) => {
-            if(err){
-                console.error(err);
-                console.error(`Unable to sync: { action: ${action} collection:${collection}}`);
-                return '500';
-            }
-    
-            return res;
-        });
-    }).catch(err => console.error(err));
+
+        soapClient.addSoapHeader(`<AuthToken>${token}</AuthToken>`);
+    }).catch(err = console.error(err));
 };
 
 class DbSyncFunctions {
-    constructor(collection){
+    constructor(collection, sync){
         this.collection = collection;
+        this.sync = sync;
     }
 
     async insertOne(query, writeConcern) {
         let result = await db.collection(this.collection).insertOne(query, writeConcern).catch(err => console.error(err));
-        sendUpdate(this.collection, 'insertOne', {}, query, writeConcern);
+        if(this.sync) sendUpdate(this.collection, 'insertOne', {}, query, writeConcern);
         return result;
     };
-
-    async insert(documents, options){
-        // TODO: Sync with microservices
-        let result = await db.collection(this.collection).insert(documents, options).catch(err => console.error(err));
-        return result;
-    }
-    
+  
     async updateOne(filter, update, options) {
         let result = await db.collection(this.collection).updateOne(filter, update, options).catch(err => console.error(err));
-        sendUpdate(this.collection, 'updateOne', filter, update, options);
+        if(this.sync) sendUpdate(this.collection, 'updateOne', filter, update, options);
         return result;
     };
 
-    async update(query, update, options) {
-        // TODO: Sync with microservices
+    async update(filter, update, options) {
         let result = await db.collection(this.collection).update(query, update, options).catch(err => console.error(err));
+        if(this.sync) sendUpdate(this.collection, 'update', filter, update, options);
         return result;
     }
 
     async deleteOne(filter, options) {
         let result = await db.collection(this.collection).deleteOne(filter, options).catch(err => console.error(err));
-        sendUpdate(this.collection, 'deleteOne', filter, {}, options);
+        if(this.sync) sendUpdate(this.collection, 'deleteOne', filter, {}, options);
         return result;
     };
-
-    async replaceOne(filter, replacement, options) {
-        // TODO: Sync with microservices
-        let result = await db.collection(this.collection).replaceOne(filter, replacement, options).catch(err => console.error(err));
-        return result;
-    }
 
     async findOne(query, projection) {
         // TODO: Sync with microservices
-        let result = await db.collection(this.collection).findOne(query, projection).catch(err => console.error(err));
+        //let result = await db.collection(this.collection).findOne(query, projection).catch(err => console.error(err));
+        let result = await getUpdate(this.collection, 'findOne', query, projection);
         return result;
     };
 
-    async remove(query, justOne) {
-        // TODO: Sync with microservices
-        let result = await db.collection(this.collection).remove(query, justOne).catch(err => console.error(err));
-        return result;
-    }
-
     async find(query, projection) {
-        // TODO: Sync with microservices
+        // TODO: Sync with microservices    
         let result = await db.collection(this.collection).find(query, projection).catch(err => console.error(err));
         return result.toArray();
     };
