@@ -29,5 +29,3 @@ app.get('/search', async (req,res) => {
 app.get('/test', async (req,res) => {
     res.send('Success');
 });
-
-

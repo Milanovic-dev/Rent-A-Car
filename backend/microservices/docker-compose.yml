@@ -57,4 +57,11 @@ services:
             - "8080:8080"
         logging:
             driver: none 
+
+    mail:
+        build: './mail'
+        ports:
+            - "4005:4000"
+        logging:
+            driver: none 
         
