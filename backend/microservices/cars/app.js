@@ -5,7 +5,7 @@ const cors = require('cors');
 const service = require('./src/services/searchService');
 const { registerForGateway }= require('./src/config/index');
 
-registerForGateway();
+registerForGateway('cars');
 
 app.use(cors());
 app.use(bodyParser.json());

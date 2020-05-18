@@ -56,14 +56,34 @@ const getToken = async () => {
     return result.accessToken;
 };
 
+const sendUpdate = async (collection, action, filter, data, options) => {
+    getToken().then(token => {
+        if(!token) {
+            console.error('Cannot get token from the database, no synchronization.');
+            return;
+        }
+        
+        soapClient.addSoapHeader(`<AuthToken>${token}</AuthToken>`)
+        soapClient.SyncUpdate({documentName: collection, action, filter: JSON.stringify(filter), data: JSON.stringify(data), options}, (err, res) => {
+            if(err){
+                console.error(err);
+                console.error(`Unable to sync: { action: ${action} collection:${collection}}`);
+                return '500';
+            }
+    
+            return res;
+        });
+    }).catch(err => console.error(err));
+};
+
 class DbSyncFunctions {
     constructor(collection){
         this.collection = collection;
     }
 
     async insertOne(query, writeConcern) {
-        // TODO: Sync with microservices
         let result = await db.collection(this.collection).insertOne(query, writeConcern).catch(err => console.error(err));
+        sendUpdate(this.collection, 'insertOne', {}, query, writeConcern);
         return result;
     };
 
@@ -74,8 +94,8 @@ class DbSyncFunctions {
     }
     
     async updateOne(filter, update, options) {
-        // TODO: Sync with microservices
         let result = await db.collection(this.collection).updateOne(filter, update, options).catch(err => console.error(err));
+        sendUpdate(this.collection, 'updateOne', filter, update, options);
         return result;
     };
 
@@ -86,8 +106,8 @@ class DbSyncFunctions {
     }
 
     async deleteOne(filter, options) {
-        // TODO: Sync with microservices
         let result = await db.collection(this.collection).deleteOne(filter, options).catch(err => console.error(err));
+        sendUpdate(this.collection, 'deleteOne', filter, {}, options);
         return result;
     };
 
