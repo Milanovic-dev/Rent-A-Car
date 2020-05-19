@@ -98,7 +98,7 @@ const getCar = async (id) => {
   }
 
   return { status: 404 };
-}
+};
 
 const getAll = async () => {
   let result = await db.collection(dbCollection).find().toArray();
