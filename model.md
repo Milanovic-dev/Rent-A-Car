@@ -110,6 +110,7 @@
     * GET api/messages
     * GET api/messages/{id}
     * POST api/messages/send
+    * DELETE api/messages/remove/{id}
   # Orders microservice model:
    ## Order
     * id
