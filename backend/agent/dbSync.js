@@ -145,9 +145,10 @@ class DbSyncFunctions {
 
     async findOne(query, projection) {
         // TODO: Sync with microservices
-        //let result = await db.collection(this.collection).findOne(query, projection).catch(err => console.error(err));
-        let result = await getUpdate(this.collection, 'findOne', query, projection);
-        return result;
+        if(this.sync)
+            return await getUpdate(this.collection, 'findOne', query, projection);
+        else
+            return await db.collection(this.collection).findOne(query, projection).catch(err => console.error(err));
     };
 
     async find(query, projection) {
