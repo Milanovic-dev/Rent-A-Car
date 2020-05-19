@@ -77,6 +77,26 @@
       * POST /api/cars/update
       * POST /api/cars/reviews/create
       * POST /api/cars/reviews/update
+      * POST /api/cars/make/create
+      * POST /api/cars/make/update
+      * DELETE /api/cars/make/remove/{id}
+      * GET /api/cars/make
+      * GET /api/cars/make/{id}
+      * POST /api/cars/models/create
+      * POST /api/cars/models/update
+      * DELETE /api/cars/models/remove/{id}
+      * GET /api/cars/models
+      * GET /api/cars/models/{id}
+      * POST /api/cars/fuels/create
+      * POST /api/cars/fuels/update
+      * DELETE /api/cars/fuels/remove/{id}
+      * GET /api/cars/fuels
+      * GET /api/cars/fuels/{id}
+      * POST /api/cars/class/create
+      * POST /api/cars/class/update
+      * DELETE /api/cars/class/remove/{id}
+      * GET /api/cars/class
+      * GET /api/cars/class/{id}
   # Message microservice model
    ## Message
     * id
