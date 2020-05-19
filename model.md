@@ -117,7 +117,7 @@
     * carId
     * ownerId
     * renterId
-    * status
+    * approved
     * from
     * to
     * startLocation
