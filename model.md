@@ -3,84 +3,69 @@
 * Auth microservice model
   ## User
     * id
+    * username
     * name
     * surname
-    * adress
+    * address
     * city
     * state
     * phone
     * email
-    * roles
-  #### Endpoints:
-    * GET : /api/auth/login
-    * GET : /api/auth/users
-    * POST : /api/auth/register
-   
+    * role
+    * active
+  #### REST Endpoints:
+    * GET /api/auth/users
+    * GET /api/auth/users/{id}
+    * PATCH /api/auth/users/status/{id}
+    * POST /api/auth/users/login
+    * POST /api/auth/users/logout
+    * POST /api/auth/users/register
+    * POST /api/auth/users/update
  * Car microservice model
     ## Car
       * id
       * make
-      * brand
+      * model
       * class
       * transmmission
       * seats
       * mileage
       * rating 
-      * ownerId
-      * hasACDW
-      * image
+      * CDW
+      * imagePath
       * insurance
       * state
-      * following 
-      * from
-      * to
       * pricelistId
-    ## Make
+      * ownerId
+   ## Review
       * id 
-      * name
-    ## Model
-      * id
-      * name
-    ## Class
-      * id
-      * name
-    ## Transmission
-      * id
-      * name
-    ## Fuel
-      * id 
-      * name
-    ## Review
-      * id 
-      * userId
+      * carId
       * rate
-      * commentId
+      * comments
    ## Comment
       * id
       * userId
       * comment
-      * reply
-      
-    ## Pricelist
+      * replies
+   ## Pricelist
       * id
       * agencyId
       * pricePerDay
       * pricePerKm
       * carId
-      
    #### Endpoints:
-   
+      * GET /api/cars
+      * GET /api/cars/{id}
+      * GET /api/cars/pricelists/{id}
+      * GET /api/cars/stats
+      * GET /api/cars/stats/{id}
+      * GET /api/cars/reviews
+      * GET /api/cars/reviews/{id}
+      * POST /api/cars/create
+      * POST /api/cars/update
+      * POST /api/cars/reviews/create
+      * POST /api/cars/reviews/update
   * Mail microservice model
-    ## User 
-    * id
-    * name
-    * surname
-    * adress
-    * city
-    * state
-    * phone
-    * email
-    * roles
     ## Message
     * id
     * sender
@@ -88,9 +73,7 @@
     * message
     * date
     * time
-    * reply
-    #### Endpoints:
-  
+    * reply  
   * Orders microservice model:
     ## Order
     * id
@@ -108,7 +91,6 @@
     * date
     * mileage
     * text
-    
   #### Endpoints:
   
  * Search microservice model: 
@@ -130,21 +112,6 @@
       * from
       * to
       * pricelistId
-    ## Make
-      * id 
-      * name
-    ## Model
-      * id
-      * name
-    ## Class
-      * id
-      * name
-    ## Transmission
-      * id
-      * name
-    ## Fuel
-      * id 
-      * name
     ## Review
       * id 
       * userId
