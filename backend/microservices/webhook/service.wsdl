@@ -43,41 +43,24 @@
                 </xsd:complexType>
             </xsd:element>
 
-            <xsd:element name="UpdateRequest">
+            <xsd:element name="APIRequest">
                 <xsd:complexType>
                     <xsd:all>
-                        <xsd:element name="documentName" nillable="false" type="string" />
-                        <xsd:element name="action" nillable="false" type="string" />
-                        <xsd:element name="filter" nillable="true" type="string" />
-                        <xsd:element name="data" nillable="true" type="string" />
-                        <xsd:element name="options" nillable="true" type="string" />
+                        <xsd:element name="path" nillable="false" type="string" />
+                        <xsd:element name="httpMethod" nillable="false" type="string" />
+                        <xsd:element name="body" nillable="true" type="string" />
                     </xsd:all>
                 </xsd:complexType>
             </xsd:element>
 
-            <xsd:element name="UpdateResponse">
+            <xsd:element name="APIResponse">
                 <xsd:complexType>
                     <xsd:all>
-                        <xsd:element minOccurs="0" name="status" nillable="false" type="string" />
-                    </xsd:all>
-                </xsd:complexType>
-            </xsd:element>
-
-            <xsd:element name="GetRequest">
-                <xsd:complexType>
-                    <xsd:all>
-                        <xsd:element name="documentName" nillable="false" type="string" />
-                        <xsd:element name="action" nillable="false" type="string" />
-                        <xsd:element name="filter" nillable="true" type="string" />
-                        <xsd:element name="options" nillable="true" type="string" />
-                    </xsd:all>
-                </xsd:complexType>
-            </xsd:element>
-
-            <xsd:element name="GetResponse">
-                <xsd:complexType>
-                    <xsd:all>
-                        <xsd:element name="document" nillable="false" type="string" />
+                        <xsd:element name="path" nillable="false" type="string" />
+                        <xsd:element name="httpMethod" nillable="false" type="string" />
+                        <xsd:element name="status" nillable="false" type="string" />
+                        <xsd:element name="update" nillable="true" type="string" />
+                        <xsd:element name="errMessage" nillable="true" type="string" />
                     </xsd:all>
                 </xsd:complexType>
             </xsd:element>
@@ -101,22 +84,15 @@
         <wsdl:part name="body" element="xsd1:SynchronizeResponse" />
     </wsdl:message>
 
-    <wsdl:message name="UpdateRequestInput">
-        <wsdl:part name="body" element="xsd1:UpdateRequest" />
+    <wsdl:message name="APIRequestInput">
+        <wsdl:part name="body" element="xsd1:APIRequest" />
     </wsdl:message>
 
-    <wsdl:message name="UpdateRequestOutput">
-        <wsdl:part name="body" element="xsd1:UpdateResponse" />
+    <wsdl:message name="APIRequestOutput">
+        <wsdl:part name="body" element="xsd1:APIResponse" />
     </wsdl:message>
 
-    <wsdl:message name="GetRequestInput">
-        <wsdl:part name="body" element="xsd1:GetRequest" />
-    </wsdl:message>
-
-    <wsdl:message name="GetRequestOutput">
-        <wsdl:part name="body" element="xsd1:GetResponse" />
-    </wsdl:message>
-    
+   
 
     <wsdl:portType name="WebhookPort">
         <wsdl:operation name="SubscribeAgent">
@@ -127,13 +103,9 @@
             <wsdl:input message="tns:SynchronizeRequestInput" />
             <wsdl:output message="tns:SynchronizeRequestOutput" />
         </wsdl:operation>
-        <wsdl:operation name="SyncUpdate">
-            <wsdl:input message="tns:UpdateRequestInput" />
-            <wsdl:output message="tns:UpdateRequestOutput" />
-        </wsdl:operation>
-        <wsdl:operation name="SyncGet">
-            <wsdl:input message="tns:GetRequestInput" />
-            <wsdl:output message="tns:GetRequestOutput" />
+        <wsdl:operation name="SendRequest">
+            <wsdl:input message="tns:APIRequestInput" />
+            <wsdl:output message="tns:APIRequestOutput" />
         </wsdl:operation>
     </wsdl:portType>
 
@@ -159,8 +131,8 @@
             </wsdl:output>
         </wsdl:operation>
 
-        <wsdl:operation name="SyncUpdate">
-            <soap:operation soapAction="http://localhost:4000/SyncGet" />
+        <wsdl:operation name="SendRequest">
+            <soap:operation soapAction="http://localhost:4000/SendRequest" />
             <wsdl:input>
                 <soap:body use="literal" />
             </wsdl:input>
@@ -168,17 +140,6 @@
                 <soap:body use="literal" />
             </wsdl:output>
         </wsdl:operation>
-
-        <wsdl:operation name="GetUpdate">
-            <soap:operation soapAction="http://localhost:4000/GetUpdate" />
-            <wsdl:input>
-                <soap:body use="literal" />
-            </wsdl:input>
-            <wsdl:output>
-                <soap:body use="literal" />
-            </wsdl:output>
-        </wsdl:operation>
-
     </wsdl:binding>
 
     <wsdl:service name="WebhookService">

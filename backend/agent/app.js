@@ -37,7 +37,7 @@ server.listen(8282, () => {
 });
 
 //Register to Microservices Webhook
-soapService.getClient(`${process.env.HOST_URL}/api/webhook/getWsdl`).then(soapClient => {
+soapService.getClient().then(soapClient => {
     db.connect().then(() => {
         soapClient.SubscribeAgent({username: process.env.APP_USERNAME, password: process.env.APP_PASSWORD}, (err, res) => {
             if(err){
@@ -72,12 +72,14 @@ app.get('/getWsdl', async (req, res) => {
     res.send(wsdl);
 });
 
-app.post('/testInsert', async (req, res) => {
-    db.collection('cars').updateOne({make:'BMW'}, {$set: {model:'M4'}});
-    res.send('Done');
-});
+app.post('/test', async (req, res) => {
+    let client = await soapService.getClient();
+    client.SendRequest({path: '/api/auth/users', httpMethod: 'get'}, (err, result) => {
+        if(err){
+            console.error(err);
+        }
 
-app.get('/testGet', async (req, res) => {
-    let result = await db.collection('cars').findOne({make:'BMW'});
-    res.status(result.status).send(result.response);
+        console.log(result);
+        res.status(result.status).send(result.update);
+    });
 });

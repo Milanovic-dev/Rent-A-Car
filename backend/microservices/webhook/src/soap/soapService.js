@@ -2,7 +2,7 @@ const fs = require('fs');
 const soap = require('soap');
 const jwt = require('jsonwebtoken');
 
-const { subscribeAgent, synchronize, recieveUpdate, getUpdate } = require('../service');
+const { subscribeAgent, synchronize, sendRequest } = require('../service');
 
 const xml = fs.readFileSync('service.wsdl', 'utf8');
 
@@ -19,12 +19,8 @@ const service = {
                 let result = await synchronize(args, soapHeader);
                 return result;
             },
-            SyncUpdate: async (args, cb, soapHeader) => {
-                let result = await recieveUpdate(args, soapHeader);
-                return result;
-            },
-            SyncGet: async (args, cb, soapHeader) => {
-                let result = await getUpdate(args, soapHeader);
+            SendRequest: async (args, cb, soapHeader) => {
+                let result = await sendRequest(args, soapHeader);
                 return result;
             }
         }
@@ -44,7 +40,7 @@ const createService = async (server, callback) => {
     });
 }
 
-const getClient = async (url) => {
+const getClient = async () => {
     try{
         let client = await soap.createClientAsync(url, options);
         return client;
