@@ -3,7 +3,7 @@ dotenv.config();
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const ObjectID = require('mongodb').ObjectID;
-
+const fetch = require('node-fetch');
 const dbConnect = require('../db');
 let db;
 dbConnect(process.env.DB_USERNAME, process.env.DB_PASSWORD, process.env.DB_SERVER, process.env.DB_NAME)
@@ -53,131 +53,64 @@ const synchronize = async(agent, soapHeader) => {
     return '200';
 };
 
-const recieveUpdate = async ({documentName, action, filter, data, options}, soapHeader) => {
+const sendRequest = async({path, httpMethod, body}, soapHeader) => {
 
-    let verifyResult = await verifyToken(soapHeader.AuthToken).catch(err => console.error(err));
+    let ret = {
+        path,
+        httpMethod
+    };
 
-    if(verifyResult == '401' || verifyResult == '400') return verifyResult;
-
-    let dataJSON = {};
-    let filterJSON = {};
-
-    if(data)
-        dataJSON = JSON.parse(data);
-
-    if(filter)
-        filterJSON = JSON.parse(filter);
-
-        
-        // TODO: Update versioning
-        let result;
-        switch(action){
-            case 'insertOne':
-            if(dataJSON) {
-                if(!dataJSON.ownerId) {
-                    dataJSON['ownerId'] = verifyResult.username;
-                }
-
-                if(!dataJSON.version) {
-                    dataJSON['version'] = 1;
-                }
-            }
-            
-            result = await db.collection(documentName).insertOne(dataJSON, options);
-            if(result.insertedId)
-            {
-                return { status: '201' };
-            }
-            return { status: '400', errorMessage: 'Db could not insert'};
-        case 'updateOne':
-            if(filterJSON) {
-                if(!filterJSON.ownerId) {
-                    filterJSON['ownerId'] = verifyResult.username;
-                }
-            }
-
-            if(dataJSON){
-                if(!dataJSON.$inc){
-                    dataJSON['$inc'] = {version: 1};
-                }
-            }
-            
-            result = await db.collection(documentName).updateOne(filterJSON, dataJSON, options);
-            if(result.modifiedCount == 1){
-                return { status: '200' };
-            }
-            return { status: '400', errorMessage: 'Db didnt find anything to update'};
-        case 'deleteOne':
-            if(filterJSON) {
-                if(!filterJSON.ownerId) {
-                    filterJSON['ownerId'] = verifyResult.username;
-                }
-            }
-            result = await db.collection(documentName).deleteOne(filterJSON, options);
-            if(result.deletedCount == 1){
-                return { status: '200' };
-            }
-            return { status: '400', errorMessage: 'Db didnt find anything to delete'};
-        case 'update':
-            if(filterJSON) {
-                if(!filterJSON.ownerId) {
-                    filterJSON['ownerId'] = verifyResult.username;
-                }
-            }
-            if(dataJSON){
-                if(!dataJSON.$inc){
-                    dataJSON['$inc'] = {version: 1};
-                }
-            }
-            result = await db.collection(documentName).update(filterJSON, dataJSON, options);
-            if(result.writeConcernError){
-                return {status:'400', errorMessage:result.writeConcernError.errmsg};
-            }
-            return { status: '200' };
+    let verifyRequest = verifyToken(soapHeader.AuthToken);
+    if(verifyRequest == '400' || verifyRequest == '401') 
+    {
+        ret.status = verifyRequest;
+        res.errMessage = 'Token not valid'
+        return ret;
     }
-        
-    return { status:'400', errorMessage: 'Wrong action requested.' };
-};
 
-const getUpdate = async ({documentName, action, filter, options}, soapHeader) => {
+    const bodyString = '';
+
+    if(body)
+        bodyString = JSON.stringify(body);
+
+    let response;
+
+    const pathSplit = path.split('/');
+    const pathSplit2 = path.split(pathSplit[2])
+    const realPath = `http://${pathSplit[2]}:4000${pathSplit2[1]}`;
+
+    if(httpMethod === 'get'){
+        response = await fetch(realPath, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': soapHeader.AuthToken
+            }
+        });
+    }
+    else
+    {
+        response = await fetch(path, {
+            method: httpMethod,
+            body: bodyString,
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': soapHeader.AuthToken
+            }
+        })
+    }
  
-    let verifyResult = await verifyToken(soapHeader.AuthToken).catch(err => console.error(err));
+    if(parseInt(response.status)/ 100 == 2){
+        const updateJSON = response.json();
 
-    if(verifyResult == '401' || verifyResult == '400') return verifyResult;
-
-    let filterJSON = {};
-
-    if(filter)
-        filterJSON = JSON.parse(filter);
-
-    let result;
-    switch(action){
-        case 'findOne':
-            if(filterJSON) {
-                if(!filterJSON.ownerId) {
-                    filterJSON['ownerId'] = verifyResult.username;
-                }
-            }
-            result = await db.collection(documentName).findOne(filterJSON, options);
-            if(result){
-                return { status: '200', response: result};
-            }
-            return { status: '404' };
-        case 'find':
-            if(filterJSON) {
-                if(!filterJSON.ownerId) {
-                    filterJSON['ownerId'] = verifyResult.username;
-                }
-            }
-            result = await db.collection(documentName).find(filterJSON, options).toArray();
-            if(result){
-                if(result.length > 0){
-                    return { status: '200', response: result};
-                }
-            }
-            return { status: '404' };
+        ret.status = response.status;
+        ret.update = updateJSON;
+        return ret;
     }
-};
+
+    ret.status = response.status;
+    ret.errMessage = response.errMessage;
+    return ret;
+}
 
 const verifyToken = async (token) => {
     
@@ -199,6 +132,5 @@ const verifyToken = async (token) => {
 module.exports = {
     subscribeAgent,
     synchronize,
-    recieveUpdate,
-    getUpdate
+    sendRequest
 }

@@ -7,6 +7,8 @@ var db;
 var soapClient;
 var accessToken;
 
+const hostUrl = process.env.HOST_URL + 'api/webhook';
+
 const connectToDB = (username, password, server, dbName) => {
     return new Promise((resolve, reject) => {
         if (connection)
@@ -100,6 +102,10 @@ const getUpdate = async (collection, action, filter, options) => {
             resolve(res);
         });
     })
+    if(db){
+        let result = await db.collection('user').findOne({id: 'agentUser'});
+        return result.accessToken;
+    }
 };
 
 const diff = (collection) => {
@@ -134,6 +140,7 @@ class DbSyncFunctions {
     async update(filter, update, options) {
         let result = await db.collection(this.collection).update(query, update, options).catch(err => console.error(err));
         if(this.sync) sendUpdate(this.collection, 'update', filter, update, options);
+        let result = await db.collection(this.collection).update(filter, update, options).catch(err => console.error(err));
         return result;
     }
 
@@ -148,12 +155,14 @@ class DbSyncFunctions {
         //let result = await db.collection(this.collection).findOne(query, projection).catch(err => console.error(err));
         let result = await getUpdate(this.collection, 'findOne', query, projection);
         return result;
+        return await db.collection(this.collection).findOne(query, projection).catch(err => console.error(err));
     };
 
     async find(query, projection) {
         // TODO: Sync with microservices
         let result = await db.collection(this.collection).find(query, projection).toArray();
         return result;
+        return await db.collection(this.collection).find(query, projection).toArray();
     };
 
     async count() {
