@@ -132,7 +132,7 @@
     * GET api/orders
     * GET api/orders/{id}
     * POST api/orders/create
-    * POST api/orders/revoke
+    * POST api/orders/revoke/{id}
     * POST api/orders/{id}/{approve}
  # Search microservice model: 
   #### Endpoints: 
