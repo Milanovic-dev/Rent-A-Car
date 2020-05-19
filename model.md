@@ -1,6 +1,6 @@
 # Microservices:
 
-* Auth microservice model
+# Auth microservice model
   ## User
     * id
     * username
@@ -21,7 +21,7 @@
     * POST /api/auth/users/logout
     * POST /api/auth/users/register
     * POST /api/auth/users/update
- * Car microservice model
+ # Car microservice model
     ## Car
       * id
       * make
@@ -65,7 +65,7 @@
       * POST /api/cars/update
       * POST /api/cars/reviews/create
       * POST /api/cars/reviews/update
-  * Mail microservice model
+  # Mail microservice model
     ## Message
     * id
     * sender
@@ -74,7 +74,7 @@
     * date
     * time
     * reply  
-  * Orders microservice model:
+  # Orders microservice model:
     ## Order
     * id
     * carId
@@ -93,7 +93,7 @@
     * text
   #### Endpoints:
   
- * Search microservice model: 
+ # Search microservice model: 
      ## Car
       * id
       * make
