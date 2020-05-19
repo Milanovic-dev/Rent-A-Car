@@ -37,6 +37,18 @@
       * state
       * pricelistId
       * ownerId
+   ## Make
+      * id
+      * name
+   ## Model
+      * id
+      * name
+   ## Fuel
+      * id
+      * name
+   ## Class
+      * id
+      * name
    ## Review
       * id 
       * carId
@@ -65,17 +77,21 @@
       * POST /api/cars/update
       * POST /api/cars/reviews/create
       * POST /api/cars/reviews/update
-  # Mail microservice model
-    ## Message
+  # Message microservice model
+   ## Message
     * id
     * sender
     * receiver
     * message
     * date
     * time
-    * reply  
+    * reply
+   ## Endpoints
+    * GET api/messages
+    * GET api/messages/{id}
+    * POST api/messages/send
   # Orders microservice model:
-    ## Order
+   ## Order
     * id
     * carId
     * ownerId
@@ -86,42 +102,17 @@
     * startLocation
     * endLocation
     * isBundle ?
-    ## Report
+   ## Report
     * orderId 
     * date
     * mileage
     * text
   #### Endpoints:
-  
+    * GET api/orders
+    * GET api/orders/{id}
+    * POST api/orders/create
+    * POST api/orders/revoke
+    * POST api/orders/{id}/{approve}
  # Search microservice model: 
-     ## Car
-      * id
-      * make
-      * brand
-      * class
-      * transmmission
-      * seats
-      * mileage
-      * rating 
-      * ownerId
-      * hasACDW
-      * image
-      * insurance
-      * state
-      * following 
-      * from
-      * to
-      * pricelistId
-    ## Review
-      * id 
-      * userId
-      * rate
-      * commentId
-    ## Pricelist
-      * id
-      * agencyId
-      * pricePerDay
-      * pricePerKm
-      * carId
-      * +ZAUZETOST
-   #### Endpoints: 
+  #### Endpoints: 
+    * POST api/search/cars
