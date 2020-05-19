@@ -22,7 +22,7 @@
     * POST /api/auth/users/register
     * POST /api/auth/users/update
  # Car microservice model
-    ## Car
+   ## Car
       * id
       * make
       * model
