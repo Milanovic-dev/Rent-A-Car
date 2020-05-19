@@ -109,14 +109,52 @@
     * mileage
     * text
     
-  #### Endpoints
-    
-    
-    
-      
-      
-      
-      
-    
+  #### Endpoints:
   
-  
+ * Search microservice model: 
+     ## Car
+      * id
+      * make
+      * brand
+      * class
+      * transmmission
+      * seats
+      * mileage
+      * rating 
+      * ownerId
+      * hasACDW
+      * image
+      * insurance
+      * state
+      * following 
+      * from
+      * to
+      * pricelistId
+    ## Make
+      * id 
+      * name
+    ## Model
+      * id
+      * name
+    ## Class
+      * id
+      * name
+    ## Transmission
+      * id
+      * name
+    ## Fuel
+      * id 
+      * name
+    ## Review
+      * id 
+      * userId
+      * rate
+      * commentId
+    ## Pricelist
+      * id
+      * agencyId
+      * pricePerDay
+      * pricePerKm
+      * carId
+      * +ZAUZETOST
+   #### Endpoints: 
