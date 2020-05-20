@@ -3,7 +3,7 @@ const dotenv = require('dotenv');
 dotenv.config();
 //database
 const dbConnect = require('../../db');
-const dbCollection = 'orders';
+const dbCollection = 'make';
 let db;
 dbConnect(process.env.DB_USERNAME, process.env.DB_PASSWORD, process.env.DB_SERVER, process.env.DB_NAME)
 .then((conn) => {
@@ -12,11 +12,11 @@ dbConnect(process.env.DB_USERNAME, process.env.DB_PASSWORD, process.env.DB_SERVE
     console.log(`DB error: ${e}`);
 })
 
-const createOrder = async (order) => {
+const createMake = async (make) => {
     
-  if(order == undefined) return { status: 400 }; 
+  if(make == undefined) return { status: 400 }; 
 
-  let result = await db.collection(dbCollection).insertOne(order);
+  let result = await db.collection(dbCollection).insertOne(make);
   if(result.insertedId)
   {
       return {
@@ -28,7 +28,39 @@ const createOrder = async (order) => {
   return { status: 500 };
 };
 
-const removeOrder = async (id) => {
+const updateMake = async (make) => {
+
+  if(make == undefined) return { status: 400 }; 
+
+  let dbMake = await db.collection(dbCollection).findOne(
+      {
+          _id: ObjectID(make._id)
+      }
+  );
+
+  if(!dbMake){
+      return { status:404 };
+  }
+
+  let result = await db.collection(dbCollection).updateOne(
+      {
+          _id : ObjectID(make._id)
+      },
+      {
+          $set: {
+              name: make.name
+          }
+      }
+  );
+
+  if(result.modifiedCount == 1){
+      return { status:200 };
+  }
+
+  return { status: 404 };
+};
+
+const removeMake = async (id) => {
   let result = await db.collection(dbCollection).deleteOne(
       {
           _id: ObjectID(id)
@@ -42,7 +74,8 @@ const removeOrder = async (id) => {
   return { status: 404 };
 };
 
-const getOrder = async (id) => {
+
+const getMake = async (id) => {
   let result = await db.collection(dbCollection).findOne(
       {
           _id: ObjectID(id)
@@ -57,7 +90,7 @@ const getOrder = async (id) => {
   }
 
   return { status: 404 };
-}
+};
 
 const getAll = async () => {
   let result = await db.collection(dbCollection).find().toArray();
@@ -68,42 +101,10 @@ const getAll = async () => {
   };
 };
 
-const approveOrder = async (id, approved) => {
-
-    if(id == undefined) return { status: 400 }; 
-  
-    let dbOrder = await db.collection(dbCollection).findOne(
-        {
-            _id: ObjectID(id)
-        }
-    );
-  
-    if(!dbOrder){
-        return { status:404 };
-    }
-  
-    let result = await db.collection(dbCollection).updateOne(
-        {
-            _id : ObjectID(id)
-        },
-        {
-            $set: {
-                approved: approved
-            }
-        }
-    );
-  
-    if(result.modifiedCount == 1){
-        return { status:200 };
-    }
-  
-    return { status: 404 };
-  };
-
 module.exports = {
-  create: createOrder,
-  remove: removeOrder,
-  approve: approveOrder,
-  get: getOrder,
+  create: createMake,
+  update: updateMake,
+  remove: removeMake,
+  get: getMake,
   getAll
 };

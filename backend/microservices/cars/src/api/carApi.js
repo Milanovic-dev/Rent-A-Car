@@ -43,5 +43,4 @@ module.exports = function(app){
         let result = await service.getAll();
         res.status(result.status).send(result.response);
     });
-
 };
