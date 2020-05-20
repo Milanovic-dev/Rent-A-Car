@@ -57,6 +57,51 @@ const getToken = async () => {
     }
 };
 
+const getUpdate = async (query, projection, collectionName, action) => {
+    return new Promise(async (resolve, reject) => {
+        let client = await soap.createClientAsync('http://localhost:8080/api/webhook/getWsdl', {});
+        let token = await getToken();
+        client.addSoapHeader(`<AuthToken>${token}</AuthToken>`)
+
+        let dbResult = await db.collection(collectionName).find(query, projection).sort({_id: 1}).toArray();
+        let diffData = [];
+
+        for(let item of dbResult){
+            diffData.push({_id:item._id, version:item.version});
+        }
+        
+        if(diffData.length == 0){
+            diffData = [{}];
+        }
+
+        client.GetUpdate({collectionName: collectionName, action, filter: JSON.stringify(query), diffData}, async (err, res) => {
+            if(err){
+                console.error(err);
+                reject(err);
+            }
+            let ret;
+            const result = JSON.parse(res);
+            console.log(result);
+            if(result.status == '200'){
+                if(result.update){
+                    for(let insert of result.update.toInsert){
+                        await db.collection(collectionName).insertOne(insert);
+                    }
+                    for(let replacement of result.update.toReplace){
+                        await db.collection(collectionName).replaceOne({_id: replacement._id}, replacement);
+                    }
+                    ret = await db.collection(collectionName).find(query, projection).toArray();
+                    resolve(ret);
+                }
+                else
+                {
+                    resolve(dbResult)
+                }
+            }
+        })
+    });
+};
+
 
 class DbSyncFunctions {
     constructor(collection, sync){
@@ -85,13 +130,12 @@ class DbSyncFunctions {
     };
 
     async findOne(query, projection) {
-        // TODO: Sync with microservices
+    
         return await db.collection(this.collection).findOne(query, projection).catch(err => console.error(err));
     };
 
     async find(query, projection) {
-        // TODO: Sync with microservices
-        return await db.collection(this.collection).find(query, projection).toArray();
+        return await getUpdate(query, projection, this.collection, 'find');
     };
 
     async count() {

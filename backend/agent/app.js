@@ -48,6 +48,7 @@ soapService.getClient().then(soapClient => {
             if(res.accessToken){
                 db.saveToken(res.accessToken);
                 console.log(`${res.status}: Successfully subscribed to Webhook`);
+
             }
             else
             {
@@ -72,14 +73,10 @@ app.get('/getWsdl', async (req, res) => {
     res.send(wsdl);
 });
 
-app.post('/test', async (req, res) => {
-    let client = await soapService.getClient();
-    client.SendRequest({path: '/api/auth/users', httpMethod: 'get'}, (err, result) => {
-        if(err){
-            console.error(err);
-        }
 
-        console.log(result);
-        res.status(result.status).send(result.update);
-    });
+app.post('/test', async (req, res) => {
+    console.time();
+    let result = await db.collection('cars').find();
+    console.timeEnd();
+    res.json(result);
 });

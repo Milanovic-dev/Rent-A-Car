@@ -112,6 +112,73 @@ const sendRequest = async({path, httpMethod, body}, soapHeader) => {
     return ret;
 }
 
+const getUpdate = async ({collectionName, action, filter, diffData}, soapHeader) => {
+    let verifyResult = await verifyToken(soapHeader.AuthToken);
+    let ret = {
+        collectionName,
+        action,
+        status: '200'
+    }
+
+    if(verifyResult == ('400' || '401')) {
+        ret.status = verifyResult;
+        ret.message = 'Unauthorized. Invalid token';
+        return ret;
+    } 
+
+    if(!diffData) diffData = [];
+    let diffResult = await diff(collectionName, verifyResult.username, filter, diffData);
+
+
+    if(diffResult){
+        if(diffResult.toInsert.length == 0 && diffResult.toReplace.length == 0){
+            ret.message = 'Nothing to update';
+            return ret;
+        }
+        else
+        {
+            ret.message = `${diffResult.toReplace.length + diffResult.toInsert.length} things to update.`;
+            ret.update = diffResult
+            return ret;
+        }
+    }
+
+    ret.status = 500;
+    ret.message = 'Something went wrong.';
+    return ret;
+};
+
+
+const diff = async (collectionName, username, filter, agentDocuments) => {
+
+    const query = {};
+    if(filter) {
+        query = JSON.parse(filter);
+    }
+    
+    query['ownerId'] = username;
+    let serviceDocuments = await db.collection(collectionName).find(query).sort({_id: 1}).toArray();
+
+    let ret = {
+        toInsert: [],
+        toReplace: []
+    };
+
+    for(let i = 0 ; i < serviceDocuments.length ; i++){
+        if(i < agentDocuments.length){
+            if(agentDocuments[i].version < serviceDocuments[i].version){
+                ret.toReplace.push(serviceDocuments[i]);
+            }
+        }
+        else
+        {
+            ret.toInsert.push(serviceDocuments[i]);
+        }
+    }   
+    
+    return ret;
+};
+
 const verifyToken = async (token) => {
     
     if(!token) return '400';
@@ -132,5 +199,6 @@ const verifyToken = async (token) => {
 module.exports = {
     subscribeAgent,
     synchronize,
-    sendRequest
+    sendRequest,
+    getUpdate
 }
