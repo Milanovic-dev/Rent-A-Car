@@ -37,12 +37,14 @@
       * state
       * pricelistId
       * ownerId
+      * busyTimeline
    ## Make
       * id
       * name
    ## Model
       * id
       * name
+      * modelId
    ## Fuel
       * id
       * name
