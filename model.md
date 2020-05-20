@@ -139,3 +139,13 @@
  # Search microservice model: 
   #### Endpoints: 
     * POST api/search/cars
+ # Tracking microservice model:
+  ## Location
+    * carId
+    * renterId
+    * ownerId
+    * coordinated
+    * timestamp
+  #### Endpoints:
+    * POST api/tracking/{carId}
+    * POST api/tracking/{carId}/track
