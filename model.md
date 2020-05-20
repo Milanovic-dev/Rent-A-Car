@@ -144,7 +144,7 @@
     * carId
     * renterId
     * ownerId
-    * coordinated
+    * coordinates
     * timestamp
   #### Endpoints:
     * POST api/tracking/{carId}
