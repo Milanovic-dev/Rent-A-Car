@@ -46,6 +46,9 @@ dbConnect(process.env.DB_USERNAME, process.env.DB_PASSWORD, process.env.DB_SERVE
         const pass = bcrypt.hashSync('agent', 10);
         db.collection('agents').insertOne({username:"AgentAdmin", password: pass});
     }
+
+    await db.collection('cars').insertOne({id: 1, ownerId:'AgentAdmin', make:"Audi", model:"A4", version:1});
+    await db.collection('cars').insertOne({id: 2, ownerId:'AgentAdmin', make:'Merc', model:'E220', version:1});
 }).catch((e) => {
     console.log(`DB error: ${e}`);
 })
@@ -53,4 +56,15 @@ dbConnect(process.env.DB_USERNAME, process.env.DB_PASSWORD, process.env.DB_SERVE
 app.get('/testBase', async (req, res) => {
     let result = await db.collection('cars').find().toArray();
     res.json(result);
+});
+
+app.post('/insert', async(req, res) => {
+    let result = await db.collection('cars').insertOne(req.body);
+    console.log(result.insertedId);
+    res.send('done');
+});
+
+app.post('/update/:id', async(req, res) => {
+    let result = await db.collection('cars').updateOne({_id: require('mongodb').ObjectID(req.params.id)}, {$inc: {version:1}});
+    res.send('done');
 });

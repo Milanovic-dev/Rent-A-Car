@@ -65,6 +65,27 @@
                 </xsd:complexType>
             </xsd:element>
 
+            <xsd:element name="UpdateRequest">
+                <xsd:complexType>
+                    <xsd:all>
+                        <xsd:element name="collectionName" nillable="false" type="string" />
+                        <xsd:element name="action" nillable="false" type="string" />
+                        <xsd:element minOccurs="0" name="filter" nillable="true" type="string" />
+                        <xsd:sequence>
+                            <xsd:element minOccurs="0" name="diffData" nillable="true" type="string" />
+                        </xsd:sequence>
+                    </xsd:all>
+                </xsd:complexType>
+            </xsd:element>
+
+            <xsd:element name="UpdateResponse">
+                <xsd:complexType>
+                    <xsd:all>
+                        <xsd:element minOccurs="0" name="document" nillable="false" type="string" />
+                    </xsd:all>
+                </xsd:complexType>
+            </xsd:element>
+
         </xsd:schema>
     </wsdl:types>
 
@@ -92,6 +113,14 @@
         <wsdl:part name="body" element="xsd1:APIResponse" />
     </wsdl:message>
 
+    <wsdl:message name="UpdateRequestInput">
+        <wsdl:part name="body" element="xsd1:UpdateRequest" />
+    </wsdl:message>
+
+    <wsdl:message name="UpdateRequestOutput">
+        <wsdl:part name="body" element="xsd1:UpdateResponse" />
+    </wsdl:message>
+
    
 
     <wsdl:portType name="WebhookPort">
@@ -106,6 +135,10 @@
         <wsdl:operation name="SendRequest">
             <wsdl:input message="tns:APIRequestInput" />
             <wsdl:output message="tns:APIRequestOutput" />
+        </wsdl:operation>
+        <wsdl:operation name="GetUpdate">
+            <wsdl:input message="tns:UpdateRequestInput" />
+            <wsdl:output message="tns:UpdateRequestOutput" />
         </wsdl:operation>
     </wsdl:portType>
 
@@ -133,6 +166,16 @@
 
         <wsdl:operation name="SendRequest">
             <soap:operation soapAction="http://localhost:4000/SendRequest" />
+            <wsdl:input>
+                <soap:body use="literal" />
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal" />
+            </wsdl:output>
+        </wsdl:operation>
+
+        <wsdl:operation name="GetUpdate">
+            <soap:operation soapAction="http://localhost:4000/GetUpdate" />
             <wsdl:input>
                 <soap:body use="literal" />
             </wsdl:input>
