@@ -21,6 +21,7 @@
     * POST /api/auth/users/login
     * POST /api/auth/users/register
     * POST /api/auth/users/update
+    * POST /api/auth/users/role/update
  # Car microservice model
    ## Car
       * id
