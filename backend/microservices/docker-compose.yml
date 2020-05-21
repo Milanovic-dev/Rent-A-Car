@@ -54,14 +54,17 @@ services:
             - gateway
         environment: 
             - MONGO_DB_URI=mongoDB://db/microservices
-            
-    mail:
-        build: './mail'
+    
+    message:
+        build: './message'
         ports:
-             - "4005:4000"
-        logging:
-             driver: none 
-             
+            - "4005:4000"
+        depends_on: 
+            - db
+            - gateway
+        environment: 
+            - MONGO_DB_URI=mongoDB://db/microservices
+        
     gateway:
         build: './gateway'
         ports:

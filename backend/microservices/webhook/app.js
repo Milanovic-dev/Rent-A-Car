@@ -47,8 +47,14 @@ dbConnect(process.env.DB_USERNAME, process.env.DB_PASSWORD, process.env.DB_SERVE
         db.collection('agents').insertOne({username:"AgentAdmin", password: pass});
     }
 
-    await db.collection('cars').insertOne({id: 1, ownerId:'AgentAdmin', make:"Audi", model:"A4", version:1});
-    await db.collection('cars').insertOne({id: 2, ownerId:'AgentAdmin', make:'Merc', model:'E220', version:1});
+    await db.collection('cars').insertOne({ownerId:'AgentAdmin', make:"Audi", model:"A8", version:2});
+    await db.collection('cars').insertOne({ownerId:'AgentAdmin', make:'Merc', model:'E220', version:1});
+    await db.collection('cars').insertOne({ownerId:'AgentAdmin', make:'Merc', model:'A', version:1});
+    await db.collection('cars').insertOne({ownerId:'AgentAdmin', make:'Merc', model:'C', version:1});
+    await db.collection('cars').insertOne({ownerId:'AgentAdmin', make:'Merc', model:'S', version:1});
+    await db.collection('cars').insertOne({ownerId:'AgentAdmin', make:'Merc', model:'G', version:1});
+    await db.collection('cars').insertOne({ownerId:'AgentAdmin', make:'Merc', model:'CLS', version:1});
+    await db.collection('cars').insertOne({ownerId:'AgentAdmin', make:'Merc', model:'GLE', version:1});
 }).catch((e) => {
     console.log(`DB error: ${e}`);
 })

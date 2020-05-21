@@ -2,6 +2,7 @@ const MongoClient = require('mongodb').MongoClient;
 const isDocker = require('is-docker');
 const soapService = require('./src/soap/soapService');
 const soap = require('soap');
+const colors = require('colors');
 var connection;
 var db;
 var soapClient;
@@ -73,24 +74,24 @@ const getUpdate = async (query, projection, collectionName, action) => {
         if(diffData.length == 0){
             diffData = [{}];
         }
-
+        
         client.GetUpdate({collectionName: collectionName, action, filter: JSON.stringify(query), diffData}, async (err, res) => {
             if(err){
                 console.error(err);
                 reject(err);
             }
-            let ret;
+
             const result = JSON.parse(res);
-            console.log(result);
+            console.log(`Sync: ${result.message}`.yellow);
+
             if(result.status == '200'){
                 if(result.update){
-                    for(let insert of result.update.toInsert){
-                        await db.collection(collectionName).insertOne(insert);
+                    console.log('Syncing...');
+                    for(let replacement of result.update){
+                        await db.collection(collectionName).replaceOne({_id: replacement._id}, replacement, {upsert: true});
                     }
-                    for(let replacement of result.update.toReplace){
-                        await db.collection(collectionName).replaceOne({_id: replacement._id}, replacement);
-                    }
-                    ret = await db.collection(collectionName).find(query, projection).toArray();
+                    console.log('Done.');
+                    const ret = await db.collection(collectionName).find(query, projection).toArray();
                     resolve(ret);
                 }
                 else
@@ -129,9 +130,14 @@ class DbSyncFunctions {
         return result;
     };
 
-    async findOne(query, projection) {
-    
-        return await db.collection(this.collection).findOne(query, projection).catch(err => console.error(err));
+    async findOne(query, projection) {    
+        const result = await getUpdate(query, projection, this.collection, 'findOne');
+
+        if(result){
+            return result[0];
+        }
+
+        return null;
     };
 
     async find(query, projection) {
