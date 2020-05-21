@@ -131,13 +131,13 @@ const getUpdate = async ({collectionName, action, filter, diffData}, soapHeader)
 
 
     if(diffResult){
-        if(diffResult.toInsert.length == 0 && diffResult.toReplace.length == 0){
+        if(diffResult.length == 0){
             ret.message = 'Nothing to update';
             return ret;
         }
         else
         {
-            ret.message = `${diffResult.toReplace.length + diffResult.toInsert.length} things to update.`;
+            ret.message = `${diffResult.length} things to update.`;
             ret.update = diffResult
             return ret;
         }
@@ -159,20 +159,17 @@ const diff = async (collectionName, username, filter, agentDocuments) => {
     query['ownerId'] = username;
     let serviceDocuments = await db.collection(collectionName).find(query).sort({_id: 1}).toArray();
 
-    let ret = {
-        toInsert: [],
-        toReplace: []
-    };
+    let ret = [];
 
     for(let i = 0 ; i < serviceDocuments.length ; i++){
         if(i < agentDocuments.length){
             if(agentDocuments[i].version < serviceDocuments[i].version){
-                ret.toReplace.push(serviceDocuments[i]);
+                ret.push(serviceDocuments[i]);
             }
         }
         else
         {
-            ret.toInsert.push(serviceDocuments[i]);
+            ret.push(serviceDocuments[i]);
         }
     }   
     

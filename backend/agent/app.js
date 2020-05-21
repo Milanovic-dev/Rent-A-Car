@@ -44,7 +44,7 @@ soapService.getClient().then(soapClient => {
                 console.error(err);
                 return;
             }
-            
+            //db.getDb().dropDatabase();
             if(res.accessToken){
                 db.saveToken(res.accessToken);
                 console.log(`${res.status}: Successfully subscribed to Webhook`);
@@ -75,8 +75,13 @@ app.get('/getWsdl', async (req, res) => {
 
 
 app.post('/test', async (req, res) => {
-    console.time();
     let result = await db.collection('cars').find();
+    res.json(result);
+});
+
+app.get('/testOne', async (req, res) => {
+    console.time();
+    let result = await db.collection('cars').findOne({_id: require('mongodb').ObjectID('5ec500acbf441d0020c5108b')});
     console.timeEnd();
     res.json(result);
 });
