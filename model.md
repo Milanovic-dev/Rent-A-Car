@@ -18,7 +18,6 @@
     * GET /api/auth/users/{id}
     * PATCH /api/auth/users/status/{id}
     * POST /api/auth/users/login
-    * POST /api/auth/users/logout
     * POST /api/auth/users/register
     * POST /api/auth/users/update
  # Car microservice model
