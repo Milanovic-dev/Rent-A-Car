@@ -3,7 +3,7 @@ const dotenv = require('dotenv');
 dotenv.config();
 //database
 const dbConnect = require('../../db');
-const dbCollection = 'makes';
+const dbCollection = 'reviews';
 let db;
 dbConnect(process.env.DB_USERNAME, process.env.DB_PASSWORD, process.env.DB_SERVER, process.env.DB_NAME)
 .then((conn) => {
@@ -12,11 +12,11 @@ dbConnect(process.env.DB_USERNAME, process.env.DB_PASSWORD, process.env.DB_SERVE
     console.log(`DB error: ${e}`);
 })
 
-const createMake = async (make) => {
-    
-  if(make == undefined) return { status: 400 }; 
+const createReview = async (review) => {
 
-  let result = await db.collection(dbCollection).insertOne(make);
+  if(!review) return { status: 400 };
+
+  let result = await db.collection(dbCollection).insertOne(review);
   if(result.insertedId)
   {
       return {
@@ -28,39 +28,24 @@ const createMake = async (make) => {
   return { status: 500 };
 };
 
-const updateMake = async (make) => {
-
-  if(make == undefined) return { status: 400 }; 
-
-  let dbMake = await db.collection(dbCollection).findOne(
+const getReview = async (id) => {
+  let result = await db.collection(dbCollection).findOne(
       {
-          _id: ObjectID(make._id)
+          _id: ObjectID(id)
       }
   );
 
-  if(!dbMake){
-      return { status:404 };
-  }
-
-  let result = await db.collection(dbCollection).updateOne(
-      {
-          _id : ObjectID(make._id)
-      },
-      {
-          $set: {
-              name: make.name
-          }
-      }
-  );
-
-  if(result.modifiedCount == 1){
-      return { status:200 };
+  if(result){
+      return {
+          response: result,
+          status: 200
+      };
   }
 
   return { status: 404 };
 };
 
-const removeMake = async (id) => {
+const removeReview= async (id) => {
   let result = await db.collection(dbCollection).deleteOne(
       {
           _id: ObjectID(id)
@@ -74,13 +59,12 @@ const removeMake = async (id) => {
   return { status: 404 };
 };
 
-
-const getMake = async (id) => {
-  let result = await db.collection(dbCollection).findOne(
+const getAllPending = async () => {
+  let result = await db.collection(dbCollection).findAll(
       {
-          _id: ObjectID(id)
+          status: 'pending'
       }
-  );
+  ).toArray();
 
   if(result){
       return {
@@ -102,9 +86,9 @@ const getAll = async () => {
 };
 
 module.exports = {
-  create: createMake,
-  update: updateMake,
-  remove: removeMake,
-  get: getMake,
+  create: createReview,
+  pending: getAllPending,
+  get: getReview,
+  remove: removeReview,
   getAll
 };
