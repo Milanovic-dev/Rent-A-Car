@@ -72,11 +72,17 @@
       * GET /api/cars
       * GET /api/cars/{id}
       * GET /api/cars/pricelists/{id}
+      * POST /api/cars/pricelist/create
+      * PUT /api/cars/pricelist/update
+      * DELETE /api/cars/pricelist/remove/{id}
+      * GET /api/cars/pricelist/all 
       * GET /api/cars/stats
       * GET /api/cars/stats/{id}
       * GET /api/cars/reviews
       * GET /api/cars/reviews/{id}
+      * POST /api/cars/review/create
       * GET /api/cars/reviews/pending
+      * DELETE /api/cars/review/remove/{id}
       * GET /api/cars/make
       * GET /api/cars/make/{id}
       * GET /api/cars/models
