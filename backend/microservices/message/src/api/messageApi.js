@@ -2,7 +2,7 @@ const service = require('../service/messageService');
 
 module.exports = function(app){
 
-    app.get('/messages/:id', async (req, res) => {
+    app.get('/api/messages/:id', async (req, res) => {
         console.log(req.method + req.route.path);
 
         if(!req.params.id) return res.status('400');
@@ -11,7 +11,7 @@ module.exports = function(app){
         res.status(result.status).send(result.response);
     });
     
-    app.post('/messages/sent', async (req, res) => {
+    app.post('/api/messages/sent', async (req, res) => {
       console.log(req.method + req.route.path);
 
       if(!req.body) return res.status('400');
@@ -20,7 +20,7 @@ module.exports = function(app){
       res.status(result.status).send(result.response);
   });
 
-    app.delete('/messages/remove/:id', async (req, res) => {
+    app.delete('/api/messages/remove/:id', async (req, res) => {
         console.log(req.method + req.route.path);
 
         if(!req.params.id) return res.status('400');
@@ -29,10 +29,10 @@ module.exports = function(app){
         res.status(result.status).send(result.response);
     });
 
-    app.get('/messages', async (req, res) => {
+    app.get('/api/messages', async (req, res) => {
         console.log(req.method + req.route.path);
         let result = await service.getAll();
         res.status(result.status).send(result.response);
     });
-
+    
 };

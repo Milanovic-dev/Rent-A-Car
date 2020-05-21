@@ -2,7 +2,7 @@ const service = require('../service/classService');
 
 module.exports = function(app){
 
-    app.get('/cars/class/:id', async (req, res) => {
+    app.get('/api/cars/class/:id', async (req, res) => {
         console.log(req.method + req.route.path);
 
         if(!req.params.id) return res.status('400');
@@ -11,7 +11,7 @@ module.exports = function(app){
         res.status(result.status).send(result.response);
     });
 
-    app.post('/cars/class/create', async (req, res) => {
+    app.post('/api/cars/class/create', async (req, res) => {
         console.log(req.method + req.route.path);
 
         if(!req.body) return res.status('400');
@@ -20,7 +20,7 @@ module.exports = function(app){
         res.status(result.status).send(result.response);
     });
 
-    app.post('/cars/class/update', async (req, res) => {
+    app.post('/api/cars/class/update', async (req, res) => {
         console.log(req.method + req.route.path);
 
         if(!req.body) return res.status('400');
@@ -29,7 +29,7 @@ module.exports = function(app){
         res.status(result.status).send(result.response);
     });
 
-    app.delete('/cars/class/remove/:id', async (req, res) => {
+    app.delete('/api/cars/class/remove/:id', async (req, res) => {
         console.log(req.method + req.route.path);
 
         if(!req.params.id) return res.status('400');
@@ -38,7 +38,7 @@ module.exports = function(app){
         res.status(result.status).send(result.response);
     });
 
-    app.get('/cars/class', async (req, res) => {
+    app.get('/api/cars/class', async (req, res) => {
         console.log(req.method + req.route.path);
         let result = await service.getAll();
         res.status(result.status).send(result.response);
