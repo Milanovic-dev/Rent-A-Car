@@ -48,7 +48,8 @@ soapService.getClient().then(soapClient => {
             if(res.accessToken){
                 db.saveToken(res.accessToken);
                 console.log(`${res.status}: Successfully subscribed to Webhook`);
-
+                db.collection('cars').find();
+                db.collection('agents').find();
             }
             else
             {
