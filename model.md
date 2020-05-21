@@ -13,10 +13,18 @@
     * email
     * role
     * active
+    * permissions
+   ## Permission
+    * id
+    * name
   #### REST Endpoints:
     * GET /api/auth/users
     * GET /api/auth/users/{id}
     * GET /api/auth/users/{role}
+    * GET /api/auth/users/{id}/permissions
+    * GET /api/auth/users/permissions
+    * POST /api/auth/users/{id}/permissions/update
+    * POST /api/auth/users/permissions/create
     * PATCH /api/auth/users/status/{id}
     * POST /api/auth/users/login
     * POST /api/auth/users/register
