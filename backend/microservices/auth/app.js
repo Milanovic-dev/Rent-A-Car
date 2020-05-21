@@ -19,7 +19,7 @@ app.get('/', (req, res) => {
     res.send('This is auth service');
 });
 
-app.get('/login', async (req, res) => {
+app.post('/login', async (req, res) => {
     const result = await service.login(req.body.username, req.body.password);
     if(res.status == 200){
         res.cookie('auth', result.response);
@@ -31,11 +31,27 @@ app.get('/users', async (req, res) => {
     const result = await service.users();
     res.status(result.status).send(result.response);
 });
+app.get('/users/:id', async (req, res) => {
+    // let id = res.locals.id;
+    const result = await service.user(req.params.id);
+    res.status(result.status).send(result.response);
+});
+app.post('/users/update', async (req, res) => {
+    let id = res.locals.id;
+    const result = await service.update(id, req.body);
+    res.status(result.status).send(result.response);
+});
+app.post('/users/status/:id', async (req, res) => {
+    let uid = res.locals.id;
+    const result = await service.setStatus(uid, req.params.id, req.body);
+    res.status(result.status).send(result.response);
+});
 
 app.post('/register', async (req, res) => {
     const result = await service.register(req.body);
     res.status(result.status).send(result.response);
 });
+
 
 app.get('/test/authapi', async (req, res) => {
     res.status('Found cars api');
