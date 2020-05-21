@@ -1,8 +1,8 @@
 # Rent-A-Car
 Online car rental service made using XML, REST, SOAP and Docker with Microservice Arhitecture
 
-frontend: React redux
-backend: NodeJS & MongoDB
+* frontend: React redux
+* backend: NodeJS & MongoDB
 
 ## Microservices Backend
 
