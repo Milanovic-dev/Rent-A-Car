@@ -52,6 +52,21 @@ app.post('/register', async (req, res) => {
     res.status(result.status).send(result.response);
 });
 
+app.get('/users/:id/permissions', async (req, res) => {
+
+});
+
+app.get('/users/permissions', async (req, res) => {
+
+});
+
+app.post('/users/permissions/create', async (req, res) => {
+
+});
+
+app.post('/users/:id/permissions/update', async (req, res) => {
+
+});
 
 app.get('/test/authapi', async (req, res) => {
     res.status('Found cars api');

@@ -2,7 +2,7 @@ const service = require('../service/reviewService');
 
 module.exports = function(app) {
 
-    app.get('/api/cars/review/get/:id', async (req, res) => {
+    app.get('/review/get/:id', async (req, res) => {
         console.log(req.method + req.route.path);
         
         if(!req.params.id) return res.status('400');
@@ -11,7 +11,7 @@ module.exports = function(app) {
         res.status(result.status).send(result.response);
     });
 
-    app.post('/api/cars/review/create', async (req, res) => {
+    app.post('/review/create', async (req, res) => {
         console.log(req.method + req.route.path);
 
         if(!req.body) return res.status('400');
@@ -21,7 +21,7 @@ module.exports = function(app) {
     });
 
 
-    app.get('/api/cars/review/pending/:id', async (req, res) => {
+    app.get('/review/pending/:id', async (req, res) => {
       console.log(req.method + req.route.path);
       
       if(!req.params.id) return res.status('400');
@@ -30,7 +30,7 @@ module.exports = function(app) {
       res.status(result.status).send(result.response);
     });
 
-    app.delete('/api/cars/review/remove/:id', async (req, res) => {
+    app.delete('/review/remove/:id', async (req, res) => {
         console.log(req.method + req.route.path);
 
         if(!req.params.id) return res.status('400');
@@ -39,7 +39,7 @@ module.exports = function(app) {
         res.status(result.status).send(result.response);
     });
 
-    app.get('/api/cars/reviews', async (req, res) => {
+    app.get('/reviews', async (req, res) => {
         console.log(req.method + req.route.path);
         let result = await service.getAll();
         res.status(result.status).send(result.response);
