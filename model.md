@@ -16,6 +16,7 @@
   #### REST Endpoints:
     * GET /api/auth/users
     * GET /api/auth/users/{id}
+    * GET /api/auth/users/{role}
     * PATCH /api/auth/users/status/{id}
     * POST /api/auth/users/login
     * POST /api/auth/users/register
