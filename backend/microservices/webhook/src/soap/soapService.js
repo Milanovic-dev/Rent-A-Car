@@ -1,7 +1,7 @@
 const fs = require('fs');
 const soap = require('soap');
 const jwt = require('jsonwebtoken');
-
+const colors = require('colors');
 const { subscribeAgent, synchronize, sendRequest, getUpdate } = require('../service');
 
 const xml = fs.readFileSync('service.wsdl', 'utf8');

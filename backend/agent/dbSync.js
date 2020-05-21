@@ -63,7 +63,6 @@ const getUpdate = async (query, projection, collectionName, action) => {
         let client = await soap.createClientAsync('http://localhost:8080/api/webhook/getWsdl', {});
         let token = await getToken();
         client.addSoapHeader(`<AuthToken>${token}</AuthToken>`)
-
         let dbResult = await db.collection(collectionName).find(query, projection).sort({_id: 1}).toArray();
         let diffData = [];
 
@@ -82,16 +81,16 @@ const getUpdate = async (query, projection, collectionName, action) => {
             }
 
             const result = JSON.parse(res);
-            console.log(`Sync: ${result.message}`.yellow);
-
+            
+            console.log(`Sync[${result.collectionName}]: ${result.message}`.yellow);
             if(result.status == '200'){
                 if(result.update){
-                    console.log('Syncing...');
+                    console.log('Syncing...'.yellow);
                     for(let replacement of result.update){
                         await db.collection(collectionName).replaceOne({_id: replacement._id}, replacement, {upsert: true});
                     }
-                    console.log('Done.');
                     const ret = await db.collection(collectionName).find(query, projection).toArray();
+                    console.log('Done'.green);
                     resolve(ret);
                 }
                 else

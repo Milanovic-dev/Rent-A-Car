@@ -1,7 +1,7 @@
 {
-  "name": "webhook",
+  "name": "tracking",
   "version": "1.0.0",
-  "description": "Webhook with SOAP",
+  "description": "",
   "main": "app.js",
   "scripts": {
     "start": "nodemon --quiet app.js",
@@ -10,20 +10,18 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "bcrypt": "^4.0.1",
     "body-parser": "^1.19.0",
     "colors": "^1.4.0",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
+    "express-fileupload": "^1.1.7-alpha.3",
     "http": "0.0.1-security",
-    "internal-ip": "^6.0.0",
     "is-docker": "^2.0.0",
-    "jsonwebtoken": "^8.5.1",
     "mongodb": "^3.5.7",
     "node-fetch": "^2.6.0",
     "nodemon": "^2.0.3",
-    "pusher": "^3.0.1",
+    "performance": "^1.4.0",
     "soap": "^0.31.0",
     "strong-soap": "^2.0.0"
   }

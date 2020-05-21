@@ -5,6 +5,7 @@ const bcrypt = require('bcrypt');
 const ObjectID = require('mongodb').ObjectID;
 const fetch = require('node-fetch');
 const dbConnect = require('../db');
+const colors = require('colors');
 let db;
 dbConnect(process.env.DB_USERNAME, process.env.DB_PASSWORD, process.env.DB_SERVER, process.env.DB_NAME)
 .then((conn) => {
@@ -127,8 +128,8 @@ const getUpdate = async ({collectionName, action, filter, diffData}, soapHeader)
     } 
 
     if(!diffData) diffData = [];
-    let diffResult = await diff(collectionName, verifyResult.username, filter, diffData);
 
+    let diffResult = await diff(collectionName, verifyResult.username, filter, diffData);
 
     if(diffResult){
         if(diffResult.length == 0){
@@ -143,7 +144,7 @@ const getUpdate = async ({collectionName, action, filter, diffData}, soapHeader)
         }
     }
 
-    ret.status = 500;
+    ret.status = '500';
     ret.message = 'Something went wrong.';
     return ret;
 };

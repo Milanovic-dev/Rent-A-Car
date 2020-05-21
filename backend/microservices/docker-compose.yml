@@ -64,6 +64,26 @@ services:
             - gateway
         environment: 
             - MONGO_DB_URI=mongoDB://db/microservices
+    
+    search:
+        build: './search'
+        ports:
+            - "4006:4000"
+        depends_on: 
+            - db
+            - gateway
+        environment: 
+            - MONGO_DB_URI=mongoDB://db/microservices
+
+    tracking:
+        build: './tracking'
+        ports:
+            - "4007:4000"
+        depends_on: 
+            - db
+            - gateway
+        environment: 
+            - MONGO_DB_URI=mongoDB://db/microservices
         
     gateway:
         build: './gateway'
