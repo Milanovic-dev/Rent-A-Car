@@ -56,6 +56,7 @@
       * carId
       * rate
       * comments
+      * status
    ## Comment
       * id
       * userId
@@ -75,30 +76,31 @@
       * GET /api/cars/stats/{id}
       * GET /api/cars/reviews
       * GET /api/cars/reviews/{id}
+      * GET /api/cars/reviews/pending
+      * GET /api/cars/make
+      * GET /api/cars/make/{id}
+      * GET /api/cars/models
+      * GET /api/cars/models/{id}
+      * GET /api/cars/fuels
+      * GET /api/cars/fuels/{id}
+      * GET /api/cars/class
+      * GET /api/cars/class/{id}
       * POST /api/cars/create
       * POST /api/cars/update
       * POST /api/cars/reviews/create
       * POST /api/cars/reviews/update
       * POST /api/cars/make/create
       * POST /api/cars/make/update
-      * DELETE /api/cars/make/remove/{id}
-      * GET /api/cars/make
-      * GET /api/cars/make/{id}
       * POST /api/cars/models/create
       * POST /api/cars/models/update
-      * DELETE /api/cars/models/remove/{id}
-      * GET /api/cars/models
-      * GET /api/cars/models/{id}
       * POST /api/cars/fuels/create
       * POST /api/cars/fuels/update
-      * DELETE /api/cars/fuels/remove/{id}
-      * GET /api/cars/fuels
-      * GET /api/cars/fuels/{id}
       * POST /api/cars/class/create
       * POST /api/cars/class/update
+      * DELETE /api/cars/models/remove/{id}
       * DELETE /api/cars/class/remove/{id}
-      * GET /api/cars/class
-      * GET /api/cars/class/{id}
+      * DELETE /api/cars/make/remove/{id}
+      * DELETE /api/cars/fuels/remove/{id}
   # Message microservice model
    ## Message
     * id
@@ -125,6 +127,9 @@
     * startLocation
     * endLocation
     * isBundle ?
+   ## OrderBundle
+    * id
+    * cars
    ## Report
     * orderId 
     * date
@@ -133,6 +138,8 @@
   #### Endpoints:
     * GET api/orders
     * GET api/orders/{id}
+    * GET api/orders/bundles
+    * GET api/orders/bundles/{id}
     * POST api/orders/create
     * POST api/orders/revoke/{id}
     * POST api/orders/{id}/{approve}
