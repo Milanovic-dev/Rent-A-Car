@@ -1,7 +1,7 @@
 const service = require('../service/searchService');
 
 module.exports = function(app) {
-  app.get('/search', async (req, res) => {
+  app.get('/api/search/cars', async (req, res) => {
     console.log(req.method + req.route.path);
 
     if(!req.params.filter) return res.status('400');

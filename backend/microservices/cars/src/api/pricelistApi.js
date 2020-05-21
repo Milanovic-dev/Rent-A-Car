@@ -2,7 +2,7 @@ const service = require('../service/pricelistService');
 
 module.exports = function(app) {
 
-    app.get('/pricelist/get/:id', async (req, res) => {
+    app.get('/api/cars/pricelist/get/:id', async (req, res) => {
         console.log(req.method + req.route.path);
         
         if(!req.params.id) return res.status('400');
@@ -11,7 +11,7 @@ module.exports = function(app) {
         res.status(result.status).send(result.response);
     });
 
-    app.post('/pricelist/create', async (req, res) => {
+    app.post('/api/cars/pricelist/create', async (req, res) => {
         console.log(req.method + req.route.path);
 
         if(!req.body) return res.status('400');
@@ -20,7 +20,7 @@ module.exports = function(app) {
         res.status(result.status).send(result.response);
     });
 
-    app.put('/pricelist/update', async (req, res) => {
+    app.put('/api/cars/pricelist/update', async (req, res) => {
         console.log(req.method + req.route.path);
 
         if(!req.body) return res.status('400');
@@ -29,7 +29,7 @@ module.exports = function(app) {
         res.status(result.status).send(result.response);
     });
 
-    app.delete('/pricelist/remove/:id', async (req, res) => {
+    app.delete('/api/cars/pricelist/remove/:id', async (req, res) => {
         console.log(req.method + req.route.path);
 
         if(!req.params.id) return res.status('400');
@@ -38,7 +38,7 @@ module.exports = function(app) {
         res.status(result.status).send(result.response);
     });
 
-    app.get('/pricelist/all', async (req, res) => {
+    app.get('/api/cars/pricelist/all', async (req, res) => {
         console.log(req.method + req.route.path);
         let result = await service.getAll();
         res.status(result.status).send(result.response);

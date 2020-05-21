@@ -12,11 +12,11 @@ dbConnect(process.env.DB_USERNAME, process.env.DB_PASSWORD, process.env.DB_SERVE
     console.log(`DB error: ${e}`);
 })
 
-const createPricelist = async (ps) => {
+const createReview = async (review) => {
 
-  if(!ps) return { status: 400 };
+  if(!review) return { status: 400 };
 
-  let result = await db.collection(dbCollection).insertOne(ps);
+  let result = await db.collection(dbCollection).insertOne(review);
   if(result.insertedId)
   {
       return {
@@ -28,39 +28,24 @@ const createPricelist = async (ps) => {
   return { status: 500 };
 };
 
-const updatePricelist = async (ps) => {
-
-  if(!ps) return { status: 400 }; 
-
-  let dbPs = await db.collection(dbCollection).findOne(
+const getReview = async (id) => {
+  let result = await db.collection(dbCollection).findOne(
       {
-          _id: ObjectID(car._id)
+          _id: ObjectID(id)
       }
   );
 
-  if(!dbPs){
-      return { status:404 };
-  }
-
-  let result = await db.collection(dbCollection).updateOne(
-      {
-          _id: ObjectID(ps._id)
-      },
-      {
-          $set: {
-              price: ps.price ? ps.price : dbPs.price
-          }
-      }
-  );
-
-  if(result.modifiedCount == 1){
-      return { status:200 };
+  if(result){
+      return {
+          response: result,
+          status: 200
+      };
   }
 
   return { status: 404 };
 };
 
-const removePricelist = async (id) => {
+const removeReview= async (id) => {
   let result = await db.collection(dbCollection).deleteOne(
       {
           _id: ObjectID(id)
@@ -74,12 +59,12 @@ const removePricelist = async (id) => {
   return { status: 404 };
 };
 
-const getPricelist = async (id) => {
-  let result = await db.collection(dbCollection).findOne(
+const getAllPending = async () => {
+  let result = await db.collection(dbCollection).findAll(
       {
-          _id: ObjectID(id)
+          status: 'pending'
       }
-  );
+  ).toArray();
 
   if(result){
       return {
@@ -101,9 +86,9 @@ const getAll = async () => {
 };
 
 module.exports = {
-  create: createPricelist,
-  update: updatePricelist,
-  remove: removePricelist,
-  get: getPricelist,
+  create: createReview,
+  pending: getAllPending,
+  get: getReview,
+  remove: removeReview,
   getAll
 };
