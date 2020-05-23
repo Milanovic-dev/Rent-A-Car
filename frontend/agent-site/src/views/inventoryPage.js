@@ -4,7 +4,6 @@ import { PageWithLayout } from '../containers/page';
 import { connect } from 'react-redux';
 
 import Isvg from 'react-inlinesvg';
-import ReactPaginate from 'react-paginate';
 
 import FilterForm from '../components/forms/filterForm';
 import PageHeader from '../containers/header/pageHeader';
@@ -207,26 +206,6 @@ class InventoryPage extends Component {
                                     }
 
                                 </Row>
-
-                                <ReactPaginate
-                                    previousLabel={''}
-                                    nextLabel={''}
-                                    breakLabel={'...'}
-                                    breakClassName={'break-me'}
-                                    pageCount={this.state.total / 9}
-                                    marginPagesDisplayed={2}
-                                    pageRangeDisplayed={2}
-                                    onPageChange={(selected) => {
-                                        let filters = this.state.filters;
-                                        filters.page = selected.selected;
-                                        this.props[0].history.push(`/fahrzeuge/${encodeURIComponent(btoa(JSON.stringify(filters)))}`)
-
-                                    }}
-                                    containerClassName={'pagination'}
-                                    subContainerClassName={'pages pagination'}
-                                    activeClassName={'active'}
-                                />
-
                             </Col>
                         </Row>
                     </Container>
