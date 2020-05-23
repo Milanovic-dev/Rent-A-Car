@@ -171,27 +171,6 @@ class HomeHeader extends Component {
                                             <Link to='/fahrzeuge' className={this.props[0].location.pathname == '/fahrzeuge'  ? 'active' : null}>Fahrzeuge</Link>
                                         </NavItem>
 
-                                        <NavItem>
-                                            <Link to='/ankauf' className={this.props[0].location.pathname == '/ankauf'  ? 'active' : null}>Ankauf</Link>
-                                        </NavItem>
-                                        <NavItem>
-                                            <Link to='/finanzierung' className={this.props[0].location.pathname == '/finanzierung' ? 'active' : null}>Finanzierung</Link>
-                                        </NavItem>
-
-
-                                        <NavItem>
-                                            <Link to='/service' className={this.props[0].location.pathname == '/service'  ? 'active' : null}>Service</Link>
-                                        </NavItem>
-                                        <NavItem>
-                                            <Link to='/galerie' className={this.props[0].location.pathname == '/galerie'  ? 'active' : null}>Galerie</Link>
-                                        </NavItem>
-                                        <NavItem>
-                                            <Link to='/seite/karriere' className={this.props[0].location.pathname == '/seite/karriere'  ? 'active' : null}>Karriere</Link>
-                                        </NavItem>
-
-                                        <NavItem>
-                                            <Link to='/kontakt' className={this.props[0].location.pathname == '/kontakt'  ? 'active' : null}>Kontakt</Link>
-                                        </NavItem>
                                     </Nav>
                                 </Row>
 

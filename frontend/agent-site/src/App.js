@@ -2,7 +2,6 @@
 
 import React, { Component } from 'react';
 import Routes from './routes'
-import socketIO from 'socket.io-client';
 import whatsapp from './assets/images/whatsapp.png';
 
 class App extends Component {

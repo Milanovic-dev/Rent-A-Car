@@ -12,14 +12,7 @@ import { GoogleMapScript } from './components/googleMapScript';
 
 import HomePage from './views/homePage';
 import InventoryPage from './views/inventoryPage';
-import SolutionsPage from './views/solutionsPage';
-import GalleryPage from './views/galleryPage';
 import DetailPage from './views/detailPage';
-import AboutPage from './views/aboutPage';
-import ContactPage from './views/contactPage';
-import PurchasePage from './views/purchasePage';
-import Page from './views/page';
-import FinancePage from './views/financePage';
 
 const history = createBrowserHistory();
 
@@ -52,29 +45,12 @@ class Routes extends Component {
                             )}
                         />
                         <Route
-                            path="/finanzierung"
-                            exact
-                            render={(...renderProps) => (
-                                <FinancePage {...renderProps} {...this.props} />
-                            )}
-                        />
-
-                        <Route
                             path="/fahrzeuge"
                             exact
                             render={(...renderProps) => (
                                 <InventoryPage {...renderProps} {...this.props} />
                             )}
                         />
-                                                <Route
-                            path="/seite/:alias"
-                            exact
-                            render={(...renderProps) => (
-                                <Page {...renderProps} {...this.props} />
-                            )}
-                        />
-
-
                         <Route
                             path="/fahrzeuge/:searchQuery"
                             exact
@@ -91,57 +67,6 @@ class Routes extends Component {
                                 <DetailPage {...renderProps} {...this.props} />
                             )}
                         />
-                        <Route
-                            path="/ankauf"
-                            exact
-                            render={(...renderProps) => (
-                                <PurchasePage {...renderProps} {...this.props} />
-                            )}
-                        />
-
-
-                        <Route
-                            path="/service"
-                            exact
-                            render={(...renderProps) => (
-                                <SolutionsPage {...renderProps} {...this.props} />
-                            )}
-                        />
-
-                        <Route
-                            path="/galerie"
-                            exact
-                            render={(...renderProps) => (
-                                <GalleryPage {...renderProps} {...this.props} />
-                            )}
-                        />
-
-
-
-                        <Route
-                            path="/detail"
-                            exact
-                            render={(...renderProps) => (
-                                <DetailPage {...renderProps} {...this.props} />
-                            )}
-                        />
-
-                        <Route
-                            path="/uber-uns"
-                            exact
-                            render={(...renderProps) => (
-                                <AboutPage {...renderProps} {...this.props} />
-                            )}
-                        />
-
-                        <Route
-                            path="/kontakt"
-                            exact
-                            render={(...renderProps) => (
-                                <ContactPage {...renderProps} {...this.props} />
-                            )}
-                        />
-
 
                     </Switch>
                 </div>
