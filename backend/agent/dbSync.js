@@ -36,7 +36,7 @@ const connect = async () => {
         .catch(err => console.error(err));
 }
 
-const collection = (collection, sync = true) => {
+const collection = (collection, sync = false) => {
     return new DbSyncFunctions(collection, sync);
 };
 
@@ -76,8 +76,9 @@ const getUpdate = async (query, projection, collectionName, action) => {
         
         client.GetUpdate({collectionName: collectionName, action, filter: JSON.stringify(query), diffData}, async (err, res) => {
             if(err){
-                console.error(err);
-                reject(err);
+                console.error('Error getting updates. No Synchronization');
+                resolve(dbResult);
+                return;
             }
 
             const result = JSON.parse(res);
@@ -108,7 +109,24 @@ class DbSyncFunctions {
         this.collection = collection;
         this.sync = sync;
     }
+    
+    async findOne(query, projection) {    
+        if(!this.sync) return await db.collection(this.collection).findOne(query, projection);
 
+        const result = await getUpdate(query, projection, this.collection, 'findOne');
+
+        if(result){
+            return result[0];
+        }
+
+        return null;
+    };
+
+    async find(query, projection) {
+        if(!this.sync) return await db.collection(this.collection).find(query, projection); 
+        return await getUpdate(query, projection, this.collection, 'find');
+    };
+    
     async insertOne(query, writeConcern) {
         let result = await db.collection(this.collection).insertOne(query, writeConcern).catch(err => console.error(err));
         return result;
@@ -129,19 +147,6 @@ class DbSyncFunctions {
         return result;
     };
 
-    async findOne(query, projection) {    
-        const result = await getUpdate(query, projection, this.collection, 'findOne');
-
-        if(result){
-            return result[0];
-        }
-
-        return null;
-    };
-
-    async find(query, projection) {
-        return await getUpdate(query, projection, this.collection, 'find');
-    };
 
     async count() {
         let result = await db.collection(this.collection).count();

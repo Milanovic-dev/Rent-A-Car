@@ -5,6 +5,7 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const dotenv = require('dotenv');
 const fileUpload = require('express-fileupload');
+const helmet = require('helmet');
 dotenv.config();
 
 const soapService = require('./src/soap/soapService');
@@ -14,6 +15,10 @@ app.use(bodyParser.json());
 app.use(cors());
 app.use('/uploads', express.static('uploads'))
 app.use(fileUpload());
+
+ // Prevent opening page in frame or iframe to protect from clickjacking
+ app.disable("x-powered-by");
+ app.use(helmet());
 
 require('./src/api/carApi') (app);
 require('./src/api/pricelistApi') (app);
@@ -29,11 +34,6 @@ db.connect();
 
 server.listen(8282, () => {
     console.log("Agent Server running on port 8282!");
-    /*
-    soapService.createService(server, () => {
-        console.log("Soap Service Initialized");
-    });
-    */
 });
 
 //Register to Microservices Webhook
@@ -48,8 +48,7 @@ soapService.getClient().then(soapClient => {
             if(res.accessToken){
                 db.saveToken(res.accessToken);
                 console.log(`${res.status}: Successfully subscribed to Webhook`);
-                db.collection('cars').find();
-                db.collection('agents').find();
+                db.collection('cars', true).find();
             }
             else
             {
