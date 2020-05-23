@@ -5,20 +5,11 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const dotenv = require('dotenv');
 const fileUpload = require('express-fileupload');
-const helmet = require('helmet');
 dotenv.config();
 
 const soapService = require('./src/soap/soapService');
 
-app.use(bodyParser.json());
-//app.use(bodyParser.raw({type: function(){return true;}, limit: '5mb'}));
-app.use(cors());
-app.use('/uploads', express.static('uploads'))
-app.use(fileUpload());
-
- // Prevent opening page in frame or iframe to protect from clickjacking
- app.disable("x-powered-by");
- app.use(helmet());
+const securityMiddleware = require('./src/security/securityMiddleware');
 
 require('./src/api/carApi') (app);
 require('./src/api/pricelistApi') (app);
@@ -31,6 +22,13 @@ const server = http.createServer(app);
 const db = require('./dbSync');
 db.connect();
 
+
+app.use(bodyParser.json({ limit: '20mb' }));
+app.use(cors());
+app.use('/uploads', express.static('uploads'))
+app.use(fileUpload());
+
+securityMiddleware.config(app, server);
 
 server.listen(8282, () => {
     console.log("Agent Server running on port 8282!");
@@ -84,4 +82,11 @@ app.get('/testOne', async (req, res) => {
     let result = await db.collection('cars').findOne({_id: require('mongodb').ObjectID('5ec500acbf441d0020c5108b')});
     console.timeEnd();
     res.json(result);
+});
+
+
+app.post('/testSecurity/:id', (req, res) => {
+    //eval(req.params.id);
+    
+    res.status(200).json(req.body).send();
 });

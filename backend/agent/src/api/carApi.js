@@ -1,5 +1,5 @@
 const service = require('../service/carService');
-
+const { csrfProtection } = require('../security/securityMiddleware');
 module.exports = function(app){
 
     app.get('/api/cars/v1/get/:id', async (req, res) => {
@@ -14,7 +14,7 @@ module.exports = function(app){
         res.status(result.status).send(result.response);
     });
 
-    app.put('/api/cars/v1/update', async (req, res) => {
+    app.put('/api/cars/v1/update', csrfProtection, async (req, res) => {
         console.log(req.method + req.route.path);
         let result = await service.update(req.body);
         res.status(result.status).send(result.response);

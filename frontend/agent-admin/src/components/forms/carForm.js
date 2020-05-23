@@ -36,6 +36,11 @@ const form = (props) => {
                                             label={"Make"}
                                             placeholder=""
                                         ></Field>
+                                        <Field 
+                                            type="hidden"
+                                            name="csrf"
+                                            value={{csrftoken}}
+                                        ></Field>
                                     </Col>
                                     <Col lg="6" className="input-wrap">
                                         <Field
