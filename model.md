@@ -18,18 +18,18 @@
     * id
     * name
   #### REST Endpoints:
-    * GET /api/auth/users
-    * GET /api/auth/users/{id}
-    * GET /api/auth/users/{role}
-    * GET /api/auth/users/{id}/permissions
-    * GET /api/auth/users/permissions
-    * POST /api/auth/users/{id}/permissions/update
-    * POST /api/auth/users/permissions/create
-    * PATCH /api/auth/users/status/{id}
-    * POST /api/auth/users/login
-    * POST /api/auth/users/register
-    * POST /api/auth/users/update
-    * POST /api/auth/users/role/update
+    * GET /auth/users
+    * GET /auth/users/{id}
+    * GET /auth/users/{role}
+    * GET /auth/users/{id}/permissions
+    * GET /auth/users/permissions
+    * POST /auth/users/{id}/permissions/update
+    * POST /auth/users/permissions/create
+    * PATCH /auth/users/status/{id}
+    * POST /auth/users/login
+    * POST /auth/users/register
+    * POST /auth/users/update
+    * POST /auth/users/role/update
  # Car microservice model
    ## Car
       * id
@@ -78,44 +78,44 @@
       * pricePerKm
       * carId
    #### Endpoints:
-      * GET /api/cars
-      * GET /api/cars/{id}
-      * GET /api/cars/pricelists/{id}
-      * POST /api/cars/pricelist/create
-      * PUT /api/cars/pricelist/update
-      * DELETE /api/cars/pricelist/remove/{id}
-      * GET /api/cars/pricelist/all 
-      * GET /api/cars/stats
-      * GET /api/cars/stats/{id}
-      * GET /api/cars/reviews
-      * GET /api/cars/reviews/{id}
-      * POST /api/cars/review/create
-      * GET /api/cars/reviews/pending
-      * DELETE /api/cars/review/remove/{id}
-      * GET /api/cars/make
-      * GET /api/cars/make/{id}
-      * GET /api/cars/models
-      * GET /api/cars/models/{id}
-      * GET /api/cars/fuels
-      * GET /api/cars/fuels/{id}
-      * GET /api/cars/class
-      * GET /api/cars/class/{id}
-      * POST /api/cars/create
-      * POST /api/cars/update
-      * POST /api/cars/reviews/create
-      * POST /api/cars/reviews/update
-      * POST /api/cars/make/create
-      * POST /api/cars/make/update
-      * POST /api/cars/models/create
-      * POST /api/cars/models/update
-      * POST /api/cars/fuels/create
-      * POST /api/cars/fuels/update
-      * POST /api/cars/class/create
-      * POST /api/cars/class/update
-      * DELETE /api/cars/models/remove/{id}
-      * DELETE /api/cars/class/remove/{id}
-      * DELETE /api/cars/make/remove/{id}
-      * DELETE /api/cars/fuels/remove/{id}
+      * GET /cars
+      * GET /cars/{id}
+      * GET /cars/pricelists/{id}
+      * POST /cars/pricelist/create
+      * PUT /cars/pricelist/update
+      * DELETE /cars/pricelist/remove/{id}
+      * GET /cars/pricelist/all 
+      * GET /cars/stats
+      * GET /cars/stats/{id}
+      * GET /cars/reviews
+      * GET /cars/reviews/{id}
+      * POST /cars/review/create
+      * GET /cars/reviews/pending
+      * DELETE /cars/review/remove/{id}
+      * GET /cars/make
+      * GET /cars/make/{id}
+      * GET /cars/models
+      * GET /cars/models/{id}
+      * GET /cars/fuels
+      * GET /cars/fuels/{id}
+      * GET /cars/class
+      * GET /cars/class/{id}
+      * POST /cars/create
+      * POST /cars/update
+      * POST /cars/reviews/create
+      * POST /cars/reviews/update
+      * POST /cars/make/create
+      * POST /cars/make/update
+      * POST /cars/models/create
+      * POST /cars/models/update
+      * POST /cars/fuels/create
+      * POST /cars/fuels/update
+      * POST /cars/class/create
+      * POST /cars/class/update
+      * DELETE /cars/models/remove/{id}
+      * DELETE /cars/class/remove/{id}
+      * DELETE /cars/make/remove/{id}
+      * DELETE /cars/fuels/remove/{id}
   # Message microservice model
    ## Message
     * id
@@ -126,10 +126,10 @@
     * time
     * reply
    ## Endpoints
-    * GET api/messages
-    * GET api/messages/{id}
-    * POST api/messages/send
-    * DELETE api/messages/remove/{id}
+    * GET /messages
+    * GET /messages/{id}
+    * POST /messages/send
+    * DELETE /messages/remove/{id}
   # Orders microservice model:
    ## Order
     * id
@@ -152,16 +152,16 @@
     * mileage
     * text
   #### Endpoints:
-    * GET api/orders
-    * GET api/orders/{id}
-    * GET api/orders/bundles
-    * GET api/orders/bundles/{id}
-    * POST api/orders/create
-    * POST api/orders/revoke/{id}
-    * POST api/orders/{id}/{approve}
+    * GET /orders
+    * GET /orders/{id}
+    * GET /orders/bundles
+    * GET /orders/bundles/{id}
+    * POST /orders/create
+    * POST /orders/revoke/{id}
+    * POST /orders/{id}/{approve}
  # Search microservice model: 
   #### Endpoints: 
-    * POST api/search/cars
+    * POST /search/cars
  # Tracking microservice model:
   ## Location
     * carId
@@ -170,5 +170,5 @@
     * coordinates
     * timestamp
   #### Endpoints:
-    * POST api/tracking/{carId}
-    * POST api/tracking/{carId}/track
+    * POST /tracking/{carId}
+    * POST /tracking/{carId}/track
