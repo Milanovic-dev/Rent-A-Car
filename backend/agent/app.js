@@ -72,16 +72,8 @@ app.get('/getWsdl', async (req, res) => {
 });
 
 
-app.post('/test', async (req, res) => {
-    let result = await db.collection('cars').find();
-    res.json(result);
-});
-
-app.get('/testOne', async (req, res) => {
-    console.time();
-    let result = await db.collection('cars').findOne({_id: require('mongodb').ObjectID('5ec500acbf441d0020c5108b')});
-    console.timeEnd();
-    res.json(result);
+app.post('/login', async (req, res) => {
+    
 });
 
 

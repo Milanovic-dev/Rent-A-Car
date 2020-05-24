@@ -1,70 +1,74 @@
 const express = require('express');
 const app = express();
+const http = require('http');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const service = require('./src/service');
-const { registerForGateway } = require('./src/config/index');
 app.use(bodyParser.json());
 app.use(cors());
 
-registerForGateway('auth');
+const security = require('./src/security/securityMiddleware');
 
-app.listen(4000, () => {
+
+const server = http.createServer(app);
+security.config(app, server);
+
+server.listen(4000, () => {
     console.log("==========================");
     console.log(`Auth microservice running!`);
     console.log("==========================");
 });
 
-app.get('/', (req, res) => {
+app.get('/auth', (req, res) => {
     res.send('This is auth service');
 });
 
-app.post('/login', async (req, res) => {
+app.post('/auth/login', async (req, res) => {
     const result = await service.login(req.body.username, req.body.password);
     if(res.status == 200){
-        res.cookie('auth', result.response);
+        res.cookie('jwt', result.response, {httpOnly:true, secure:false});
     }
-    res.status(result.status);
+    res.status(result.status).send(result.response);
 });
 
-app.get('/users', async (req, res) => {
+app.get('/auth/users', async (req, res) => {
     const result = await service.users();
     res.status(result.status).send(result.response);
 });
-app.get('/users/:id', async (req, res) => {
-    // let id = res.locals.id;
-    const result = await service.user(req.params.id);
+app.get('/auth/users/:id', async (req, res) => {
+    console.log(req.session);
+    const result = await service.user(req.params.id).catch(err => console.error(err));
     res.status(result.status).send(result.response);
 });
-app.post('/users/update', async (req, res) => {
+app.post('/auth/users/update', async (req, res) => {
     let id = res.locals.id;
     const result = await service.update(id, req.body);
     res.status(result.status).send(result.response);
 });
-app.post('/users/status/:id', async (req, res) => {
+app.post('/auth/users/status/:id', async (req, res) => {
     let uid = res.locals.id;
     const result = await service.setStatus(uid, req.params.id, req.body);
     res.status(result.status).send(result.response);
 });
 
-app.post('/register', async (req, res) => {
+app.post('/auth/register', async (req, res) => {
     const result = await service.register(req.body);
     res.status(result.status).send(result.response);
 });
 
-app.get('/users/:id/permissions', async (req, res) => {
+app.get('/auth/users/:id/permissions', async (req, res) => {
 
 });
 
-app.get('/users/permissions', async (req, res) => {
+app.get('/auth/users/permissions', async (req, res) => {
 
 });
 
-app.post('/users/permissions/create', async (req, res) => {
+app.post('/auth/users/permissions/create', async (req, res) => {
 
 });
 
-app.post('/users/:id/permissions/update', async (req, res) => {
+app.post('/auth/users/:id/permissions/update', async (req, res) => {
 
 });
 

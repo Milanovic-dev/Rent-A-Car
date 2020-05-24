@@ -5,10 +5,6 @@ const cors = require('cors');
 const http = require('http');
 const fs = require('fs');
 
-const { registerForGateway } = require('./src/config/index');
-
-registerForGateway('webhook');
-
 app.use(cors());
 app.use(bodyParser.json());
 

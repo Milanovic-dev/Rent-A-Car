@@ -101,7 +101,6 @@ const getUpdate = async (query, projection, collectionName, action) => {
     });
 };
 
-
 class DbSyncFunctions {
     constructor(collection, sync){
         this.collection = collection;

@@ -13,14 +13,19 @@
     "bcrypt": "^4.0.1",
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
+    "csurf": "^1.11.0",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
+    "express-session": "^1.17.1",
+    "helmet": "^3.22.0",
+    "hpp": "^0.2.3",
     "internal-ip": "^6.0.0",
     "is-docker": "^2.0.0",
     "jsonwebtoken": "^8.5.1",
+    "mongo-sanitize": "^1.1.0",
     "mongodb": "^3.5.7",
     "nodemon": "^2.0.3",
-    "pusher": "^3.0.1",
-    "soap": "^0.31.0"
+    "soap": "^0.31.0",
+    "toobusy-js": "^0.5.1"
   }
 }

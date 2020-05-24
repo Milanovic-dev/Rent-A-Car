@@ -2,9 +2,6 @@ const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
 const cors = require('cors');
-const { registerForGateway }= require('./src/config/index');
-
-registerForGateway('cars');
 
 app.use(cors());
 app.use(bodyParser.json());

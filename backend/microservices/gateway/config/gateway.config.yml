@@ -1,0 +1,33 @@
+https:
+  port: 8080
+  tls:
+    "default":
+      key: "./config/certificates/root.key"
+      cert: "./config/certificates/root.crt"
+  options:
+    "rejectUnauthorized": true
+apiEndpoints:
+  auth:
+    paths: 
+      - '/*'
+serviceEndpoints:
+  auth:
+    url: 'http://auth:4000'
+policies:
+  - proxy
+  - rate-limit
+  - cors
+pipelines:
+  auth:
+    apiEndpoints:
+      - auth
+    policies:
+      - rate-limit:
+        - action:
+            max: 1
+            windowMs: 1000
+      - proxy:
+        - action:
+            serviceEndpoint: auth
+            changeOrigin: true
+
