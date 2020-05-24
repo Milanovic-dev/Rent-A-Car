@@ -5,6 +5,8 @@ services:
         image: mongo
         ports:
             - "27017:27017"
+        logging: 
+            driver: none
         
     
     webhook:
@@ -89,7 +91,7 @@ services:
         build: './gateway'
         ports:
             - "8080:8080"
-        logging:
-            driver: none 
+        environment: 
+            - LOG_LEVEL=debug
 
         

@@ -1,18 +1,11 @@
 {
-  "name": "apigateway",
+  "name": "gateway",
+  "description": "Express Gateway Instance Bootstraped from Command Line",
+  "repository": {},
+  "license": "UNLICENSED",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "start": "nodemon --quiet index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "",
-  "license": "ISC",
+  "main": "server.js",
   "dependencies": {
-    "dotenv": "^8.2.0",
-    "nodemon": "^2.0.4",
-    "pusher-js": "^4.3.1",
-    "redbird": "^0.10.0"
+    "express-gateway": "^1.16.10"
   }
 }

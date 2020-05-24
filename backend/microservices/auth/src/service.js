@@ -1,5 +1,6 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const ObjectID = require('mongodb').ObjectID;
 //env
 const dotenv = require('dotenv');
 dotenv.config();
@@ -96,6 +97,7 @@ const users = async () => {
     };
 }
 const user = async (id) => {
+    
     let user = await db.collection(dbCollection).find({ _id: ObjectID(id) }).toArray();
 
     user[0] = userJSON(user[0]);

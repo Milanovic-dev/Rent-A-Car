@@ -23,7 +23,6 @@
     "mongodb": "^3.5.7",
     "node-fetch": "^2.6.0",
     "nodemon": "^2.0.3",
-    "pusher": "^3.0.1",
     "soap": "^0.31.0",
     "strong-soap": "^2.0.0"
   }
