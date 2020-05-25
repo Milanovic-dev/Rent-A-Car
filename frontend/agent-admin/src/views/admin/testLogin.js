@@ -11,7 +11,7 @@ import {
 
 
 class TestLogin extends Component {
-    
+
     constructor(props) {
         super(props);
         this.login = this.login.bind(this);
@@ -21,25 +21,25 @@ class TestLogin extends Component {
 
     login(data) {
 
-        fetch('https://localhost:4000/admin/login', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                username: data.username,
-                password: data.password
-            })
-        }).then((res) => res.json()).then((result) => {
-            if (!result.error) {
-                localStorage.setItem('token', result.token);
-                this.props[0].history.push('/tree');
-            } else {
-                this.setState({
-                    error: result.error
-                })
-            }
-        })
+        // fetch('https://localhost:4000/admin/login', {
+        //     method: 'POST',
+        //     headers: {
+        //         'Content-Type': 'application/json',
+        //     },
+        //     body: JSON.stringify({
+        //         username: data.username,
+        //         password: data.password
+        //     })
+        // }).then((res) => res.json()).then((result) => {
+        //     if (!result.error) {
+        //         localStorage.setItem('token', result.token);
+        //         this.props[0].history.push('/tree');
+        //     } else {
+        //         this.setState({
+        //             error: result.error
+        //         })
+        //     }
+        // })
     }
 
     render() {
@@ -53,9 +53,7 @@ class TestLogin extends Component {
                         <Col lg="12">
                             <Container>
                                 <Row className="login-container">
-                                    {/* <Col lg="6" xs="12" className="login-bg">
-                                        <img src={bg} />
-                                    </Col> */}
+
                                     <Col lg="12" xs="12" className="login-form">
                                         <Container>
                                             <Row>
@@ -64,13 +62,14 @@ class TestLogin extends Component {
                                                     <h6></h6>
                                                 </Col>
                                             </Row>
-                                            <LoginForm onSubmit={this.login} />
-                                            {
+                                            <LoginForm  onSubmit={this.login}/> 
+                                            {/* {
                                                 this.state.error ?
                                                     <p>{this.state.error}</p>
                                                     :
                                                     null
-                                            }
+                                            } */}
+                                          
 
                                         </Container>
                                     </Col>

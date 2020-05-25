@@ -18,8 +18,8 @@ const form = (props) => {
                     <Field
                         name="type"
                         component={renderSelectField}
-                        label={"Tip korisnika"}
-                        placeholder="Izaberite tip"
+                        label={"User type"}
+                        placeholder="Choose type"
                         validate={[required]}
                         id="type"
                     >
@@ -47,6 +47,14 @@ const form = (props) => {
                         type="password"
                     ></Field>
                 </Col>
+
+                {/* <Col lg="12">
+                    <label>Username:</label><br/>
+                    <input type="text" id="username"/><br/><br/>
+                    <label>Password:</label><br/>
+                    <input type="password" id="password"/><br/><br/>
+                </Col> */}
+
                 <Col lg="12">
                     <button id="login-button">SIGN IN</button>
                 </Col>
