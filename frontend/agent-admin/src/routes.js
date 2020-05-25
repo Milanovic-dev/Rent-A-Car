@@ -9,6 +9,8 @@ import ChangeCar from './views/admin/changeCar';
 import Cars from './views/admin/cars';
 import MileageReport from './views/admin/mileageReport';
 import CarStats from './views/admin/carStats';
+import TestLogin from './views/admin/testLogin';
+
 
 class Routes extends Component {
 
@@ -35,6 +37,14 @@ class Routes extends Component {
                                 <AdminLoginPage {...renderProps} {...this.props} />
                             )}
                         />
+                        <Route
+                            path="/testLogin"
+                            exact
+                            render={(...renderProps) => (
+                                <TestLogin {...renderProps} {...this.props} />
+                            )}
+                        />
+                        
 
                         <Route
                             path="/cars"
