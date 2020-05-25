@@ -75,3 +75,28 @@ app.post('/auth/users/:id/permissions/update', async (req, res) => {
 app.get('/test/authapi', async (req, res) => {
     res.status('Found cars api');
 });
+
+
+app.get('/users/testroute1', service.generatePermissionMiddleware('testpermission1'), async (req, res) => {
+    res.status(200).send({ 
+        route: '/users/testroute1'
+     })
+})
+
+app.get('/users/testroute2', service.generatePermissionMiddleware('testpermission2'), async (req, res) => {
+    res.status(200).send({ 
+        route: '/users/testroute2'
+     })
+})
+
+app.get('/users/testroute3', service.generatePermissionMiddleware('testpermission3'), async (req, res) => {
+    res.status(200).send({ 
+        route: '/users/testroute3'
+     })
+})
+
+app.get('/users/testroute4', service.generatePermissionMiddleware('testpermission4'), async (req, res) => {
+    res.status(200).send({ 
+        route: '/users/testroute4'
+     })
+})
