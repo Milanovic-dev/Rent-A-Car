@@ -18,11 +18,11 @@ server.listen(4000, () => {
     soapService.createService(server);
 });
 
-app.get('/', async (req,res) => {
+app.get('/webhook', async (req,res) => {
     res.send("This is webhook service");
 });
 
-app.get('/getWsdl', (req, res) => {
+app.get('/webhook/getWsdl', (req, res) => {
     const wsdl = fs.readFileSync('service.wsdl', 'utf8');
     res.type('application/xml');
     res.send(wsdl);
@@ -55,18 +55,18 @@ dbConnect(process.env.DB_USERNAME, process.env.DB_PASSWORD, process.env.DB_SERVE
     console.log(`DB error: ${e}`);
 })
 
-app.get('/testBase', async (req, res) => {
+app.get('/webhook/testBase', async (req, res) => {
     let result = await db.collection('cars').find().toArray();
     res.json(result);
 });
 
-app.post('/insert', async(req, res) => {
+app.post('/webhook/insert', async(req, res) => {
     let result = await db.collection('cars').insertOne(req.body);
     console.log(result.insertedId);
     res.send('done');
 });
 
-app.post('/update/:id', async(req, res) => {
+app.post('/webhook/update/:id', async(req, res) => {
     let result = await db.collection('cars').updateOne({_id: require('mongodb').ObjectID(req.params.id)}, {$inc: {version:1}});
     res.send('done');
 });
