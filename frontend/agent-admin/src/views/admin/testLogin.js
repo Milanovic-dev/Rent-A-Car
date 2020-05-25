@@ -58,7 +58,7 @@ class TestLogin extends Component {
                                         <Container>
                                             <Row>
                                                 <Col lg="12">
-                                                    <h3>Log in</h3>
+                                                    <h3>Test login page</h3>
                                                     <h6></h6>
                                                 </Col>
                                             </Row>
