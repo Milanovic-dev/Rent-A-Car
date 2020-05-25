@@ -35,7 +35,7 @@ dbConnect(process.env.DB_USERNAME, process.env.DB_PASSWORD, process.env.DB_SERVE
 .then(async (conn) => {
     db = conn;
     
-    await db.dropDatabase();
+    //await db.dropDatabase();
     const coll = await db.collection('agents').findOne({username:"AgentAdmin"});
     const bcrypt = require('bcrypt');
     if(!coll){
