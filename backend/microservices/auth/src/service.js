@@ -7,12 +7,95 @@ dotenv.config();
 const dbConnect = require('../db');
 const dbCollection = 'users';
 let db;
+const ObjectID = require('mongodb').ObjectID;
+
+
 dbConnect(process.env.DB_USERNAME, process.env.DB_PASSWORD, process.env.DB_SERVER, process.env.DB_NAME)
     .then((conn) => {
         db = conn;
+
+
+
+
+        register({
+            username: 'user0',
+            password: 'user0',
+            permissions: [
+                'testpermission1',
+                'testpermission2'
+            ]
+        });
+
+        register({
+            username: 'user1',
+            password: 'user1',
+            permissions: [
+                'testpermission2',
+                'testpermission3'
+            ]
+        });
+
+        register({
+            username: 'user2',
+            password: 'user2',
+            permissions: [
+                'testpermission1',
+                'testpermission3'
+            ]
+        });
+
+
     }).catch((e) => {
         console.log(`DB error: ${e}`);
     })
+
+
+
+const generatePermissionMiddleware = (permission) => {
+    return async (req, res, next) => {
+        if (typeof req.headers.authorization !== "undefined") {
+            let token = req.headers.authorization.split(" ")[1];
+    
+            jwt.verify(token, process.env.JWT_SECRET, { algorithm: "HS256" }, (err, user) => {
+                res.locals.uid = user.id;
+
+                if (err) {
+                    res.status(500).json({ error: "Not Authorized" });
+                    return;
+                    //throw new Error("Not Authorized");
+                }
+
+                db.collection(dbCollection).find({_id: ObjectID(id)}).toArray((err, result) => {
+                    if (err){
+                        res.status(404).json({ error: "Not Found" });
+                        return;
+                    }
+
+                    if (result && !result.length){
+                        res.status(404).json({ error: "Not Found" });
+                        return;
+                    }
+
+    
+                    if (result[0].permissions && result[0].permissions.indexOf(permission) !== -1){
+                        return next();
+                    }
+    
+                    res.status(500).json({ error: "Not Authorized" });
+                    return;
+                });
+            });
+        } else {
+            res.status(500).json({ error: "Not Authorized" });
+            return;
+            //throw new Error("Not Authorized");
+        }
+    }
+    
+}
+
+
+
 
 
 const login = async (username, password) => {
@@ -165,7 +248,8 @@ const AuthService = {
     users,
     user,
     update,
-    setStatus
+    setStatus,
+    generatePermissionMiddleware
 };
 
 
