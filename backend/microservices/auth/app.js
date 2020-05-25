@@ -24,6 +24,7 @@ app.get('/auth', (req, res) => {
 });
 
 app.post('/auth/login', async (req, res) => {
+    console.log('/auth/login')
     const result = await service.login(req.body.username, req.body.password);
     if(res.status == 200){
         res.cookie('jwt', result.response, {httpOnly:true, secure:false});
@@ -77,25 +78,25 @@ app.get('/test/authapi', async (req, res) => {
 });
 
 
-app.get('/users/testroute1', service.generatePermissionMiddleware('testpermission1'), async (req, res) => {
+app.get('/auth/users55/testroute1', service.generatePermissionMiddleware('testpermission1'), async (req, res) => {
     res.status(200).send({ 
         route: '/users/testroute1'
      })
 })
 
-app.get('/users/testroute2', service.generatePermissionMiddleware('testpermission2'), async (req, res) => {
+app.get('/auth/users55/testroute2', service.generatePermissionMiddleware('testpermission2'), async (req, res) => {
     res.status(200).send({ 
         route: '/users/testroute2'
      })
 })
 
-app.get('/users/testroute3', service.generatePermissionMiddleware('testpermission3'), async (req, res) => {
+app.get('/auth/users55/testroute3', service.generatePermissionMiddleware('testpermission3'), async (req, res) => {
     res.status(200).send({ 
         route: '/users/testroute3'
      })
 })
 
-app.get('/users/testroute4', service.generatePermissionMiddleware('testpermission4'), async (req, res) => {
+app.get('/auth/users55/testroute4', service.generatePermissionMiddleware('testpermission4'), async (req, res) => {
     res.status(200).send({ 
         route: '/users/testroute4'
      })

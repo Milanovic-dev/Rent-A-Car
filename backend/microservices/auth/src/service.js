@@ -8,15 +8,11 @@ dotenv.config();
 const dbConnect = require('../db');
 const dbCollection = 'users';
 let db;
-const ObjectID = require('mongodb').ObjectID;
 
 
 dbConnect(process.env.DB_USERNAME, process.env.DB_PASSWORD, process.env.DB_SERVER, process.env.DB_NAME)
     .then((conn) => {
         db = conn;
-
-
-
 
         register({
             username: 'user0',
@@ -61,12 +57,12 @@ const generatePermissionMiddleware = (permission) => {
                 res.locals.uid = user.id;
 
                 if (err) {
-                    res.status(500).json({ error: "Not Authorized" });
+                    res.status(401).json({ error: "Not Authorized" });
                     return;
                     //throw new Error("Not Authorized");
                 }
 
-                db.collection(dbCollection).find({_id: ObjectID(id)}).toArray((err, result) => {
+                db.collection(dbCollection).find({_id: ObjectID(user.id)}).toArray((err, result) => {
                     if (err){
                         res.status(404).json({ error: "Not Found" });
                         return;
@@ -82,12 +78,12 @@ const generatePermissionMiddleware = (permission) => {
                         return next();
                     }
     
-                    res.status(500).json({ error: "Not Authorized" });
+                    res.status(401).json({ error: "Not Authorized" });
                     return;
                 });
             });
         } else {
-            res.status(500).json({ error: "Not Authorized" });
+            res.status(401).json({ error: "Not Authorized" });
             return;
             //throw new Error("Not Authorized");
         }
