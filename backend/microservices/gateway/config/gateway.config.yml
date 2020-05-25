@@ -9,10 +9,20 @@ https:
 apiEndpoints:
   auth:
     paths: 
-      - '/*'
+      - '/auth/*'
+  cars:
+    paths:
+      - '/cars/*'
+  webhook:
+    paths:
+      - '/webhook/*'
 serviceEndpoints:
   auth:
     url: 'http://auth:4000'
+  cars:
+    url: 'http://cars:4000'
+  webhook:
+    url: 'http://webhook:4000'
 policies:
   - proxy
   - rate-limit
@@ -22,12 +32,35 @@ pipelines:
     apiEndpoints:
       - auth
     policies:
+      - rate-limit: &rate-limit
+        - action:
+            max: 1
+            windowMs: 1000
+      - proxy:
+        - action: &proxy
+            serviceEndpoint: auth
+            changeOrigin: true
+  cars:
+    apiEndpoints:
+      - cars
+    policies:
       - rate-limit:
         - action:
             max: 1
             windowMs: 1000
       - proxy:
-        - action:
-            serviceEndpoint: auth
+        - action: 
+            serviceEndpoint: cars
             changeOrigin: true
-
+  webhook:
+    apiEndpoints:
+      - webhook
+    policies:
+      - rate-limit:
+        - action:
+            max: 1
+            windowMs: 1000
+      - proxy:
+        - action: 
+            serviceEndpoint: webhook
+            changeOrigin: true

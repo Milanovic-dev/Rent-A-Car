@@ -1,6 +1,6 @@
 const soap = require('soap');
 const fs = require('fs');
-const hostUrl = process.env.HOST_URL + '/api/webhook/getWsdl';
+const hostUrl = process.env.HOST_URL + '/webhook/getWsdl';
 const db = require('../../dbSync');
 db.connect();
 

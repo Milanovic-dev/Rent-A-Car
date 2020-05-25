@@ -6,7 +6,7 @@ const colors = require('colors');
 var connection;
 var db;
 
-const hostUrl = process.env.HOST_URL + '/api/webhook/getWsdl';
+const hostUrl = process.env.HOST_URL + '/webhook/getWsdl';
 
 const connectToDB = (username, password, server, dbName) => {
     return new Promise((resolve, reject) => {
@@ -59,6 +59,7 @@ const getToken = async () => {
 const getUpdate = async (query, projection, collectionName, action) => {
     return new Promise(async (resolve, reject) => {
         let client = await soap.createClientAsync(hostUrl, {});
+        
         let token = await getToken();
         client.addSoapHeader(`<AuthToken>${token}</AuthToken>`)
         let dbResult = await db.collection(collectionName).find(query, projection).sort({_id: 1}).toArray();
