@@ -9,10 +9,15 @@ import ChangeCar from './views/admin/changeCar';
 import Cars from './views/admin/cars';
 import MileageReport from './views/admin/mileageReport';
 import CarStats from './views/admin/carStats';
+
+//  TEST 
+
 import TestLogin from './views/admin/testLogin';
 import Users from './views/admin/users';
 import User from './views/admin/user';
+import Test from './views/admin/test';
 
+//
 
 
 
@@ -48,7 +53,7 @@ class Routes extends Component {
                                 <TestLogin {...renderProps} {...this.props} />
                             )}
                         />
-                        
+
 
                         <Route
                             path="/cars"
@@ -100,8 +105,16 @@ class Routes extends Component {
                                 <CarStats {...renderProps} {...this.props} />
                             )}
                         />
-                        
-                        
+
+                        <Route
+                            path="/test"
+                            exact
+                            render={(...renderProps) => (
+                                <Test {...renderProps} {...this.props} />
+                            )}
+                        />
+
+
                     </Switch>
                 </div>
             </Router >
