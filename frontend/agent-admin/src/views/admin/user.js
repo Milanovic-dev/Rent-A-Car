@@ -43,7 +43,7 @@ class User extends Component {
 
                     <Row className="page-title">
                         <Col lg="12">
-                            <h3>User page</h3>
+                            <h3>User page ( ID: {this.props[0].match.params.id})</h3>
                         </Col>
                     </Row>
 
