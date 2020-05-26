@@ -10,6 +10,10 @@ import Cars from './views/admin/cars';
 import MileageReport from './views/admin/mileageReport';
 import CarStats from './views/admin/carStats';
 import TestLogin from './views/admin/testLogin';
+import Users from './views/admin/users';
+import User from './views/admin/user';
+
+
 
 
 class Routes extends Component {
@@ -51,6 +55,20 @@ class Routes extends Component {
                             exact
                             render={(...renderProps) => (
                                 <Cars {...renderProps} {...this.props} />
+                            )}
+                        />
+                        <Route
+                            path="/users"
+                            exact
+                            render={(...renderProps) => (
+                                <Users {...renderProps} {...this.props} />
+                            )}
+                        />
+                        <Route
+                            path="/users/:id"
+                            exact
+                            render={(...renderProps) => (
+                                <User {...renderProps} {...this.props} />
                             )}
                         />
 

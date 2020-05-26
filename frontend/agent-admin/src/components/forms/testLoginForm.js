@@ -48,12 +48,6 @@ const form = (props) => {
                     ></Field>
                 </Col>
 
-                {/* <Col lg="12">
-                    <label>Username:</label><br/>
-                    <input type="text" id="username"/><br/><br/>
-                    <label>Password:</label><br/>
-                    <input type="password" id="password"/><br/><br/>
-                </Col> */}
 
                 <Col lg="12">
                     <button id="login-button">SIGN IN</button>
