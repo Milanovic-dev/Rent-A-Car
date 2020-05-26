@@ -1,7 +1,6 @@
 "use strict";
 const helmet = require('helmet');
 const sanitize = require('mongo-sanitize');
-const toobusy = require('toobusy-js');
 const session = require('express-session');
 const hpp = require('hpp');
 const csrf = require('csurf');
@@ -22,12 +21,7 @@ const config = (app, server) => {
     app.use(helmet()); //https://helmetjs.github.io/
     app.use(hpp());//https://www.npmjs.com/package/hpp
     app.use(sanitizeInput);//https://www.npmjs.com/package/mongo-sanitize
-    app.use(ddosProtection);//https://www.npmjs.com/package/toobusy-js
     app.use(session(sessionConfig));//https://www.npmjs.com/package/express-session
-
-    toobusy.onLag((currentLag) => {
-        console.log("Event loop lag detected! Latency: " + currentLag + "ms");
-    });
 
     process.on('SIGINT', () => {
         if(server){
@@ -47,16 +41,6 @@ const sanitizeInput = (req, res, next) => {
     req.body = cleanBody;
 
     next();
-};
-
-const ddosProtection = (req, res, next) => {
-    if(toobusy()){
-        res.send(503, 'Server is too busy right now, try again later.');
-    }
-    else
-    {
-        next();
-    }
 };
 
 module.exports = {

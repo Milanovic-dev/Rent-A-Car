@@ -92,7 +92,44 @@ const generatePermissionMiddleware = (permission) => {
 }
 
 
+const DORProtection = (req, res, next) => {
+    if (typeof req.headers.authorization !== 'undefined') {
+        let token = req.headers.authorization.split(" ")[1];
 
+        jwt.verify(token, process.env.JWT_SECRET, { algorithm: 'HS256' }, (err, user) => {
+            if (err) {
+                res.status(401).json({ error: 'Not Authorized' });
+                return;
+            }
+
+            const id = user.id;
+            console.log(id);
+            
+            const dbUser = db.collection(dbCollection).findOne({_id:ObjectID(id)});
+            const permissions = dbUser.permissions;
+            if(permissions){
+                if(permissions.includes('accessDOR')){
+                    next();
+                    return;
+                }
+            }
+            console.log(req.params);
+            if(req.params !== 'undefined'){
+                const paramsId = req.params.id;
+                console.log("PARAMS:" + paramsId);
+                if(paramsId === id){
+                    next();
+                    return;
+                }
+            }
+
+            res.status(401).json({ error: 'Not Authorized' });
+        });
+    } else {
+        res.status(401).json({ error: 'Not Authorized' });
+        return;
+    }
+};
 
 
 const login = async (username, password) => {
@@ -247,7 +284,8 @@ const AuthService = {
     user,
     update,
     setStatus,
-    generatePermissionMiddleware
+    generatePermissionMiddleware,
+    DORProtection
 };
 
 
