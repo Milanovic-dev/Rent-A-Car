@@ -36,7 +36,8 @@ import Textarea from './textarea';
     placeholder,
     label,
     type,
-    meta: { touched, error }
+    meta: { touched, error },
+    disabled
     }) => (
       <Text
       placeholder={placeholder}
@@ -45,6 +46,7 @@ import Textarea from './textarea';
       errorText={touched && error}
       error={touched && error}
       {...input}
+      disabled = {disabled}
       />
     )
 
@@ -53,7 +55,8 @@ import Textarea from './textarea';
         placeholder,
         label,
         type,
-        meta: { touched, error }
+        meta: { touched, error },
+        disabled
         }) => (
           <Textarea
           placeholder={placeholder}
@@ -62,6 +65,7 @@ import Textarea from './textarea';
           errorText={touched && error}
           error={touched && error}
           {...input}
+          disabled = {disabled}
           />
         )
     
