@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Page from '../../containers/admin/page';
 import Form from '../../components/forms/mileageReportForm';
+import stripHtml from "string-strip-html";
 
 import {
     Container,
@@ -34,14 +35,19 @@ class MileageReport extends Component {
 
 
         // }else{
-            fetch(`http://localhost:8282/api/cars/v1/rented`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${localStorage.getItem('token')}`
-                },
-                body: JSON.stringify(data)
-            }).then((res) => this.props[0].history.push('/cars'))
+
+        data.rentedCar ? data.rentedCar = stripHtml(data.rentedCar) : data.rentedCar = "";
+        data.mileage ? data.mileage = stripHtml(data.mileage) : data.mileage = "";
+        data.additionalInfo ? data.additionalInfo = stripHtml(data.additionalInfo) : data.additionalInfo = "";
+
+        fetch(`http://localhost:8282/api/cars/v1/rented`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('token')}`
+            },
+            body: JSON.stringify(data)
+        }).then((res) => this.props[0].history.push('/cars'))
 
 
         // }
@@ -77,11 +83,11 @@ class MileageReport extends Component {
                         <Col lg="12">
                         </Col>
                     </Row>
-                    { 
+                    {
                         this.state.data ?
-                    <Form initialValues={this.state.data} onSubmit={this.add} />
-                        :
-                        <Form onSubmit={this.add} />
+                            <Form initialValues={this.state.data} onSubmit={this.add} />
+                            :
+                            <Form onSubmit={this.add} />
 
                     }
                 </Container>
