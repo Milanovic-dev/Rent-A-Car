@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Page from '../../containers/admin/page';
 import Form from '../../components/forms/carForm';
+import stripHtml from "string-strip-html";
 
 import {
     Container,
@@ -21,6 +22,16 @@ class ChangeCar extends Component {
     }
 
     add(data) {
+        data.make ?  data.make = stripHtml(data.make) : data.make = "";
+        data.model ?  data.model = stripHtml(data.model) : data.model = "";
+        data.productionYear ?  data.productionYear = stripHtml(data.productionYear) : data.productionYear = "";
+        data.mileage ?  data.mileage = stripHtml(data.mileage) : data.mileage = "";
+        data.limitMileage ?  data.limitMileage = stripHtml(data.limitMileage) : data.limitMileage = "";
+        data.power ?  data.power = stripHtml(data.power) : data.power = "";
+        data.seatCount ?  data.seatCount = stripHtml(data.seatCount) : data.seatCount = "";
+        data.location ?  data.location = stripHtml(data.location) : data.location = "";
+        data.price ?  data.price = stripHtml(data.price) : data.price = "";
+        data.description ?  data.description = stripHtml(data.description) : data.description = "";
 
         if (this.props[0].match.params.id){
             fetch(`http://localhost:8282/api/cars/v1/update`, {

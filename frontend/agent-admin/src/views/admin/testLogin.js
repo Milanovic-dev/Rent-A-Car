@@ -20,7 +20,6 @@ class TestLogin extends Component {
     }
 
     login(data) {
-
         fetch('https://localhost:8080/auth/login', {
             method: 'POST',
             headers: {
@@ -68,6 +67,7 @@ class TestLogin extends Component {
             })
 
         })
+
 
     }
 

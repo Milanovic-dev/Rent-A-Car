@@ -45,6 +45,20 @@ class Sidebar extends Component {
                             </Link>
                         </li>
                     </ul>
+                    <ul>
+                        <li>
+                            <Link to='/users' className={this.props[0].location.pathname === '/users' ? 'active' : null}>
+                                <Isvg src={list} />
+                                All users
+                            </Link>
+                        </li>
+                        <li>
+                            <Link to='/test' className={this.props[0].location.pathname === '/test' ? 'active' : null}>
+                                <Isvg src={list} />
+                                Test form
+                            </Link>
+                        </li>
+                    </ul>
                     <ul className="logout">
                         <li id="logout" onClick={() => { localStorage.removeItem('token'); localStorage.removeItem('clinicAdminToken'); localStorage.removeItem('clinicUserToken'); localStorage.removeItem('patientToken'); }}>
                             <Link to='/login' id="logout-link" >

@@ -30,7 +30,7 @@ const form = (props) => {
                             <Col lg="12">
                                     <Col lg="4" className="input-wrap">
                                         <Field
-                                            name="rented-car"
+                                            name="rentedCar"
                                             component={renderTextField}
                                             label={"Car"}
                                             placeholder=""
@@ -47,7 +47,7 @@ const form = (props) => {
                                     </Col>
                                     <Col lg="4" className="input-wrap">
                                         <Field
-                                            name="additional-info"
+                                            name="additionalInfo"
                                             component={renderTextareaField}
                                             label={"Additional information"}
                                             placeholder=""

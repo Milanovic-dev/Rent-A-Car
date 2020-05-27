@@ -4,14 +4,27 @@ const http = require('http');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const service = require('./src/service');
-app.use(bodyParser.json());
+app.use(bodyParser.json({limit:'20mb'}));
 app.use(cors());
 
 const security = require('./src/security/securityMiddleware');
 
+const { DORProtection } = require('./src/service');
 
 const server = http.createServer(app);
 security.config(app, server);
+
+app.use((req, res, next) => {
+    if(Object.keys(req.body).length > 0){
+        console.log(req.body)
+    }
+
+    if(Object.keys(req.params).length > 0){
+        console.log(req.params);
+    }
+
+    next();
+});
 
 server.listen(4000, () => {
     console.log("==========================");
@@ -24,7 +37,6 @@ app.get('/auth', (req, res) => {
 });
 
 app.post('/auth/login', async (req, res) => {
-    console.log('/auth/login')
     const result = await service.login(req.body.username, req.body.password);
     if(res.status == 200){
         res.cookie('jwt', result.response, {httpOnly:true, secure:false});
@@ -32,11 +44,11 @@ app.post('/auth/login', async (req, res) => {
     res.status(result.status).send(result.response);
 });
 
-app.get('/auth/users', async (req, res) => {
+app.get('/auth/users', service.generatePermissionMiddleware('*'),  async (req, res) => {
     const result = await service.users();
     res.status(result.status).send(result.response);
 });
-app.get('/auth/users/:id', async (req, res) => {
+app.get('/auth/users/:id', DORProtection, async (req, res) => {
     console.log(req.session);
     const result = await service.user(req.params.id).catch(err => console.error(err));
     res.status(result.status).send(result.response);
@@ -46,7 +58,7 @@ app.post('/auth/users/update', async (req, res) => {
     const result = await service.update(id, req.body);
     res.status(result.status).send(result.response);
 });
-app.post('/auth/users/status/:id', async (req, res) => {
+app.post('/auth/users/status/:id', DORProtection,  async (req, res) => {
     let uid = res.locals.id;
     const result = await service.setStatus(uid, req.params.id, req.body);
     res.status(result.status).send(result.response);
