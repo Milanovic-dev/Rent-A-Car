@@ -3,18 +3,8 @@ const helmet = require('helmet');
 const sanitize = require('mongo-sanitize');
 const session = require('express-session');
 const hpp = require('hpp');
-const csrf = require('csurf');
 
-const csrfProtection = csrf({ cookie: true });
-
-let allowCrossDomain = function (req, res, next) {
-    res.header('Access-Control-Allow-Origin', "http://localhost:3000");
-    res.header("Access-Control-Allow-Headers", "X-Requested-With");
-
-
-    console.log('Allowing Cross Domain')
-    next();
-}
+const cookieParser = require('cookie-parser');
 
 
 const sessionConfig = {
@@ -32,7 +22,7 @@ const config = (app, server) => {
     app.use(hpp());//https://www.npmjs.com/package/hpp
     app.use(sanitizeInput);//https://www.npmjs.com/package/mongo-sanitize
     app.use(session(sessionConfig));//https://www.npmjs.com/package/express-session
-    app.use(allowCrossDomain);
+    app.use(cookieParser(process.env.SESSION_SECRET));
 
     process.on('SIGINT', () => {
         if (server) {
@@ -56,6 +46,5 @@ const sanitizeInput = (req, res, next) => {
 
 
 module.exports = {
-    config,
-    csrfProtection
+    config
 }
