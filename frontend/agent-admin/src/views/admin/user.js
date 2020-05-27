@@ -23,16 +23,31 @@ class User extends Component {
     }
 
     componentDidMount() {
-        let result =
-        {
-            _id: "1",
-            firstName: "Aleksandar",
-            lastName: "Dabic",
-            email: "acodabic1997@gmail.com"
-        };
-        this.setState({
-            initialValues: result
+        // let result =
+        // {
+        //     _id: "1",
+        //     firstName: "Aleksandar",
+        //     lastName: "Dabic",
+        //     email: "acodabic1997@gmail.com"
+        // };
+        // this.setState({
+        //     initialValues: result
+        // })
+
+
+        fetch(`http://localhost:8080/auth/users/` + this.props[0].match.params.id, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('token')}`
+            },
+        }).then((res) => res.json()).then((result) => {
+            this.setState({
+                initialValues: result
+            })
         })
+
+
     }
 
 
