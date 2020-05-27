@@ -25,33 +25,30 @@ class Test extends Component {
 
     add(data) {
    
-        // if (this.props[0].match.params.id){
-        //     fetch(`http://localhost:8282/api/cars/v1/update`, {
-        //         method: 'PUT',
-        //         headers: {
-        //             'Content-Type': 'application/json',
-        //             'Authorization': `Bearer ${localStorage.getItem('token')}`
-        //         },
-        //         body: JSON.stringify(data)
-        //     }).then((res) => this.props[0].history.push('/cars'))
-
-
-        // }else{
-        //     fetch(`http://localhost:8282/api/cars/v1/create`, {
-        //         method: 'POST',
-        //         headers: {
-        //             'Content-Type': 'application/json',
-        //             'Authorization': `Bearer ${localStorage.getItem('token')}`
-        //         },
-        //         body: JSON.stringify(data)
-        //     }).then((res) => this.props[0].history.push('/cars'))
-
-
-        // }
+        fetch(`https://localhost:8080/auth/processForm`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('token')}`,
+                'CSRF-Token': data._csrf
+            },
+            body: JSON.stringify(data)
+        })
     }
     
     componentDidMount() {
-       
+        fetch(`https://localhost:8080/auth/testForm`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('token')}`
+            },
+        }).then((res) => res.json()).then((result) => {
+            console.log(result);
+            this.setState({
+                initialValues: result
+            })
+        })
     }
 
 
@@ -66,7 +63,7 @@ class Test extends Component {
                         </Col>
                     </Row>
 
-                    <TestForm onSubmit={this.add}/>
+                    <TestForm onSubmit={this.add} initialValues={this.state.initialValues} />
 
                 </Container>
 

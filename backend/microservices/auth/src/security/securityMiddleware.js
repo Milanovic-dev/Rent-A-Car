@@ -3,9 +3,7 @@ const helmet = require('helmet');
 const sanitize = require('mongo-sanitize');
 const session = require('express-session');
 const hpp = require('hpp');
-const csrf = require('csurf');
-
-const csrfProtection = csrf({cookie:true});
+const cookieParser = require('cookie-parser');
 
 const sessionConfig = {
     secret: process.env.SESSION_SECRET,
@@ -22,7 +20,7 @@ const config = (app, server) => {
     app.use(hpp());//https://www.npmjs.com/package/hpp
     app.use(sanitizeInput);//https://www.npmjs.com/package/mongo-sanitize
     app.use(session(sessionConfig));//https://www.npmjs.com/package/express-session
-
+    app.use(cookieParser(process.env.SESSION_SECRET));
     process.on('SIGINT', () => {
         if(server){
             server.close();
@@ -44,6 +42,5 @@ const sanitizeInput = (req, res, next) => {
 };
 
 module.exports = {
-    config,
-    csrfProtection
+    config
 }

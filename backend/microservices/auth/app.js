@@ -10,6 +10,9 @@ app.use(cors());
 const security = require('./src/security/securityMiddleware');
 
 const { DORProtection } = require('./src/service');
+const csrf = require('csurf');
+
+const csrfProtection = csrf({cookie:false});
 
 const server = http.createServer(app);
 security.config(app, server);
@@ -38,18 +41,20 @@ app.get('/auth', (req, res) => {
 
 app.post('/auth/login', async (req, res) => {
     const result = await service.login(req.body.username, req.body.password);
-    if(res.status == 200){
+    if(result.status == 200){
         res.cookie('jwt', result.response, {httpOnly:true, secure:false});
     }
     res.status(result.status).send(result.response);
 });
 
 app.get('/auth/users', service.generatePermissionMiddleware('*'),  async (req, res) => {
+    console.log(req.session);
+    console.log(req.headers.cookie);
     const result = await service.users();
     res.status(result.status).send(result.response);
 });
 app.get('/auth/users/:id', DORProtection, async (req, res) => {
-    console.log(req.session);
+    console.log(req.cookie);
     const result = await service.user(req.params.id).catch(err => console.error(err));
     res.status(result.status).send(result.response);
 });
@@ -113,3 +118,12 @@ app.get('/auth/users55/testroute4', service.generatePermissionMiddleware('testpe
         route: '/users/testroute4'
      })
 })
+
+app.post('/auth/processForm', csrfProtection, async (req, res) => {
+    console.log(req.body);
+    res.status(200).send();
+});
+
+app.get('/auth/testForm', csrfProtection, async (req, res) => {
+    res.status(200).send({_csrf: req.csrfToken()});
+});

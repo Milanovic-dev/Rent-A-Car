@@ -42,8 +42,9 @@ class User extends Component {
                 'Authorization': `Bearer ${localStorage.getItem('token')}`
             },
         }).then((res) => res.json()).then((result) => {
+            console.log(result);
             this.setState({
-                initialValues: result
+                initialValues: result[0]
             })
         })
 
@@ -61,8 +62,9 @@ class User extends Component {
                             <h3>User page</h3>
                         </Col>
                     </Row>
-
-                    <UserForm initialValues={this.state.initialValues} />
+                    {
+                        this.state.initialValues ? <UserForm initialValues={this.state.initialValues} /> : null
+                    }
 
                     {/* {
                         this.state.error ?

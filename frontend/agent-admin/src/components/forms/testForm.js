@@ -33,6 +33,12 @@ class form extends React.Component {
                                         label={"Make"}
                                         placeholder=""
                                     ></Field>
+                                    <Field
+                                        name="_csrf"
+                                        component={renderTextField}
+                                        label={"Make"}
+                                        placeholder=""
+                                    ></Field>
                                 </Col>
                                 <Col lg="6" className="input-wrap">
                                     <Field
