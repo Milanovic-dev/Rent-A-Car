@@ -4,7 +4,7 @@ const http = require('http');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const service = require('./src/service');
-app.use(bodyParser.json());
+app.use(bodyParser.json({limit:'20mb'}));
 app.use(cors());
 
 const security = require('./src/security/securityMiddleware');
@@ -13,6 +13,18 @@ const { DORProtection } = require('./src/service');
 
 const server = http.createServer(app);
 security.config(app, server);
+
+app.use((req, res, next) => {
+    if(Object.keys(req.body).length > 0){
+        console.log(req.body)
+    }
+
+    if(Object.keys(req.params).length > 0){
+        console.log(req.params);
+    }
+
+    next();
+});
 
 server.listen(4000, () => {
     console.log("==========================");
@@ -32,7 +44,7 @@ app.post('/auth/login', async (req, res) => {
     res.status(result.status).send(result.response);
 });
 
-app.get('/auth/users', async (req, res) => {
+app.get('/auth/users', service.generatePermissionMiddleware('*'),  async (req, res) => {
     const result = await service.users();
     res.status(result.status).send(result.response);
 });

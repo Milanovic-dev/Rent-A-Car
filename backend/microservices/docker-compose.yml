@@ -91,7 +91,5 @@ services:
         build: './gateway'
         ports:
             - "8080:8080"
-        environment: 
-            - LOG_LEVEL=debug
 
         

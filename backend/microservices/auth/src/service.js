@@ -11,12 +11,15 @@ let db;
 
 
 dbConnect(process.env.DB_USERNAME, process.env.DB_PASSWORD, process.env.DB_SERVER, process.env.DB_NAME)
-    .then((conn) => {
+    .then(async (conn) => {
         db = conn;
 
         register({
             username: 'user0',
             password: 'user0',
+            firstName: 'Nikola',
+            lastName: 'Milanovic',
+            email: 'nikolamilanovic21@gmail.com',
             permissions: [
                 'testpermission1',
                 'testpermission2'
@@ -26,6 +29,9 @@ dbConnect(process.env.DB_USERNAME, process.env.DB_PASSWORD, process.env.DB_SERVE
         register({
             username: 'user1',
             password: 'user1',
+            firstName: 'Milana',
+            lastName: 'Tucakov',
+            email: 'milanatucakov@gmail.com',
             permissions: [
                 'testpermission2',
                 'testpermission3'
@@ -35,9 +41,23 @@ dbConnect(process.env.DB_USERNAME, process.env.DB_PASSWORD, process.env.DB_SERVE
         register({
             username: 'user2',
             password: 'user2',
+            firstName: 'Milan',
+            lastName: 'Stanojevic',
+            email: 'milanstanojevic@gmail.com',
             permissions: [
                 'testpermission1',
                 'testpermission3'
+            ]
+        });
+
+        register({
+            username: 'admin',
+            password: 'admin',
+            firstName: 'Admin',
+            lastName: 'Admin',
+            email: 'admin@gmail.com',
+            permissions: [
+                '*',
             ]
         });
 
@@ -73,6 +93,9 @@ const generatePermissionMiddleware = (permission) => {
                         return;
                     }
 
+                    if(result[0].permission && result[0].permission.indexOf('*') !== -1){
+                        return next();
+                    }
     
                     if (result[0].permissions && result[0].permissions.indexOf(permission) !== -1){
                         return next();
@@ -92,31 +115,29 @@ const generatePermissionMiddleware = (permission) => {
 }
 
 
-const DORProtection = (req, res, next) => {
+const DORProtection = async (req, res, next) => {
     if (typeof req.headers.authorization !== 'undefined') {
         let token = req.headers.authorization.split(" ")[1];
 
-        jwt.verify(token, process.env.JWT_SECRET, { algorithm: 'HS256' }, (err, user) => {
+        jwt.verify(token, process.env.JWT_SECRET, { algorithm: 'HS256' }, async (err, user) => {
             if (err) {
                 res.status(401).json({ error: 'Not Authorized' });
                 return;
             }
 
             const id = user.id;
-            console.log(id);
             
-            const dbUser = db.collection(dbCollection).findOne({_id:ObjectID(id)});
+            const dbUser = await db.collection(dbCollection).findOne({_id:ObjectID(id)});
             const permissions = dbUser.permissions;
+
             if(permissions){
-                if(permissions.includes('accessDOR')){
+                if(permissions.indexOf('accessDOR') !== -1 || permissions.indexOf('*') !== -1){
                     next();
                     return;
                 }
             }
-            console.log(req.params);
             if(req.params !== 'undefined'){
                 const paramsId = req.params.id;
-                console.log("PARAMS:" + paramsId);
                 if(paramsId === id){
                     next();
                     return;
@@ -204,7 +225,7 @@ const users = async () => {
     let userArray = await db.collection(dbCollection).find().toArray();
 
     for (let i = 0; i < userArray.length; i++) {
-        userArray[i] = userJSON(userArray[i]);
+        userArray[i] = userJSON(userArray[i], i);
     }
 
     return {
@@ -268,12 +289,16 @@ const setStatus = async (uid, id, status) => {
 }
 
 
-const userJSON = (user) => {
+const userJSON = (user, i) => {
     return {
         _id: user._id,
         username: user.username,
         role: user.role,
-        regTimestamp: user.regTimestamp
+        regTimestamp: user.regTimestamp,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        email: user.email,
+        key: i
     };
 };
 

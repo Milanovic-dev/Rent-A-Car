@@ -24,39 +24,30 @@ class Users extends Component {
         this.get();
     }
 
-    get() {
+    async get() {
         // if (!localStorage.token) {
         //     return;
         // }
 
-        // fetch('http://127.0.0.1:8282/api/cars/v1/all', {
-        //     method: 'GET',
-        //     headers: {
-        //         'Content-Type': 'application/json',
-        //         'Authorization': `Bearer ${localStorage.getItem('token')}`
-        //     },
-        // }).then((res) => res.json()).then((result) => {
-        //     this.setState({
-        //         items: result
-        //     })
-        // })
-        let result = [
-            {
-                _id: "1",
-                firstName: "Aleksandar",
-                lastName: "Dabic",
-                email: "acodabic1997@gmail.com"
-            },
-            {
-                _id: "2",
-                firstName: "Milan",
-                lastName: "Stanojevic",
-                email: "milan.stanojevic@gmail.com"
-            }
-        ];
-        this.setState({
-            items: result
-        })
+        const result = await fetch('https://localhost:8080/auth/users', {
+             method: 'GET',
+             headers: {
+                 'Content-Type': 'application/json',
+                 'Authorization': `Bearer ${localStorage.getItem('token')}`
+             },
+        });
+        
+        if(parseInt(result.status)/100 !== 2){
+            return;
+        }
+
+        const json = await result.json();
+        console.log(json);
+        if(json){
+            this.setState({
+                items: json
+            })
+        }
 
     }
 

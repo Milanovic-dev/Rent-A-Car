@@ -24,7 +24,7 @@ class Test extends Component {
     }
 
     add(data) {
-
+   
         // if (this.props[0].match.params.id){
         //     fetch(`http://localhost:8282/api/cars/v1/update`, {
         //         method: 'PUT',

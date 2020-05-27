@@ -20,7 +20,22 @@ class TestLogin extends Component {
     }
 
     login(data) {
-
+        console.log(data);
+        fetch('https://localhost:8080/auth/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                username: data.username,
+                password: data.password
+            })
+        }).then((res) => res.json()).then((result) => {
+            if(!result.error){
+                localStorage.setItem('token', result.token);
+                this.props[0].history.push('/cars');
+            }
+        })
         // fetch('https://localhost:4000/admin/login', {
         //     method: 'POST',
         //     headers: {
