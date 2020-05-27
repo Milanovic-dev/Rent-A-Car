@@ -1,9 +1,8 @@
 "use strict";
 const helmet = require('helmet');
-const sanitize = require('mongo-sanitize');
 const session = require('express-session');
 const hpp = require('hpp');
-
+const stripTags = require('striptags');
 const cookieParser = require('cookie-parser');
 
 
@@ -21,16 +20,8 @@ const config = (app, server) => {
     app.use(helmet()); //https://helmetjs.github.io/
     app.use(hpp());//https://www.npmjs.com/package/hpp
     app.use(sanitizeInput);//https://www.npmjs.com/package/mongo-sanitize
-    app.use(session(sessionConfig));//https://www.npmjs.com/package/express-session
     app.use(cookieParser(process.env.SESSION_SECRET));
-
-    process.on('SIGINT', () => {
-        if (server) {
-            server.close();
-            toobusy.shutdown();
-            process.exit();
-        }
-    });
+    app.use(session(sessionConfig));//https://www.npmjs.com/package/express-session
 }
 
 const sanitizeInput = (req, res, next) => {
@@ -42,6 +33,22 @@ const sanitizeInput = (req, res, next) => {
     req.body = cleanBody;
 
     next();
+};
+
+const sanitize = function (v) {
+    if (v instanceof Object) {
+      for (var key in v) {
+        if(typeof(v[key] == 'String')){
+            v[key] = stripTags(v[key]);
+        }
+        if (/^\$/.test(key)) {
+          delete v[key];
+        } else {
+          sanitize(v[key]);
+        }
+      }
+    }
+    return v;
 };
 
 

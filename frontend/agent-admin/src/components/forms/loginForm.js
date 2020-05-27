@@ -16,20 +16,6 @@ const form = (props) => {
             <Row>
                 <Col lg="12" className="input-wrap">
                     <Field
-                        name="type"
-                        component={renderSelectField}
-                        label={"Tip korisnika"}
-                        placeholder="Izaberite tip"
-                        validate={[required]}
-                        id="type"
-                    >
-                        <option value="admin">Administrator</option>
-                    </Field>
-
-                </Col>
-
-                <Col lg="12" className="input-wrap">
-                    <Field
                         name="username"
                         id="username"
                         component={renderTextField}

@@ -10,12 +10,13 @@ app.use(cors());
 const security = require('./src/security/securityMiddleware');
 
 const { DORProtection } = require('./src/service');
-const csrf = require('csurf');
 
-const csrfProtection = csrf({cookie:false});
 
 const server = http.createServer(app);
-security.config(app, server);
+security.config(app, server); //
+
+const csrf = require('csurf');
+const csrfProtection = csrf({cookie:true});
 
 app.use((req, res, next) => {
     if(Object.keys(req.body).length > 0){
@@ -119,8 +120,13 @@ app.get('/auth/users/test/testroute4', service.generatePermissionMiddleware('tes
      })
 })
 
+app.post('/auth/testInject', async (req, res) => {
+    res.status(200).send();
+});
+
 app.post('/auth/processForm', csrfProtection, async (req, res) => {
-    console.log(req.body);
+    //console.log(req.body);
+    console.log('COOKIES:' , req.cookies);
     res.status(200).send();
 });
 
