@@ -95,25 +95,25 @@ app.get('/test/authapi', async (req, res) => {
 });
 
 
-app.get('/auth/users55/testroute1', service.generatePermissionMiddleware('testpermission1'), async (req, res) => {
+app.get('/auth/users/test/testroute1', service.generatePermissionMiddleware('testpermission1'), async (req, res) => {
     res.status(200).send({ 
         route: '/users/testroute1'
      })
 })
 
-app.get('/auth/users55/testroute2', service.generatePermissionMiddleware('testpermission2'), async (req, res) => {
+app.get('/auth/users/test/testroute2', service.generatePermissionMiddleware('testpermission2'), async (req, res) => {
     res.status(200).send({ 
         route: '/users/testroute2'
      })
 })
 
-app.get('/auth/users55/testroute3', service.generatePermissionMiddleware('testpermission3'), async (req, res) => {
+app.get('/auth/users/test/testroute3', service.generatePermissionMiddleware('testpermission3'), async (req, res) => {
     res.status(200).send({ 
         route: '/users/testroute3'
      })
 })
 
-app.get('/auth/users55/testroute4', service.generatePermissionMiddleware('testpermission4'), async (req, res) => {
+app.get('/auth/users/test/testroute4', service.generatePermissionMiddleware('testpermission4'), async (req, res) => {
     res.status(200).send({ 
         route: '/users/testroute4'
      })
