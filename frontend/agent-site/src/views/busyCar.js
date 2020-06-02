@@ -72,6 +72,7 @@ class BusyCar extends Component {
         this.previous = this.previous.bind(this);
         this.onExiting = this.onExiting.bind(this);
         this.onExited = this.onExited.bind(this);
+        this.add = this.add.bind(this);
 
         /*this.next = this.next.bind(this);
         this.prev = this.prev.bind(this);*/
@@ -182,6 +183,14 @@ class BusyCar extends Component {
 
 
     }
+    add(data){
+        let ts1 = Math.floor(data.dateFrom.getTime() / 1000);
+        let ts2 = Math.floor(data.dateTo.getTime() / 1000);
+
+        // console.log(data);
+        // console.log(ts1);
+        // console.log(ts2);
+    }
 
 
     render() {
@@ -231,7 +240,7 @@ class BusyCar extends Component {
                                 <Form onSubmit={this.add} />
 
                         } */}
-                        <Form />
+                        <Form  onSubmit={this.add}/>
                     </Container>
 
 

@@ -72,6 +72,7 @@ class ChangeCar extends Component {
         this.previous = this.previous.bind(this);
         this.onExiting = this.onExiting.bind(this);
         this.onExited = this.onExited.bind(this);
+        this.add = this.add.bind(this);
 
         /*this.next = this.next.bind(this);
         this.prev = this.prev.bind(this);*/
@@ -182,6 +183,9 @@ class ChangeCar extends Component {
 
 
     }
+    add(data){
+        console.log(data);
+    }
 
 
     render() {
@@ -207,7 +211,7 @@ class ChangeCar extends Component {
             });
 
         }
-
+        
 
         return (
 
@@ -229,7 +233,7 @@ class ChangeCar extends Component {
                                 <Form onSubmit={this.add} />
 
                         } */}
-                        <Form />
+                        <Form onSubmit={this.add}/>
                     </Container>
 
 

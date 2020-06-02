@@ -135,6 +135,7 @@ const renderRangeSliderField = ({
 
 
 const busyCarForm = (props) => {
+   
     
     const { handleSubmit, pristine, reset, submitting } = props;
     console.log(pristine, submitting);
@@ -150,7 +151,7 @@ const busyCarForm = (props) => {
                     <Row>
                         <Col lg="6" className="input-wrap">
                             <Field
-                                name="date_from"
+                                name="dateFrom"
                                 component={renderDateField}
                                 label={"FROM"}
                                 // placeholder="Make"
@@ -159,7 +160,7 @@ const busyCarForm = (props) => {
                         </Col>
                         <Col lg="6" className="input-wrap">
                             <Field
-                                name="date_to"
+                                name="dateTo"
                                 component={renderDateField}
                                 label={"TO"}
                                 // placeholder="Make"
@@ -172,7 +173,7 @@ const busyCarForm = (props) => {
 
                 <Col lg="12">
                     <div className="input-wrap buttons">
-                        <button type="submit" className="button" disabled={pristine || submitting}> SAVE </button>
+                        <button type="submit" className="button"> SAVE </button>
                     </div>
 
                 </Col>
