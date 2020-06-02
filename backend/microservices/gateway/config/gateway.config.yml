@@ -5,7 +5,7 @@ https:
       key: "./config/certificates/root.key"
       cert: "./config/certificates/root.crt"
   options:
-    "rejectUnauthorized": true
+    "rejectUnauthorized": false
 apiEndpoints:
   auth:
     paths: 
@@ -16,6 +16,12 @@ apiEndpoints:
   webhook:
     paths:
       - '/webhook/*'
+  orders:
+    paths:
+      - '/orders/*'
+  search:
+    paths:
+      - '/search/*'
 serviceEndpoints:
   auth:
     url: 'http://auth:4000'
@@ -23,6 +29,10 @@ serviceEndpoints:
     url: 'http://cars:4000'
   webhook:
     url: 'http://webhook:4000'
+  orders:
+    url: 'http://orders:4000'
+  search:
+    url: 'http://search:4000'
 policies:
   - proxy
   - rate-limit
@@ -63,4 +73,28 @@ pipelines:
       - proxy:
         - action: 
             serviceEndpoint: webhook
+            changeOrigin: true
+  orders:
+    apiEndpoints:
+      - orders
+    policies:
+      - rate-limit:
+        - action:
+            max: 10
+            windowMs: 1000
+      - proxy:
+        - action: 
+            serviceEndpoint: orders
+            changeOrigin: true
+  search:
+    apiEndpoints:
+      - search
+    policies:
+      - rate-limit:
+        - action:
+            max: 10
+            windowMs: 1000
+      - proxy:
+        - action: 
+            serviceEndpoint: search
             changeOrigin: true

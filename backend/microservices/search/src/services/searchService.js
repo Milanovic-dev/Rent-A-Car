@@ -36,11 +36,6 @@ const search = async (filter) => {
     console.log(searchObject);
     let result = await db.collection(dbCollection).find(searchObject).toArray();
 
-    if(result.length <= 0)
-    {
-        console.log("No items to show.");
-    }
-
     return { response: result, status: 200 };
 }
 
