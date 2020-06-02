@@ -8,7 +8,7 @@ import PageHeader from '../containers/header/pageHeader';
 import Footer from '../containers/footer';
 
 import Map from '../components/map';
-import Form from '../components/forms/carForm';
+import Form from '../components/forms/busyCarForm';
 
 
 import {
@@ -61,7 +61,7 @@ import {
 // }
 
 
-class ChangeCar extends Component {
+class BusyCar extends Component {
 
     constructor(props) {
         super(props);
@@ -220,6 +220,8 @@ class ChangeCar extends Component {
                     <Container>
                         <Row className="page-title">
                             <Col lg="12">
+                                <h3>ENTER OCCUPATION OF AN INDIVIDUAL CAR FOR A CERTAIN PERRIOD</h3>
+                                <h7>SERIAL NUMBER: {this.props[0].match.params.id}</h7>
                             </Col>
                         </Row>
                         {/* {
@@ -279,4 +281,4 @@ const mapStateToProps = state => ({
 
 
 
-export default connect(mapStateToProps)(PageWithLayout(ChangeCar));
+export default connect(mapStateToProps)(PageWithLayout(BusyCar));

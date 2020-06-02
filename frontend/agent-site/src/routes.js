@@ -14,6 +14,9 @@ import HomePage from './views/homePage';
 import InventoryPage from './views/inventoryPage';
 import DetailPage from './views/detailPage';
 import ChangeCar from './views/changeCar';
+import BusyCar from './views/busyCar';
+
+
 
 
 const history = createBrowserHistory();
@@ -66,6 +69,13 @@ class Routes extends Component {
                             exact
                             render={(...renderProps) => (
                                 <ChangeCar {...renderProps} {...this.props} />
+                            )}
+                        />
+                        <Route
+                            path="/cars/busy/:id"
+                            exact
+                            render={(...renderProps) => (
+                                <BusyCar {...renderProps} {...this.props} />
                             )}
                         />
 
