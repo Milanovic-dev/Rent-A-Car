@@ -56,7 +56,6 @@ soapService.getClient().then(soapClient => {
     })
 }).catch(err => { 
     console.error(err);
-    console.error(`Cannot /getWsdl from ${process.env.HOST_URL}/webhook/`);
 });
 
 

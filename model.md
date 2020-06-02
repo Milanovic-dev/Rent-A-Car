@@ -145,6 +145,7 @@
     * isBundle ?
    ## OrderBundle
     * id
+    * renterId
     * cars
    ## Report
     * orderId 

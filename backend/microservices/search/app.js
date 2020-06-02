@@ -5,6 +5,7 @@ const cors = require('cors');
 app.use(bodyParser.json());
 app.use(cors());
 
+require('./src/api/searchApi') (app);
 
 app.listen(4000, () => {
     console.log(`Search microservice running!`);

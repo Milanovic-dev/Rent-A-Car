@@ -11,24 +11,9 @@ const security = require('./src/security/securityMiddleware');
 
 const { DORProtection } = require('./src/service');
 
-
 const server = http.createServer(app);
-security.config(app, server); //
+security.config(app, server);
 
-const csrf = require('csurf');
-const csrfProtection = csrf({cookie:true});
-
-app.use((req, res, next) => {
-    if(Object.keys(req.body).length > 0){
-        console.log(req.body)
-    }
-
-    if(Object.keys(req.params).length > 0){
-        console.log(req.params);
-    }
-
-    next();
-});
 
 server.listen(4000, () => {
     console.log("==========================");
@@ -89,47 +74,4 @@ app.post('/auth/users/permissions/create', async (req, res) => {
 
 app.post('/auth/users/:id/permissions/update', async (req, res) => {
 
-});
-
-app.get('/test/authapi', async (req, res) => {
-    res.status('Found cars api');
-});
-
-
-app.get('/auth/users/test/testroute1', service.generatePermissionMiddleware('testpermission1'), async (req, res) => {
-    res.status(200).send({ 
-        route: '/users/testroute1'
-     })
-})
-
-app.get('/auth/users/test/testroute2', service.generatePermissionMiddleware('testpermission2'), async (req, res) => {
-    res.status(200).send({ 
-        route: '/users/testroute2'
-     })
-})
-
-app.get('/auth/users/test/testroute3', service.generatePermissionMiddleware('testpermission3'), async (req, res) => {
-    res.status(200).send({ 
-        route: '/users/testroute3'
-     })
-})
-
-app.get('/auth/users/test/testroute4', service.generatePermissionMiddleware('testpermission4'), async (req, res) => {
-    res.status(200).send({ 
-        route: '/users/testroute4'
-     })
-})
-
-app.post('/auth/testInject', async (req, res) => {
-    res.status(200).send();
-});
-
-app.post('/auth/processForm', csrfProtection, async (req, res) => {
-    //console.log(req.body);
-    console.log('COOKIES:' , req.cookies);
-    res.status(200).send();
-});
-
-app.get('/auth/testForm', csrfProtection, async (req, res) => {
-    res.status(200).send({_csrf: req.csrfToken()});
 });
