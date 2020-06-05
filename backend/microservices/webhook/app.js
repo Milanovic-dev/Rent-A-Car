@@ -34,9 +34,10 @@ let db;
 dbConnect(process.env.DB_USERNAME, process.env.DB_PASSWORD, process.env.DB_SERVER, process.env.DB_NAME)
 .then(async (conn) => {
     db = conn;
-    
-    await db.collection('cars').drop();
-    await db.collection('agents').drop();
+    await db.dropDatabase();
+    await db.collection('cars').insertOne({ownerId:'AgentAdmin', make:"Audi", model:"A8"});
+    await db.collection('cars').insertOne({ownerId:'AgentAdmin', make:"Audi", model:"A8"});
+    await db.collection('cars').insertOne({ownerId:'AgentAdmin', make:"Audi", model:"A8"});
     const coll = await db.collection('agents').findOne({username:"AgentAdmin"});
     const bcrypt = require('bcrypt');
     if(!coll){
@@ -44,14 +45,6 @@ dbConnect(process.env.DB_USERNAME, process.env.DB_PASSWORD, process.env.DB_SERVE
         db.collection('agents').insertOne({username:"AgentAdmin", password: pass});
     }
 
-    db.collection('cars').insertOne({ownerId:'AgentAdmin', make:"Audi", model:"A8", version:2});
-    db.collection('cars').insertOne({ownerId:'AgentAdmin', make:'Merc', model:'E220', version:1});
-    db.collection('cars').insertOne({ownerId:'AgentAdmin', make:'Merc', model:'A', version:1});
-    db.collection('cars').insertOne({ownerId:'AgentAdmin', make:'Merc', model:'C', version:1});
-    db.collection('cars').insertOne({ownerId:'AgentAdmin', make:'Merc', model:'S', version:1});
-    db.collection('cars').insertOne({ownerId:'AgentAdmin', make:'Merc', model:'G', version:1});
-    db.collection('cars').insertOne({ownerId:'AgentAdmin', make:'Merc', model:'CLS', version:1});
-    db.collection('cars').insertOne({ownerId:'AgentAdmin', make:'Merc', model:'GLE', version:1});
 }).catch((e) => {
     console.log(`DB error: ${e}`);
 })

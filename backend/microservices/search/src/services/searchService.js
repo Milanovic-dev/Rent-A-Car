@@ -6,11 +6,8 @@ const dbConnect = require('../../db');
 const dbCollection = 'cars';
 let db;
 dbConnect(process.env.DB_USERNAME, process.env.DB_PASSWORD, process.env.DB_SERVER, process.env.DB_NAME)
-.then((conn) => {
+.then(async (conn) => {
     db = conn;
-
-    db.collection('cars').insertOne({make:"Audi", model: "A4"});
-    db.collection('cars').insertOne({make:"BMW", model: "M3"});
 }).catch((e) => {
     console.log(`DB error: ${e}`);
 })
