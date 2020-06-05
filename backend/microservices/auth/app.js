@@ -39,16 +39,23 @@ app.get('/auth/users', service.generatePermissionMiddleware('*'),  async (req, r
     const result = await service.users();
     res.status(result.status).send(result.response);
 });
-app.get('/auth/users/:id', DORProtection, async (req, res) => {
-    console.log(req.cookie);
-    const result = await service.user(req.params.id).catch(err => console.error(err));
+app.get('/auth/users/update/status/:id/:status', async (req, res) => {
+    const result = await service.updateStatus(req.params.id, parseInt(req.params.status) );
     res.status(result.status).send(result.response);
 });
+app.delete('/auth/users/remove/:id', async (req, res) => {
+    const result = await service.removeUser(req.params.id );
+    res.status(result.status).send(result.response);
+});
+
+
+
 app.post('/auth/users/update', async (req, res) => {
     let id = res.locals.id;
     const result = await service.update(id, req.body);
     res.status(result.status).send(result.response);
 });
+
 app.post('/auth/users/status/:id', DORProtection,  async (req, res) => {
     let uid = res.locals.id;
     const result = await service.setStatus(uid, req.params.id, req.body);
@@ -57,6 +64,11 @@ app.post('/auth/users/status/:id', DORProtection,  async (req, res) => {
 
 app.post('/auth/register', async (req, res) => {
     const result = await service.register(req.body);
+    res.status(result.status).send(result.response);
+});
+app.get('/auth/users/:id', DORProtection, async (req, res) => {
+    console.log(req.cookie);
+    const result = await service.user(req.params.id).catch(err => console.error(err));
     res.status(result.status).send(result.response);
 });
 

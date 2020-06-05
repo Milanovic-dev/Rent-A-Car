@@ -5,6 +5,8 @@ import {
     Switch
 } from 'react-router-dom';
 import AdminLoginPage from './views/admin/login';
+import RegisterPage from './views/admin/register';
+
 import ChangeCar from './views/admin/changeCar';
 import Cars from './views/admin/cars';
 import MileageReport from './views/admin/mileageReport';
@@ -63,6 +65,15 @@ class Routes extends Component {
                                 <AdminLoginPage {...renderProps} {...this.props} />
                             )}
                         />
+
+                        <Route
+                            path="/register"
+                            exact
+                            render={(...renderProps) => (
+                                <RegisterPage {...renderProps} {...this.props} />
+                            )}
+                        />
+
                         <Route
                             path="/testLogin"
                             exact
