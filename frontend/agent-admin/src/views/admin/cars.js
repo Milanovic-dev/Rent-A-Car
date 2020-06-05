@@ -4,6 +4,7 @@ import Isvg from 'react-inlinesvg';
 import Page from '../../containers/admin/page';
 import editIcon from '../../assets/svg/edit.svg';
 import deleteIcon from '../../assets/svg/delete.svg';
+import car from '../../assets/svg/car-rental.svg'
 import {
     Container,
     Row,
@@ -30,7 +31,7 @@ class Cars extends Component {
             return;
         }
 
-        fetch('http://127.0.0.1:8282/api/cars/v1/all', {
+        fetch('https://127.0.0.1:8080/cars/all', {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -49,7 +50,7 @@ class Cars extends Component {
             return;
         }
 
-        fetch('http://127.0.0.1:8282/api/cars/v1/remove/' + id, {
+        fetch('https://127.0.0.1:8080/cars/remove/' + id, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',
@@ -70,10 +71,10 @@ class Cars extends Component {
                         </Col>
                     </Row>
                     <Row className="table-head">
-                        <Col lg="9">
+                        <Col lg="7">
                             <span className="name">NAME</span>
                         </Col>
-                        <Col lg="3" className="actions">
+                        <Col lg="5" className="actions">
 
                             <span className="name">OPTIONS</span>
                         </Col>
@@ -82,12 +83,12 @@ class Cars extends Component {
                         this.state.items.map((item, idx) => {
                             return (
                                 <Row className="table-row" key={idx}>
-                                    <Col lg="9">
+                                    <Col lg="7">
                                         <span className="value">{item.make} {item.model} {item.location}</span>
                                     </Col>
-                                    <Col lg="3" className="actions">
+                                    <Col lg="5" className="actions">
                                         <Link to={`/cars/${item._id}`}><Isvg src={editIcon} /></Link>
-
+                                        <Link to={`/cars/busy/${item._id}`}><Isvg src={car} /></Link>
                                         <button onClick={() => this.delete(item._id)}><Isvg src={deleteIcon} /></button>
                                     </Col>
                                 </Row>

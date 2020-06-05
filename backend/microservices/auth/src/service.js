@@ -23,7 +23,8 @@ dbConnect(process.env.DB_USERNAME, process.env.DB_PASSWORD, process.env.DB_SERVE
             permissions: [
                 'testpermission1',
                 'testpermission2'
-            ]
+            ],
+            role: 'user'
         });
 
         register({

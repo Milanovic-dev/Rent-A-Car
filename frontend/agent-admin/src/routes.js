@@ -9,6 +9,9 @@ import ChangeCar from './views/admin/changeCar';
 import Cars from './views/admin/cars';
 import MileageReport from './views/admin/mileageReport';
 import CarStats from './views/admin/carStats';
+import BusyCar from './views/admin/busyCar';
+
+
 
 //  TEST 
 
@@ -62,6 +65,14 @@ class Routes extends Component {
                                 <Cars {...renderProps} {...this.props} />
                             )}
                         />
+                        <Route
+                            path="/cars/busy/:id"
+                            exact
+                            render={(...renderProps) => (
+                                <BusyCar {...renderProps} {...this.props} />
+                            )}
+                        />
+
                         <Route
                             path="/users"
                             exact
