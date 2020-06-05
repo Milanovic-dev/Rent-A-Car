@@ -58,7 +58,7 @@ class HomePage extends Component {
 
 
 
-        fetch('http://127.0.0.1:8282/api/cars/v1/all', {
+        fetch('http://127.0.0.1:8080/api/cars/v1/all', {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
