@@ -13,6 +13,20 @@ import BusyCar from './views/admin/busyCar';
 
 
 
+import ChangeMake from './views/admin/changeMake';
+import Makes from './views/admin/makes';
+
+
+import ChangeModel from './views/admin/changeModel';
+import Models from './views/admin/models';
+
+
+import ChangeFuel from './views/admin/changeFuel';
+import Fuels from './views/admin/fuels';
+
+import ChangeClass from './views/admin/changeClass';
+import Classes from './views/admin/classes';
+
 //  TEST 
 
 import TestLogin from './views/admin/testLogin';
@@ -87,6 +101,108 @@ class Routes extends Component {
                                 <User {...renderProps} {...this.props} />
                             )}
                         />
+                        <Route
+                            path="/makes"
+                            exact
+                            render={(...renderProps) => (
+                                <Makes {...renderProps} {...this.props} />
+                            )}
+                        />
+
+
+                        <Route
+                            path="/makes/new"
+                            exact
+                            render={(...renderProps) => (
+                                <ChangeMake {...renderProps} {...this.props} />
+                            )}
+                        />
+                        <Route
+                            path="/makes/:id"
+                            exact
+                            render={(...renderProps) => (
+                                <ChangeMake {...renderProps} {...this.props} />
+                            )}
+                        />
+                        <Route
+                            path="/models"
+                            exact
+                            render={(...renderProps) => (
+                                <Models {...renderProps} {...this.props} />
+                            )}
+                        />
+
+
+                        <Route
+                            path="/models/new"
+                            exact
+                            render={(...renderProps) => (
+                                <ChangeModel {...renderProps} {...this.props} />
+                            )}
+                        />
+                        <Route
+                            path="/models/:id"
+                            exact
+                            render={(...renderProps) => (
+                                <ChangeModel {...renderProps} {...this.props} />
+                            )}
+                        />
+
+
+
+
+                        <Route
+                            path="/fuels"
+                            exact
+                            render={(...renderProps) => (
+                                <Fuels {...renderProps} {...this.props} />
+                            )}
+                        />
+
+
+                        <Route
+                            path="/fuels/new"
+                            exact
+                            render={(...renderProps) => (
+                                <ChangeFuel {...renderProps} {...this.props} />
+                            )}
+                        />
+                        <Route
+                            path="/fuels/:id"
+                            exact
+                            render={(...renderProps) => (
+                                <ChangeFuel {...renderProps} {...this.props} />
+                            )}
+                        />
+
+
+                        <Route
+                            path="/classes"
+                            exact
+                            render={(...renderProps) => (
+                                <Classes {...renderProps} {...this.props} />
+                            )}
+                        />
+
+
+                        <Route
+                            path="/classes/new"
+                            exact
+                            render={(...renderProps) => (
+                                <ChangeClass {...renderProps} {...this.props} />
+                            )}
+                        />
+                        <Route
+                            path="/classes/:id"
+                            exact
+                            render={(...renderProps) => (
+                                <ChangeClass {...renderProps} {...this.props} />
+                            )}
+                        />
+
+
+
+
 
                         <Route
                             path="/cars/new"

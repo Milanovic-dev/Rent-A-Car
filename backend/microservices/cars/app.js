@@ -14,6 +14,13 @@ app.listen(4000, () => {
 });
 require('./src/api/carApi') (app);
 
+require('./src/api/carApi') (app);
+require('./src/api/makeApi') (app);
+require('./src/api/modelApi') (app);
+require('./src/api/fuelApi') (app);
+require('./src/api/classApi') (app);
+
+
 app.get('/', (req, res) => {
     res.send('This is car service');
 });

@@ -94,7 +94,7 @@ const generatePermissionMiddleware = (permission) => {
                         return;
                     }
 
-                    if(result[0].permission && result[0].permission.indexOf('*') !== -1){
+                    if(result[0].permission && result[0].permissions.indexOf('*') !== -1){
                         return next();
                     }
     

@@ -13,6 +13,10 @@ apiEndpoints:
   cars:
     paths:
       - '/cars/*'
+      - '/make/*'
+      - '/model/*'
+      - '/fuel/*'
+      - '/class/*'
   webhook:
     paths:
       - '/webhook/*'
@@ -53,6 +57,10 @@ pipelines:
   cars:
     apiEndpoints:
       - cars
+      - make
+      - model
+      - fuel
+      - class
     policies:
       - rate-limit:
         - action:
