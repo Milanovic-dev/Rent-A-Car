@@ -209,7 +209,7 @@ class LoginPage extends Component {
                                             <LoginForm onSubmit={this.login} />
                                             {
                                                 this.state.error ?
-                                                    <p>{this.state.error}</p>
+                                                    <p style={{color: '#fff'}}>{this.state.error}</p>
                                                     :
                                                     null
                                             }

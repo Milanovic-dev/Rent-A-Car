@@ -72,7 +72,7 @@ const generatePermissionMiddleware = (permission) => {
     return async (req, res, next) => {
         if (typeof req.headers.authorization !== "undefined") {
             let token = req.headers.authorization.split(" ")[1];
-    
+
             jwt.verify(token, process.env.JWT_SECRET, { algorithm: "HS256" }, (err, user) => {
                 res.locals.uid = user.id;
 
@@ -82,25 +82,25 @@ const generatePermissionMiddleware = (permission) => {
                     //throw new Error("Not Authorized");
                 }
 
-                db.collection(dbCollection).find({_id: ObjectID(user.id)}).toArray((err, result) => {
-                    if (err){
+                db.collection(dbCollection).find({ _id: ObjectID(user.id) }).toArray((err, result) => {
+                    if (err) {
                         res.status(404).json({ error: "Not Found" });
                         return;
                     }
 
-                    if (result && !result.length){
+                    if (result && !result.length) {
                         res.status(404).json({ error: "Not Found" });
                         return;
                     }
 
-                    if(result[0].permission && result[0].permissions.indexOf('*') !== -1){
+                    if (result[0].permission && result[0].permissions.indexOf('*') !== -1) {
                         return next();
                     }
-    
-                    if (result[0].permissions && result[0].permissions.indexOf(permission) !== -1){
+
+                    if (result[0].permissions && result[0].permissions.indexOf(permission) !== -1) {
                         return next();
                     }
-    
+
                     res.status(401).json({ error: "Not Authorized" });
                     return;
                 });
@@ -111,7 +111,7 @@ const generatePermissionMiddleware = (permission) => {
             //throw new Error("Not Authorized");
         }
     }
-    
+
 }
 
 
@@ -126,19 +126,19 @@ const DORProtection = async (req, res, next) => {
             }
 
             const id = user.id;
-            
-            const dbUser = await db.collection(dbCollection).findOne({_id:ObjectID(id)});
+
+            const dbUser = await db.collection(dbCollection).findOne({ _id: ObjectID(id) });
             const permissions = dbUser.permissions;
 
-            if(permissions){
-                if(permissions.indexOf('accessDOR') !== -1 || permissions.indexOf('*') !== -1){
+            if (permissions) {
+                if (permissions.indexOf('accessDOR') !== -1 || permissions.indexOf('*') !== -1) {
                     next();
                     return;
                 }
             }
-            if(req.params !== 'undefined'){
+            if (req.params !== 'undefined') {
                 const paramsId = req.params.id;
-                if(paramsId === id){
+                if (paramsId === id) {
                     next();
                     return;
                 }
@@ -159,12 +159,23 @@ const login = async (username, password) => {
     if (user) {
         if (bcrypt.compareSync(password, user.password)) {
             let token = jwt.sign({ "id": user._id }, process.env.JWT_SECRET, { algorithm: 'HS256', expiresIn: '7d' });
-            return {
-                response: {
-                    token
-                },
-                status: 200
-            };
+            if (user.status == 1) {
+                return {
+                    response: {
+                        error: 'User disabled'
+                    },
+                    status: 401
+                };
+
+            } else {
+
+                return {
+                    response: {
+                        token
+                    },
+                    status: 200
+                };
+            }
         }
         else {
             return {
@@ -203,12 +214,14 @@ const register = async (user) => {
     user.password = bcrypt.hashSync(user.password, bcrypt.genSaltSync(10, 'b'));
     user.role = 'user';
     user.regTimestamp = new Date().getUTCMilliseconds();
+    user.status = 0;
 
     let storeResult = await db.collection(dbCollection).insertOne(user);
 
     if (storeResult.insertedCount == 1) {
         return {
-            status: 200
+            status: 200,
+            response: {}
         };
     }
     else {
@@ -234,7 +247,7 @@ const users = async () => {
     };
 }
 const user = async (id) => {
-    
+
     let user = await db.collection(dbCollection).find({ _id: ObjectID(id) }).toArray();
 
     user[0] = userJSON(user[0]);
@@ -272,10 +285,10 @@ const update = async (id, obj) => {
     };
 }
 const setStatus = async (uid, id, status) => {
-    
+
 
     // let admin = await db.collection(dbCollection).find({ _id: ObjectID(uid), role: 'admin' }).toArray(); //admin ili neko vec
-    
+
     await db.collection(dbCollection).updateOne({ _id: ObjectID(id) }, {
         $set: {
             role: status.role
@@ -287,6 +300,36 @@ const setStatus = async (uid, id, status) => {
         status: 200
     };
 }
+const updateStatus = async (id, status) => {
+
+
+    // let admin = await db.collection(dbCollection).find({ _id: ObjectID(uid), role: 'admin' }).toArray(); //admin ili neko vec
+
+    await db.collection(dbCollection).updateOne({ _id: ObjectID(id) }, {
+        $set: {
+            status: status
+        }
+    })
+
+    return {
+        response: id,
+        status: 200
+    };
+}
+
+const removeUser = async (id) => {
+
+
+    // let admin = await db.collection(dbCollection).find({ _id: ObjectID(uid), role: 'admin' }).toArray(); //admin ili neko vec
+
+    await db.collection(dbCollection).deleteOne({ _id: ObjectID(id) })
+
+    return {
+        response: id,
+        status: 200
+    };
+}
+
 
 
 const userJSON = (user, i) => {
@@ -298,7 +341,9 @@ const userJSON = (user, i) => {
         firstName: user.firstName,
         lastName: user.lastName,
         email: user.email,
-        key: i
+        status: user.status,
+        key: i,
+        
     };
 };
 
@@ -310,7 +355,9 @@ const AuthService = {
     update,
     setStatus,
     generatePermissionMiddleware,
-    DORProtection
+    DORProtection,
+    updateStatus,
+    removeUser
 };
 
 
