@@ -34,7 +34,7 @@ class ChangeCar extends Component {
         data.description ?  data.description = stripHtml(data.description) : data.description = "";
 
         if (this.props[0].match.params.id){
-            fetch(`http://localhost:8282/api/cars/v1/update`, {
+            fetch(`https://localhost:8080/cars/update`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -45,7 +45,7 @@ class ChangeCar extends Component {
 
 
         }else{
-            fetch(`http://localhost:8282/api/cars/v1/create`, {
+            fetch(`https://localhost:8080/cars/create`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -63,7 +63,7 @@ class ChangeCar extends Component {
     }
     get() {
          if (this.props[0].match.params.id) {
-            fetch('http://localhost:8282/api/cars/v1/get/' + this.props[0].match.params.id, {
+            fetch('https://localhost:8080/cars/get/' + this.props[0].match.params.id, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',

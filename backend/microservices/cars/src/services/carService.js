@@ -68,6 +68,39 @@ const updateCar = async (car) => {
 
   return { status: 404 };
 };
+const busyCar = async (car) => {
+
+    if(car == undefined) return { status: 400 }; 
+  
+    let dbCar = await db.collection(dbCollection).findOne(
+        {
+            _id: ObjectID(car.id)
+        }
+    );
+  
+    if(!dbCar){
+        return { status:404 };
+    }
+  
+    let result = await db.collection(dbCollection).updateOne(
+        {
+            _id : ObjectID(car.id)
+        },
+        {
+            $set: {
+                busyFrom: car.busyFrom,
+                busyTo: car.busyTo                
+            }
+        }
+    );
+  
+    if(result.modifiedCount == 1){
+        return { status:200 };
+    }
+  
+    return { status: 404 };
+  };
+  
 
 const removeCar = async (id) => {
   let result = await db.collection(dbCollection).deleteOne(
@@ -112,6 +145,7 @@ const getAll = async () => {
 
 module.exports = {
   create: createCar,
+  busy: busyCar,
   update: updateCar,
   remove: removeCar,
   get: getCar,

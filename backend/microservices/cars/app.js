@@ -6,13 +6,13 @@ const cors = require('cors');
 app.use(cors());
 app.use(bodyParser.json());
 
-require('./src/api/carApi') (app);
 
 app.listen(4000, () => {
     console.log("==========================");
     console.log(`Cars microservice running!`);
     console.log("==========================");
 });
+require('./src/api/carApi') (app);
 
 app.get('/', (req, res) => {
     res.send('This is car service');

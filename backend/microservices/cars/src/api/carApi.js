@@ -28,6 +28,14 @@ module.exports = function(app){
         let result = await service.update(req.body);
         res.status(result.status).send(result.response);
     });
+    app.put('/cars/busy', async (req, res) => {
+        console.log(req.method + req.route.path);
+        console.log(req.body);
+        if(!req.body) return res.status('400');
+
+        let result = await service.busy(req.body);
+        res.status(result.status).send(result.response);
+    });
 
     app.delete('/cars/remove/:id', async (req, res) => {
         console.log(req.method + req.route.path);
