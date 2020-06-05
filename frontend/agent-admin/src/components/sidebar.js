@@ -50,30 +50,45 @@ class Sidebar extends Component {
 
                     <ul>
                         <li>
-                            <Link to='/users' className={this.props[0].location.pathname === '/users' ? 'active' : null}>
+                            <Link to='/makes' className={this.props[0].location.pathname === '/makes' ? 'active' : null}>
                                 <Isvg src={list} />
                                 All manufacturers
                             </Link>
                         </li>
                         <li>
-                            <Link to='/test' className={this.props[0].location.pathname === '/test' ? 'active' : null}>
+                            <Link to='/makes/new' className={this.props[0].location.pathname === '/makes/new' ? 'active' : null}>
                                 <Isvg src={add} />
                                 Add new manufacturer
                             </Link>
                         </li>
                     </ul>
+                    <h6>Models</h6>
 
+                    <ul>
+                        <li>
+                            <Link to='/models' className={this.props[0].location.pathname === '/models' ? 'active' : null}>
+                                <Isvg src={list} />
+            All models
+        </Link>
+                        </li>
+                        <li>
+                            <Link to='/models/new' className={this.props[0].location.pathname === '/models/new' ? 'active' : null}>
+                                <Isvg src={add} />
+            Add new model
+        </Link>
+                        </li>
+                    </ul>
                     <h6>Fuel</h6>
 
                     <ul>
                         <li>
-                            <Link to='/users' className={this.props[0].location.pathname === '/users' ? 'active' : null}>
+                            <Link to='/fuels' className={this.props[0].location.pathname === '/fuels' ? 'active' : null}>
                                 <Isvg src={list} />
             All fuel types
         </Link>
                         </li>
                         <li>
-                            <Link to='/test' className={this.props[0].location.pathname === '/test' ? 'active' : null}>
+                            <Link to='/fuels/new' className={this.props[0].location.pathname === '/fuels/new' ? 'active' : null}>
                                 <Isvg src={add} />
             Add new fuel
         </Link>
@@ -83,13 +98,13 @@ class Sidebar extends Component {
 
                     <ul>
                         <li>
-                            <Link to='/users' className={this.props[0].location.pathname === '/users' ? 'active' : null}>
+                            <Link to='/classes' className={this.props[0].location.pathname === '/classes' ? 'active' : null}>
                                 <Isvg src={list} />
             All classes
         </Link>
                         </li>
                         <li>
-                            <Link to='/test' className={this.props[0].location.pathname === '/test' ? 'active' : null}>
+                            <Link to='/classes/new' className={this.props[0].location.pathname === '/classes/new' ? 'active' : null}>
                                 <Isvg src={add} />
             Add new class
         </Link>

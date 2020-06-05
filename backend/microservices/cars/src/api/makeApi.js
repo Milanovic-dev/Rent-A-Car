@@ -1,8 +1,14 @@
-const service = require('../service/makeService');
+const service = require('../services/makeService');
 
 module.exports = function(app){
+    app.get('/make/all', async (req, res) => {
+        console.log(req.method + req.route.path);
+        let result = await service.getAll();
+        res.status(result.status).send(result.response);
+    });
 
-    app.get('/make/:id', async (req, res) => {
+
+    app.get('/make/get/:id', async (req, res) => {
         console.log(req.method + req.route.path);
 
         if(!req.params.id) return res.status('400');
@@ -38,9 +44,4 @@ module.exports = function(app){
         res.status(result.status).send(result.response);
     });
 
-    app.get('/make', async (req, res) => {
-        console.log(req.method + req.route.path);
-        let result = await service.getAll();
-        res.status(result.status).send(result.response);
-    });
 };

@@ -1,8 +1,8 @@
-const service = require('../service/fuelService');
+const service = require('../services/fuelService');
 
 module.exports = function(app){
 
-    app.get('/fuel/:id', async (req, res) => {
+    app.get('/fuel/get/:id', async (req, res) => {
         console.log(req.method + req.route.path);
 
         if(!req.params.id) return res.status('400');
@@ -38,7 +38,7 @@ module.exports = function(app){
         res.status(result.status).send(result.response);
     });
 
-    app.get('/fuel', async (req, res) => {
+    app.get('/fuel/all', async (req, res) => {
         console.log(req.method + req.route.path);
         let result = await service.getAll();
         res.status(result.status).send(result.response);

@@ -1,8 +1,8 @@
-const service = require('../service/classService');
+const service = require('../services/classService');
 
 module.exports = function(app){
 
-    app.get('/class/:id', async (req, res) => {
+    app.get('/class/get/:id', async (req, res) => {
         console.log(req.method + req.route.path);
 
         if(!req.params.id) return res.status('400');
@@ -38,7 +38,7 @@ module.exports = function(app){
         res.status(result.status).send(result.response);
     });
 
-    app.get('/class', async (req, res) => {
+    app.get('/class/all', async (req, res) => {
         console.log(req.method + req.route.path);
         let result = await service.getAll();
         res.status(result.status).send(result.response);
