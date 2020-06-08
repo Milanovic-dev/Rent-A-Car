@@ -89,7 +89,7 @@ let SearchForm = (props) => {
     return (
         <Container className={props.searchForm ? "search-form" : "search-form hide-mobile"}>
 
-            <h3>FINDEN SIE IHR GEBRAUCHTES ODER NEUES AUTO</h3>
+            <h3>LET'S FIND PERFECT CAR FOR YOU!</h3>
 
             <i className="mdi mdi-close hide-desktop" onClick={() => props.handleMobileSearchForm(null)}></i>
             <form onSubmit={handleSubmit} >
@@ -100,16 +100,12 @@ let SearchForm = (props) => {
                             name="condition"
                             component={renderTabsField}
                         >
-                            <option value="all">AUTOS SUCHEN</option>
-                            <option value="ankauf">ANKAUF</option>
+                            <option value="all">Vehicle search</option>
+                            <option value="ankauf">Ankauf</option>
                         </Field>
-
-
-
-
                     </Col>
                     <Col lg="2" className="num-results hide-mobile">
-                        <Isvg src={car_icon} /> {props.productFilters && props.productFilters.carCount} Autos verfügbar
+                        <Isvg src={car_icon} /> {props.productFilters && props.productFilters.carCount} Vehicle available
                 </Col>
 
                 </Row>
@@ -121,8 +117,8 @@ let SearchForm = (props) => {
                                 <Field
                                     name="manufacturer"
                                     component={renderSelectField}
-                                    label="AUTOMARKE"
-                                    placeholder="- WÄHLE EINE MARKE AUS -"
+                                    label="Make"
+                                    placeholder="- CHOOSE VEHICLE MAKE -"
                                 >
                                     {
                                         props.productFilters && props.productFilters.manufacturers && props.productFilters.manufacturers.map((manufacturer, idx) => {
@@ -167,8 +163,8 @@ let SearchForm = (props) => {
                                 <Field
                                     name="year[0]"
                                     component={renderSelectField}
-                                    label="HERSTELLUNGSJAHR"
-                                    placeholder="VON"
+                                    label=""
+                                    placeholder="FROM"
                                 >
                                     {
                                         [...Array(Math.abs(props.productFilters.maxProductionYear - props.productFilters.minProductionYear) + 1)].map((x, i) => { return (<option value={props.productFilters.minProductionYear + i}>{props.productFilters.minProductionYear + i}</option>) })}
@@ -184,7 +180,7 @@ let SearchForm = (props) => {
                                 <Field
                                     name="year[1]"
                                     component={renderSelectField}
-                                    placeholder="BIS"
+                                    placeholder="TO"
                                 >
                                     {
                                         [...Array(Math.abs(props.productFilters.maxProductionYear - props.productFilters.minProductionYear) + 1)].map((x, i) => { return (<option value={props.productFilters.minProductionYear + i}>{props.productFilters.minProductionYear + i}</option>) })}
@@ -201,8 +197,8 @@ let SearchForm = (props) => {
                                 <Field
                                     name="color"
                                     component={renderSelectField}
-                                    label="FAHRZEUGFARBE"
-                                    placeholder="- WÄHLE EINE FARBE -"
+                                    label="Color"
+                                    placeholder="- CHOOSE VEHICLE COLOR -"
                                 >
                                     {
                                         props.productFilters && props.productFilters.colors && props.productFilters.colors.map((color, idx) => {
@@ -211,36 +207,26 @@ let SearchForm = (props) => {
                                             )
                                         })
                                     }
-
                                 </Field>
-
                             </div>
-
                         </Col>
-
                         <Col md="4">
                             <div className="input-wrap">
                                 <Field
                                     name="price"
                                     component={renderRangeSliderField}
-                                    label="PREIS"
+                                    label="Price"
                                     min={props.productFilters.minPrice}
                                     max={props.productFilters.maxPrice}
                                     defaultValue={[props.productFilters.minPrice, props.productFilters.maxPrice]}
-
-                                ></Field>
-
-
+                                />
                             </div>
-
                         </Col>
 
                         <Col md="4">
                             <div className="input-wrap buttons">
-                                <button type="button" className="button clear-btn" onClick={reset}>Zurücksetzen</button>
-
-                                <button type="submit" className="button black-btn right-chevron" >SUCHE</button>
-
+                                <button type="button" className="button clear-btn" onClick={reset}>Reset</button>
+                                <button type="submit" className="button black-btn right-chevron" >Search</button>
                             </div>
 
                         </Col>

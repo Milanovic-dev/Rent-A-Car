@@ -1,11 +1,6 @@
 import React, { Component } from 'react';
-import { Link, Redirect } from 'react-router-dom';
-
-import Isvg from 'react-inlinesvg';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-
-
 
 class Date extends Component {
     constructor(props) {
@@ -15,12 +10,6 @@ class Date extends Component {
 
         };
     }
-
-
-
-
-
-
     render() {
         return (
             <>
@@ -30,10 +19,7 @@ class Date extends Component {
                     onChange={this.props.onChange}
                     selected={this.props.value}
                 />
-
             </>
-
-
         );
     }
 }

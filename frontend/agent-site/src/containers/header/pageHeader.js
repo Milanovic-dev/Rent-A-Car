@@ -1,34 +1,18 @@
 import React, { Component } from 'react';
-import { Link, Redirect } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { handleMobileSearchForm, handleMenu } from '../../actions/index';
-
 import Isvg from 'react-inlinesvg';
-
 import logo from '../../assets/svg/showroom.svg';
-
 import fb_icon from '../../assets/svg/facebook.svg';
 import instagram_icon from '../../assets/svg/instagram.svg';
 import bg from '../../assets/images/hedarbg2.png';
-
-
 import {
     Container,
     Row,
     Col,
-    Navbar,
-    NavbarBrand,
-    Dropdown,
-    DropdownToggle,
-    DropdownMenu,
-    DropdownItem,
-    Nav, NavItem,
-    Carousel,
-    CarouselItem,
-    CarouselControl,
-    CarouselIndicators,
-    CarouselCaption
-
+    Nav,
+    NavItem
 } from 'reactstrap';
 
 class PageHeader extends Component {
@@ -41,13 +25,8 @@ class PageHeader extends Component {
 
 
     render() {
-
-
         return (
             <div>
-
-
-
                 <div className="header">
                     <Container>
                         <Row>
@@ -58,7 +37,7 @@ class PageHeader extends Component {
                                 <Link to='/'><Isvg src={logo} /></Link>
                             </Col>
 
-                            {this.props[0].location.pathname == '/' || this.props[0].location.pathname.indexOf('fahrzeuge') != -1 ?
+                            {this.props[0].location.pathname === '/' || this.props[0].location.pathname.indexOf('fahrzeuge') !== -1 ?
                                 <Col xs={{ size: 2, offset: 2 }} className="mobile-menu hide-desktop" onClick={() => this.props.handleChange(!this.props.searchForm)}>
                                     <i className="mdi mdi-magnify" />
                                 </Col>
@@ -77,8 +56,8 @@ class PageHeader extends Component {
 
 
                                     <Col md="2">
-                                        <a href={this.props.config && this.props.config.facebook} target="_blank"><Isvg src={fb_icon} /></a>
-                                        <a href={this.props.config && this.props.config.instagram} target="_blank"><Isvg src={instagram_icon} /></a>
+                                        <a href={this.props.config && this.props.config.facebook} target="_blank" rel="noopener noreferrer"><Isvg src={fb_icon} /></a>
+                                        <a href={this.props.config && this.props.config.instagram} target="_blank" rel="noopener noreferrer"><Isvg src={instagram_icon} /></a>
 
                                     </Col>
                                 </Row>
@@ -87,13 +66,13 @@ class PageHeader extends Component {
 
                                     <Nav>
                                         <NavItem>
-                                            <Link to='/' className={this.props[0].location.pathname == '/' ? 'active' : null}>Startseite</Link>
+                                            <Link to='/' className={this.props[0].location.pathname === '/' ? 'active' : null}>Startseite</Link>
                                         </NavItem>
                                         {/*<NavItem>
                                             <Link to='/uber-uns' className={this.props[0].location.pathname == '/uber-uns'  ? 'active' : null}>Über uns</Link>
                                         </NavItem>*/}
                                         <NavItem>
-                                            <Link to='/fahrzeuge' className={this.props[0].location.pathname == '/fahrzeuge' ? 'active' : null}>Fahrzeuge</Link>
+                                            <Link to='/fahrzeuge' className={this.props[0].location.pathname === '/fahrzeuge' ? 'active' : null}>Fahrzeuge</Link>
                                         </NavItem>
 
                                     </Nav>

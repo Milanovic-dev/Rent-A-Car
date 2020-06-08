@@ -75,8 +75,8 @@ let FilterForm = (props) => {
                             <Field
                                 name="manufacturer"
                                 component={renderSelectField}
-                                label="AUTOMARKE"
-                                placeholder="- WÄHLE EINE MARKE AUS -"
+                                label="Make"
+                                placeholder="- Choose make -"
                             >
                                 {
                                     props.productFilters && props.productFilters.manufacturers && props.productFilters.manufacturers.map((manufacturer, idx) => {

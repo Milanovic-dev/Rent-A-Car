@@ -1,8 +1,4 @@
-
 import React, { Component } from 'react';
-import { Link, Redirect } from 'react-router-dom';
-
-import Isvg from 'react-inlinesvg';
 
 class Text extends Component {
     constructor(props) {

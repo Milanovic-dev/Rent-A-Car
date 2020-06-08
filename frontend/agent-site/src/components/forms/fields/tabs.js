@@ -14,7 +14,7 @@ class Tabs extends Component {
             <div>
                 {
                     this.props.children.map((children) => {
-                        if (children.props.value == 'ankauf')
+                        if (children.props.value === 'ankauf')
                         return (
                             <Link to='/ankauf'><div className={this.props.value == children.props.value ? 'btab active' : 'btab'}>{children.props.children}</div></Link>
                         )

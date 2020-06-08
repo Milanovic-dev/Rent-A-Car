@@ -1,28 +1,8 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 import Isvg from 'react-inlinesvg';
-
-
 import fuel_icon from '../assets/svg/fuel.svg';
 import calendar_icon from '../assets/svg/calendar.svg';
 import guage_icon from '../assets/svg/guage.svg';
-
-
-
-function generateAlias(str) {
-    /*str = str.toLowerCase();
-    str = str.replace(/\s\s+/g, ' ');
-    str = str.replace(/ /g, '-');
-    str = str.replace(/\./g, '-');
-    str = str.replace(/\,/g, '-');
-    str = str.replace(/š/g, 's');
-    str = str.replace(/č/g, 'c');
-    str = str.replace(/ć/g, 'c');
-    str = str.replace(/đ/g, 'dj');
-    str = str.replace(/ž/g, 'z');*/
-    str = str.replace(/[^a-zA-Z0-9]/gi, '-').toLowerCase()
-    return str;
-}
 
 export class Article extends Component {
     constructor(props) {
@@ -32,7 +12,6 @@ export class Article extends Component {
 
         };
     }
-
 
     render() {
         return (

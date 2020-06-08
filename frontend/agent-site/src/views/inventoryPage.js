@@ -1,18 +1,11 @@
 import React, { Component } from 'react';
-import { Link, Redirect } from 'react-router-dom';
 import { PageWithLayout } from '../containers/page';
 import { connect } from 'react-redux';
-
-import Isvg from 'react-inlinesvg';
-
 import FilterForm from '../components/forms/filterForm';
 import PageHeader from '../containers/header/pageHeader';
 import Footer from '../containers/footer';
-
 import Map from '../components/map';
-
 import Article from '../components/article';
-
 import {
     Container,
     Row,
@@ -23,23 +16,6 @@ import {
     DropdownItem,
 
 } from 'reactstrap';
-
-
-import car_image1 from '../assets/images/car1.png';
-import car_image2 from '../assets/images/car2.png';
-import car_image3 from '../assets/images/car3.png';
-import car_image4 from '../assets/images/car4.png';
-import car_image5 from '../assets/images/car5.png';
-import car_image6 from '../assets/images/car6.png';
-import car_image7 from '../assets/images/car7.png';
-import car_image8 from '../assets/images/car8.png';
-
-import list_icon from '../assets/svg/list-view.svg';
-import grid_icon from '../assets/svg/grid-view.svg';
-import fuel_icon from '../assets/svg/fuel.svg';
-import calendar_icon from '../assets/svg/calendar.svg';
-import guage_icon from '../assets/svg/guage.svg';
-
 
 class InventoryPage extends Component {
     constructor(props) {
@@ -57,9 +33,6 @@ class InventoryPage extends Component {
     fetchItems() {
         fetch('https://showroom-api.novamedia.agency/cars/search', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(this.state.filters) }).then((res) => res.json()).then((result) => {
             this.setState({ products: result.items, total: result.total }, () => {
-                
-            
-    
             });
 
         })
@@ -98,24 +71,9 @@ class InventoryPage extends Component {
 
         }
     }
-
-
-
-
     searchProducts(data) {
         this.props[0].history.push(`/fahrzeuge/${encodeURIComponent(btoa(JSON.stringify(data)))}`)
     }
-
-    componentWillUnmount(){
-    
-
-    }
-
-
-
-
-
-
     render() {
 
         let sort = [
@@ -126,9 +84,7 @@ class InventoryPage extends Component {
         ]
 
         return (
-
             <div className={this.props.menu ? "inventory-wrap active-menu-animation" : "inventory-wrap"}>
-
                 <PageHeader page='Fahrzeuge' {...this.props} />
                 <div className="page-wrap">
                     <Container>
