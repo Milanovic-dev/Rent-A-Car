@@ -1,41 +1,18 @@
 import React, { Component } from 'react';
-import { Link, Redirect } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import {handleMobileSearchForm, handleMenu} from '../../actions/index';
-
 import Isvg from 'react-inlinesvg';
-
 import logo from '../../assets/svg/showroom.svg';
-import header_overlay from '../../assets/svg/header-overlay.svg';
-import clock from '../../assets/svg/clock.svg';
 import slide1 from '../../assets/images/slide.png';
-import slide_promo from '../../assets/images/slide-promo.png';
-
-import car_animation from '../../assets/images/car-animation.png';
-
-import fb_icon from '../../assets/svg/facebook.svg';
-import instagram_icon from '../../assets/svg/instagram.svg';
-
-
 import {
     Container,
     Row,
     Col,
-    Navbar,
-    NavbarBrand,
-    Dropdown,
-    DropdownToggle,
-    DropdownMenu,
-    DropdownItem,
     Nav, NavItem,
     Carousel,
     CarouselItem,
-    CarouselControl,
-    CarouselIndicators,
-    CarouselCaption
-
 } from 'reactstrap';
-import { changeLanguage } from '../../actions';
 
 class HomeHeader extends Component {
     constructor(props) {
@@ -124,9 +101,6 @@ class HomeHeader extends Component {
 
         return (
             <div>
-
-
-
                 <div className="header">
                     <Container>
                         <Row>
@@ -143,49 +117,29 @@ class HomeHeader extends Component {
                             <Col className="right hide-mobile" md={{ size: 8, offset: 0 }} xl={{size: 9}} >
                                 <Row className="info">
                                     <Col md="7">
-                                        <i className="mdi mdi-map-marker"></i>{this.props.config ? this.props.config.address : ''}
-                                </Col>
-
-                                    <Col md="3">
-                                    <i className="mdi mdi-phone"></i>  {this.props.config ? this.props.config.phone : ''}
-    
-                                </Col>
-
-
-                                    <Col md="2">
-                                    <a href={this.props.config && this.props.config.facebook} target="_blank"><Isvg src={fb_icon} /></a>
-                                    <a href={this.props.config && this.props.config.instagram} target="_blank"><Isvg src={instagram_icon} /></a>
-
-                                    </Col>
+                                 </Col>
                                 </Row>
                                 <Row className="navigation">
 
                                     <Nav>
                                         <NavItem>
-                                            <Link to='/' className={this.props[0].location.pathname == '/'  ? 'active' : null}>Startseite</Link>
+                                            <Link to='/' className={this.props[0].location.pathname === '/'  ? 'active' : null}>Home Page</Link>
                                         </NavItem>
-                                       {/* <NavItem>
-                                            <Link to='/uber-uns' className={this.props[0].location.pathname == '/uber-uns'  ? 'active' : null}>Über uns</Link>
-                                       </NavItem>*/}
                                         <NavItem>
-                                            <Link to='/fahrzeuge' className={this.props[0].location.pathname == '/fahrzeuge'  ? 'active' : null}>Fahrzeuge</Link>
+                                            <Link to='/ads' className={this.props[0].location.pathname === '/ads'  ? 'active' : null}>Ads</Link>
                                         </NavItem>
-
+                                        <NavItem>
+                                            <Link to='/signin' className={this.props[0].location.pathname === '/signin'  ? 'active' : null}>Sign in</Link>
+                                        </NavItem>
+                                        <NavItem>
+                                            <Link to='/signup' className={this.props[0].location.pathname === '/signup'  ? 'active' : null}>Sign up</Link>
+                                        </NavItem>
                                     </Nav>
                                 </Row>
-
-
-
-
                             </Col>
-
                         </Row>
-
-
                     </Container>
-
                 </div>
-
                 <Carousel
                     className="home-slider"
                     activeIndex={activeIndex}
@@ -203,14 +157,7 @@ class HomeHeader extends Component {
                     </div>
                     */}
                     {slides}
-
-                    
-
                 </Carousel>
-
-
-
-
             </div>
         );
     }

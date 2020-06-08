@@ -1,5 +1,3 @@
-
-
 import React, { Component } from 'react';
 import Routes from './routes'
 import whatsapp from './assets/images/whatsapp.png';
@@ -27,8 +25,6 @@ class App extends Component {
     fetch('https://showroom-api.novamedia.agency/home').then((res) => res.json()).then((result) => { console.log(result); this.setState(result); })
 
     // fetch('https://showroom-api.novamedia.agency/popup').then((res) => res.json()).then((result) => { console.log(result); this.setState({ popups: result }); })
-
-
   }
 
 
@@ -44,8 +40,6 @@ class App extends Component {
     //     break;
     //   }
     // }
-
-
 
     return (
       <>
@@ -65,7 +59,6 @@ class App extends Component {
               }}></button>
               <img src={popup.image} />
               <h3>{popup.name}</h3>
-              <div dangerouslySetInnerHTML={{ __html: popup.content }}></div>
             </div>
           </div>
           :

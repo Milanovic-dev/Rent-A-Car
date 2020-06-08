@@ -15,7 +15,6 @@ export const DefaultLayout = (Wrapped) => (props) => {
             }
             <ul className="mobile-navigation hide-desktop">
                 <li><Link to='/'>Startseite</Link></li>
-                {/*<li><Link to='/uber-uns'>Über uns</Link></li>*/}
                 <li> <Link to='/fahrzeuge'>Fahrzeuge</Link></li>
                 <li> <Link to='/ankauf'>Ankauf</Link></li>
                 <li><Link to='/finanzierung'>Finanzierung</Link></li>

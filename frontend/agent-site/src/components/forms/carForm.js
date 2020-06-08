@@ -1,23 +1,15 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Field, reduxForm } from 'redux-form'
-
-
 import {
-    Container,
     Row,
     Col,
 } from 'reactstrap';
-import Isvg from 'react-inlinesvg';
-
 import Select from './fields/select';
 import Text from './fields/text';
-import Textarea from './fields/textarea';
+//import Textarea from './fields/textarea';
 import Html from './fields/html';
 import Image from './fields/image';
-
-import RangeSlider from './fields/rangeSlider';
-
-import car_icon from '../../assets/svg/car.svg';
+//import RangeSlider from './fields/rangeSlider';
 
 const renderImageField = ({
     input,
@@ -80,7 +72,7 @@ const renderTextField = ({
             {...input}
         />
     )
-
+/*
 const renderTextareaField = ({
     input,
     placeholder,
@@ -114,11 +106,11 @@ const renderRangeSliderField = ({
             defaultValue={defaultValue}
         />
     )
-
+*/
 
 
 const carForm = (props) => {
-    const { handleSubmit, pristine, reset, submitting } = props;
+    const { handleSubmit, pristine, submitting } = props;
     console.log(pristine, submitting);
 
     return (
