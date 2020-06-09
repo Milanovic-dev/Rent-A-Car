@@ -120,13 +120,15 @@ class HomeHeader extends Component {
                                  </Col>
                                 </Row>
                                 <Row className="navigation">
-
                                     <Nav>
                                         <NavItem>
                                             <Link to='/' className={this.props[0].location.pathname === '/'  ? 'active' : null}>Home Page</Link>
                                         </NavItem>
                                         <NavItem>
                                             <Link to='/ads' className={this.props[0].location.pathname === '/ads'  ? 'active' : null}>Ads</Link>
+                                        </NavItem>
+                                        <NavItem>
+                                            <Link to='/cars/new' className={this.props[0].location.pathname === '/cars/new'  ? 'active' : null}>Create ad</Link>
                                         </NavItem>
                                         <NavItem>
                                             <Link to='/signin' className={this.props[0].location.pathname === '/signin'  ? 'active' : null}>Sign in</Link>

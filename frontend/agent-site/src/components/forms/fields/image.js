@@ -50,7 +50,7 @@ class Image extends Component {
                     :
                     <div className="no-image">
                         <Isvg src={image} />
-                        <span className="text">Izaberite sliku</span>
+                        <span className="text">Choose image</span>
                         {
                             this.state._loading ?
                                 <div className="lds-ring"><div></div><div></div><div></div><div></div></div>

@@ -1,12 +1,8 @@
 import React, { Component } from 'react';
-import { Link, Redirect } from 'react-router-dom';
 import { PageWithLayout } from '../containers/page';
 import { connect } from 'react-redux';
-
-import Isvg from 'react-inlinesvg';
 import PageHeader from '../containers/header/pageHeader';
 import Footer from '../containers/footer';
-
 import Map from '../components/map';
 import Form from '../components/forms/busyCarForm';
 
@@ -221,11 +217,8 @@ class BusyCar extends Component {
         return (
 
             <div onMouseUp={this.onTouchEnd} className={this.props.menu ? "detail-wrap active-menu-animation" : "detail-wrap"}>
-
-                <PageHeader page='Fahrzeuge' {...this.props} />
+                <PageHeader page='New add' {...this.props} />
                 <div className="page-wrap">
-
-
                     <Container>
                         <Row className="page-title">
                             <Col lg="12">

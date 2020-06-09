@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import Routes from './routes'
-import whatsapp from './assets/images/whatsapp.png';
 
 class App extends Component {
   constructor(props) {
@@ -46,31 +45,9 @@ class App extends Component {
         <Routes
           {...this.state}
         />
-        <a href="https://api.whatsapp.com/send?phone=+4972549566162" className="whatsapp"><img src={whatsapp} /></a>
-        {popup ?
-          <div className="modal-overlay">
-            <div>
-              <button className="close-btn" onClick={() => {
-                visitedPopups[popup._id] = Math.floor(Date.now() / 1000);
-                this.setState({
-                  visitedPopups: visitedPopups
-                })
-                this.forceUpdate();
-              }}></button>
-              <img src={popup.image} />
-              <h3>{popup.name}</h3>
-            </div>
-          </div>
-          :
-          null
-        }
-
       </>
-
     );
-
   }
-
 }
 
 export default App;
