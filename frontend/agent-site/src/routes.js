@@ -15,6 +15,10 @@ import InventoryPage from './views/inventoryPage';
 import DetailPage from './views/detailPage';
 import ChangeCar from './views/changeCar';
 import BusyCar from './views/busyCar';
+import Register from './views/register';
+
+
+
 
 
 
@@ -85,6 +89,13 @@ class Routes extends Component {
                             exact
                             render={(...renderProps) => (
                                 <DetailPage {...renderProps} {...this.props} />
+                            )}
+                        />
+                        <Route
+                            path="/register"
+                            exact
+                            render={(...renderProps) => (
+                                <Register {...renderProps} {...this.props} />
                             )}
                         />
 
