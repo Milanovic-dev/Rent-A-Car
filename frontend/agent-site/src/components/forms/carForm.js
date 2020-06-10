@@ -117,7 +117,7 @@ const carForm = (props) => {
         <form onSubmit={handleSubmit} className="contact-form">
             <Row>
                 <Col lg="12">
-                    <h3>CAR</h3>
+                    <h3>CREATE NEW AD</h3>
                 </Col>
                 <Col lg="6">
 

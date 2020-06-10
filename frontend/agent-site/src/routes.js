@@ -78,8 +78,6 @@ class Routes extends Component {
                                 <BusyCar {...renderProps} {...this.props} />
                             )}
                         />
-
-
                         <Route
                             path="/cars/:id"
                             exact
