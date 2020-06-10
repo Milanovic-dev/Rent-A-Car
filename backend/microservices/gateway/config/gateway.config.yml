@@ -2,10 +2,9 @@ https:
   port: 8080
   tls:
     "default":
-      key: "./config/certificates/root.key"
-      cert: "./config/certificates/root.crt"
-  options:
-    "rejectUnauthorized": false
+      key: "./config/certificates/tls.key"
+      cert: "./config/certificates/tls.crt"
+      ca: ["./config/certificates/chain.pem"]
 apiEndpoints:
   auth:
     paths: 
