@@ -72,7 +72,25 @@ class DetailPage extends Component {
     }
 
     submit(data) {
-        console.log(data);
+        // console.log(data);
+        fetch('https://localhost:8080/auth/register', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data)
+        }).then((res) => res.json()).then((result) => {
+            if (!result.error) {
+                //ocalStorage.setItem('token', result.token);
+                this.setState({
+                    _done: true
+                })
+            } else {
+                this.setState({
+                    error: result.error
+                })
+            }
+        })
     }
 
 
@@ -87,15 +105,28 @@ class DetailPage extends Component {
 
                 <PageHeader page='Fahrzeuge' {...this.props} />
                 <div className="page-wrap">
+                    <Container>
                     <Row>
-                        <Col lg="4">
-                        </Col>
-                        <Col lg="4">
+                       
+                        <Col lg="12" className="reg">
                             <Form onSubmit={this.submit} />
+                            {
+                                this.state.error ?
+                                    <p>{this.state.error}</p>
+                                    :
+                                    null
+                            }
+                            {
+                                this.state._done ?
+                                    <p>{this.state.error}</p>
+                                    :
+                                    null
+                            }
+
                         </Col>
-                        <Col lg="4">
-                        </Col>
+        
                     </Row>
+                    </Container>
 
                 </div>
             </div >
