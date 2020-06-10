@@ -15,6 +15,7 @@ import InventoryPage from './views/inventoryPage';
 import DetailPage from './views/detailPage';
 import ChangeCar from './views/changeCar';
 import BusyCar from './views/busyCar';
+import SignIn from './views/signInPage';
 
 
 
@@ -36,12 +37,8 @@ class Routes extends Component {
         return (
             <Router history={history} onUpdate={() => window.scrollTo(0, 0)} >
                 <div>
-
                     <GoogleMapScript API_KEY="" />
-
-
                     <Switch>
-
                         <Route
                             path="/"
                             exact
@@ -85,7 +82,13 @@ class Routes extends Component {
                                 <DetailPage {...renderProps} {...this.props} />
                             )}
                         />
-
+                        <Route
+                            path="/signin"
+                            exact
+                            render={(...renderProps) => (
+                                <SignIn {...renderProps} {...this.props} />
+                            )}
+                        />
                     </Switch>
                 </div>
             </Router >
