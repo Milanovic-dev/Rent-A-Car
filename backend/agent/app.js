@@ -20,9 +20,8 @@ require('./src/api/uploadApi') (app);
 const server = http.createServer(app);
 
 //Connection example dbSync
-const db = require('./dbSync');
+const dbSync = require('./dbSync');
 const { ObjectID } = require('mongodb');
-db.connect();
 
 
 app.use(bodyParser.json({ limit: '20mb' }));
@@ -38,7 +37,7 @@ server.listen(8282, () => {
 
 //Register to Microservices Webhook
 soapService.getClient().then(soapClient => {
-    db.connect().then(() => {
+    dbSync.connect().then(() => {
         soapClient.SubscribeAgent({username: process.env.APP_USERNAME, password: process.env.APP_PASSWORD}, async (err, res) => {
             if(err){
                 console.error(err);
@@ -46,9 +45,9 @@ soapService.getClient().then(soapClient => {
             }
             //db.getDb().dropDatabase();
             if(res.accessToken){
-                await db.saveToken(res.accessToken);
+                await dbSync.saveToken(res.accessToken);
                 console.log('Sync: ' + 'ON'.green);
-                db.syncAll();
+                await dbSync.sync('cars');
             }
             else
             {

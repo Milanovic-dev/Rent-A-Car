@@ -1,15 +1,13 @@
 const MongoClient = require('mongodb').MongoClient;
 const isDocker = require('is-docker');
 const { getClient } = require('./src/soap/soapService');
-const soap = require('soap');
-const colors = require('colors');
+require('colors');
 const { ObjectID } = require('mongodb');
-const soapService = require('./src/soap/soapService');
-const { response } = require('express');
 var connection;
 var db;
 
-const hostUrl = process.env.HOST_URL + '/webhook/getWsdl';
+
+
 
 const connectToDB = (username, password, server, dbName) => {
     return new Promise((resolve, reject) => {
@@ -37,9 +35,7 @@ const connect = async () => {
     .catch(err => console.error(err));
 }
 
-const collection = (collectionName) => {
-    return new DbSyncFunctions(collectionName, sync);
-};
+connect();
 
 const getDb = () => {
     return db;
@@ -99,66 +95,15 @@ const sync = async (collectionName) => {
 }
 
 
-class DbSyncFunctions {
-    constructor(collection, sync){
-        this.collection = collection;
-        this.sync = sync;
-    }
-    
-    async find(query, projection) {
-        await sync(this.collection);
-        return await db.collection(this.collection).find(query, projection).toArray();
-    };
-    
-    async findOne(query, projection) {
-        await sync(this.collection);
-        const res = await db.collection(this.collection).find(query, projection).toArray();
-        return res[0];
-    }
-
-    async insertOne(data, options) {
-        const res = await db.collection(this.collection).insertOne(data, options);
-        await sync(this.collection);
-        return res;
-    }
-    
-    async updateOne(filter, update, options) {
-        await sync(this.collection);
-        update.$inc = {version: 1};
-        const res = await db.collection(this.collection).updateOne(filter, update, options);
-        await sync(this.collection);
-        return res;
-    }
-
-    async removeOne(filter, options) {
-        await sync(this.collection);
-        const res = await db.collection(this.collection).updateOne(filter, {$inc: {version: 1}, $set:{removed: true}}, options);
-        await sync(this.collection);
-        return res;
-    };
-
-
-    async count() {
-        let result = await db.collection(this.collection).count();
-        return result;
-    }
-
-    async drop(writeConcern) {
-        let result = await db.collection(this.collection).drop(writeConcern);
-        return result;
-    }
-};
-
 const syncAll = async () => {
     await sync('cars');
-    //await sync('orders');
 }
 
 module.exports = {
     connect,
-    collection,
     getDb,
     saveToken,
     getToken,
-    syncAll
+    syncAll,
+    sync
 }
