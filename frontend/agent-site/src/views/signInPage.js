@@ -21,85 +21,29 @@ class BusyCar extends Component {
 
     constructor(props) {
         super(props);
-        this.onTouchMove = this.onTouchMove.bind(this);
-        this.onTouchEnd = this.onTouchEnd.bind(this);
-        this.onTouchStart = this.onTouchStart.bind(this);
-        this.next = this.next.bind(this);
-        this.previous = this.previous.bind(this);
-        this.onExiting = this.onExiting.bind(this);
-        this.onExited = this.onExited.bind(this);
-        this.add = this.add.bind(this);
-
-        this.state = {
-            product: null,
-            previewImage: null,
-            modalIdx: null,
-            products: [],
-            activeIndex: 0,
-            modalIdx: 0,
-            newestProducts: []
-        };
+        this.submit = this.submit.bind(this);
     }
 
-    onExiting() {
-        this.animating = true;
+    submit(data) {
+        fetch('https://localhost:8080/auth/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data)
+        }).then((res) => res.json()).then((result) => {
+            if (!result.error) {
+                localStorage.setItem('token', result.token);
+                this.setState({
+                    _done: true
+                })
+            } else {
+                this.setState({
+                    error: result.error
+                })
+            }
+        })
     }
-
-    onExited() {
-        this.animating = false;
-    }
-
-    next() {
-        if (this.animating) return;
-        const nextIndex = this.state.activeIndex === this.state.product.images.length - 1 ? 0 : this.state.activeIndex + 1;
-        this.setState({ activeIndex: nextIndex });
-    }
-
-    previous() {
-        if (this.animating) return;
-        const nextIndex = this.state.activeIndex === 0 ? this.state.product.images.length - 1 : this.state.activeIndex - 1;
-        this.setState({ activeIndex: nextIndex });
-    }
-
-    onTouchStart(event) {
-        var x = event.clientX;
-        var y = event.clientY;
-        if (!this.state._startSwipePos) {
-            this.setState({
-                _startSwipePos: x,
-                _startSwipePosY: y,
-                _startLeft: this.carousel.scrollLeft
-            });
-        }
-    }
-
-    onTouchEnd() {
-        this.setState({
-            _startSwipePos: null,
-            _startSwipePosY: null,
-            _startLeft: null
-        });
-    }
-
-    onTouchMove(event) {
-        var x = event.clientX;
-        var y = event.clientY;
-
-        if (this.state._startSwipePos) {
-            this.carousel.scrollLeft = this.state._startLeft - (x - this.state._startSwipePos);
-        }
-
-        this.setState({
-            _swipePos: x
-        });
-
-
-    }
-    add(data){
-        let ts1 = Math.floor(data.dateFrom.getTime() / 1000);
-        let ts2 = Math.floor(data.dateTo.getTime() / 1000);
-    }
-
 
     render() {
         const { activeIndex } = this.state;
@@ -127,15 +71,18 @@ class BusyCar extends Component {
 
 
         return (
-            <div onMouseUp={this.onTouchEnd} className={this.props.menu ? "detail-wrap active-menu-animation" : "detail-wrap"}>
+            <>
                 <PageHeader page='Sign in' {...this.props} />
                 <div className="page-wrap">
                     <Container>
-                        <Form  onSubmit={this.add}/>
+                        <Row>
+                            <Col lg="12" className="reg">
+                                <Form  onSubmit={this.submit}/>
+                            </Col>
+                        </Row>
                     </Container>
                     <section className="section map-section">
                         <Container fluid>
-
                             <Row>
                                 <Col md="12">
                                     <Map {...this.props} />
@@ -145,7 +92,7 @@ class BusyCar extends Component {
                     </section>
                     <Footer {...this.props} />
                 </div>
-            </div >
+            </>
         );
     }
 }

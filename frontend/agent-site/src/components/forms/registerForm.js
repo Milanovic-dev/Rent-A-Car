@@ -1,21 +1,13 @@
 import React, { Component } from 'react';
 import { Field, reduxForm } from 'redux-form'
-
-
 import {
-    Container,
     Row,
     Col,
 } from 'reactstrap';
-import Isvg from 'react-inlinesvg';
-
 import Select from './fields/select';
 import Text from './fields/text';
 import Textarea from './fields/textarea';
-
 import RangeSlider from './fields/rangeSlider';
-
-import car_icon from '../../assets/svg/car.svg';
 
 const renderSelectField = ({
     input,
@@ -33,10 +25,6 @@ const renderSelectField = ({
             children={children}
         />
     )
-
-
-
-
 
 const renderTextField = ({
     input,
@@ -102,7 +90,6 @@ const registerForm = (props) => {
                     <h3>REGISTRATION</h3>
                 </Col>
                 <Col md="12">
-
                     <Row>
                         <Col md="12">
                             <div className="input-wrap">
@@ -111,9 +98,9 @@ const registerForm = (props) => {
                                     component={renderTextField}
                                     //label="DEIN NAME"
                                     placeholder="First name"
-                                >
-                                </Field>
+                                    label={"Enter your name"}
 
+                                />
                             </div>
 
                         </Col>
@@ -124,10 +111,10 @@ const registerForm = (props) => {
                                     name="lastName"
                                     component={renderTextField}
                                     //label="DEIN FAMILIENNAME"
-                                    placeholder="Last name"
-                                >
-                                </Field>
+                                    placeholder="Lastname"
+                                    label={"Enter your lastname"}
 
+                                />
                             </div>
 
                         </Col>
@@ -139,9 +126,8 @@ const registerForm = (props) => {
                                     component={renderTextField}
                                     //label="DEINE TELEFONNUMMER"
                                     placeholder="E-mail"
-                                >
-                                </Field>
-
+                                    label={"Enter your email"}
+                                />
                             </div>
 
                         </Col>
@@ -153,8 +139,8 @@ const registerForm = (props) => {
                                     component={renderTextField}
                                     //label="DEINE E-MAIL"
                                     placeholder="Username"
-                                >
-                                </Field>
+                                    label={"Enter your username"}
+                                />
 
                             </div>
 
@@ -168,19 +154,20 @@ const registerForm = (props) => {
                                     component={renderTextField}
                                     //label="THEMA"
                                     placeholder="Password"
-                                >
-                                </Field>
-
+                                    label={"Enter your password"}
+                                />
                             </div>
 
                         </Col>
-
-
                         <Col md="12">
                             <div className="input-wrap buttons">
                                 <button type="submit" className="button">REGISTER</button>
                             </div>
-
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col md="12">
+                            <p>Have an account? <a href="/signin"><b>Sign in</b></a></p>
                         </Col>
                     </Row>
                 </Col>
