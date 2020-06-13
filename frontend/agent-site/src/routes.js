@@ -16,8 +16,7 @@ import DetailPage from './views/detailPage';
 import ChangeCar from './views/changeCar';
 import BusyCar from './views/busyCar';
 import SignIn from './views/signInPage';
-
-
+import Register from './views/register';
 
 
 const history = createBrowserHistory();
@@ -96,9 +95,16 @@ class Routes extends Component {
                                 <InventoryPage {...renderProps} {...this.props} />
                             )}
                         />
+                        <Route
+                            path="/register"
+                            exact
+                            render={(...renderProps) => (
+                                <Register {...renderProps} {...this.props} />
+                            )}
+                        />
                     </Switch>
                 </div>
-            </Router >
+            </Router>
         );
     }
 }

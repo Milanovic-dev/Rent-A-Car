@@ -11,7 +11,7 @@ class Text extends Component {
     render() {
         return (
             <div>
-                <input type="text" onChange={this.props.onChange} value={this.props.value} placeholder={this.props.placeholder}/>
+                <input type={this.props.type} onChange={this.props.onChange} value={this.props.value} placeholder={this.props.placeholder}/>
                 <label>{this.props.label}</label>
             </div>
         );

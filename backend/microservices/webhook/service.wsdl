@@ -1,150 +1,68 @@
 <?xml version="1.0"?>
-
 <wsdl:definitions name="WebHook"
-             targetNamespace="http://localhost:4000/webhook.wsdl"
-             xmlns:tns="http://localhost:4000/webhook.wsdl"
-             xmlns:xsd1="http://localhost:4000/webhook.xsd"
-             xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
-             xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
-
-    <wsdl:types>
-        <xsd:schema targetNamespace="http://localhost:4000/webhook.xsd" xmlns:xsd="http://www.w3.org/2000/10/XMLSchema">
-            
-            <xsd:element name="SubscribeRequest">
+ targetNamespace="http://localhost:4000/webhook.wsdl"
+ xmlns:tns="http://localhost:4000/webhook.wsdl"
+ xmlns:xsd1="http://localhost:4000/webhook.xsd"
+ xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+ xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+>
+<wsdl:types>
+<xsd:schema targetNamespace="http://localhost:4000/webhook.xsd" xmlns:xsd="http://www.w3.org/2000/10/XMLSchema">
+            <xsd:element name="SubscribeAgentRequest">
                 <xsd:complexType>
                     <xsd:all>
-                        <xsd:element name="username" nillable="false" type="string" />
-                        <xsd:element name="password" nillable="false" type="string"/>
+                        <xsd:element name="requestBody" nillable="false"  type="string" />
                     </xsd:all>
                 </xsd:complexType>
             </xsd:element>
-
-            <xsd:element name="SubscribeResponse">
+            <xsd:element name="SubscribeAgentResponse">
                 <xsd:complexType>
                     <xsd:all>
-                        <xsd:element name="token" type="string" />
+                        <xsd:element name="responseBody" nillable="false" type="string" />
                     </xsd:all>
                 </xsd:complexType>
             </xsd:element>
-
             <xsd:element name="SynchronizeRequest">
                 <xsd:complexType>
                     <xsd:all>
-                        <xsd:element name="token" nillable="false" type="string" />
+                        <xsd:element name="requestBody" nillable="false"  type="string" />
                     </xsd:all>
                 </xsd:complexType>
             </xsd:element>
-
             <xsd:element name="SynchronizeResponse">
                 <xsd:complexType>
                     <xsd:all>
-                        <xsd:element minOccurs="0" name="username" nillable="false" type="string" />
+                        <xsd:element name="responseBody" nillable="false" type="string" />
                     </xsd:all>
                 </xsd:complexType>
             </xsd:element>
-
-            <xsd:element name="APIRequest">
-                <xsd:complexType>
-                    <xsd:all>
-                        <xsd:element name="path" nillable="false" type="string" />
-                        <xsd:element name="httpMethod" nillable="false" type="string" />
-                        <xsd:element name="body" nillable="true" type="string" />
-                    </xsd:all>
-                </xsd:complexType>
-            </xsd:element>
-
-            <xsd:element name="APIResponse">
-                <xsd:complexType>
-                    <xsd:all>
-                        <xsd:element name="path" nillable="false" type="string" />
-                        <xsd:element name="httpMethod" nillable="false" type="string" />
-                        <xsd:element name="status" nillable="false" type="string" />
-                        <xsd:element name="update" nillable="true" type="string" />
-                        <xsd:element name="errMessage" nillable="true" type="string" />
-                    </xsd:all>
-                </xsd:complexType>
-            </xsd:element>
-
-            <xsd:element name="UpdateRequest">
-                <xsd:complexType>
-                    <xsd:all>
-                        <xsd:element name="collectionName" nillable="false" type="string" />
-                        <xsd:element name="action" nillable="false" type="string" />
-                        <xsd:element minOccurs="0" name="filter" nillable="true" type="string" />
-                        <xsd:sequence>
-                            <xsd:element minOccurs="0" name="diffData" nillable="true" type="string" />
-                        </xsd:sequence>
-                    </xsd:all>
-                </xsd:complexType>
-            </xsd:element>
-
-            <xsd:element name="UpdateResponse">
-                <xsd:complexType>
-                    <xsd:all>
-                        <xsd:element minOccurs="0" name="document" nillable="false" type="string" />
-                    </xsd:all>
-                </xsd:complexType>
-            </xsd:element>
-
-        </xsd:schema>
-    </wsdl:types>
-
-    <wsdl:message name="SubscribeRequestInput">
-        <wsdl:part name="body" element="xsd1:SubscribeRequest" />
+</xsd:schema>
+</wsdl:types>
+    <wsdl:message name="SubscribeAgentRequestInput">
+        <wsdl:part name="body" element="xsd1:SubscribeAgentRequest" />
     </wsdl:message>
-
-    <wsdl:message name="SubscribeRequestOutput">
-        <wsdl:part name="body" element="xsd1:SubscribeResponse" />
+    <wsdl:message name="SubscribeAgentRequestOutput">
+        <wsdl:part name="body" element="xsd1:SubscribeAgentResponse" />
     </wsdl:message>
-
     <wsdl:message name="SynchronizeRequestInput">
         <wsdl:part name="body" element="xsd1:SynchronizeRequest" />
     </wsdl:message>
-
     <wsdl:message name="SynchronizeRequestOutput">
         <wsdl:part name="body" element="xsd1:SynchronizeResponse" />
     </wsdl:message>
-
-    <wsdl:message name="APIRequestInput">
-        <wsdl:part name="body" element="xsd1:APIRequest" />
-    </wsdl:message>
-
-    <wsdl:message name="APIRequestOutput">
-        <wsdl:part name="body" element="xsd1:APIResponse" />
-    </wsdl:message>
-
-    <wsdl:message name="UpdateRequestInput">
-        <wsdl:part name="body" element="xsd1:UpdateRequest" />
-    </wsdl:message>
-
-    <wsdl:message name="UpdateRequestOutput">
-        <wsdl:part name="body" element="xsd1:UpdateResponse" />
-    </wsdl:message>
-
-   
-
-    <wsdl:portType name="WebhookPort">
-        <wsdl:operation name="SubscribeAgent">
-            <wsdl:input message="tns:SubscribeRequestInput" />
-            <wsdl:output message="tns:SubscribeRequestOutput" />
-        </wsdl:operation>
-        <wsdl:operation name="SyncAgent">
+<wsdl:portType name="WebhookPort">
+    <wsdl:operation name="SubscribeAgent">
+            <wsdl:input message="tns:SubscribeAgentRequestInput" />
+            <wsdl:output message="tns:SubscribeAgentRequestOutput" />
+    </wsdl:operation>
+    <wsdl:operation name="Synchronize">
             <wsdl:input message="tns:SynchronizeRequestInput" />
             <wsdl:output message="tns:SynchronizeRequestOutput" />
-        </wsdl:operation>
-        <wsdl:operation name="SendRequest">
-            <wsdl:input message="tns:APIRequestInput" />
-            <wsdl:output message="tns:APIRequestOutput" />
-        </wsdl:operation>
-        <wsdl:operation name="GetUpdate">
-            <wsdl:input message="tns:UpdateRequestInput" />
-            <wsdl:output message="tns:UpdateRequestOutput" />
-        </wsdl:operation>
-    </wsdl:portType>
-
+    </wsdl:operation>
+</wsdl:portType>
     <wsdl:binding name="WebhookBinding" type="tns:WebhookPort">
         <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
-        <wsdl:operation name="SubscribeAgent">
+    <wsdl:operation name="SubscribeAgent">
             <soap:operation soapAction="http://localhost:4000/SubscribeAgent" />
             <wsdl:input>
                 <soap:body use="literal" />
@@ -153,29 +71,9 @@
                 <soap:body use="literal" />
             </wsdl:output>
         </wsdl:operation>
-
-        <wsdl:operation name="SyncAgent">
-            <soap:operation soapAction="http://localhost:4000/SyncAgent" />
-            <wsdl:input>
-                <soap:body use="literal" />
-            </wsdl:input>
-            <wsdl:output>
-                <soap:body use="literal" />
-            </wsdl:output>
-        </wsdl:operation>
-
-        <wsdl:operation name="SendRequest">
-            <soap:operation soapAction="http://localhost:4000/SendRequest" />
-            <wsdl:input>
-                <soap:body use="literal" />
-            </wsdl:input>
-            <wsdl:output>
-                <soap:body use="literal" />
-            </wsdl:output>
-        </wsdl:operation>
-
-        <wsdl:operation name="GetUpdate">
-            <soap:operation soapAction="http://localhost:4000/GetUpdate" />
+    
+    <wsdl:operation name="Synchronize">
+            <soap:operation soapAction="http://localhost:4000/Synchronize" />
             <wsdl:input>
                 <soap:body use="literal" />
             </wsdl:input>
@@ -184,11 +82,10 @@
             </wsdl:output>
         </wsdl:operation>
     </wsdl:binding>
-
     <wsdl:service name="WebhookService">
         <wsdl:port name="WebhookPort" binding="tns:WebhookBinding">
             <soap:address location="http://localhost:4000/wsdl" />
         </wsdl:port>
     </wsdl:service>
-
+    
 </wsdl:definitions>
