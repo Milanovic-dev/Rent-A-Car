@@ -89,6 +89,13 @@ class Routes extends Component {
                                 <SignIn {...renderProps} {...this.props} />
                             )}
                         />
+                        <Route
+                            path="/ads"
+                            exact
+                            render={(...renderProps) => (
+                                <InventoryPage {...renderProps} {...this.props} />
+                            )}
+                        />
                     </Switch>
                 </div>
             </Router >

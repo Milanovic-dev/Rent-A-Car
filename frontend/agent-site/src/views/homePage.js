@@ -162,8 +162,6 @@ class HomePage extends Component {
                 }
                 <section className="section latest-cars-section">
                     <Container>
-                        <h3 className="section-title"><span>NEUESTE</span> AUTOS</h3>
-
                         <Row>
 
                             {
