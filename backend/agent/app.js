@@ -5,6 +5,7 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const dotenv = require('dotenv');
 const fileUpload = require('express-fileupload');
+const colors = require('colors');
 dotenv.config();
 
 const soapService = require('./src/soap/soapService');
@@ -20,6 +21,7 @@ const server = http.createServer(app);
 
 //Connection example dbSync
 const db = require('./dbSync');
+const { ObjectID } = require('mongodb');
 db.connect();
 
 
@@ -28,7 +30,7 @@ app.use(cors());
 app.use('/uploads', express.static('uploads'))
 app.use(fileUpload());
 
-securityMiddleware.config(app, server);
+//securityMiddleware.config(app, server);
 
 server.listen(8282, () => {
     console.log("Agent Server running on port 8282!");
@@ -37,25 +39,27 @@ server.listen(8282, () => {
 //Register to Microservices Webhook
 soapService.getClient().then(soapClient => {
     db.connect().then(() => {
-        soapClient.SubscribeAgent({username: process.env.APP_USERNAME, password: process.env.APP_PASSWORD}, (err, res) => {
+        soapClient.SubscribeAgent({username: process.env.APP_USERNAME, password: process.env.APP_PASSWORD}, async (err, res) => {
             if(err){
                 console.error(err);
                 return;
             }
             //db.getDb().dropDatabase();
             if(res.accessToken){
-                db.saveToken(res.accessToken);
-                console.log(`${res.status}: Successfully subscribed to Webhook`);
-                db.collection('cars', true).find();
+                await db.saveToken(res.accessToken);
+                console.log('Sync: ' + 'ON'.green);
+                db.syncAll();
             }
             else
             {
                 console.error('Could not subscribe. Status:' + res.status);
+                console.log('Sync: ' + 'OFF'.red); 
             }
         });
     })
 }).catch(err => { 
     console.error(err);
+    console.log('Sync: ' + 'OFF'.red); 
 });
 
 
@@ -76,8 +80,7 @@ app.post('/login', async (req, res) => {
 });
 
 
-app.post('/testSecurity/:id', (req, res) => {
-    //eval(req.params.id);
-    
+app.post('/testSecurity/:id', async (req, res) => {
+    const resu = await db.collection('cars').removeOne({_id: ObjectID(req.params.id)});
     res.status(200).json(req.body).send();
 });
