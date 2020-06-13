@@ -136,6 +136,9 @@ class HomeHeader extends Component {
                                         <NavItem>
                                             <Link to='/signup' className={this.props[0].location.pathname === '/signup'  ? 'active' : null}>Sign up</Link>
                                         </NavItem>
+                                        <NavItem>
+                                            <Link to='/cart' className={this.props[0].location.pathname === '/cart'  ? 'active' : null}>My cart</Link>
+                                        </NavItem>
                                     </Nav>
                                 </Row>
                             </Col>
