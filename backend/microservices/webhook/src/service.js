@@ -4,8 +4,8 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const ObjectID = require('mongodb').ObjectID;
 const fetch = require('node-fetch');
-const dbConnect = require('../db');
 const colors = require('colors');
+const dbConnect = require('../db');
 let db;
 dbConnect(process.env.DB_USERNAME, process.env.DB_PASSWORD, process.env.DB_SERVER, process.env.DB_NAME)
 .then((conn) => {
@@ -37,7 +37,6 @@ const subscribeAgent = async (args) => {
 const sync = async (args) => {
     args = JSON.parse(args);
     if(!args.auth) return error('401','No Token.');
-    //Verify Token
 
     const verifyTokenResult = await verifyToken(args.auth.token);
     if(verifyTokenResult == '400') return error('401', 'No Token.');
@@ -156,6 +155,23 @@ const syncData = (toInsert, toUpdate, misc) => {
     if(!toInsert && !toUpdate) {
         return JSON.stringify({toInsert: [], toUpdate: [], status: 200});
     }
+
+    if(toInsert){
+        for(let i = 0 ; i < toInsert.length ; i++){
+            if(toInsert[i].ownerId){
+                toInsert[i].ownerId = undefined;
+            }
+        }
+    }
+    
+    if(toUpdate){
+        for(let i = 0 ; i < toUpdate.length ; i++){
+            if(toUpdate[i].ownerId){
+                toUpdate[i].ownerId = undefined;
+            }
+        }
+    }
+
 
     const data = {
         toInsert: toInsert ? toInsert : [],

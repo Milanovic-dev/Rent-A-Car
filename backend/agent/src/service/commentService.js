@@ -1,8 +1,15 @@
 const ObjectID = require('mongodb').ObjectID;
 
-const db = require('../../dbSync');
+const dbSync = require('../../dbSync');
 const dbCollection = 'comments';
-db.connect();
+const dbConnect = require('../../db');
+let db;
+dbConnect(process.env.DB_USERNAME, process.env.DB_PASSWORD, process.env.DB_SERVER, process.env.DB_NAME)
+.then((conn) => {
+    db = conn;
+}).catch((e) => {
+    console.log(`DB error: ${e}`);
+})
 
 const addComment = async (comment,carId) => {
     if(comment == undefined) return { status: 400 };

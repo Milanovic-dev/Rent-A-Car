@@ -1,9 +1,15 @@
 const ObjectID = require('mongodb').ObjectID;
 
-const db = require('../../dbSync');
-
+const dbSync = require('../../dbSync');
+const dbConnect = require('../../db');
 const dbCollection = 'pricelist';
-db.connect();
+let db;
+dbConnect(process.env.DB_USERNAME, process.env.DB_PASSWORD, process.env.DB_SERVER, process.env.DB_NAME)
+.then((conn) => {
+    db = conn;
+}).catch((e) => {
+    console.log(`DB error: ${e}`);
+})
 
 const createPricelist = async (ps) => {
 
