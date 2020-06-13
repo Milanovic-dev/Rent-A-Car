@@ -11,10 +11,7 @@ import {
     Container,
     Row,
     Col,
-    Carousel,
     CarouselItem,
-    CarouselControl
-
 } from 'reactstrap';
 
 class BusyCar extends Component {
@@ -22,6 +19,7 @@ class BusyCar extends Component {
     constructor(props) {
         super(props);
         this.submit = this.submit.bind(this);
+        this.state = {};
     }
 
     submit(data) {

@@ -49,7 +49,7 @@ class HomePage extends Component {
 
 
     componentWillMount() {
-        document.title = "SHOWROOM DAS AUTOHAUS";
+        document.title = "Rent-a-car";
     }
 
       
