@@ -28,6 +28,10 @@ export class Article extends Component {
                     <div className="price-container">
                         <span className="price">{this.props.price}</span>
                     </div>
+                    <div className="divider"></div>
+                    <div style={{textAlign: "center"}}>
+                        <a href="/#" className="text-primary" style={{fontSize: 23 }}>Add to cart</a> 
+                    </div>
                 </div>
             </a>
         )

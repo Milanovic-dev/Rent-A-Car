@@ -67,12 +67,10 @@ class DetailPage extends Component {
         super(props);
         this.submit = this.submit.bind(this);
         this.state = {
-
         };
     }
 
     submit(data) {
-        // console.log(data);
         fetch('https://localhost:8080/auth/register', {
             method: 'POST',
             headers: {
@@ -92,22 +90,14 @@ class DetailPage extends Component {
             }
         })
     }
-
-
+    
     render() {
-
-
-
-
         return (
-
             <div >
-
-                <PageHeader page='Fahrzeuge' {...this.props} />
+                <PageHeader page='Registration' {...this.props} />
                 <div className="page-wrap">
                     <Container>
                     <Row>
-                       
                         <Col lg="12" className="reg">
                             <Form onSubmit={this.submit} />
                             {
@@ -122,12 +112,21 @@ class DetailPage extends Component {
                                     :
                                     null
                             }
-
                         </Col>
         
                     </Row>
                     </Container>
+                            <section className="section map-section">
+                                <Container fluid>
 
+                                    <Row>
+                                        <Col md="12">
+                                            <Map {...this.props} />
+                                        </Col>
+                                    </Row>
+                                </Container>
+                            </section>
+                            <Footer {...this.props} />
                 </div>
             </div >
         );

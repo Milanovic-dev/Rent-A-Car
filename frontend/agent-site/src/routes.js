@@ -96,7 +96,7 @@ class Routes extends Component {
                             )}
                         />
                         <Route
-                            path="/register"
+                            path="/signup"
                             exact
                             render={(...renderProps) => (
                                 <Register {...renderProps} {...this.props} />
