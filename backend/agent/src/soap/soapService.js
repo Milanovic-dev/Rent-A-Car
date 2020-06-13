@@ -2,8 +2,6 @@ const soap = require('soap');
 const fs = require('fs');
 const request = require('request');
 const hostUrl = process.env.HOST_URL + '/webhook/getWsdl';
-const db = require('../../dbSync');
-db.connect();
 
 const specialRequest = request.defaults({
     agentOptions: {
@@ -32,13 +30,6 @@ const getClient = async () => {
             if(err){
                 console.error(err);
                 reject(err);
-            }
-
-            if(db.getDb()){
-                const token = await db.getToken();
-                if(token){
-                    client.addSoapHeader(`<AuthToken>${token}</AuthToken>`);
-                }
             }
             resolve(client);
         });

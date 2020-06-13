@@ -2,7 +2,8 @@ const fs = require('fs');
 const soap = require('soap');
 const jwt = require('jsonwebtoken');
 const colors = require('colors');
-const { subscribeAgent, synchronize, sendRequest, getUpdate } = require('../service');
+const { subscribeAgent, sync } = require('../service');
+const { generateWSDL } = require('./wsdlGenerator');
 
 const xml = fs.readFileSync('service.wsdl', 'utf8');
 
@@ -15,23 +16,18 @@ const service = {
                 let result = await subscribeAgent(args);
                 return result;
             },
-            SyncAgent: async (args, cb, soapHeader) => {
-                let result = await synchronize(args, soapHeader);
+            Synchronize: async (args, cb, soapHeader) => {
+                let result = await sync(args);
                 return result;
-            },
-            SendRequest: async (args, cb, soapHeader) => {
-                let result = await sendRequest(args, soapHeader);
-                return result;
-            },
-            GetUpdate: async(args, cb, soapHeader) => {
-                let result = await getUpdate(args, soapHeader);
-                return JSON.stringify(result);
             }
         }
     }
 };
 
+
+
 const createService = async (server, callback) => {
+    generateWSDL(service);
     const soapServer = soap.listen(server, '/wsdl', service, xml, (err, res) => {
         if(err){
             console.error(err);

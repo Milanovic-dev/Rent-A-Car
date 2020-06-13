@@ -33,152 +33,109 @@ const subscribeAgent = async (args) => {
     };
 };
 
+//{collectionName, data, auth, }
+const sync = async (args) => {
+    args = JSON.parse(args);
+    if(!args.auth) return error('401','No Token.');
+    //Verify Token
 
-const synchronize = async(agent, soapHeader) => {
+    const verifyTokenResult = await verifyToken(args.auth.token);
+    if(verifyTokenResult == '400') return error('401', 'No Token.');
+    if(verifyTokenResult == '401') return error('401', 'Invalid Token.');
+
+    const username = verifyTokenResult.username;
+
+    if(!args.collectionName) return error('400', 'Collection name not specified.');
+
+    const mData = await db.collection(args.collectionName).find({ownerId: username}).sort({_id: -1}).toArray();
+
+    if(args.data == undefined || Object.keys(args.data).length == 0) {
+        if(mData.length == 0) {
+            return syncData();
+        }
+        return syncData(mData);
+    }
+
+    const diffResult = await diff(args.data, mData);
+    const mSync = diffResult.mSync;
+    const aSync = diffResult.aSync;
+
+    try{
+        for(let i = 0 ; i < mSync.toInsert.length ; i++){
+            mSync.toInsert[i]._id = ObjectID(mSync.toInsert[i]._id);
+            mSync.toInsert[i].ownerId = username;
+            db.collection(args.collectionName).insertOne(mSync.toInsert[i]);
+        }
     
-    let result = await verifyToken(soapHeader.accessToken);
+        for(let i = 0 ; i < mSync.toUpdate.length ; i++){
+            mSync.toUpdate[i]._id = ObjectID(mSync.toUpdate[i]._id);
+            mSync.toUpdate[i].ownerId = username;
+            db.collection(args.collectionName).replaceOne({_id: mSync.toUpdate[i]._id}, mSync.toUpdate[i]);
+        }
+    }catch(err){
 
-    if(result == '401' || result == '400') return result;
-
-    const id = result.id;
-
-    let agentCollection = await db.collection('agents').findOne({_id: ObjectID(id)});
-
-    if(!agentCollection) return '404';
-
-    const collectionName = agentCollection.username;
-    console.log(`${collectionName} Synced`);
-
-    // TODO: Sync
-
-    return '200';
-};
-
-const sendRequest = async({path, httpMethod, body}, soapHeader) => {
-
-    let ret = {
-        path,
-        httpMethod
-    };
-
-    let verifyRequest = verifyToken(soapHeader.AuthToken);
-    if(verifyRequest == '400' || verifyRequest == '401') 
-    {
-        ret.status = verifyRequest;
-        res.errMessage = 'Token not valid'
-        return ret;
     }
 
-    const bodyString = '';
-
-    if(body)
-        bodyString = JSON.stringify(body);
-
-    let response;
-
-    const pathSplit = path.split('/');
-    const pathSplit2 = path.split(pathSplit[2])
-    const realPath = `http://${pathSplit[2]}:4000${pathSplit2[1]}`;
-
-    if(httpMethod === 'get'){
-        response = await fetch(realPath, {
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': soapHeader.AuthToken
-            }
-        });
-    }
-    else
-    {
-        response = await fetch(path, {
-            method: httpMethod,
-            body: bodyString,
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': soapHeader.AuthToken
-            }
-        })
-    }
- 
-    if(parseInt(response.status)/ 100 == 2){
-        const updateJSON = response.json();
-
-        ret.status = response.status;
-        ret.update = updateJSON;
-        return ret;
-    }
-
-    ret.status = response.status;
-    ret.errMessage = response.errMessage;
-    return ret;
+    return syncData(aSync.toInsert, aSync.toUpdate);
 }
 
-const getUpdate = async ({collectionName, action, filter, diffData}, soapHeader) => {
-    let verifyResult = await verifyToken(soapHeader.AuthToken);
-    let ret = {
-        collectionName,
-        action,
-        status: '200'
-    }
+const diff = (aData, mData) => {
 
-    if(verifyResult == ('400' || '401')) {
-        ret.status = verifyResult;
-        ret.message = 'Unauthorized. Invalid token';
-        return ret;
-    } 
-
-    if(!diffData) diffData = [];
-
-    let diffResult = await diff(collectionName, verifyResult.username, filter, diffData);
-
-    if(diffResult){
-        if(diffResult.length == 0){
-            ret.message = 'Nothing to update';
-            return ret;
-        }
-        else
-        {
-            ret.message = `${diffResult.length} things to update.`;
-            ret.update = diffResult
-            return ret;
+    const result = {
+        mSync: {
+            toInsert: [],
+            toUpdate: []
+        },
+        aSync: {
+            toInsert: [],
+            toUpdate: []
         }
     }
 
-    ret.status = '500';
-    ret.message = 'Something went wrong.';
-    return ret;
-};
-
-
-const diff = async (collectionName, username, filter, agentDocuments) => {
-
-    const query = {};
-    if(filter) {
-        query = JSON.parse(filter);
-    }
-    
-    query['ownerId'] = username;
-    let serviceDocuments = await db.collection(collectionName).find(query).sort({_id: 1}).toArray();
-
-    let ret = [];
-
-    for(let i = 0 ; i < serviceDocuments.length ; i++){
-        if(i < agentDocuments.length){
-            if(agentDocuments[i].version < serviceDocuments[i].version){
-                ret.push(serviceDocuments[i]);
+    if(aData.length >= mData.length){
+        for(let i = 0 ; i < aData.length ; i++){
+            const pair = findPair(aData[i], mData);
+            if(pair){
+                if(aData[i].version > pair.version){
+                    result.mSync.toUpdate.push(aData[i]);
+                }else if(aData[i].version < pair.version){
+                    result.aSync.toUpdate.push(pair);
+                }
+            }else{
+                result.mSync.toInsert.push(aData[i]);
             }
         }
-        else
-        {
-            ret.push(serviceDocuments[i]);
+    }else if(aData.length < mData.length){
+        for(let i = 0 ; i < mData.length ; i++){
+            const pair = findPair(mData[i], aData);
+            if(pair){
+                if(mData[i].version > pair.version){
+                    result.aSync.toUpdate.push(mData[i]);
+                }else if(mData[i].version < pair.version){
+                    result.mSync.toUpdate.push(pair);
+                }
+            }else
+            {
+                result.aSync.toInsert.push(mData[i]);
+            }
         }
-    }   
-    
-    return ret;
+    }
+
+    return result;
 };
 
+
+const findPair = (document, data) => {
+    for(let i = 0 ; i < data.length ; i++){
+        if(data[i]._id == document._id){
+            return data[i];
+        }
+    }
+};
+
+
 const verifyToken = async (token) => {
-    
+
     if(!token) return '400';
 
     const result = await new Promise((resolve, reject) => {
@@ -194,9 +151,29 @@ const verifyToken = async (token) => {
     return result;
 }
 
+const syncData = (toInsert, toUpdate, misc) => {
+
+    if(!toInsert && !toUpdate) {
+        return JSON.stringify({toInsert: [], toUpdate: [], status: 200});
+    }
+
+    const data = {
+        toInsert: toInsert ? toInsert : [],
+        toUpdate: toUpdate ? toUpdate : [],
+        misc,
+        status: 200
+    }
+
+    return JSON.stringify(data);
+}
+
+
+const error = (status, reason) => {
+    if(!reason) return JSON.stringify({status});
+    return JSON.stringify({status, reason});
+};
+
 module.exports = {
     subscribeAgent,
-    synchronize,
-    sendRequest,
-    getUpdate
+    sync
 }

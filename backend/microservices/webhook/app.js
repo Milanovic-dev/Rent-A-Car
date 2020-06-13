@@ -35,9 +35,12 @@ dbConnect(process.env.DB_USERNAME, process.env.DB_PASSWORD, process.env.DB_SERVE
 .then(async (conn) => {
     db = conn;
     await db.dropDatabase();
-    await db.collection('cars').insertOne({ownerId:'AgentAdmin', make:"Audi", model:"A8"});
-    await db.collection('cars').insertOne({ownerId:'AgentAdmin', make:"Audi", model:"A8"});
-    await db.collection('cars').insertOne({ownerId:'AgentAdmin', make:"Audi", model:"A8"});
+    await db.collection('cars').insertOne({ownerId:'AgentAdmin', make:"Audi", model:"A8", version:1, removed:false});
+    await db.collection('cars').insertOne({ownerId:'AgentAdmin', make:"Audi", model:"A4", version:2, removed:false});
+    await db.collection('cars').insertOne({ownerId:'AgentAdmin', make:"Audi", model:"A5", version:0, removed:false});
+
+    await db.collection('orders').insertOne({ownerId:'AgentAdmin', cars: [{'make':'Audi'}, {'make':'BMW'}], version: 0, removed: false});
+
     const coll = await db.collection('agents').findOne({username:"AgentAdmin"});
     const bcrypt = require('bcrypt');
     if(!coll){
