@@ -1,6 +1,5 @@
 const ObjectID = require('mongodb').ObjectID;
 
-const dbSync = require('../../dbSync');
 const dbCollection = 'comments';
 const dbConnect = require('../../db');
 let db;

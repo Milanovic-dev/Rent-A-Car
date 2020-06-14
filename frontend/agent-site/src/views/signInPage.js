@@ -20,6 +20,7 @@ class SignInPage extends Component {
         super(props);
         this.submit = this.submit.bind(this);
         this.state = {};
+
     }
 
     submit(data) {
@@ -101,4 +102,6 @@ const mapStateToProps = state => ({
 
 
 
+
 export default connect(mapStateToProps)(PageWithLayout(SignInPage));
+

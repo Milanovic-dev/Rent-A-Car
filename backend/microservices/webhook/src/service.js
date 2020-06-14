@@ -6,6 +6,7 @@ const ObjectID = require('mongodb').ObjectID;
 const fetch = require('node-fetch');
 const colors = require('colors');
 const dbConnect = require('../db');
+const { ObjectId } = require('mongodb');
 let db;
 dbConnect(process.env.DB_USERNAME, process.env.DB_PASSWORD, process.env.DB_SERVER, process.env.DB_NAME)
 .then((conn) => {
@@ -16,10 +17,10 @@ dbConnect(process.env.DB_USERNAME, process.env.DB_PASSWORD, process.env.DB_SERVE
 
 const subscribeAgent = async (args) => {
     
-    const agentCollection = await db.collection('agents').findOne({username: args.username});
+    const agent = await db.collection('agents').findOne({username: args.username});
 
-    if(agentCollection){
-        if(bcrypt.compareSync(args.password, agentCollection.password)){
+    if(agent){
+        if(bcrypt.compareSync(args.password, agent.password)){
             const accessToken = jwt.sign({"username": args.username}, process.env.JWT_AGENT_SECRET, { algorithm: 'HS256' });
             return {
                 accessToken,
@@ -33,7 +34,7 @@ const subscribeAgent = async (args) => {
     };
 };
 
-//{collectionName, data, auth, }
+//{data, auth}
 const sync = async (args) => {
     args = JSON.parse(args);
     if(!args.auth) return error('401','No Token.');
@@ -44,91 +45,43 @@ const sync = async (args) => {
 
     const username = verifyTokenResult.username;
 
-    if(!args.collectionName) return error('400', 'Collection name not specified.');
+    const mData = await db.collection('changes').find({ownerId: username}).toArray();
+    let result = await updateData(args.data, username);
 
-    const mData = await db.collection(args.collectionName).find({ownerId: username}).sort({_id: -1}).toArray();
-
-    if(args.data == undefined || Object.keys(args.data).length == 0) {
-        if(mData.length == 0) {
-            return syncData();
-        }
-        return syncData(mData);
+    if(result.error) {
+        return error(500, 'Error while performing updates');
     }
-
-    const diffResult = await diff(args.data, mData);
-    const mSync = diffResult.mSync;
-    const aSync = diffResult.aSync;
-
     try{
-        for(let i = 0 ; i < mSync.toInsert.length ; i++){
-            mSync.toInsert[i]._id = ObjectID(mSync.toInsert[i]._id);
-            mSync.toInsert[i].ownerId = username;
-            db.collection(args.collectionName).insertOne(mSync.toInsert[i]);
-        }
-    
-        for(let i = 0 ; i < mSync.toUpdate.length ; i++){
-            mSync.toUpdate[i]._id = ObjectID(mSync.toUpdate[i]._id);
-            mSync.toUpdate[i].ownerId = username;
-            db.collection(args.collectionName).replaceOne({_id: mSync.toUpdate[i]._id}, mSync.toUpdate[i]);
-        }
-    }catch(err){
-
+        db.getDirectDb().collection('changes').deleteMany({ownerId: username});
+    } catch(err){
+        return error(500, err);
     }
 
-    return syncData(aSync.toInsert, aSync.toUpdate);
+    return syncData(mData);
 }
 
-const diff = (aData, mData) => {
+const updateData = (aData, username) => {
 
-    const result = {
-        mSync: {
-            toInsert: [],
-            toUpdate: []
-        },
-        aSync: {
-            toInsert: [],
-            toUpdate: []
-        }
-    }
-
-    if(aData.length >= mData.length){
-        for(let i = 0 ; i < aData.length ; i++){
-            const pair = findPair(aData[i], mData);
-            if(pair){
-                if(aData[i].version > pair.version){
-                    result.mSync.toUpdate.push(aData[i]);
-                }else if(aData[i].version < pair.version){
-                    result.aSync.toUpdate.push(pair);
-                }
-            }else{
-                result.mSync.toInsert.push(aData[i]);
+    try{
+        for(let i = 0 ; i < aData.length ; i++) {
+            const change = aData[i];
+            const coll = change.collName;
+            for(let j = 0 ; j < change.toInsert.length ; j++){
+                change.toInsert[j]._id = ObjectId(change.toInsert[i]._id);
+                change.toInsert[j].ownerId = username;
+                db.getDirectDb().collection(coll).insertOne(change.toInsert[j]);
+            }
+            for(let j = 0 ; j < change.toUpdate.length ; j++){
+                change.toUpdate[j].ownerId = username;
+                db.getDirectDb().collection(coll).updateOne({_id: ObjectID(change.toUpdate[j].upsertedId)}, {$set:change.toUpdate[j].update});
+            }
+            for(let j = 0 ; j < change.toRemove.length; j++){
+                db.getDirectDb().collection(coll).deleteMany({_id: ObjectID(change.toRemove[i])});
             }
         }
-    }else if(aData.length < mData.length){
-        for(let i = 0 ; i < mData.length ; i++){
-            const pair = findPair(mData[i], aData);
-            if(pair){
-                if(mData[i].version > pair.version){
-                    result.aSync.toUpdate.push(mData[i]);
-                }else if(mData[i].version < pair.version){
-                    result.mSync.toUpdate.push(pair);
-                }
-            }else
-            {
-                result.aSync.toInsert.push(mData[i]);
-            }
-        }
-    }
-
-    return result;
-};
-
-
-const findPair = (document, data) => {
-    for(let i = 0 ; i < data.length ; i++){
-        if(data[i]._id == document._id){
-            return data[i];
-        }
+        return {};
+    } catch(err){
+        return {error: err}
     }
 };
 
@@ -150,37 +103,8 @@ const verifyToken = async (token) => {
     return result;
 }
 
-const syncData = (toInsert, toUpdate, misc) => {
-
-    if(!toInsert && !toUpdate) {
-        return JSON.stringify({toInsert: [], toUpdate: [], status: 200});
-    }
-
-    if(toInsert){
-        for(let i = 0 ; i < toInsert.length ; i++){
-            if(toInsert[i].ownerId){
-                toInsert[i].ownerId = undefined;
-            }
-        }
-    }
-    
-    if(toUpdate){
-        for(let i = 0 ; i < toUpdate.length ; i++){
-            if(toUpdate[i].ownerId){
-                toUpdate[i].ownerId = undefined;
-            }
-        }
-    }
-
-
-    const data = {
-        toInsert: toInsert ? toInsert : [],
-        toUpdate: toUpdate ? toUpdate : [],
-        misc,
-        status: 200
-    }
-
-    return JSON.stringify(data);
+const syncData = (updates, misc) => {
+    return JSON.stringify({status: 200, updates, misc});
 }
 
 

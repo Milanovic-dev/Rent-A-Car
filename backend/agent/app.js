@@ -19,8 +19,6 @@ require('./src/api/uploadApi') (app);
 // Server
 const server = http.createServer(app);
 
-//Connection example dbSync
-const dbSync = require('./dbSync');
 const { ObjectID } = require('mongodb');
 
 
@@ -35,9 +33,9 @@ server.listen(8282, () => {
     console.log("Agent Server running on port 8282!");
 });
 
-//Register to Microservices Webhook
-soapService.getClient().then(soapClient => {
-    dbSync.connect().then(() => {
+require('./db')().then(db => {
+    //Register to Microservices Webhook
+    soapService.getClient().then(soapClient => {
         soapClient.SubscribeAgent({username: process.env.APP_USERNAME, password: process.env.APP_PASSWORD}, async (err, res) => {
             if(err){
                 console.error(err);
@@ -45,9 +43,10 @@ soapService.getClient().then(soapClient => {
             }
             //db.getDb().dropDatabase();
             if(res.accessToken){
-                await dbSync.saveToken(res.accessToken);
-                console.log('Sync: ' + 'ON'.green);
-                await dbSync.sync('cars');
+                await db.saveToken(res.accessToken);
+                console.log('Sync: '.yellow + 'ON'.green);
+                //await db.collection('cars').deleteMany({_id: ObjectID('5ee675170bd38d0020b2e027')}, {$set:{"make":"MBWEE"}});
+                db.sync();
             }
             else
             {
@@ -55,11 +54,11 @@ soapService.getClient().then(soapClient => {
                 console.log('Sync: ' + 'OFF'.red); 
             }
         });
-    })
-}).catch(err => { 
-    console.error(err);
-    console.log('Sync: ' + 'OFF'.red); 
-});
+    }).catch(err => { 
+        console.error(err);
+        console.log('Sync: ' + 'OFF'.red); 
+    });
+})
 
 
 
