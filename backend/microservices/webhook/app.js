@@ -57,6 +57,11 @@ app.get('/webhook/testBase', async (req, res) => {
     res.json(result);
 });
 
+app.get('/webhook/testChanges', async(req, res) => {
+    let result = await db.collection('changes').find().toArray();
+    res.json(result);
+});
+
 app.post('/webhook/insert', async(req, res) => {
     let result = await db.collection('cars').insertOne(req.body);
     console.log(result.insertedId);

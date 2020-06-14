@@ -1,6 +1,5 @@
 const ObjectID = require('mongodb').ObjectID;
 
-const dbSync = require('../../dbSync');
 const dbConnect = require('../../db');
 const dbCollection = 'pricelist';
 let db;
