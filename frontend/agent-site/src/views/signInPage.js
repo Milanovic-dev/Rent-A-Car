@@ -11,18 +11,16 @@ import {
     Container,
     Row,
     Col,
-    Carousel,
     CarouselItem,
-    CarouselControl
-
 } from 'reactstrap';
 
-class BusyCar extends Component {
+class SignInPage extends Component {
 
     constructor(props) {
         super(props);
         this.submit = this.submit.bind(this);
-        this.state = {}
+        this.state = {};
+
     }
 
     submit(data) {
@@ -104,4 +102,6 @@ const mapStateToProps = state => ({
 
 
 
-export default connect(mapStateToProps)(PageWithLayout(BusyCar));
+
+export default connect(mapStateToProps)(PageWithLayout(SignInPage));
+

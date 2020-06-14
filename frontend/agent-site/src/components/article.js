@@ -24,10 +24,13 @@ export class Article extends Component {
                         <li><Isvg src={calendar_icon} /> {this.props.year}</li>
                         <li><Isvg src={guage_icon} /> {this.props.mileage}</li>
                     </ul>
-
                     <div className="divider"></div>
                     <div className="price-container">
-                        <span className="price">{this.props.price}</span>
+                        <span className="price">{this.props.price}€</span>
+                    </div>
+                    <div className="divider"></div>
+                    <div style={{textAlign: "center"}}>
+                        <a href="/#" className="text-primary" style={{fontSize: 23 }}>Add to cart</a> 
                     </div>
                 </div>
             </a>

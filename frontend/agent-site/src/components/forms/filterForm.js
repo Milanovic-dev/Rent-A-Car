@@ -65,8 +65,7 @@ let FilterForm = (props) => {
     }
     return (
         <div className={props.searchForm ? "filter-form" : "filter-form hide-mobile"}>
-
-            <h3>SUCHOPTIONEN</h3>
+            <h3>SEARCH OPTIONS</h3>
             <form onSubmit={handleSubmit} >
                 <Row>
 
@@ -96,8 +95,8 @@ let FilterForm = (props) => {
                                 <Field
                                     name="model"
                                     component={renderSelectField}
-                                    label="MODELLFAHRZEUG"
-                                    placeholder="- WÄHLEN SIE EIN FAHRZEUGMODELL -"
+                                    label="MAKE"
+                                    placeholder= "- Choose make -"
                                 >
                                     {
                                         models && models.map((model, idx) => {
@@ -122,8 +121,8 @@ let FilterForm = (props) => {
                             <Field
                                 name="color"
                                 component={renderSelectField}
-                                label="FAHRZEUGFARBE"
-                                placeholder="- WÄHLE EINE FARBE -"
+                                label="CLASS"
+                                placeholder="- Choose class -"
                             >
                                 {
                                     props.productFilters && props.productFilters.colors && props.productFilters.colors.map((color, idx) => {
@@ -144,8 +143,8 @@ let FilterForm = (props) => {
                             <Field
                                 name="fuel"
                                 component={renderSelectField}
-                                placeholder="- MOTORTYP -"
-                                label="MOTORTYP"
+                                placeholder="- Choose fuel -"
+                                label="FUEL"
                             >
 
                                 {
@@ -161,15 +160,14 @@ let FilterForm = (props) => {
                         </div>
 
                     </Col>
-
-
+                    
                     <Col md="12">
                         <div className="input-wrap">
                             <Field
                                 name="transmission"
                                 component={renderSelectField}
-                                label="GETRIEBE"
-                                placeholder="- GETRIEBE -"
+                                label="TRANSMISSION"
+                                placeholder="- Choose transmission -"
                             >
                                 {
                                     props.productFilters && props.productFilters.transmissions && props.productFilters.transmissions.map((color, idx) => {
@@ -183,50 +181,39 @@ let FilterForm = (props) => {
                         </div>
 
                     </Col>
+                
+                   <Col md="12">
+                    <div className="input-wrap">
+                                <Field
+                                    name="price"
+                                    component={renderRangeSliderField}
+                                    label="Price"
+                                    min={props.productFilters.minPrice}
+                                    max={props.productFilters.maxPrice}
+                                    defaultValue={[props.productFilters.minPrice, props.productFilters.maxPrice]}
 
-                    <Col md="12">
-                        <div className="input-wrap">
-                            <Field
-                                name="year"
-                                component={renderRangeSliderField}
-                                label="Erstzulassung"
-                                min={props.productFilters.minProductionYear}
-                                max={props.productFilters.maxProductionYear}
-                                defaultValue={[props.productFilters.minProductionYear, props.productFilters.maxProductionYear]}
-
-                            ></Field>
-
-
+                                />
                         </div>
-
                     </Col>
-
                     <Col md="12">
-                        <div className="input-wrap">
+                    <div className="input-wrap">
                             <Field
-                                name="price"
+                                name="mileage"
                                 component={renderRangeSliderField}
-                                label="Preis"
-                                min={props.productFilters.minPrice}
-                                max={props.productFilters.maxPrice}
-                                defaultValue={[props.productFilters.minPrice, props.productFilters.maxPrice]}
-
-                            ></Field>
-
-
-                        </div>
-
+                                label="Mileage"
+                                min={props.productFilters.minMileage}
+                                max={props.productFilters.maxMileage}
+                                defaultValue={[props.productFilters.minMileage, props.productFilters.maxMileage]}
+                            />
+                    </div>
                     </Col>
 
                     <Col md="12">
                         <div className="input-wrap buttons">
-                            <button type="submit" className="button black-btn right-chevron" >SUCHE</button>
+                            <button type="submit" className="button black-btn right-chevron" >SEARCH</button>
 
-                            <button type="button" className="button clear-btn" onClick={reset}>Zurücksetzen</button>
-
-
+                            <button type="button" className="button clear-btn" onClick={reset}>Reset</button>
                         </div>
-
                     </Col>
                 </Row>
 

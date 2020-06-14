@@ -65,157 +65,76 @@ class ChangeCar extends Component {
 
     constructor(props) {
         super(props);
-        this.onTouchMove = this.onTouchMove.bind(this);
-        this.onTouchEnd = this.onTouchEnd.bind(this);
-        this.onTouchStart = this.onTouchStart.bind(this);
-        this.next = this.next.bind(this);
-        this.previous = this.previous.bind(this);
-        this.onExiting = this.onExiting.bind(this);
-        this.onExited = this.onExited.bind(this);
+       
         this.add = this.add.bind(this);
 
-        /*this.next = this.next.bind(this);
-        this.prev = this.prev.bind(this);*/
+  
 
         this.state = {
-            product: null,
-            previewImage: null,
-            modalIdx: null,
-            products: [],
-            activeIndex: 0,
-            modalIdx: 0,
-            newestProducts: []
+           
         };
     }
 
-    onExiting() {
-        this.animating = true;
-    }
-
-    onExited() {
-        this.animating = false;
-    }
-
-    next() {
-        if (this.animating) return;
-        const nextIndex = this.state.activeIndex === this.state.product.images.length - 1 ? 0 : this.state.activeIndex + 1;
-        this.setState({ activeIndex: nextIndex });
-    }
-
-    previous() {
-        if (this.animating) return;
-        const nextIndex = this.state.activeIndex === 0 ? this.state.product.images.length - 1 : this.state.activeIndex - 1;
-        this.setState({ activeIndex: nextIndex });
-    }
-
-    componentWillMount() {
-
-    }
+    
 
     componentDidMount() {
-
-        // fetch('http://localhost:8282/api/cars/v1/get/' + this.props[0].match.params.id, {
-        //     method: 'GET',
-        //     headers: {
-        //         'Content-Type': 'application/json',
-        //         'Authorization': `Bearer ${localStorage.getItem('token')}`
-        //     },
-        // }).then((res) => res.json()).then((result) => {
-        //     this.setState({
-        //         product: result,
-        //         previewImage: result.image
-        //     })
-        // });
-
-
-
-    }
-
-
-    componentDidUpdate(prevProps) {
-        if (prevProps[0].location.pathname != this.props[0].location.pathname) {
-            fetch('https://showroom-api.novamedia.agency/cars/fetch/' + this.props[0].match.params.id).then((res) => res.json()).then((product) => {
-                console.log(product);
-                this.setState({ product, previewImage: (product.images && product.images[0]) });
-
-            })
-
-        }
-    }
-
-    componentWillUnmount() {
-
-    }
-
-
-
-    onTouchStart(event) {
-        var x = event.clientX;
-        var y = event.clientY;
-        if (!this.state._startSwipePos) {
-            this.setState({
-                _startSwipePos: x,
-                _startSwipePosY: y,
-                _startLeft: this.carousel.scrollLeft
+        if (this.props[0].match.params.id) {
+            fetch('https://localhost:8080/cars/get/' + this.props[0].match.params.id, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`
+                },
+            }).then((res) => res.json()).then((result) => {
+                this.setState({
+                    data: result
+                })
             });
         }
+
     }
 
-    onTouchEnd() {
-        this.setState({
-            _startSwipePos: null,
-            _startSwipePosY: null,
-            _startLeft: null
-        });
-    }
 
-    onTouchMove(event) {
-        var x = event.clientX;
-        var y = event.clientY;
+    
 
-        if (this.state._startSwipePos) {
-            this.carousel.scrollLeft = this.state._startLeft - (x - this.state._startSwipePos);
+
+    
+    add(data){
+        
+        if (this.props[0].match.params.id){
+            fetch(`https://localhost:8080/cars/update`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`
+                },
+                body: JSON.stringify(data)
+            }).then((res) => this.props[0].history.push('/cars/' + this.props[0].match.params.id))
+
+
+        }else{
+            fetch(`https://localhost:8080/cars/create`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`
+                },
+                body: JSON.stringify(data)
+            }).then((res) => this.props[0].history.push('/ads'))
+
+
         }
 
-        this.setState({
-            _swipePos: x
-        });
-
-
-    }
-    add(data){
-        console.log(data);
+        
     }
 
 
     render() {
-        const { activeIndex } = this.state;
-
-        let slides;
-
-        if (this.state.product && this.state.product.images) {
-            slides = this.state.product.images.map((item) => {
-                return (
-                    <CarouselItem
-                        tag="div"
-                        key={item}
-                        onExiting={this.onExiting}
-                        onExited={this.onExited}
-                    >
-                        <div className="lightbox-item">
-                            <img src={'https://showroom-api.novamedia.agency/' + item} />
-                        </div>
-
-                    </CarouselItem>
-                );
-            });
-
-        }
         
 
         return (
 
-            <div onMouseUp={this.onTouchEnd} className={this.props.menu ? "detail-wrap active-menu-animation" : "detail-wrap"}>
+            <div className={this.props.menu ? "detail-wrap active-menu-animation" : "detail-wrap"}>
 
                 <PageHeader page='Fahrzeuge' {...this.props} />
                 <div className="page-wrap">
@@ -226,14 +145,14 @@ class ChangeCar extends Component {
                             <Col lg="12">
                             </Col>
                         </Row>
-                        {/* {
+                        {
                             this.state.data ?
                                 <Form initialValues={this.state.data} onSubmit={this.add} />
                                 :
                                 <Form onSubmit={this.add} />
 
-                        } */}
-                        <Form onSubmit={this.add}/>
+                        }
+                        {/* <Form onSubmit={this.add}/> */}
                     </Container>
 
 

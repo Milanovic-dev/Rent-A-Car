@@ -1,10 +1,9 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Field, reduxForm } from 'redux-form'
 import { connect } from 'react-redux';
 import { formValueSelector } from 'redux-form';  // ES6
-
+import Text from './fields/text';
 import { handleMobileSearchForm } from '../../actions/index';
-
 import {
     Container,
     Row,
@@ -12,11 +11,27 @@ import {
 } from 'reactstrap';
 import Isvg from 'react-inlinesvg';
 
+import DateTime from './fields/datePicker';
 import Select from './fields/select';
 import RangeSlider from './fields/rangeSlider';
 import Tabs from './fields/tabs';
 
 import car_icon from '../../assets/svg/car.svg';
+
+const renderTextField = ({
+    input,
+    placeholder,
+    label,
+    meta: { touched, error },
+}) => (
+
+        <Text
+            placeholder={placeholder}
+            label={label}
+            errorText={touched && error}
+            {...input}
+        />
+    )
 
 const renderSelectField = ({
     input,
@@ -69,7 +84,22 @@ const renderRangeSliderField = ({
         />
     )
 
+export const renderDateTimeField = ({
+  input,
+  placeholder,
+  label,
+  meta: { touched, error },
+}) => (
 
+    <DateTime
+      placeholder={placeholder}
+      label={label}
+      errorText={touched && error}
+      error={touched && error}
+
+      {...input}
+    />
+  )
 
 let SearchForm = (props) => {
     const { handleSubmit, pristine, reset, submitting } = props;
@@ -88,20 +118,17 @@ let SearchForm = (props) => {
 
     return (
         <Container className={props.searchForm ? "search-form" : "search-form hide-mobile"}>
-
             <h3>LET'S FIND PERFECT CAR FOR YOU!</h3>
-
             <i className="mdi mdi-close hide-desktop" onClick={() => props.handleMobileSearchForm(null)}></i>
-            <form onSubmit={handleSubmit} >
-
+            <form onSubmit={handleSubmit} className="contact-form">
                 <Row>
                     <Col lg="10" xs="12" className="tabs">
                         <Field
                             name="condition"
                             component={renderTabsField}
                         >
-                            <option value="all">Vehicle search</option>
-                            <option value="ankauf">Ankauf</option>
+                            <option value="all">Primary search</option>
+                            <option value="ankauf">Extended search</option>
                         </Field>
                     </Col>
                     <Col lg="2" className="num-results hide-mobile">
@@ -111,70 +138,27 @@ let SearchForm = (props) => {
                 </Row>
                 <div className="form-wrap">
                     <Row >
-
-                        <Col md="4">
+                        <Col lg="6">
                             <div className="input-wrap">
                                 <Field
-                                    name="manufacturer"
-                                    component={renderSelectField}
-                                    label="Make"
-                                    placeholder="- CHOOSE VEHICLE MAKE -"
-                                >
-                                    {
-                                        props.productFilters && props.productFilters.manufacturers && props.productFilters.manufacturers.map((manufacturer, idx) => {
-                                            return (
-                                                <option value={manufacturer.name}>{manufacturer.name}</option>
-                                            )
-                                        })
-                                    }
-                                </Field>
-
+                                    name="startPlace"
+                                    component={renderTextField}
+                                    placeholder="Start place"
+                                    label="Pick a place where you what to pick up your vehicle"
+                                />
                             </div>
-
                         </Col>
-
-                        <Col md="4">
-                            <div className="input-wrap">
-                                {models ?
-                                    <Field
-                                        name="model"
-                                        component={renderSelectField}
-                                        label="MODELLFAHRZEUG"
-                                        placeholder="- WÄHLEN SIE EIN FAHRZEUGMODELL -"
-                                    >
-                                        {
-                                            models && models.map((model, idx) => {
-                                                return (
-                                                    <option value={model}>{model}</option>
-                                                )
-                                            })
-                                        }
-                                    </Field>
-                                    :
-                                    null
-                                }
-
-                            </div>
-
-                        </Col>
-
-                        <Col md="2">
+                    </Row>
+                    <Row>
+                        <Col lg="6">
                             <div className="input-wrap">
                                 <Field
-                                    name="year[0]"
-                                    component={renderSelectField}
-                                    label=""
-                                    placeholder="FROM"
-                                >
-                                    {
-                                        [...Array(Math.abs(props.productFilters.maxProductionYear - props.productFilters.minProductionYear) + 1)].map((x, i) => { return (<option value={props.productFilters.minProductionYear + i}>{props.productFilters.minProductionYear + i}</option>) })}
-                                </Field>
-
+                                    name="dateAndTime"
+                                    component={renderDateTimeField}
+                                    label="Choose a date and time to pick up your vehicle"
+                                />
                             </div>
-
                         </Col>
-
-
                         <Col md="2">
                             <div className="input-wrap">
                                 <Field
@@ -194,20 +178,6 @@ let SearchForm = (props) => {
 
                         <Col md="4">
                             <div className="input-wrap">
-                                <Field
-                                    name="color"
-                                    component={renderSelectField}
-                                    label="Color"
-                                    placeholder="- CHOOSE VEHICLE COLOR -"
-                                >
-                                    {
-                                        props.productFilters && props.productFilters.colors && props.productFilters.colors.map((color, idx) => {
-                                            return (
-                                                <option value={color}>{color}</option>
-                                            )
-                                        })
-                                    }
-                                </Field>
                             </div>
                         </Col>
                         <Col md="4">
@@ -222,17 +192,14 @@ let SearchForm = (props) => {
                                 />
                             </div>
                         </Col>
-
                         <Col md="4">
                             <div className="input-wrap buttons">
                                 <button type="button" className="button clear-btn" onClick={reset}>Reset</button>
                                 <button type="submit" className="button black-btn right-chevron" >Search</button>
                             </div>
-
                         </Col>
                     </Row>
                 </div>
-
             </form>
         </Container>
 

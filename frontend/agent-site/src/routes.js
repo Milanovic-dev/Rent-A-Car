@@ -15,12 +15,8 @@ import InventoryPage from './views/inventoryPage';
 import DetailPage from './views/detailPage';
 import ChangeCar from './views/changeCar';
 import BusyCar from './views/busyCar';
+import SignIn from './views/signInPage';
 import Register from './views/register';
-
-
-
-
-
 
 
 const history = createBrowserHistory();
@@ -40,12 +36,8 @@ class Routes extends Component {
         return (
             <Router history={history} onUpdate={() => window.scrollTo(0, 0)} >
                 <div>
-
                     <GoogleMapScript API_KEY="" />
-
-
                     <Switch>
-
                         <Route
                             path="/"
                             exact
@@ -76,6 +68,13 @@ class Routes extends Component {
                             )}
                         />
                         <Route
+                            path="/cars/edit/:id"
+                            exact
+                            render={(...renderProps) => (
+                                <ChangeCar {...renderProps} {...this.props} />
+                            )}
+                        />
+                        <Route
                             path="/cars/busy/:id"
                             exact
                             render={(...renderProps) => (
@@ -90,16 +89,29 @@ class Routes extends Component {
                             )}
                         />
                         <Route
-                            path="/register"
+                            path="/signin"
+                            exact
+                            render={(...renderProps) => (
+                                <SignIn {...renderProps} {...this.props} />
+                            )}
+                        />
+                        <Route
+                            path="/ads"
+                            exact
+                            render={(...renderProps) => (
+                                <InventoryPage {...renderProps} {...this.props} />
+                            )}
+                        />
+                        <Route
+                            path="/signup"
                             exact
                             render={(...renderProps) => (
                                 <Register {...renderProps} {...this.props} />
                             )}
                         />
-
                     </Switch>
                 </div>
-            </Router >
+            </Router>
         );
     }
 }

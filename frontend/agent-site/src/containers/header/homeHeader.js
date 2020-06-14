@@ -83,10 +83,8 @@ class HomeHeader extends Component {
                         <Container>
                             <Row>
                                 <Col md="12">
-                                    <h3 className="top-bottom-animation">{item.name}</h3>
-                                    <h3 className="top-bottom-animation" ref={(input) => { this.secondRow = input; }}>{item.name1}</h3>
-                                    <h3 className="top-bottom-animation"  ref={(input) => { this.thirdRow = input; }}>{item.name2}</h3>
-                                    <img className="bubble bubble-animation" src={item.imageBadge} />
+                                    <h3 className="top-bottom-animation">RENT A CAR</h3>
+                                    <h3 className="top-bottom-animation">SERVICE</h3>
                                     <img className="image car-animation" src={item.image} />
 
                                 </Col>
@@ -135,6 +133,9 @@ class HomeHeader extends Component {
                                         </NavItem>
                                         <NavItem>
                                             <Link to='/signup' className={this.props[0].location.pathname === '/signup'  ? 'active' : null}>Sign up</Link>
+                                        </NavItem>
+                                        <NavItem>
+                                            <Link to='/cart' className={this.props[0].location.pathname === '/cart'  ? 'active' : null}>My cart</Link>
                                         </NavItem>
                                     </Nav>
                                 </Row>

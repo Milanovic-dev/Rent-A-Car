@@ -111,7 +111,7 @@ class DetailPage extends Component {
 
     componentDidMount() {
 
-        fetch('http://localhost:8282/api/cars/v1/get/' + this.props[0].match.params.id, {
+        fetch('https://localhost:8080/cars/get/' + this.props[0].match.params.id, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -250,7 +250,7 @@ class DetailPage extends Component {
                                         <div className="price">
                                             <label>PRICE</label>
                                             <div>
-                                                <p>{this.state.product && this.state.product.price}</p>
+                                                <p>{this.state.product && this.state.product.price}€</p>
                                             </div>
                                           
                                         </div>
@@ -354,6 +354,31 @@ class DetailPage extends Component {
                                                 : null}
 
                                         </Row>
+                                        <div className="spacer"></div>
+                                        <Row>
+                                            {this.state.product ?
+
+                                                <Col md="6" xs="6" className="attribute">
+                                                    <Isvg src={transmission_icon} />
+                                                    <div>
+                                                        <label>Limit mileage</label>
+                                                        <p>{this.state.product.limitMileage}</p>
+                                                    </div>
+                                                </Col>
+                                                : null}
+                                            {this.state.product ?
+
+                                                <Col md="6" xs="6" className="attribute">
+                                                    <Isvg src={car_icon} />
+                                                    <div>
+                                                        <label>Location</label>
+                                                        <p>{this.state.product.location}</p>
+                                                    </div>
+                                                </Col>
+                                                : null}
+
+                                        </Row>
+
                                     </div>
                                 </Col>
 
