@@ -26,6 +26,7 @@ app.get('/auth', (req, res) => {
 });
 
 app.post('/auth/login', async (req, res) => {
+    console.log("LOGIN: ", req.body.username, req.body.password);
     const result = await service.login(req.body.username, req.body.password);
     if(result.status == 200){
         res.cookie('jwt', result.response, {httpOnly:true, secure:false});

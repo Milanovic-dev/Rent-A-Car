@@ -61,7 +61,7 @@ function generateAlias(str) {
 }
 
 
-class DetailPage extends Component {
+class Register extends Component {
 
     constructor(props) {
         super(props);
@@ -139,4 +139,4 @@ const mapStateToProps = state => ({
 
 
 
-export default connect(mapStateToProps)(PageWithLayout(DetailPage));
+export default connect(mapStateToProps)(PageWithLayout(Register));

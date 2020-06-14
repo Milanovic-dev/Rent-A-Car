@@ -14,7 +14,7 @@ import {
     CarouselItem,
 } from 'reactstrap';
 
-class BusyCar extends Component {
+class SignInPage extends Component {
 
     constructor(props) {
         super(props);
@@ -101,4 +101,4 @@ const mapStateToProps = state => ({
 
 
 
-export default connect(mapStateToProps)(PageWithLayout(BusyCar));
+export default connect(mapStateToProps)(PageWithLayout(SignInPage));

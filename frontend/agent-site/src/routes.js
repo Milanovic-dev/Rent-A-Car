@@ -68,6 +68,13 @@ class Routes extends Component {
                             )}
                         />
                         <Route
+                            path="/cars/edit/:id"
+                            exact
+                            render={(...renderProps) => (
+                                <ChangeCar {...renderProps} {...this.props} />
+                            )}
+                        />
+                        <Route
                             path="/cars/busy/:id"
                             exact
                             render={(...renderProps) => (

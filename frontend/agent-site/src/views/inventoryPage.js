@@ -20,60 +20,38 @@ import {
 class InventoryPage extends Component {
     constructor(props) {
         super(props);
-        this.searchProducts = this.searchProducts.bind(this);
-        this.fetchItems = this.fetchItems.bind(this);
+        // this.searchProducts = this.searchProducts.bind(this);
+        // this.fetchItems = this.fetchItems.bind(this);
         this.state = {
             products: [],
             productFilters: null,
             manufacturerModels: [],
-            filters: { sort: 1 }
+            filters: { sort: 1 },
+            items: []
         };
     }
 
-    fetchItems() {
-        fetch('https://showroom-api.novamedia.agency/cars/search', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(this.state.filters) }).then((res) => res.json()).then((result) => {
-            this.setState({ products: result.items, total: result.total }, () => {
-            });
-
-        })
-
-    }
-
-    componentWillMount() {
-        document.title = "Rent-a-car";
-    }
+    
 
     componentDidMount() {
-        fetch('https://showroom-api.novamedia.agency/cars/latest').then((res) => res.json()).then((newestProducts) => { console.log(newestProducts); this.setState({ newestProducts }); })
-        fetch('https://showroom-api.novamedia.agency/cars/filters').then((res) => res.json()).then((productFilters) => { console.log(productFilters); this.setState({ productFilters }); })
-
-        if (this.props[0].match.params.searchQuery) {
+        fetch('https://127.0.0.1:8080/cars/all', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('token')}`
+            },
+        }).then((res) => res.json()).then((result) => {
             this.setState({
-                filters: JSON.parse(atob(decodeURIComponent(this.props[0].match.params.searchQuery)))
-            }, () => {
-                this.fetchItems()
+                items: result
             })
-        } else {
-            this.fetchItems();
-        }
+        })
     }
 
 
-    componentDidUpdate(prevProps) {
-        if (prevProps[0].location.pathname != this.props[0].location.pathname) {
-            if (this.props[0].match.params.searchQuery) {
-                this.setState({
-                    filters: JSON.parse(atob(decodeURIComponent(this.props[0].match.params.searchQuery)))
-                }, () => {
-                    this.fetchItems()
-                })
-            }
-
-        }
-    }
-    searchProducts(data) {
-        this.props[0].history.push(`/vehicle/${encodeURIComponent(btoa(JSON.stringify(data)))}`)
-    }
+   
+    // searchProducts(data) {
+    //     this.props[0].history.push(`/vehicle/${encodeURIComponent(btoa(JSON.stringify(data)))}`)
+    // }
     render() {
 
         let sort = [
@@ -141,19 +119,19 @@ class InventoryPage extends Component {
 
                                 <Row className="articles">
                                     {
-                                        this.state.products.map((product) => {
+                                        this.state.items.map((product) => {
                                             return (
                                                 <Col md="4" xs="6">
 
                                                     <Article
-                                                        title={product.title}
-                                                        alias={product.alias}
+                                                        title={product.make + " " + product.model}
+                                                        // alias={product.alias}
                                                         id={product._id}
-                                                        image={'https://showroom-api.novamedia.agency/' + product.images[0]}
-                                                        fuel={product.attributes && product.attributes['fuel'] && product.attributes['fuel'].value}
-                                                        mileage={product.attributes && product.attributes['mileage'] && product.attributes['mileage'].value}
-                                                        year={product.attributes && product.attributes['firstRegistration'] && product.attributes['firstRegistration'].value}
-                                                        price={product.price && product.price.grs.localized}
+                                                        // image={'https://showroom-api.novamedia.agency/' + product.images[0]}
+                                                        fuel={product.fuel}
+                                                        mileage={product.mileage}
+                                                        year={product.productionYear}
+                                                        price={product.price}
                                                     />
                                                 </Col>
                                             )
