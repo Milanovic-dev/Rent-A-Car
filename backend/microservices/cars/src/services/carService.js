@@ -57,7 +57,8 @@ const updateCar = async (car) => {
               class: car.class ? car.class : dbCar.class,
               mileage: car.mileage ? car.mileage : dbCar.mileage,
               cdw: car.cdw ? car.cdw : dbCar.cdw,
-              seatCount: car.seatCount ? car.seatCount : dbCar.seatCount
+              seatCount: car.seatCount ? car.seatCount : dbCar.seatCount,
+              description: car.description ? car.description : dbCar.description
           }
       }
   );

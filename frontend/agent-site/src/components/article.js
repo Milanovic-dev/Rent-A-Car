@@ -26,7 +26,7 @@ export class Article extends Component {
                     </ul>
                     <div className="divider"></div>
                     <div className="price-container">
-                        <span className="price">{this.props.price}</span>
+                        <span className="price">{this.props.price}€</span>
                     </div>
                     <div className="divider"></div>
                     <div style={{textAlign: "center"}}>
