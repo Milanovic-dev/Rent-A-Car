@@ -60,7 +60,7 @@ const sync = async (args) => {
     return syncData(mData);
 }
 
-const updateData = (aData, username) => {
+const updateData = async (aData, username) => {
 
     try{
         for(let i = 0 ; i < aData.length ; i++) {
@@ -69,14 +69,14 @@ const updateData = (aData, username) => {
             for(let j = 0 ; j < change.toInsert.length ; j++){
                 change.toInsert[j]._id = ObjectId(change.toInsert[i]._id);
                 change.toInsert[j].ownerId = username;
-                db.getDirectDb().collection(coll).insertOne(change.toInsert[j]);
+                await db.getDirectDb().collection(coll).insertOne(change.toInsert[j]);
             }
             for(let j = 0 ; j < change.toUpdate.length ; j++){
                 change.toUpdate[j].ownerId = username;
-                db.getDirectDb().collection(coll).updateOne({_id: ObjectID(change.toUpdate[j].upsertedId)}, {$set:change.toUpdate[j].update});
+                await db.getDirectDb().collection(coll).updateMany(change.toUpdate[j].filter, {$set:change.toUpdate[j].update});
             }
             for(let j = 0 ; j < change.toRemove.length; j++){
-                db.getDirectDb().collection(coll).deleteMany({_id: ObjectID(change.toRemove[i])});
+                await db.getDirectDb().collection(coll).deleteMany(change.toRemove[i]);
             }
         }
         return {};
