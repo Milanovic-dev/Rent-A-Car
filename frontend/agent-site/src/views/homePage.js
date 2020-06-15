@@ -1,226 +1,184 @@
 import React, { Component } from 'react';
-import { Link, Redirect } from 'react-router-dom';
-import { PageWithLayout } from '../containers/page';
-import { connect } from 'react-redux';
-
+import Link from '../components/link';
 import Isvg from 'react-inlinesvg';
+import Page from '../containers/page';
 
-
-import HomeHeader from '../containers/header/homeHeader';
-import SearchForm from '../components/forms/searchForm';
-import Map from '../components/map';
-import Footer from '../containers/footer';
-import Article from '../components/article';
 
 import {
     Container,
     Row,
     Col,
-    CarouselItem,
+    Dropdown,
+    DropdownItem,
+    DropdownMenu,
+    DropdownToggle,
     Carousel,
-    CarouselControl
+    CarouselItem,
+    CarouselControl,
+    CarouselIndicators,
+    CarouselCaption,
+    UncontrolledDropdown
 } from 'reactstrap';
 
 
+import Form from '../components/forms/form';
 
+
+import rightChevron from '../assets/svg/right-chevron.svg';
+import bg from '../assets/images/bg.png';
+import badge from '../assets/images/badge.png';
+
+import welcome from '../assets/images/welcome.png';
 
 class HomePage extends Component {
     constructor(props) {
         super(props);
+        this.submit = this.submit.bind(this);
 
-        this.next = this.next.bind(this);
-        this.previous = this.previous.bind(this);
-        this.goToIndex = this.goToIndex.bind(this);
-        this.onExiting = this.onExiting.bind(this);
-        this.onExited = this.onExited.bind(this);
-        this.searchProducts = this.searchProducts.bind(this);
 
         this.state = {
-            newestProducts: [],
-            commingSoonProducts: [],
-            productFilters: null,
-            manufacturerModels: [],
-            filters: {},
-            gallery: [],
-            activeIndex: 0,
-            counter: 0
+
         };
+
+
+
     }
 
 
-    componentWillMount() {
-        document.title = "Rent-a-car";
-    }
 
-      
+
     componentDidMount() {
 
-
-
-
-        fetch('http://127.0.0.1:8080/api/cars/v1/all', {
+        if (typeof window !== 'undefined') { window.scrollTo(0, 0); }
+        fetch('https://api.verkaufes24.de/home', {
             method: 'GET',
             headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${localStorage.getItem('token')}`
-            },
-        }).then((res) => res.json()).then((result) => {
+                'accept': 'application/json'
+            }
+        }).then((res) => res.json()).then((data) => {
             this.setState({
-                newestProducts: result
+                ...data
             })
         })
 
 
-
-        fetch('https://showroom-api.novamedia.agency/cars/filters').then((res) => res.json()).then((productFilters) => { console.log(productFilters); this.setState({ productFilters }); })
-
     }
 
-    searchProducts(data) {
+
+    submit(data) {
+        this.setState({
+            formLoading: true
+        }, () => {
+
+            /*
+            fetch('apiendpoint', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+
+                },
+                body: JSON.stringify(
+                    data
+                )
+            }).then((res) => res.json()).then((result) => {
+                this.setState({
+                    formLoading: null,
+                    formDone: true
+                })
+            })
+            */
+        })
+
+
+
         console.log(data);
-        if (data.year) {
-            if (!data.year[0]) {
-                data.year[0] = this.state.productFilters.minProductionYear;
-            }
-            if (!data.year[1]) {
-                data.year[1] = this.state.productFilters.maxProductionYear;
-            }
-        }
-        this.props[0].history.push(`/fahrzeuge/${encodeURIComponent(btoa(JSON.stringify(data)))}`)
-    }
-
-
-    onExiting() {
-        this.animating = true;
-    }
-
-    onExited() {
-        this.animating = false;
-    }
-
-    next() {
-        if (this.animating) return;
-        const nextIndex = this.state.activeIndex === this.state.gallery.length - 1 ? 0 : this.state.activeIndex + 1;
-        this.setState({ activeIndex: nextIndex });
-    }
-
-    previous() {
-        if (this.animating) return;
-        const nextIndex = this.state.activeIndex === 0 ? this.state.gallery.length - 1 : this.state.activeIndex - 1;
-        this.setState({ activeIndex: nextIndex });
-    }
-
-    goToIndex(newIndex) {
-        if (this.animating) return;
-        this.setState({ activeIndex: newIndex });
-    }
-
-    componentWillUnmount() {
-
     }
 
     render() {
-        const settings = {
-            dots: false,
-            infinite: true,
-            speed: 500,
-            slidesToShow: window.innerWidth < 768 ? 3 : 6,
-            slidesToScroll: 1,
-            autoplay: true,
-            autoplaySpeed: 2000,
-              };
-
-        const { activeIndex } = this.state;
-
-        const slides = this.props.images && this.props.images.map((item) => {
-            return (
-                <CarouselItem
-                    tag="div"
-                    key={item}
-                    onExiting={this.onExiting}
-                    onExited={this.onExited}
-                >
-                    <div className="lightbox-item">
-                        <img src={item} />
-                    </div>
-
-                </CarouselItem>
-            );
-        });
 
         return (
-            <div className={this.props.menu ? "home-wrap active-menu-animation" : "home-wrap"}>
-
-                <HomeHeader {...this.props} />
-
-                <div className="form-overlay hide-mobile"></div>
-
-                {
-                    this.state.productFilters ?
-                        <SearchForm productFilters={this.state.productFilters} onSubmit={(val) => this.searchProducts(val)} />
-                        : null
-                }
-                <section className="section latest-cars-section">
+            <div className="home-wrap">
+                <div className="into-wrap">
+                    <div className="background-image"><img src={bg} /></div>
                     <Container>
                         <Row>
+                            <Col xl="6" md={{ size: 12, offset: 0 }} className="content">
+                                <h6>{this.state.section1 && this.state.section1.subtitle}</h6>
+                                <div className="title">
+                                    <h1 dangerouslySetInnerHTML={{ __html: this.state.section1 && this.state.section1.title }}></h1>
+                                    <img src={badge} />
+                                </div>
 
-                            {
-                                this.state.newestProducts.map((product) => {
-                                    return (
-                                        <Col md="3" xs="6">
+                                <Form loading={this.state.formLoading} done={this.state.formDone} onSubmit={this.submit} />
 
-                                            <Article
-                                                title={product.make + ' ' + product.model}
-                                                id={product._id}
-                                                image={ product.image}
-                                                fuel={product.fuel}
-                                                mileage={product.mileage}
-                                                year={product.productionYear}
-                                                price={product.price}
-                                            />
-                                        </Col>
-                                    )
-                                })
-                            }
+                                <p>{this.state.section1 && this.state.section1.text && this.state.section1.text[0]}</p>
+
+                            </Col>
+                            <Col xl={{ size: 5, offset: 1 }} md={{ size: 12, offset: 0 }} className="right-content">
+                                <div>
+                                    <div className="item-1">
+                                        <h6 dangerouslySetInnerHTML={{ __html: this.state.section1 && this.state.section1.text && this.state.section1.text[1] }}></h6>
+                                    </div>
+                                    <div className="item-2">
+                                        <p dangerouslySetInnerHTML={{ __html: this.state.section1 && this.state.section1.text && this.state.section1.text[2] }}></p>
+                                    </div>
+                                </div>
+                                <div className="item-3">
+                                    <p dangerouslySetInnerHTML={{ __html: this.state.section1 && this.state.section1.text && this.state.section1.text[3] }}></p>
+                                </div>
+                            </Col>
+                        </Row>
+                    </Container>
+
+                </div>
+                <section className="info-section">
+                    <Container>
+                        <Row>
+                            <Col lg="4" className="item item-1">
+                                <div className="icon">1</div>
+                                <div>
+                                    <p dangerouslySetInnerHTML={{ __html: this.state.section2 && this.state.section2.text && this.state.section2.text[0] }}></p>
+                                </div>
+                            </Col>
+                            <Col lg="4" className="item item-2">
+                                <div className="icon">2</div>
+                                <div>
+                                    <p dangerouslySetInnerHTML={{ __html: this.state.section2 && this.state.section2.text && this.state.section2.text[1] }}></p>
+                                </div>
+                            </Col>
+
+                            <Col lg="4" className="item item-3">
+                                <div className="icon">3</div>
+                                <div>
+                                    <p dangerouslySetInnerHTML={{ __html: this.state.section2 && this.state.section2.text && this.state.section2.text[2] }}></p>
+                                </div>
+                            </Col>
 
                         </Row>
-
                     </Container>
                 </section>
 
-               
-
-
-
-                
-
-                <section className="section map-section">
-                    <Container fluid>
-
+                <section className="content-section">
+                    <Container>
                         <Row>
-                            <Col md="12">
-                                <Map {...this.props} />
+                            <Col lg="6" className="left-anim">
+                                <img src={welcome} />
+                            </Col>
+                            <Col lg={{ size: 5, offset: 1 }} className="right-anim">
+                                <h6>{this.state.section3 && this.state.section3.subtitle}</h6>
+                                <h2 dangerouslySetInnerHTML={{ __html: this.state.section3 && this.state.section3.title }}></h2>
+                                <div dangerouslySetInnerHTML={{ __html: this.state.section3 && this.state.section3.content }}></div>
+
+                                <Link to="/kontakt"><button className="button">KONTAKT <Isvg src={rightChevron} /></button></Link>
+
                             </Col>
                         </Row>
                     </Container>
                 </section>
 
-
-                <Footer {...this.props} />
-
-
-
-            </div >
+            </div>
         );
     }
 }
 
-
-
-const mapStateToProps = state => ({
-    menu: state.menu
-});
-
-
-
-export default connect(mapStateToProps)(PageWithLayout(HomePage));
+export default Page(HomePage);

@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+  <defs>
+    <style>
+      .cls-1, .cls-2 {
+        fill: #888;
+      }
+
+      .cls-1 {
+        fill-rule: evenodd;
+      }
+    </style>
+  </defs>
+  <g id="Group_33" data-name="Group 33" transform="translate(-1369 -15)">
+    <g id="Group_57" data-name="Group 57">
+      <g id="facebook" transform="translate(1369 15)">
+        <g id="Facebook-2" data-name="Facebook">
+          <path id="Oval-1" class="cls-1" d="M10,20A10,10,0,1,0,0,10,10,10,0,0,0,10,20Zm0-1.2A8.8,8.8,0,1,0,1.2,10,8.8,8.8,0,0,0,10,18.8Z"/>
+        </g>
+      </g>
+      <rect id="Rectangle_58" data-name="Rectangle 58" class="cls-2" width="4" height="1" transform="translate(1378 25)"/>
+      <rect id="Rectangle_59" data-name="Rectangle 59" class="cls-2" width="6" height="1" transform="translate(1379 19) rotate(90)"/>
+    </g>
+  </g>
+</svg>

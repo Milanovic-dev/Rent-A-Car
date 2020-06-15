@@ -1,222 +1,143 @@
 import React, { Component } from 'react';
 import { Field, reduxForm } from 'redux-form'
-import Calendar from 'react-calendar';
 
+import Text from './fields/text';
+import Textarea from './fields/textarea';
+import rightChevron from '../../assets/svg/right-chevron.svg';
+import Isvg from 'react-inlinesvg';
 
 import {
     Container,
     Row,
     Col,
 } from 'reactstrap';
-import Isvg from 'react-inlinesvg';
 
-import Select from './fields/select';
-import Text from './fields/text';
-import Textarea from './fields/textarea';
-
-import RangeSlider from './fields/rangeSlider';
-
-import car_icon from '../../assets/svg/car.svg';
-
-const renderSelectField = ({
-    input,
-    placeholder,
-    label,
-    meta: { touched, error },
-    children,
-}) => (
-
-        <Select
-            placeholder={placeholder}
-            label={label}
-            errorText={touched && error}
-            {...input}
-            children={children}
-        />
-    )
-
-
-
-
-const renderCalendarField = ({
-    input,
-    placeholder,
-    label,
-    meta: { touched, error },
-    children,
-}) => (
-        <Calendar
-            {...input}
-        />
-    )
+const required = value => value ? undefined : "Required"
 
 const renderTextField = ({
     input,
     placeholder,
-    label,
     meta: { touched, error },
 }) => (
 
         <Text
             placeholder={placeholder}
-            label={label}
             errorText={touched && error}
+            error={touched && error}
             {...input}
         />
     )
 
-    const renderTextareaField = ({
-        input,
-        placeholder,
-        label,
-        meta: { touched, error },
-    }) => (
-    
-            <Textarea
-                placeholder={placeholder}
-                label={label}
-                errorText={touched && error}
-                {...input}
-            />
-        )
-
-const renderRangeSliderField = ({
+const renderTextareaField = ({
     input,
+    placeholder,
     label,
     meta: { touched, error },
-    children,
-    min, max, defaultValue
 }) => (
 
-        <RangeSlider
+        <Textarea
+            placeholder={placeholder}
             label={label}
             errorText={touched && error}
+            error={touched && error}
             {...input}
-            children={children}
-            min={min}
-            max={max}
-            defaultValue={defaultValue}
         />
     )
 
 
+class form extends React.Component {
 
-const contactForm = (props) => {
-    const { handleSubmit, pristine, reset, submitting } = props;
-    console.log(pristine, submitting);
+    constructor(props) {
+        super(props);
+        this.state = {}
+    }
 
-    return (
-        <form onSubmit={handleSubmit} className="contact-form">
-            <Row>
-                <Col md="12">
-                    <h3>KONTAKTIEREN SIE UNS</h3>
-                </Col>
-                <Col md="12">
+    render() {
 
-                    <Row>
-                        <Col md="6">
-                            <div className="input-wrap">
-                                <Field
-                                    name="firstName"
-                                    component={renderTextField}
-                                    //label="DEIN NAME"
-                                    placeholder="Name"
-                                >
-                                </Field>
+        const { handleSubmit, pristine, reset, submitting } = this.props;
+        console.log(pristine, submitting);
 
-                            </div>
+        return (
+            <form onSubmit={handleSubmit} className="contact-form">
+                <Row>
+                    <Col lg="12">
+                        <h6>KONTAKTIEREN SIE UNS</h6>
+                    </Col>
+                    <Col lg="6">
+                        <Field
+                            name="firstName"
+                            component={renderTextField}
+                            validate={[required]}
+                            placeholder='Name'
 
-                        </Col>
+                        ></Field>
+                    </Col>
+                    <Col lg="6">
+                        <Field
+                            name="lastName"
+                            component={renderTextField}
+                            validate={[required]}
+                            placeholder='Familienname'
 
-                        <Col md="6">
-                            <div className="input-wrap">
-                                <Field
-                                    name="lastName"
-                                    component={renderTextField}
-                                    //label="DEIN FAMILIENNAME"
-                                    placeholder="Familienname"
-                                >
-                                </Field>
+                        ></Field>
+                    </Col>
+                    <Col lg="6">
+                        <Field
+                            name="phone"
+                            component={renderTextField}
+                            validate={[required]}
+                            placeholder='Telefonnummer'
 
-                            </div>
+                        ></Field>
+                    </Col>
+                    <Col lg="6">
+                        <Field
+                            name="email"
+                            component={renderTextField}
+                            validate={[required]}
+                            placeholder='E-Mail-Addresse'
 
-                        </Col>
+                        ></Field>
+                    </Col>
+                    <Col lg="12">
+                        <Field
+                            name="subject"
+                            component={renderTextField}
+                            validate={[required]}
+                            placeholder='Betreff der Nachricht'
 
-                        <Col md="6">
-                            <div className="input-wrap">
-                                <Field
-                                    name="phone"
-                                    component={renderTextField}
-                                    //label="DEINE TELEFONNUMMER"
-                                    placeholder="Telefonnummer"
-                                >
-                                </Field>
+                        ></Field>
+                    </Col>
+                    <Col lg="12">
+                        <Field
+                            name="message"
+                            component={renderTextareaField}
+                            validate={[required]}
+                            placeholder='Nachricht'
 
-                            </div>
+                        ></Field>
+                    </Col>
+                    <Col lg="12">
 
-                        </Col>
+                        {this.props.done ?
+                            <p>Die Anfrage wurde erfolgreich gesendet, erwarte bald eine Antwort.</p>
+                            :
 
-                        <Col md="6">
-                            <div className="input-wrap">
-                                <Field
-                                    name="email"
-                                    component={renderTextField}
-                                    //label="DEINE E-MAIL"
-                                    placeholder="E-Mail-Addresse"
-                                >
-                                </Field>
+                            <button className="button">KONTAKTIEREN SIE UNS {
+                                this.props.loading ?
+                                    <div className="lds-ring"><div></div><div></div><div></div><div></div></div>
+                                    :
+                                    null
 
-                            </div>
-
-                        </Col>
-
-                        <Col md="12">
-                            <div className="input-wrap">
-                                <Field
-                                    name="subject"
-                                    component={renderTextField}
-                                    //label="THEMA"
-                                    placeholder="Betreff der Nachricht"
-                                >
-                                </Field>
-
-                            </div>
-
-                        </Col>
-
-                        <Col md="12">
-                            <div className="input-wrap">
-                                <Field
-                                    name="message"
-                                    component={renderTextareaField}
-                                    //label="NACHRICHT"
-                                    placeholder="Nachricht"
-                                >
-                                </Field>
-
-                            </div>
-
-                        </Col>
-
-
-
-
-                        <Col md="6">
-                            <div className="input-wrap buttons">
-                                <button type="submit" className="button" disabled={pristine || submitting}>KONTAKTIEREN SIE UNS</button>
-                            </div>
-
-                        </Col>
-                    </Row>
-                </Col>
-
-            </Row>
-
-        </form>
-
-    )
+                            } </button>
+                        }
+                    </Col>
+                </Row>
+            </form>
+        )
+    }
 }
 
 export default reduxForm({
-    form: 'contactForm'  // a unique identifier for this form
-})(contactForm)
+    form: 'form'  // a unique identifier for this form
+})(form)
