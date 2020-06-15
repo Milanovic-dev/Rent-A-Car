@@ -1,39 +1,17 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 
+import Header from '../components/header';
+import Footer from '../components/footer';
+
+const lighModes = ['mode-normal', 'mode-dark', 'mode-light']
 
 export const DefaultLayout = (Wrapped) => (props) => {
     return (
-
-        <div onTouchEnd={props.touchEnd} onTouchMove={props.touchMove}>
-            { /* props._menuOpen ? 
-                <Menu {...props} />
-
-            : 
-            null
-            */
-            }
-            <ul className="mobile-navigation hide-desktop">
-                <li><Link to='/'>Startseite</Link></li>
-                <li> <Link to='/fahrzeuge'>Fahrzeuge</Link></li>
-                <li> <Link to='/ankauf'>Ankauf</Link></li>
-                <li><Link to='/finanzierung'>Finanzierung</Link></li>
-
-                <li><Link to='/service'>Service</Link></li>
-                <li><Link to='/galerie'>Galerie</Link></li>
-                <li><Link to='/seite/karriere'>Karriere</Link></li>
-
-                <li><Link to='/kontakt' >Kontakt</Link></li>
-            </ul>
-
+        <div className={"wrapper " + lighModes[props.lightMode]}>
+            <Header {...props} />
             <Wrapped {...props} />
-
-
-            {
-                /* props._modalOpen ?
-                 <Modal {...props} /> : null
-                 */
-            }
+            <Footer {...props} />
         </div>
     );
 };

@@ -1,14 +1,13 @@
 import React, { Component } from 'react';
 import {
-    Router,
+    BrowserRouter as Router,
     Route,
     Switch,
+     
 } from 'react-router-dom';
-import { connect } from 'react-redux';
-import { handleMobileSearchForm, handleMenu } from './actions/index';
 
-import { createBrowserHistory } from 'history';
-import { GoogleMapScript } from './components/googleMapScript';
+
+
 
 import HomePage from './views/homePage';
 import InventoryPage from './views/inventoryPage';
@@ -18,27 +17,23 @@ import BusyCar from './views/busyCar';
 import SignIn from './views/signInPage';
 import Register from './views/register';
 import Cart from './views/cart';
+import DynamicPage from './views/dynamicPage';
+import ContactPage from './views/contactPage';
 
 
-const history = createBrowserHistory();
 
 class Routes extends Component {
 
     componentDidMount() {
-        const unlisten = history.listen((location, action) => {
-            //this.props.handleMenu(null);
-            this.props.handleMenu(null);
-            this.props.handleChange(null);
-            window.scrollTo(0, 0);
-        });
+
     }
 
     render() {
         return (
-            <Router history={history} onUpdate={() => window.scrollTo(0, 0)} >
                 <div>
-                    <GoogleMapScript API_KEY="" />
-                    <Switch>
+
+
+                    <Switch className="react-switch">
                         <Route
                             path="/"
                             exact
@@ -47,17 +42,17 @@ class Routes extends Component {
                             )}
                         />
                         <Route
-                            path="/fahrzeuge"
+                            path="/page/:alias"
                             exact
                             render={(...renderProps) => (
-                                <InventoryPage {...renderProps} {...this.props} />
+                                <DynamicPage {...renderProps} {...this.props} />
                             )}
                         />
                         <Route
-                            path="/fahrzeuge/:searchQuery"
+                            path="/kontakt"
                             exact
                             render={(...renderProps) => (
-                                <InventoryPage {...renderProps} {...this.props} />
+                                <ContactPage {...renderProps} {...this.props} />
                             )}
                         />
 
@@ -119,29 +114,8 @@ class Routes extends Component {
                         />
                     </Switch>
                 </div>
-            </Router>
         );
     }
 }
 
-
-
-const mapStateToProps = state => ({
-    searchForm: state.searchForm,
-    menu: state.menu
-});
-
-
-const mapDispatchToProps = (dispatch, ownProps) => {
-    return {
-        handleChange: (val) => {
-            dispatch(handleMobileSearchForm(val))
-        },
-        handleMenu: (val) => {
-            dispatch(handleMenu(val))
-        }
-    }
-}
-
-
-export default connect(mapStateToProps, mapDispatchToProps)(Routes);
+export default Routes;
