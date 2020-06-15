@@ -17,6 +17,7 @@ import ChangeCar from './views/changeCar';
 import BusyCar from './views/busyCar';
 import SignIn from './views/signInPage';
 import Register from './views/register';
+import Cart from './views/cart';
 
 
 const history = createBrowserHistory();
@@ -107,6 +108,13 @@ class Routes extends Component {
                             exact
                             render={(...renderProps) => (
                                 <Register {...renderProps} {...this.props} />
+                            )}
+                        />
+                        <Route
+                            path="/cart"
+                            exact
+                            render={(...renderProps) => (
+                                <Cart {...renderProps} {...this.props} />
                             )}
                         />
                     </Switch>

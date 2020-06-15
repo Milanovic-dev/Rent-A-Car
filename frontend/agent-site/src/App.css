@@ -3905,3 +3905,39 @@ button {
         @media only screen and (max-width: 1200px) {
           .contact-wrap .page-wrap .map-section .map {
             height: 200px; } }
+
+.cart-owner-wrap {
+  background-color: #da212e;
+  height: 45px;
+  border-width: 5px;
+  text-align: left;
+  vertical-align: middle;
+  line-height: 45px;
+  color: white;
+}
+
+.cart-item {
+  border-width: 1px;
+  line-height: 120px;
+  border-style: solid;
+  border-color: #d4d4d4;
+}
+
+.cart-item-info {
+  width: 30px;
+  margin-left: 200px;
+}
+
+.cart-item-image {
+  margin-left: 10px;
+  width: 50px;
+  height: 50px;
+}
+
+.cart-item-options {
+  margin-left: 180px;
+}
+
+.cart-item-price {
+  margin-left: 170px;
+}
