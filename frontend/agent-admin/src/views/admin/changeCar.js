@@ -33,6 +33,8 @@ class ChangeCar extends Component {
         data.price ?  data.price = stripHtml(data.price) : data.price = "";
         data.description ?  data.description = stripHtml(data.description) : data.description = "";
 
+        console.log(data);
+
         if (this.props[0].match.params.id){
             fetch(`https://localhost:8080/cars/update`, {
                 method: 'PUT',
@@ -45,7 +47,7 @@ class ChangeCar extends Component {
 
 
         }else{
-            fetch(`https://localhost:8080/cars/create`, {
+            fetch(`http://localhost:8282/api/cars/create`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -90,10 +92,9 @@ class ChangeCar extends Component {
                     </Row>
                     { 
                         this.state.data ?
-                    <Form initialValues={this.state.data} onSubmit={this.add} />
+                        <Form initialValues={this.state.data} onSubmit={this.add} />
                         :
                         <Form onSubmit={this.add} />
-
                     }
                 </Container>
             </div>

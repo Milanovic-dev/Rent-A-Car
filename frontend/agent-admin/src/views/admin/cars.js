@@ -25,19 +25,20 @@ class Cars extends Component {
     componentDidMount() {
         this.get();
     }
-
+    
     get() {
         if (!localStorage.token) {
             return;
         }
-
-        fetch('https://127.0.0.1:8080/cars/all', {
+        
+        fetch('https://localhost:8282/api/cars/all', {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${localStorage.getItem('token')}`
             },
         }).then((res) => res.json()).then((result) => {
+            console.log("MILANA");
             this.setState({
                 items: result
             })

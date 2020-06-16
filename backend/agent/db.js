@@ -24,7 +24,10 @@ module.exports = function() {
          useNewUrlParser: true,
          }, (err, db) => {
          if (err)
-            reject(err)
+         {
+            console.log(err);
+            reject(err);
+         }
       
          connection = db.db(dbName);
 

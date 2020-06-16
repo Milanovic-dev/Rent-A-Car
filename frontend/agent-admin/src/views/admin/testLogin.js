@@ -1,8 +1,5 @@
 import React, { Component } from 'react'
-import { Link, Redirect } from 'react-router-dom';
 import LoginForm from '../../components/forms/testLoginForm';
-import bg from '../../assets/images/login-bg.png';
-
 import {
     Container,
     Row,
@@ -85,7 +82,6 @@ class TestLogin extends Component {
                                             <Row>
                                                 <Col lg="12">
                                                     <h3>Test login page</h3>
-                                                    <h6></h6>
                                                 </Col>
                                             </Row>
                                             <LoginForm onSubmit={this.login} />

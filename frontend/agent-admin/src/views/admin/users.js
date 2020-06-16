@@ -123,9 +123,9 @@ class Users extends Component {
                                         <span className="value">{item.email}</span>
                                     </Col>
                                     {
-                                        item.role == 'user' ?
+                                        item.role === 'user' ?
                                             <Col lg="3">
-                                                {item.status == 1 ?
+                                                {item.status === 1 ?
                                                     <button className="button" style={{ backgroundColor: 'red' }} onClick={() => { this.allow(item._id) }}>UNBLOCK</button>
                                                     :
                                                     <button className="button" onClick={() => { this.disallow(item._id) }}>BLOCK</button>
@@ -138,7 +138,7 @@ class Users extends Component {
                                     <Col lg="3" className="actions">
                                         <Link to={`/users/${item._id}`}><Isvg src={editIcon} /></Link>
                                         {
-                                            item.role == 'user' ?
+                                            item.role === 'user' ?
 
                                                 <button onClick={() => this.delete(item._id)}><Isvg src={deleteIcon} /></button>
                                                 :

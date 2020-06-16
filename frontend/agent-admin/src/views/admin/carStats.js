@@ -1,9 +1,5 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
-import Isvg from 'react-inlinesvg';
 import Page from '../../containers/admin/page';
-import editIcon from '../../assets/svg/edit.svg';
-import deleteIcon from '../../assets/svg/delete.svg';
 import {
     Container,
     Row,
