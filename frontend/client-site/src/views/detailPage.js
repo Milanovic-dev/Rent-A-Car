@@ -18,7 +18,10 @@ import {
     CarouselControl
 
 } from 'reactstrap';
+import CommentForm from '../components/forms/commentForm'
+
 import Article from '../components/article';
+import Comment from '../components/comment';
 
 
 import car_image6 from '../assets/images/car6.png';
@@ -71,6 +74,8 @@ class DetailPage extends Component {
         this.onExiting = this.onExiting.bind(this);
         this.onExited = this.onExited.bind(this);
 
+        this.submitComment = this.submitComment.bind(this);
+
         /*this.next = this.next.bind(this);
         this.prev = this.prev.bind(this);*/
 
@@ -81,7 +86,8 @@ class DetailPage extends Component {
             products: [],
             activeIndex: 0,
             modalIdx: 0,
-            newestProducts: []
+            newestProducts: [],
+            reviews: []
         };
     }
 
@@ -124,8 +130,44 @@ class DetailPage extends Component {
             })
         });
 
+        fetch('https://localhost:8080/review/get/' + this.props[0].match.params.id, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('token')}`
+            },
+        }).then((res) => res.json()).then((result) => {
+            this.setState({
+                reviews: result,
+            })
+        });
+        let comments = [
+            {
+                'rate': '4',
+                'text': 'dobar',
+                'status': '0',
+                'userId': "Dragan",
+                'date': "12.01.2020. 15:45"
+            },
+            {
+                'rate': '5',
+                'text': 'bas dobar',
+                'status': '0',
+                'userId': "Sladja",
+                'date': "12.01.2020. 15:45"
+            },
+            {
+                'rate': '3',
+                'text': 'nije dobar',
+                'status': '0',
+                'userId': "Stevan",
+                'date': "12.01.2020. 15:45"
+            }
+        ];
 
-
+        this.setState({
+            reviews: comments
+        })
     }
 
 
@@ -181,6 +223,20 @@ class DetailPage extends Component {
 
     }
 
+    submitComment(data) {
+        data.carId = this.props[0].match.params.id;
+        console.log(data);
+
+        fetch(`https://localhost:8080/review/create`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('token')}`
+            },
+            body: JSON.stringify(data)
+        }).then((res) => this.props[0].history.push(`cars/${this.props[0].match.params.id}`))
+    }
+
 
     render() {
         const { activeIndex } = this.state;
@@ -218,7 +274,7 @@ class DetailPage extends Component {
                         <Container >
                             <Row>
                                 <Col md="7">
-                                    <img className="preview" onClick={() => { this.setState({ activeIndex: this.state.modalIdx, lightbox: true }) }} src={ this.state.previewImage} />
+                                    <img className="preview" onClick={() => { this.setState({ activeIndex: this.state.modalIdx, lightbox: true }) }} src={this.state.previewImage} />
 
                                     <div className="images" onMouseDown={this.onTouchStart} onMouseMove={this.onTouchMove} ref={(input) => { this.carousel = input; }}>
 
@@ -252,7 +308,7 @@ class DetailPage extends Component {
                                             <div>
                                                 <p>{this.state.product && this.state.product.price}€</p>
                                             </div>
-                                          
+
                                         </div>
 
 
@@ -390,6 +446,45 @@ class DetailPage extends Component {
                                         <Row>
                                             <Col md="12" >
                                                 <p dangerouslySetInnerHTML={{ __html: this.state.product && this.state.product.description }}></p>
+                                            </Col>
+                                        </Row>
+                                    </div>
+                                </Col>
+
+                                <Col md="12" className="extra-features">
+
+                                    <div >
+                                        <Row>
+                                            <Col md="12" >
+                                                <CommentForm onSubmit={this.submitComment} />
+                                            </Col>
+                                        </Row>
+                                    </div>
+                                </Col>
+                                <Col md="12" >
+                                    
+
+                                    <div className="comments">
+                                    <h3>COMMENTS</h3>
+                                        <Row>
+                                            <Col md="12" >
+                                                {
+                                                    this.state.reviews && this.state.reviews.map((comment) => {
+                                                        return (
+                                                            <Col md="12">
+                                                                <Comment
+                                                                    rate={comment.rate}
+                                                                    id={comment._id}
+                                                                    // image={'https://showroom-api.novamedia.agency/' + product.images[0]}
+                                                                    comment={comment.text}
+                                                                    userId={comment.userId}
+                                                                    date={comment.date}
+                                                                />
+                                                                
+                                                            </Col>
+                                                        )
+                                                    })
+                                                }
                                             </Col>
                                         </Row>
                                     </div>

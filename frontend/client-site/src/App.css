@@ -3647,6 +3647,53 @@ button {
         font-size: 22px;
         font-weight: 600; }
 
+.comments {
+  margin-top: 50px; }
+
+.comment-box {
+  float: left;
+  width: 100%;
+  margin-bottom: 30px;
+  -webkit-box-shadow: 0px 4px 6px 0px rgba(0, 0, 0, 0.16);
+  -moz-box-shadow: 0px 4px 6px 0px rgba(0, 0, 0, 0.16);
+  box-shadow: 0px 4px 6px 0px rgba(0, 0, 0, 0.16); }
+  .comment-box .content {
+    float: left;
+    width: 100%;
+    padding: 0 20px; }
+    .comment-box .content .divider {
+      height: 1px;
+      float: left;
+      width: 100%;
+      background-color: #9F9F9F;
+      margin: 12px 0; }
+    .comment-box .content .title {
+      padding: 12px 2px;
+      margin-bottom: 0;
+      height: 50px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center; }
+      .comment-box .content .title h6 {
+        font-size: 18px;
+        color: #2F3234;
+        font-weight: 600; }
+      .comment-box .content .title h5 {
+        font-size: 16px;
+        color: #DA212E;
+        font-weight: 600; }
+      .comment-box .content .title h4 {
+        font-size: 16px;
+        color: #2F3234;
+        font-weight: 500; }
+    .comment-box .content .text {
+      padding: 12px 20px;
+      margin-bottom: 0; }
+      .comment-box .content .text h3 {
+        font-size: 16px;
+        color: #2F3234;
+        font-weight: 400; }
+
 .about-wrap {
   float: left;
   width: 100%;
