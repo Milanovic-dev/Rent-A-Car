@@ -19,10 +19,6 @@ app.post('/orders/create', async (req, res) => {
     res.status(result.status).send();
 });
 
-app.post('/orders/accept/:id', async (req, res) => {
-    let result = await service.acceptOrder(req.params.id);
-    res.status(result.status).send();
-});
 
 app.delete('/orders/revoke/:id', async (req, res) => {
     let result = await service.revokeOrder(req.params.id);

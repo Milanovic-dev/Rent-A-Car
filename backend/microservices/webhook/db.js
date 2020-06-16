@@ -64,7 +64,7 @@ const updateOp = async (db, collectionName, filter, update) => {
    }
 
    if(res){
-      const data = {filter: filter, update: update.$set}
+      const data = {upsertedId: res._id, update: update.$set}
       await db.collection('changes').updateOne({ownerId:ownerId, collName:collectionName}, {$push: {toUpdate: data}});
    }
 
@@ -80,7 +80,7 @@ const removeOp = async (db, collectionName, query) => {
    }
 
    for(let i = 0 ; i < res.length ; i++){
-      await db.collection('changes').updateOne({ownerId: ownerId, collName:collectionName}, {$push:{toRemove: query}});
+      await db.collection('changes').updateOne({ownerId: ownerId, collName:collectionName}, {$push:{toRemove: res[i]._id}});
    }
 }
 
@@ -119,23 +119,11 @@ class dbSyncFunctions {
       return res;
    }
 
-   async updateMany(filter, update, options) {
-      const res = this.db.collection(this.collection).updateMany(filter, update, options);
-      await watchman.updateOp(this.db, this.collection, filter, update);
-      return res;
-   }
-
-   async deleteOne(filter, options) {
-      const res = this.db.collection(this.collection).deleteOne(filter, options);
+   async removeOne(filter, options) {
+      const res = this.db.collection(this.collection).updateOne(filter, {$inc: {version: 1}, $set:{removed: true}}, options);
       await watchman.removeOp(this.db, this.collection, filter);
       return res;
    };
-
-   async deleteMany(filter, options) {
-      const res = this.db.collection(this.collection).deleteMany(filter, options);
-      await watchman.removeOp(this.db, this.collection, filter);
-      return res;
-   }
    
    drop(){
      return this.db.collection(this.collection).drop();

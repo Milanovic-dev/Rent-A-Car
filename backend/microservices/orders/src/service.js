@@ -50,7 +50,7 @@ const createAsBundle = async (order, renterId) => {
     const bundle = {
         ownerId: order.ownerId,
         renterId: renterId,
-        status: 'PENDING',
+        approved: false,
         cars: order.carOrders
     };
 
@@ -63,7 +63,7 @@ const createAsOrders = async (order, renterId) => {
             carId: carOrder.id,
             ownerId: order.ownerId,
             renterId: renterId,
-            status: 'PENDING',
+            approved: false,
             from: carOrder.from,
             to: carOrder.to,
             startLocation: carOrder.startLocation,
@@ -71,17 +71,6 @@ const createAsOrders = async (order, renterId) => {
             isBundle: false
         });
     }
-};
-
-const acceptOrder = async (id) => {
-    const order = await db.collection('orders').find({_id: ObjectID(id)});
-
-    if(!order) return { status: '404'}
-
-    await db.collection('orders').updateOne({_id: ObjectID(id)}, {$set:{status: 'PAID'}});
-    await db.collection('orders').deleteMany({carId: order.carId});
-    await db.collection('bundles').deleteMany({carId: order.carId});
-    return { status: '200' };
 };
 
 const revokeOrder = async (id) => {
@@ -151,6 +140,5 @@ module.exports = {
     getOrder,
     getBundle,
     revokeOrder,
-    revokeBundle,
-    acceptOrder
+    revokeBundle
 }
