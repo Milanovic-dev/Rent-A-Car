@@ -39,6 +39,7 @@
       * transmmission
       * seats
       * mileage
+      * power
       * rating 
       * CDW
       * imagePath

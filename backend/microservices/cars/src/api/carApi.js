@@ -3,7 +3,6 @@ const service = require('../services/carService');
 module.exports = function(app){
 
     app.get('/cars/get/:id', async (req, res) => {
-        console.log(req.method + req.route.path);
 
         if(!req.params.id) return res.status('400');
 
@@ -12,7 +11,6 @@ module.exports = function(app){
     });
 
     app.post('/cars/create', async (req, res) => {
-        console.log(req.method + req.route.path);
 
         if(!req.body) return res.status('400');
 
@@ -29,7 +27,6 @@ module.exports = function(app){
         res.status(result.status).send(result.response);
     });
     app.put('/cars/busy', async (req, res) => {
-        console.log(req.method + req.route.path);
         console.log(req.body);
         if(!req.body) return res.status('400');
 
@@ -38,7 +35,6 @@ module.exports = function(app){
     });
 
     app.delete('/cars/remove/:id', async (req, res) => {
-        console.log(req.method + req.route.path);
 
         if(!req.params.id) return res.status('400');
 
@@ -46,8 +42,7 @@ module.exports = function(app){
         res.status(result.status).send(result.response);
     });
 
-    app.get('/cars/all', async (req, res) => {
-        console.log(req.method + req.route.path);
+    app.get('/cars', async (req, res) => {
         let result = await service.getAll();
         res.status(result.status).send(result.response);
     });

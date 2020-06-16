@@ -3,6 +3,8 @@ const isDocker = require('is-docker');
 const { ObjectID } = require('mongodb');
 let connection;
 
+const ignore = ['agents']
+
 module.exports = function(username, password, server, dbName) {
    return new Promise((resolve, reject) => {
       if (connection)
@@ -42,6 +44,8 @@ class dbSync{
 }
 
 const insertOp = async (db, ownerId, collectionName, res, data) => {
+   if(ignoreOp(collectionName)) return;
+
    const r = await res;
    data._id = ObjectID(r.insertedId);
 
@@ -55,6 +59,8 @@ const insertOp = async (db, ownerId, collectionName, res, data) => {
 }
 
 const updateOp = async (db, collectionName, filter, update) => {
+   if(ignoreOp(collectionName)) return;
+
    const res = await db.collection(collectionName).findOne(filter);
    const ownerId = res.ownerId;
    const changesCollection = await db.collection('changes').findOne({ownerId:ownerId, collName: collectionName});
@@ -71,6 +77,8 @@ const updateOp = async (db, collectionName, filter, update) => {
 }
 
 const removeOp = async (db, collectionName, query) => {
+   if(ignoreOp(collectionName)) return;
+
    const res = await db.collection(collectionName).find(query).toArray();
    const ownerId = res.ownerId
    const changesCollection = await db.collection('changes').findOne({collName: collectionName});
@@ -82,6 +90,10 @@ const removeOp = async (db, collectionName, query) => {
    for(let i = 0 ; i < res.length ; i++){
       await db.collection('changes').updateOne({ownerId: ownerId, collName:collectionName}, {$push:{toRemove: query}});
    }
+}
+
+const ignoreOp = (collectionName) => {
+   return ignore.includes(collectionName);
 }
 
 const watchman = {

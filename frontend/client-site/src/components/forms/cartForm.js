@@ -1,4 +1,5 @@
 import React from 'react';
+import { useState } from 'react'; 
 import { Field, reduxForm } from 'redux-form'
 import {
     Row,
@@ -21,17 +22,20 @@ const renderTextField = ({
         />
     )
 
-const renderItem = ({img, info, options, price}) => (
-    <Col md="12" className="cart-item">
-                        <span className="cart-item-image"><img src={img}></img></span>
-                        <span className="cart-item-info">{info}</span>
-                        <span className="cart-item-options">{options}</span>
-                        <span className="cart-item-price">{price}$</span>
-                </Col>
-);
 
 const cartForm = (props) => {
-    const { handleSubmit, pristine, submitting } = props;
+    const { handleSubmit, pristine, submitting, data } = props;
+
+    const removeFromCart = (id) => {
+        fetch(`https://localhost:8080/orders/cart/remove/${id}`, {
+            method:'POST'
+        }).then(res => {
+            if(res.status == '200'){
+                console.log('Deleted');
+                window.location.reload();
+            }
+        })
+    }
 
     return (
         <form onSubmit={handleSubmit} className="contact-form space-form" style={{width:1000, marginLeft: -150}}>
@@ -46,12 +50,20 @@ const cartForm = (props) => {
                     </Col>
                 </Row>
                 <Row>
-                <Col md="12" className="cart-item">
-                        <span className="cart-item-image"><img src="./src/assets/images/about1.png"></img></span>
-                        <span className="cart-item-info">BMW 150hp 2.0 Diesel</span>
-                        <span className="cart-item-options">14.02-14.03</span>
-                        <span className="cart-item-price">600$</span>
-                </Col>    
+                {
+                    data ? data.map((item, i) => {
+                        console.log(item);
+                        return (
+                            <Col md="12" className="cart-item" key={i}>
+                                <span className="cart-item-image"><img src={item.img}></img></span>
+                                <span className="cart-item-info">{`${item.make} ${item.model} ${item.power}kw ${item.fuel}`}</span>
+                                <span className="cart-item-options">{`${item.from} - ${item.to}`}</span>
+                                <span className="cart-item-price">{item.price}$</span>
+                                <span className="cart-item-remove" onClick={()=> {removeFromCart(item._id)}}><img src="../../assets/images/Rectangle 587.png"></img></span>
+                            </Col>
+                        )
+                    }) : null
+                }  
                 </Row>
                 <Row>
                     <Col md="12">

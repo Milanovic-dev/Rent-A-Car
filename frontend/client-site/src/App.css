@@ -3905,3 +3905,57 @@ button {
         @media only screen and (max-width: 1200px) {
           .contact-wrap .page-wrap .map-section .map {
             height: 200px; } }
+
+
+
+
+.cart-owner-wrap {
+    background-color: #da212e;
+    line-height: 40px;
+    color: white;
+}
+
+.cart-item {
+  border-width: 1px;
+  border-style: solid;
+  border-color: rgb(221, 221, 221);
+  line-height: 100px;
+  display: flex;
+  align-content: space-between;
+  overflow-x: hidden;
+}
+
+.cart-item-image {
+  flex:1;
+}
+
+.cart-item-info {
+  flex: 2;
+}
+
+.cart-item-options {
+  flex:1;
+}
+
+.cart-item-price {
+  flex:0.6;
+}
+
+.cart-item-remove {
+  flex:0.2;
+  align-self: center;
+  justify-content: center;
+  text-align: center;
+  height: 30%;
+  background-color:#da212e ;
+  border-radius: 10px;
+  line-height: 30px;
+  cursor: pointer;
+}
+
+.addToCart-button {
+  text-align: center;
+  background-color: #da212e;
+  color: white;
+  cursor: pointer;
+}

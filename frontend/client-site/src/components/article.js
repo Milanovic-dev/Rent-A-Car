@@ -13,12 +13,22 @@ export class Article extends Component {
         };
     }
 
+    addToCart(id){
+        fetch(`https://localhost:8080/orders/cart/add/${id}`, {
+            method: 'POST',
+        }).then(res => {
+            if(res.status == '201'){
+                console.log("Added");
+            }
+        });
+    }
+
     render() {
         return (
-            <a href={`/cars/${this.props.id}`} className="article-box" key={this.props.id}>
+            <div className="article-box" key={this.props.id}>
                 <img src={this.props.image} />
                 <div className="content">
-                    <h6 className="title">{this.props.title}</h6>
+                    <h6 className="title"><a href={`/cars/${this.props.id}`} style={{color:'black'}}>{this.props.title}</a></h6>
                     <ul className="attrs">
                         <li><Isvg src={fuel_icon} /> {this.props.fuel}</li>
                         <li><Isvg src={calendar_icon} /> {this.props.year}</li>
@@ -28,12 +38,11 @@ export class Article extends Component {
                     <div className="price-container">
                         <span className="price">{this.props.price}€</span>
                     </div>
-                    <div className="divider"></div>
-                    <div style={{textAlign: "center"}}>
-                        <a href="/#" className="text-primary" style={{fontSize: 23 }}>Add to cart</a> 
+                    <div className="addToCart-button" onClick={()=> {this.addToCart(this.props.id)}}>
+                        <span style={{fontSize: 23}}>Add to cart</span> 
                     </div>
                 </div>
-            </a>
+            </div>
         )
     }
 }

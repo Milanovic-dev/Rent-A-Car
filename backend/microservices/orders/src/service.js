@@ -144,6 +144,33 @@ const getBundles = async () => {
     return await db.collection('bundles').find({}).toArray();
 }
 
+const addToCart = async (carId) => {
+    const result = await db.collection('cart').insertOne({carId});
+    if(result.insertedId){
+        return {status: 201};
+    }
+
+    return {status: 500};
+}
+
+const removeFromCart = async (carId) => {
+    await db.collection('cart').deleteOne({carId});
+    return {status: 200};
+}
+
+
+const getCart = async () => {
+    const cart = await db.collection('cart').find({}).toArray();
+    let result = [];
+    for(const item of cart){
+        const car = await db.collection('cars').findOne({_id: ObjectID(item.carId)});
+        if(car)
+            result.push(car);
+    }
+
+    return {status: 200, response: result};
+}
+
 module.exports = {
     placeOrders,
     getOrders,
@@ -152,5 +179,8 @@ module.exports = {
     getBundle,
     revokeOrder,
     revokeBundle,
-    acceptOrder
+    acceptOrder,
+    addToCart,
+    removeFromCart,
+    getCart
 }

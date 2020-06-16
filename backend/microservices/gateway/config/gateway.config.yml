@@ -53,6 +53,10 @@ pipelines:
         - action: &proxy
             serviceEndpoint: auth
             changeOrigin: true
+      - cors:
+        - action:
+            origin: 'http://localhost:3000'
+            methods: 'HEAD,PUT,PATCH,POST,DELETE'
   cars:
     apiEndpoints:
       - cars
@@ -69,6 +73,10 @@ pipelines:
         - action: 
             serviceEndpoint: cars
             changeOrigin: true
+      - cors:
+        - action:
+            origin: 'http://localhost:3000'
+            methods: 'HEAD,PUT,PATCH,POST,DELETE'
   webhook:
     apiEndpoints:
       - webhook
@@ -81,6 +89,10 @@ pipelines:
         - action: 
             serviceEndpoint: webhook
             changeOrigin: true
+      - cors:
+        - action:
+            origin: 'http://localhost:3000'
+            methods: 'HEAD,PUT,PATCH,POST,DELETE'
   orders:
     apiEndpoints:
       - orders
@@ -93,6 +105,10 @@ pipelines:
         - action: 
             serviceEndpoint: orders
             changeOrigin: true
+      - cors:
+        - action:
+            origin: 'http://localhost:3000'
+            methods: 'HEAD,PUT,PATCH,POST,DELETE'
   search:
     apiEndpoints:
       - search
@@ -105,3 +121,7 @@ pipelines:
         - action: 
             serviceEndpoint: search
             changeOrigin: true
+      - cors:
+        - action:
+            origin: 'http://localhost:3000'
+            methods: 'HEAD,PUT,PATCH,POST,DELETE'

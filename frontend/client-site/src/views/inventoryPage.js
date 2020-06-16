@@ -34,7 +34,7 @@ class InventoryPage extends Component {
     
 
     componentDidMount() {
-        fetch('https://127.0.0.1:8080/cars/all', {
+        fetch('https://localhost:8080/cars/', {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',

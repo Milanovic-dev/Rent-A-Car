@@ -20,27 +20,25 @@ class Cart extends Component{
         this.state = {
             orders: []
         };
+
+        this.getMyCart.bind(this);
     }
 
-    addToCart(ownerId, renterId, car){
-        let flag = false;
-        for(const order of this.state.orders){
-            if(order.ownerId == ownerId){
-                if(!order.carOrders) order.carOrders = [];
-                order.carOrders.push(car);
-                flag = true;
-            }
-        }
-
-        if(!flag){
-            this.state.orders.push({
-                ownerId,
-                isBundle: false,
-                carOrders: [car]
-            })
-        }
-
-        this.state.renterId = renterId;
+    componentDidMount(){
+        this.getMyCart().then(data => {console.log(this.state.orders)});
+    }
+    
+    async getMyCart(){
+        fetch('https://localhost:8080/orders/cart', {
+            method:'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        }).then(async (res) => {
+            const body = await res.json();
+            this.state.orders = body;
+            this.forceUpdate();
+        }).catch(err => console.error(err));
     }
 
     submit(data) {
@@ -68,7 +66,7 @@ class Cart extends Component{
                 <Container>
                         <Row>
                             <Col lg="12" className="reg">
-                                <Form onSubmit={this.submit} data={{orders:this.state.orders, renterId: this.state.renterId}}/>
+                                <Form onSubmit={this.submit} data={this.state.orders}/>
                             </Col>
                         </Row>
                     </Container>
