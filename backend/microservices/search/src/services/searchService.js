@@ -33,7 +33,6 @@ const search = async (filter) => {
     if(filter.cdw) searchObject.cdw = filter.cdw;
     if(filter.seatCount) searchObject.seatCount = filter.seatCount;
 
-    console.log(searchObject);
     let result = await db.collection(dbCollection).find(searchObject).toArray();
 
     return { response: result, status: 200 };

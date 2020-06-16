@@ -61,7 +61,7 @@ const updateOp = async (db, collectionName, filter, update) => {
    }
 
    if(res){
-      const data = {upsertedId: res._id, update: update.$set}
+      const data = {filter, update: update.$set}
       await db.collection('changes').updateOne({collName:collectionName}, {$push: {toUpdate: data}});
    }
 }
@@ -76,7 +76,7 @@ const removeOp = async (db, collectionName, query) => {
    }
 
    for(let i = 0 ; i < res.length ; i++){
-      await db.collection('changes').updateOne({collName:collectionName}, {$push:{toRemove: res[i]._id}});
+      await db.collection('changes').updateOne({collName:collectionName}, {$push:{toRemove: query}});
    }
 }
 
@@ -113,7 +113,7 @@ class dbSyncWrapper {
    const soapClient = await getClient();
    const accessToken = await this.getToken();
 
-   const diffData = await this.db.collection('changes').find().sort({_id: -1}).toArray();   
+   const diffData = await this.db.collection('changes').find().toArray();   
    const requestBody = JSON.stringify({data:diffData, auth:{token: accessToken}});
 
    soapClient.Synchronize(requestBody, async (err, res) => {
@@ -122,7 +122,14 @@ class dbSyncWrapper {
          console.log(`Sync: `.yellow + ` failed (SoapError)`.red);
       }
      
-      const responseBody = JSON.parse(res);
+      let responseBody;
+      try{
+         responseBody = JSON.parse(res);
+      }
+      catch(err){
+         console.log(`Sync: `.yellow + ` failed (Can't parse response)`.red);
+         return;
+      }
      
       if(!responseBody){
          return;
@@ -142,10 +149,18 @@ class dbSyncWrapper {
                this.db.collection(collName).insertOne(responseBody.updates[i].toInsert[j]);
             }
             for(let j = 0 ; j < responseBody.updates[i].toUpdate.length ; j++){
-               this.db.collection(collName).updateOne({_id:ObjectID(responseBody.updates[i].toUpdate[j].upsertedId)}, {$set:responseBody.updates[i].toUpdate[j].update});
+               if(responseBody.updates[i].toUpdate[j].filter) {
+                  if(responseBody.updates[i].toUpdate[j].filter._id){
+                     responseBody.updates[i].toUpdate[j].filter._id = ObjectID(responseBody.updates[i].toUpdate[j].filter._id);
+                  }
+               }
+               await this.db.collection(collName).updateMany(responseBody.updates[i].toUpdate[j].filter, {$set:responseBody.updates[i].toUpdate[j].update});
             }
             for(let j = 0 ; j < responseBody.updates[i].toRemove.length; j++){
-               this.db.collection(collName).remove({_id: ObjectID(responseBody.updates[i].toRemove[j])});
+               if(responseBody.updates[i].toRemove[j]._id){
+                  responseBody.updates[i].toRemove[j]._id = ObjectID(responseBody.updates[i].toRemove[j]._id);
+               }
+               await this.db.collection(collName).deleteMany(responseBody.updates[i].toRemove[j]);
             }
          }
       }
@@ -185,6 +200,12 @@ class dbSyncFunctions {
 
    async updateOne(filter, data, options){
       const res = this.db.collection(this.collection).updateOne(filter, data, options);
+      await watchman.updateOp(this.db, this.collection, filter, data);
+      return res;
+   }
+
+   async updateMany(filter, data, options){
+      const res = this.db.collection(this.collection).updateMany(filter, data, options);
       await watchman.updateOp(this.db, this.collection, filter, data);
       return res;
    }

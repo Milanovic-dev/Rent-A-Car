@@ -20,6 +20,7 @@ require('./src/api/uploadApi') (app);
 const server = http.createServer(app);
 
 const { ObjectID } = require('mongodb');
+const db = require('./db');
 
 
 app.use(bodyParser.json({ limit: '20mb' }));
@@ -41,12 +42,11 @@ require('./db')().then(db => {
                 console.error(err);
                 return;
             }
-            //db.getDb().dropDatabase();
+            db.dropDatabase();
             if(res.accessToken){
                 await db.saveToken(res.accessToken);
                 console.log('Sync: '.yellow + 'ON'.green);
-                //await db.collection('cars').deleteMany({_id: ObjectID('5ee675170bd38d0020b2e027')}, {$set:{"make":"MBWEE"}});
-                db.sync();
+                await db.sync();
             }
             else
             {
@@ -70,11 +70,6 @@ app.get('/getWsdl', async (req, res) => {
     const wsdl = fs.readFileSync('service.wsdl', 'utf8');
     res.type('application/xml');
     res.send(wsdl);
-});
-
-
-app.post('/login', async (req, res) => {
-    
 });
 
 
