@@ -1,6 +1,6 @@
 import React from 'react';
 import { Field, reduxForm } from 'redux-form'
-import { renderTextField, renderCheckField, renderDateTimeField, renderImageField, renderHtmlField, renderTextareaField, renderSelectField } from './fields/renderFields';
+import { renderTextField} from './fields/renderFields';
 
 import {
     Container,
@@ -19,7 +19,7 @@ class form extends React.Component {
     }
 
     render() {
-        const { handleSubmit, pristine, reset, submitting } = this.props;
+        const { handleSubmit } = this.props;
         return (
             <form onSubmit={handleSubmit}>
                 <Row>

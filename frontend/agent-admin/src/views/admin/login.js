@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import { Link, Redirect } from 'react-router-dom';
-import logo from '../../assets/images/logo.png';
+import { Redirect } from 'react-router-dom';
 import bg from '../../assets/images/login-bg.png';
 import LoginForm from '../../components/forms/loginForm';
 import {
@@ -196,14 +195,13 @@ class LoginPage extends Component {
                             <Container>
                                 <Row className="login-container">
                                     <Col lg="6" xs="12" className="login-bg">
-                                        <img src={bg} />
+                                        <img src={bg} alt="login" />
                                     </Col>
                                     <Col lg="6" xs="12" className="login-form">
                                         <Container>
                                             <Row>
                                                 <Col lg="12">
                                                     <h3>Prijava</h3>
-                                                    <h6></h6>
                                                 </Col>
                                             </Row>
                                             <LoginForm onSubmit={this.login} />

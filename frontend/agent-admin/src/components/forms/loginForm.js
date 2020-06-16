@@ -1,15 +1,15 @@
 import React from 'react';
 import { Field, reduxForm } from 'redux-form'
-import { renderSelectField, renderTextField} from './fields/renderFields';
+import { renderTextField} from './fields/renderFields';
 import {
     Row,
     Col,
 } from 'reactstrap';
 
-const required = value => value ? undefined : "Required"
+//const required = value => value ? undefined : "Required"
 
 const form = (props) => {
-    const { handleSubmit, pristine, submitting } = props;
+    const { handleSubmit } = props;
 
     return (
         <form onSubmit={handleSubmit}>

@@ -41,7 +41,7 @@ class DateTime extends Component {
     }
 
     componentDidUpdate(prevProps) {
-        if (this.props.value != prevProps.value) {
+        if (this.props.value !== prevProps.value) {
             if (this.props.value) {
                 let day, month, year, hour, minute, dateObject;
 
@@ -72,7 +72,7 @@ class DateTime extends Component {
                         <input value={this.state.day ? this.state.day : "" } onChange={(e) => this.setState({ day: e.target.value, changed: true })} type="text" placeholder="DD" className="digit2" ref={(node) => this.day = node}
                             onKeyDown={(e) => {
 
-                                if (("0123456789".indexOf(e.key) === -1) && e.keyCode != 8 && e.keyCode != 13) {
+                                if (("0123456789".indexOf(e.key) === -1) && e.keyCode !== 8 && e.keyCode !== 13) {
                                     e.preventDefault();
                                     return false;
                                 }
@@ -92,7 +92,7 @@ class DateTime extends Component {
                         <span>.</span>
                         <input value={this.state.month ? this.state.month : "" } onChange={(e) => this.setState({ month: e.target.value, changed: true })} type="text" placeholder="MM" className="digit2" ref={(node) => this.month = node}
                             onKeyDown={(e) => {
-                                if (("0123456789".indexOf(e.key) === -1) && e.keyCode != 8 && e.keyCode != 13) {
+                                if (("0123456789".indexOf(e.key) === -1) && e.keyCode !== 8 && e.keyCode !== 13) {
                                     e.preventDefault();
                                     return false;
                                 }
@@ -102,7 +102,7 @@ class DateTime extends Component {
                                 if (e.target.value.length >= 2) {
                                     this.month.blur();
                                     this.year.focus();
-                                } else if (e.target.value.length == 0) {
+                                } else if (e.target.value.length === 0) {
                                     this.month.blur();
                                     this.day.focus();
                                 }
@@ -111,7 +111,7 @@ class DateTime extends Component {
                         <span>.</span>
                         <input value={this.state.year ? this.state.year : "" } onChange={(e) => this.setState({ year: e.target.value, changed: true })} type="text" placeholder="YYYY" className="digit4" ref={(node) => this.year = node}
                             onKeyDown={(e) => {
-                                if (("0123456789".indexOf(e.key) === -1) && e.keyCode != 8 && e.keyCode != 13) {
+                                if (("0123456789".indexOf(e.key) === -1) && e.keyCode !== 8 && e.keyCode !== 13) {
                                     e.preventDefault();
                                     return false;
                                 }
@@ -122,7 +122,7 @@ class DateTime extends Component {
                                 if (e.target.value.length >= 4) {
                                     this.year.blur();
                                     this.hour.focus();
-                                } else if (e.target.value.length == 0) {
+                                } else if (e.target.value.length === 0) {
                                     this.year.blur();
                                     this.month.focus();
                                 }
@@ -133,7 +133,7 @@ class DateTime extends Component {
                     <div className="time-input">
                         <input value={this.state.hour ? this.state.hour : "" } onChange={(e) => this.setState({ hour: e.target.value, changed: true })} type="text" placeholder="HH" className="digit2" ref={(node) => this.hour = node}
                             onKeyDown={(e) => {
-                                if (("0123456789".indexOf(e.key) === -1) && e.keyCode != 8 && e.keyCode != 13) {
+                                if (("0123456789".indexOf(e.key) === -1) && e.keyCode !== 8 && e.keyCode !== 13) {
                                     e.preventDefault();
                                     return false;
                                 }
@@ -143,7 +143,7 @@ class DateTime extends Component {
                                 if (e.target.value.length >= 2) {
                                     this.hour.blur();
                                     this.minute.focus();
-                                } else if (e.target.value.length == 0) {
+                                } else if (e.target.value.length === 0) {
                                     this.hour.blur();
                                     this.year.focus();
                                 }
@@ -151,7 +151,7 @@ class DateTime extends Component {
                         <span>:</span>
                         <input value={this.state.minute ? this.state.minute : "" } onChange={(e) => this.setState({ minute: e.target.value, changed: true })} type="text" placeholder="mm" className="digit2" ref={(node) => this.minute = node}
                             onKeyDown={(e) => {
-                                if (("0123456789".indexOf(e.key) === -1) && e.keyCode != 8 && e.keyCode != 13) {
+                                if (("0123456789".indexOf(e.key) === -1) && e.keyCode !== 8 && e.keyCode !== 13) {
                                     e.preventDefault();
                                     return false;
                                 }
@@ -160,7 +160,7 @@ class DateTime extends Component {
                             onKeyUp={(e) => {
                                 if (e.target.value.length >= 2) {
                                     this.minute.blur();
-                                } else if (e.target.value.length == 0) {
+                                } else if (e.target.value.length === 0) {
                                     this.minute.blur();
                                     this.hour.focus();
                                 }

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Field, reduxForm } from 'redux-form'
-import { renderTextField, renderCheckField, renderDateTimeField, renderImageField, renderHtmlField, renderTextareaField, renderSelectField } from './fields/renderFields';
+import { renderDateTimeField } from './fields/renderFields';
 
 import {
     Container,
@@ -9,11 +9,11 @@ import {
 } from 'reactstrap';
 
 
-const required = value => value ? undefined : "Required"
+//const required = value => value ? undefined : "Required"
 
 
 const form = (props) => {
-    const { handleSubmit, pristine, reset, submitting } = props;
+    const { handleSubmit, pristine, submitting } = props;
     console.log(pristine, submitting);
 
     return (

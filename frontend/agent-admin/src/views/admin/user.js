@@ -1,16 +1,10 @@
 import React, { Component } from 'react'
-import { Link } from 'react-router-dom';
-import Isvg from 'react-inlinesvg';
 import Page from '../../containers/admin/page';
 import UserForm from '../../components/forms/userForm'
 import {
     Container,
     Row,
-    Col,
-    Dropdown,
-    DropdownItem,
-    DropdownMenu,
-    DropdownToggle
+    Col
 } from 'reactstrap';
 
 class User extends Component {

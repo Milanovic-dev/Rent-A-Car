@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import Page from '../../containers/admin/page';
 import Form from '../../components/forms/modelForm';
-import stripHtml from "string-strip-html";
 
 import {
     Container,

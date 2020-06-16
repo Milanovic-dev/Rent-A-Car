@@ -55,7 +55,7 @@ class Routes extends Component {
                             path="/"
                             exact
                             render={(...renderProps) => (
-                                <AdminLoginPage {...renderProps} {...this.props} />
+                                <Cars {...renderProps} {...this.props} />
                             )}
                         />
                         <Route
@@ -65,7 +65,6 @@ class Routes extends Component {
                                 <AdminLoginPage {...renderProps} {...this.props} />
                             )}
                         />
-
                         <Route
                             path="/register"
                             exact
@@ -210,11 +209,6 @@ class Routes extends Component {
                                 <ChangeClass {...renderProps} {...this.props} />
                             )}
                         />
-
-
-
-
-
                         <Route
                             path="/cars/new"
                             exact

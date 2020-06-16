@@ -1,6 +1,4 @@
 import React, { Component } from 'react';
-
-
 import {
     Dropdown,
     DropdownToggle,
@@ -11,10 +9,10 @@ import {
 
 
 function objectIndexOf(arr, _id) {
-    var found = false;
+    //let found = false;
     for (var i = 0; i < arr.length; i++) {
-        if (arr[i]._id == _id) {
-            found = true;
+        if (arr[i]._id === _id) {
+            //found = true;
             return i;
         }
     }

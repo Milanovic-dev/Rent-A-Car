@@ -1,6 +1,6 @@
 import React from 'react';
 import { Field, reduxForm } from 'redux-form'
-import { renderTextField, renderCheckField, renderDateTimeField, renderImageField, renderHtmlField, renderTextareaField, renderSelectField } from './fields/renderFields';
+import { renderTextField, renderHtmlField, renderImageField, renderSelectField, renderDateTimeField } from './fields/renderFields';
 
 import {
     Container,
@@ -8,11 +8,11 @@ import {
     Col,
 } from 'reactstrap';
 
-const required = value => value ? undefined : "Required"
+//const required = value => value ? undefined : "Required"
 
 
 const form = (props) => {
-    const { handleSubmit, pristine, reset, submitting } = props;
+    const { handleSubmit, pristine, submitting } = props;
     console.log(pristine, submitting);
 
     return (
@@ -150,6 +150,7 @@ const form = (props) => {
 
                                         </Field>
                                     </Col>
+
                                     <Col lg="6" className="input-wrap">
                                         <Field
                                             name="seatCount"
@@ -174,18 +175,27 @@ const form = (props) => {
                                             placeholder=""
                                         ></Field>
                                     </Col>
-
+                                    <Col lg="12" className="input-wrap">
+                                        <Field
+                                            name="availableFrom"
+                                            component={renderDateTimeField}
+                                            label={"Available From"}
+                                        ></Field>
+                                    </Col>
+                                    <Col lg="12" className="input-wrap">
+                                        <Field
+                                            name="availableTo"
+                                            component={renderDateTimeField}
+                                            label={"Available To"}
+                                        ></Field>
+                                    </Col>
                                     <Col lg="12" className="input-wrap">
                                         <Field
                                             name="description"
                                             component={renderHtmlField}
-                                            label={"Tekst"}
-                                            placeholder=""
+                                            label={"Description"}
                                         ></Field>
                                     </Col>
-
-
-
                                 </Row>
                             </Col>
                             <Col lg="6" className="input-wrap">
