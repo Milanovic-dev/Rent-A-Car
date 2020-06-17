@@ -36,6 +36,7 @@ class SignInPage extends Component {
                 this.setState({
                     _done: true
                 })
+                this.props[0].history.push('/ads');
             } else {
                 this.setState({
                     error: result.error

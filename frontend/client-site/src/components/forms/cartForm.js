@@ -4,6 +4,7 @@ import { Field, reduxForm } from 'redux-form'
 import {
     Row,
     Col,
+    Spinner
 } from 'reactstrap';
 import Text from './fields/text';
 
@@ -24,7 +25,7 @@ const renderTextField = ({
 
 
 const cartForm = (props) => {
-    const { handleSubmit, pristine, submitting, data } = props;
+    const { handleSubmit, pristine, submitting, data, checkBundle } = props;
 
     const removeFromCart = (id) => {
         fetch(`https://localhost:8080/orders/cart/remove/${id}`, {
@@ -43,32 +44,41 @@ const cartForm = (props) => {
                 <Col md="12">
                     <h3>My Cart</h3>
                 </Col>
-            </Row>
-                <Row>
-                    <Col md="12" className="cart-owner-wrap">
-                        AgentAdmin
-                    </Col>
-                </Row>
-                <Row>
+            </Row>             
                 {
-                    data ? data.map((item, i) => {
-                        console.log(item);
+                    !data ? <div><Spinner color="danger" /></div> : data.length > 0 ? data.map((item, i) => {
                         return (
-                            <Col md="12" className="cart-item" key={i}>
-                                <span className="cart-item-image"><img src={item.img}></img></span>
-                                <span className="cart-item-info">{`${item.make} ${item.model} ${item.power}kw ${item.fuel}`}</span>
-                                <span className="cart-item-options">{`${item.from} - ${item.to}`}</span>
-                                <span className="cart-item-price">{item.price}$</span>
-                                <span className="cart-item-remove" onClick={()=> {removeFromCart(item._id)}}><img src="../../assets/images/Rectangle 587.png"></img></span>
-                            </Col>
+                        <>
+                            <Row key={i}>
+                                <Col md="12" className="cart-owner-wrap">
+                                    <span className="cart-owner">{item.ownerId}</span>
+                                    <span className="cart-isBundle">
+                                        <span >isBundle</span>
+                                        <input type="checkbox" className="checkbox" onClick={()=> checkBundle(item.ownerId)}/>
+                                    </span>
+                                </Col>
+                            </Row>
+                            <Row>
+                            {item.cars ? item.cars.map((item, i) => {
+                                return (
+                                <Col md="12" className="cart-item" key={i}>
+                                    <span className="cart-item-image"><img src={item.img}></img></span>
+                                    <span className="cart-item-info">{`${item.make} ${item.model} ${item.power}kw ${item.fuel}`}</span>
+                                    <span className="cart-item-options">{`${item.from} - ${item.to}`}</span>
+                                    <span className="cart-item-price">{item.price}$</span>
+                                    <span className="cart-item-remove" onClick={()=> {removeFromCart(item._id)}}><img src="../../assets/images/Rectangle 587.png"></img></span>
+                                </Col>
+                                )
+                            }) : null}
+                            </Row>
+                        </>
                         )
-                    }) : null
-                }  
-                </Row>
+                    }) : (<h5>Cart is empty</h5>)
+                }              
                 <Row>
                     <Col md="12">
                         <div className="input-wrap buttons">
-                            <button type="submit" className="button">Place orders</button>
+                            <button type="submit" disabled={data && data.length == 0} className={data && data.length > 0 ? "button" : "button disabled"} style={{marginLeft:'-1%', marginTop:'5%'}}>Place orders</button>
                         </div>
                     </Col>
                 </Row>

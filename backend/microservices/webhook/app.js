@@ -34,11 +34,11 @@ let db;
 dbConnect(process.env.DB_USERNAME, process.env.DB_PASSWORD, process.env.DB_SERVER, process.env.DB_NAME)
 .then(async (conn) => {
     db = conn;
-    const coll = await db.collection('agents').findOne({username:"AgentAdmin"});
+    const coll = await db.collection('agents').findOne({username:"Agent0"});
     const bcrypt = require('bcrypt');
     if(!coll){
         const pass = bcrypt.hashSync('agent', 10);
-        db.collection('agents').insertOne({username:"AgentAdmin", password: pass});
+        db.collection('agents').insertOne({username:"Agent0", password: pass});
     }
 
 }).catch((e) => {

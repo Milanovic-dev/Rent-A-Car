@@ -55,15 +55,26 @@ class PageHeader extends Component {
                                         <NavItem>
                                             <Link to='/cars/new' className={this.props[0].location.pathname === '/cars/new'  ? 'active' : null}>Create ad</Link>
                                         </NavItem>
-                                        <NavItem>
+                                        {!localStorage.getItem('token') ? 
+                                        <><NavItem>
                                             <Link to='/signin' className={this.props[0].location.pathname === '/signin'  ? 'active' : null}>Sign in</Link>
                                         </NavItem>
                                         <NavItem>
                                             <Link to='/signup' className={this.props[0].location.pathname === '/signup'  ? 'active' : null}>Sign up</Link>
-                                        </NavItem>
+                                        </NavItem></>
+                                        : null}
+                                        {localStorage.getItem('token') ? 
+                                        <>
                                         <NavItem>
                                             <Link to='/cart' className={this.props[0].location.pathname === '/cart'  ? 'active' : null}>My cart</Link>
                                         </NavItem>
+                                        <NavItem>
+                                            <Link to='/' onClick={() => {
+                                                localStorage.removeItem('token');
+                                            }}>Log out</Link>
+                                        </NavItem>
+                                        </>
+                                        : null}
                                     </Nav>
                                 </Row>
                             </Col>

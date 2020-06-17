@@ -4071,13 +4071,20 @@ button {
           .contact-wrap .page-wrap .map-section .map {
             height: 200px; } }
 
-
-
-
 .cart-owner-wrap {
     background-color: #da212e;
     line-height: 40px;
     color: white;
+    display: inline;
+}
+
+.cart-owner {
+  text-align: left;
+}
+
+.cart-isBundle {
+  position: absolute;
+  right: 10px;
 }
 
 .cart-item {
@@ -4124,3 +4131,10 @@ button {
   color: white;
   cursor: pointer;
 }
+
+.addToCart-button-added {
+  text-align: center;
+  background-color: #a81721;
+  color: white;
+  cursor: pointer;
+}            
