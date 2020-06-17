@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import Isvg from 'react-inlinesvg';
 import PageHeader from '../containers/header/pageHeader';
 import Footer from '../containers/footer';
-
+import moment from 'moment';
 import Map from '../components/map';
 
 import {
@@ -75,6 +75,8 @@ class DetailPage extends Component {
         this.onExited = this.onExited.bind(this);
 
         this.submitComment = this.submitComment.bind(this);
+        this.get = this.get.bind(this);
+
 
         /*this.next = this.next.bind(this);
         this.prev = this.prev.bind(this);*/
@@ -116,7 +118,10 @@ class DetailPage extends Component {
     }
 
     componentDidMount() {
+       this.get();
 
+    }
+    get(){
         fetch('https://localhost:8080/cars/get/' + this.props[0].match.params.id, {
             method: 'GET',
             headers: {
@@ -137,37 +142,11 @@ class DetailPage extends Component {
                 'Authorization': `Bearer ${localStorage.getItem('token')}`
             },
         }).then((res) => res.json()).then((result) => {
+            
             this.setState({
                 reviews: result,
             })
         });
-        let comments = [
-            {
-                'rate': '4',
-                'text': 'dobar',
-                'status': '0',
-                'userId': "Dragan",
-                'date': "12.01.2020. 15:45"
-            },
-            {
-                'rate': '5',
-                'text': 'bas dobar',
-                'status': '0',
-                'userId': "Sladja",
-                'date': "12.01.2020. 15:45"
-            },
-            {
-                'rate': '3',
-                'text': 'nije dobar',
-                'status': '0',
-                'userId': "Stevan",
-                'date': "12.01.2020. 15:45"
-            }
-        ];
-
-        this.setState({
-            reviews: comments
-        })
     }
 
 
@@ -224,7 +203,11 @@ class DetailPage extends Component {
     }
 
     submitComment(data) {
+        let date = new Date();
+        data.date = Math.floor(date.getTime() / 1000);
+        data.date = moment.unix(data.date).format('DD.MM.YYYY, HH:mm')
         data.carId = this.props[0].match.params.id;
+        // data.userId = 'Aco';
         console.log(data);
 
         fetch(`https://localhost:8080/review/create`, {
@@ -234,7 +217,7 @@ class DetailPage extends Component {
                 'Authorization': `Bearer ${localStorage.getItem('token')}`
             },
             body: JSON.stringify(data)
-        }).then((res) => this.props[0].history.push(`cars/${this.props[0].match.params.id}`))
+        }).then((res) => this.get())
     }
 
 
@@ -470,13 +453,14 @@ class DetailPage extends Component {
                                             <Col md="12" >
                                                 {
                                                     this.state.reviews && this.state.reviews.map((comment) => {
+                                                        if(comment.status == 2)
                                                         return (
                                                             <Col md="12">
                                                                 <Comment
                                                                     rate={comment.rate}
                                                                     id={comment._id}
                                                                     // image={'https://showroom-api.novamedia.agency/' + product.images[0]}
-                                                                    comment={comment.text}
+                                                                    comment={comment.comment}
                                                                     userId={comment.userId}
                                                                     date={comment.date}
                                                                 />

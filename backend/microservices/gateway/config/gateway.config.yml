@@ -16,6 +16,7 @@ apiEndpoints:
       - '/model/*'
       - '/fuel/*'
       - '/class/*'
+      - '/review/*'
   webhook:
     paths:
       - '/webhook/*'
@@ -60,6 +61,7 @@ pipelines:
       - model
       - fuel
       - class
+      - review
     policies:
       - rate-limit:
         - action:

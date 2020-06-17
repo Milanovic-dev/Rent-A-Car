@@ -19,6 +19,7 @@ require('./src/api/makeApi') (app);
 require('./src/api/modelApi') (app);
 require('./src/api/fuelApi') (app);
 require('./src/api/classApi') (app);
+require('./src/api/reviewApi') (app);
 
 
 app.get('/', (req, res) => {
