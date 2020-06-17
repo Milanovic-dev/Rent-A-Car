@@ -24,7 +24,12 @@ const db = require('./db');
 
 
 app.use(bodyParser.json({ limit: '20mb' }));
-app.use(cors());
+app.use(cors({
+    "origin": "*",
+  "methods": "GET,HEAD,PUT,PATCH,POST,DELETE",
+  "preflightContinue": false,
+  "optionsSuccessStatus": 200
+}));
 app.use('/uploads', express.static('uploads'))
 app.use(fileUpload());
 

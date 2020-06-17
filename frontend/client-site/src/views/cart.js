@@ -26,6 +26,10 @@ class Cart extends Component{
     }
 
     componentWillMount(){
+        if(!localStorage.getItem('token')){
+            this.props[0].history.push('/signin')
+        }
+
         this.getMyCart();
     }
     

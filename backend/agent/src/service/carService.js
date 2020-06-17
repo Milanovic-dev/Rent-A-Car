@@ -107,9 +107,7 @@ const getCar = async (id) => {
 }
 
 const getAll = async () => {
-    let result = await db.collection(dbCollection).find(null);
-    console.log(result)
-
+    let result = await db.collection(dbCollection).find({}).toArray();
     return {
         response:  result,
         status: 200

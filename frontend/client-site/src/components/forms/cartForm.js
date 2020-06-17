@@ -29,7 +29,11 @@ const cartForm = (props) => {
 
     const removeFromCart = (id) => {
         fetch(`https://localhost:8080/orders/cart/remove/${id}`, {
-            method:'POST'
+            method:'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('token')}`
+            },
         }).then(res => {
             if(res.status == '200'){
                 console.log('Deleted');

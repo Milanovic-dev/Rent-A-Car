@@ -55,17 +55,17 @@ app.get('/orders/bundles/:id', async (req, res) => {
 });
 
 app.post('/orders/cart/add/:id', async(req, res) => {
-    let result = await service.addToCart(req.params.id);
+    let result = await service.addToCart(req.params.id, req.headers.authorization.split(' ')[1]);
     res.status(result.status).send();
 });
 
 app.post('/orders/cart/remove/:id', async(req, res) => {
-    let result = await service.removeFromCart(req.params.id);
+    let result = await service.removeFromCart(req.params.id, req.headers.authorization.split(' ')[1]);
     res.status(result.status).send();
 });
 
 app.get('/orders/cart', async(req, res) => {
-    let result = await service.getCart();
+    let result = await service.getCart(req.headers.authorization.split(' ')[1]);
     res.status(result.status).send(result.response);
 });
 

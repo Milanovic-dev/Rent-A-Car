@@ -1,4 +1,5 @@
 //env
+const jwt = require('jsonwebtoken');
 const dotenv = require('dotenv');
 dotenv.config();
 //database
@@ -146,8 +147,9 @@ const getBundles = async () => {
     return await db.collection('bundles').find({}).toArray();
 }
 
-const addToCart = async (carId) => {
-    const result = await db.collection('cart').insertOne({carId});
+const addToCart = async (carId, username) => {
+    console.log(username);
+    const result = await db.collection('cart').insertOne({carId, username});
     if(result.insertedId){
         return {status: 201};
     }
@@ -155,14 +157,14 @@ const addToCart = async (carId) => {
     return {status: 500};
 }
 
-const removeFromCart = async (carId) => {
-    await db.collection('cart').deleteOne({carId});
+const removeFromCart = async (carId, username) => {
+    await db.collection('cart').deleteOne({carId, username});
     return {status: 200};
 }
 
 
-const getCart = async () => {
-    const cart = await db.collection('cart').find({}).toArray();
+const getCart = async (username) => {
+    const cart = await db.collection('cart').find({username}).toArray();
     let result = [];
     for(const item of cart){
         const car = await db.collection('cars').findOne({_id: ObjectID(item.carId)});
@@ -187,6 +189,8 @@ function groupBy(arr, property) {
         return memo;
     }, {});
 }
+
+
 
 module.exports = {
     placeOrders,
