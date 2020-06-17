@@ -3784,13 +3784,12 @@ button {
       float: left;
       width: 100%;
       background-color: #9F9F9F;
-      margin: 12px 0; }
+      margin: 12px 10px; }
     .comment-box .content .title {
-      padding: 12px 2px;
+      padding: 12px 0px;
       margin-bottom: 0;
-      height: 50px;
+      height: 70px;
       display: flex;
-      justify-content: space-between;
       align-items: center; }
       .comment-box .content .title .account {
         display: flex;
@@ -3799,8 +3798,11 @@ button {
           margin-right: 5px; }
       .comment-box .content .title .rating {
         display: flex;
-        align-items: center;
+        align-items: left;
         margin-right: 5px; }
+      .comment-box .content .title .date {
+        display: flex;
+        justify-content: flex-end; }
       .comment-box .content .title h6 {
         font-size: 18px;
         color: #2F3234;
