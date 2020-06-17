@@ -20,6 +20,7 @@ import Register from './views/register';
 import Cart from './views/cart';
 
 import Comments from './views/admin/comments';
+import Messages from './views/messages';
 
 
 
@@ -56,6 +57,14 @@ class Routes extends Component {
                                 <InventoryPage {...renderProps} {...this.props} />
                             )}
                         />
+                        <Route
+                            path="/messages"
+                            exact
+                            render={(...renderProps) => (
+                                <Messages {...renderProps} {...this.props} />
+                            )}
+                        />
+
                         <Route
                             path="/fahrzeuge/:searchQuery"
                             exact
@@ -127,7 +136,7 @@ class Routes extends Component {
                                 <Comments {...renderProps} {...this.props} />
                             )}
                         />
-                        
+
                     </Switch>
                 </div>
             </Router>
