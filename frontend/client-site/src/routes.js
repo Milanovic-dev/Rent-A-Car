@@ -21,6 +21,7 @@ import Cart from './views/cart';
 
 import Comments from './views/admin/comments';
 import Messages from './views/messages';
+import Makes from './views/admin/makes';
 
 
 
@@ -62,6 +63,13 @@ class Routes extends Component {
                             exact
                             render={(...renderProps) => (
                                 <Messages {...renderProps} {...this.props} />
+                            )}
+                        />
+                        <Route
+                            path="/makes"
+                            exact
+                            render={(...renderProps) => (
+                                <Makes {...renderProps} {...this.props} />
                             )}
                         />
 
