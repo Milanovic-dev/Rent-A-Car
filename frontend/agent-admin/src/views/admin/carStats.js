@@ -25,7 +25,7 @@ class CarStats extends Component {
         //     return;
         // }
 
-        // fetch('http://127.0.0.1:8282/api/cars/v1/stats', {
+        // fetch('http://127.0.0.1:8282/api/cars/stats', {
         //     method: 'GET',
         //     headers: {
         //         'Content-Type': 'application/json',
@@ -36,54 +36,7 @@ class CarStats extends Component {
         //         items: result
         //     })
         // })
-        let result = [
-            {
-                make: "Audi",
-                model: "A4",
-                productionYear: "2010",
-                class: "Saloon",
-                color: "Silver",
-                location: "Bijeljina",
-                fule: "diesel",
-                mileage: "140000",
-                seatCount: "5",
-                transmission: "Manual",
-                most: "MILAGE"
-
-            },
-            {
-                make: "Bmw",
-                model: "M3",
-                productionYear: "2012",
-                class: "Saloon",
-                color: "Silver",
-                location: "Bijeljina",
-                fule: "diesel",
-                mileage: "110000",
-                seatCount: "5",
-                transmission: "Manual",
-                most: "COMMENTS"
-
-            },
-            {
-                make: "Bmw",
-                model: "M3",
-                productionYear: "2012",
-                class: "Saloon",
-                color: "Silver",
-                location: "Bijeljina",
-                fule: "diesel",
-                mileage: "110000",
-                seatCount: "5",
-                transmission: "Manual",
-                most: "RATING"
-
-            }
-        ];
-        console.log(result);
-        this.setState({
-            items: result
-        })
+       
 
     }
 
