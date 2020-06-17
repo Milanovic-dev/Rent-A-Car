@@ -3,6 +3,7 @@ const dotenv = require('dotenv');
 dotenv.config();
 //database
 const dbConnect = require('../../db');
+const ObjectID = require('mongodb').ObjectID;
 
 const dbCollection = 'reviews';
 
@@ -18,6 +19,9 @@ const createReview = async (review) => {
 
   if(!review) return { status: 400 };
 
+  review.userId = "Aleksandar Dabic";
+  review.status = 0;
+
   let result = await db.collection(dbCollection).insertOne(review);
   if(result.insertedId)
   {
@@ -29,14 +33,83 @@ const createReview = async (review) => {
 
   return { status: 500 };
 };
+const allowReview = async (id) => {
+
+    // await db.collection(dbCollection).updateOne({_id: ObjectID(id)}, {$set: {
+    //     status: 2
+    // }} );
+
+    // if(result.modifiedCount == 1){
+    //     return { status:200 };
+    // }
+  
+    // return { status: 404 };
+
+
+    let dbReview = await db.collection(dbCollection).findOne(
+        {
+            _id: ObjectID(id)
+        }
+    );
+  
+    if(!dbReview){
+        return { status:404 };
+    }
+  
+    let result = await db.collection(dbCollection).updateOne(
+        {
+            _id : ObjectID(id)
+        },
+        {
+            $set: {
+                status: 2,
+                
+            }
+        }
+    );
+  
+    if(result.modifiedCount == 1){
+        return { status:200 };
+    }
+  
+    return { status: 404 };
+
+  };
+  const disallowReview = async (id) => {
+
+    let dbReview = await db.collection(dbCollection).findOne(
+        {
+            _id: ObjectID(id)
+        }
+    );
+  
+    if(!dbReview){
+        return { status:404 };
+    }
+  
+    let result = await db.collection(dbCollection).updateOne(
+        {
+            _id : ObjectID(id)
+        },
+        {
+            $set: {
+                status: 1,
+                
+            }
+        }
+    );
+  
+    if(result.modifiedCount == 1){
+        return { status:200 };
+    }
+  
+    return { status: 404 };
+
+  };
+
 
 const getReview = async (id) => {
-  let result = await db.collection(dbCollection).findOne(
-      {
-          _id: ObjectID(id)
-      }
-  );
-
+  let result = await db.collection(dbCollection).find({ carId: id} ).toArray();
   if(result){
       return {
           response: result,
@@ -80,7 +153,13 @@ const getAllPending = async () => {
 
 const getAll = async () => {
   let result = await db.collection(dbCollection).find().toArray();
+  for(let i=0; i < result.length; i++){
+      let car = await db.collection('cars').find({ _id : ObjectID(result[i].carId)}).toArray();
+      result[i].car = car[0];
+    //   let user = await db.collection('users').find({ _id : ObjectID(result[i].userId)}).toArray();
+    //   result[i].user = user[0];
 
+  }
   return {
       response: result,
       status: 200
@@ -92,5 +171,7 @@ module.exports = {
   pending: getAllPending,
   get: getReview,
   remove: removeReview,
+  allow: allowReview,
+  disallow: disallowReview,
   getAll
 };

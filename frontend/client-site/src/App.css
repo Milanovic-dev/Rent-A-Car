@@ -1108,6 +1108,124 @@ button {
 .date-time-picker-wrap .time-input .digit2 {
   width: 60px; }
 
+.page-title {
+  font-size: 22px;
+  font-weight: 600;
+  color: #333333;
+  margin-bottom: 0; }
+
+.table .table-head {
+  padding: 26px 0;
+  margin: 0; }
+  .table .table-head > div {
+    display: flex;
+    align-items: center; }
+  .table .table-head .name {
+    font-size: 15px;
+    font-weight: 600;
+    color: #333333; }
+  .table .table-head .actions {
+    justify-content: center; }
+
+.table .checkbox-wrap {
+  margin-left: 30px; }
+
+.table .sort-wrap {
+  max-width: 32px;
+  float: left;
+  margin-left: -9px;
+  margin-right: 9px; }
+  .table .sort-wrap button {
+    background-color: transparent;
+    border: 0;
+    outline: none;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    padding-top: 3px; }
+    .table .sort-wrap button .isvg {
+      font-size: 12px; }
+
+.table .table-row {
+  background-color: #FFFFFF;
+  margin: 0;
+  padding: 24px 0;
+  border-radius: 10px;
+  -webkit-box-shadow: 0px 6px 10px 0px rgba(0, 0, 0, 0.04);
+  -moz-box-shadow: 0px 6px 10px 0px rgba(0, 0, 0, 0.04);
+  box-shadow: 0px 6px 10px 0px rgba(0, 0, 0, 0.04);
+  margin-bottom: 20px; }
+  .table .table-row .value {
+    font-size: 15px;
+    font-weight: 400;
+    color: #828DB1; }
+  .table .table-row .actions {
+    text-align: right; }
+  .table .table-row .btns {
+    display: flex;
+    justify-content: center;
+    align-items: center; }
+  .table .table-row .button-allow {
+    background-color: #51c43c;
+    color: #FFFFFF;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    float: left;
+    border-radius: 27px;
+    padding: 8px 16px;
+    font-size: 18px;
+    font-weight: 500;
+    margin-right: 10px; }
+  .table .table-row .button-disallow {
+    background-color: #F1646C;
+    color: #FFFFFF;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    float: left;
+    border-radius: 27px;
+    padding: 8px 16px;
+    font-size: 18px;
+    font-weight: 500; }
+
+.valid-reservation {
+  width: 24px;
+  height: 24px;
+  background-color: #51c43c;
+  border-radius: 12px;
+  float: left;
+  margin-right: 5px; }
+
+.not-valid-reservation {
+  width: 24px;
+  height: 24px;
+  background-color: #F1646C;
+  border-radius: 12px;
+  float: left;
+  margin-right: 5px; }
+
+.undefined-reservation {
+  width: 24px;
+  height: 24px;
+  background-color: #999;
+  border-radius: 12px;
+  float: left; }
+
+.reservation-status {
+  display: flex;
+  align-items: center; }
+  .reservation-status div {
+    margin-right: 10px; }
+
 .button {
   height: 40px;
   display: flex;

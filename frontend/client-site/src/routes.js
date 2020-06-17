@@ -19,6 +19,9 @@ import SignIn from './views/signInPage';
 import Register from './views/register';
 import Cart from './views/cart';
 
+import Comments from './views/admin/comments';
+
+
 
 const history = createBrowserHistory();
 
@@ -117,6 +120,14 @@ class Routes extends Component {
                                 <Cart {...renderProps} {...this.props} />
                             )}
                         />
+                        <Route
+                            path="/comments"
+                            exact
+                            render={(...renderProps) => (
+                                <Comments {...renderProps} {...this.props} />
+                            )}
+                        />
+                        
                     </Switch>
                 </div>
             </Router>
