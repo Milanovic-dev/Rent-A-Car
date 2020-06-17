@@ -328,6 +328,19 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            .account{
+                display: flex;
+                // justify-content: center;
+                align-items: center;
+                svg{
+                    margin-right: 5px;
+                }
+            }
+            .rating{
+                display: flex;
+                align-items: center;
+                margin-right: 5px;
+            }
             h6{
             font-size: 18px;
             color: #2F3234;
@@ -340,7 +353,7 @@
             }
             h4{
                 font-size: 16px;
-                color: #2F3234;
+                color: #DA212E;
                 font-weight: 500;
             }
         

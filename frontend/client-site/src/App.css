@@ -3792,6 +3792,15 @@ button {
       display: flex;
       justify-content: space-between;
       align-items: center; }
+      .comment-box .content .title .account {
+        display: flex;
+        align-items: center; }
+        .comment-box .content .title .account svg {
+          margin-right: 5px; }
+      .comment-box .content .title .rating {
+        display: flex;
+        align-items: center;
+        margin-right: 5px; }
       .comment-box .content .title h6 {
         font-size: 18px;
         color: #2F3234;
@@ -3802,7 +3811,7 @@ button {
         font-weight: 600; }
       .comment-box .content .title h4 {
         font-size: 16px;
-        color: #2F3234;
+        color: #DA212E;
         font-weight: 500; }
     .comment-box .content .text {
       padding: 12px 20px;
@@ -4070,71 +4079,3 @@ button {
         @media only screen and (max-width: 1200px) {
           .contact-wrap .page-wrap .map-section .map {
             height: 200px; } }
-
-.cart-owner-wrap {
-    background-color: #da212e;
-    line-height: 40px;
-    color: white;
-    display: inline;
-}
-
-.cart-owner {
-  text-align: left;
-}
-
-.cart-isBundle {
-  position: absolute;
-  right: 10px;
-}
-
-.cart-item {
-  border-width: 1px;
-  border-style: solid;
-  border-color: rgb(221, 221, 221);
-  line-height: 100px;
-  display: flex;
-  align-content: space-between;
-  overflow-x: hidden;
-}
-
-.cart-item-image {
-  flex:1;
-}
-
-.cart-item-info {
-  flex: 2;
-}
-
-.cart-item-options {
-  flex:1;
-}
-
-.cart-item-price {
-  flex:0.6;
-}
-
-.cart-item-remove {
-  flex:0.2;
-  align-self: center;
-  justify-content: center;
-  text-align: center;
-  height: 30%;
-  background-color:#da212e ;
-  border-radius: 10px;
-  line-height: 30px;
-  cursor: pointer;
-}
-
-.addToCart-button {
-  text-align: center;
-  background-color: #da212e;
-  color: white;
-  cursor: pointer;
-}
-
-.addToCart-button-added {
-  text-align: center;
-  background-color: #a81721;
-  color: white;
-  cursor: pointer;
-}            

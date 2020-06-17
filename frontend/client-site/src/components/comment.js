@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import Isvg from 'react-inlinesvg';
+import star from '../assets/svg/star.svg';
+
 import fuel_icon from '../assets/svg/fuel.svg';
 import calendar_icon from '../assets/svg/calendar.svg';
 import guage_icon from '../assets/svg/guage.svg';
@@ -19,8 +21,19 @@ export class Comment extends Component {
                 {/* <img src={this.props.image} /> */}
                 <div className="content">
                     <div className="title">
-                        <h6 className="title">{this.props.userId}</h6>
-                        <h5 className="rate">RATE: {this.props.rate}</h5>
+                        <div className="account">
+                            <Isvg src={this.props.image} />
+                            <h6 className="title">{this.props.userId}</h6>
+                        </div>
+                        {/* <h5 className="rate">RATE: {this.props.rate}</h5> */}
+                        {
+                            this.props.rate == '1' ? <div className="rating"><Isvg src={star}/></div>
+                            : this.props.rate == '2' ? <div className="rating"><Isvg src={star}/><Isvg src={star}/></div>
+                            : this.props.rate == '3' ? <div className="rating"><Isvg src={star}/><Isvg src={star}/><Isvg src={star}/></div>
+                            : this.props.rate == '4' ? <div className="rating"><Isvg src={star}/><Isvg src={star}/><Isvg src={star}/><Isvg src={star}/></div>
+                            : this.props.rate == '5' ? <div className="rating"><Isvg src={star}/><Isvg src={star}/><Isvg src={star}/><Isvg src={star}/><Isvg src={star}/></div>
+                            : null
+                        }
                         <h4 className="date">{this.props.date}</h4>
                     </div>
 

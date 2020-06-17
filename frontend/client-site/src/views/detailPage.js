@@ -22,6 +22,7 @@ import CommentForm from '../components/forms/commentForm'
 
 import Article from '../components/article';
 import Comment from '../components/comment';
+import account from '../assets/svg/account.svg';
 
 
 import car_image6 from '../assets/images/car6.png';
@@ -459,7 +460,7 @@ class DetailPage extends Component {
                                                                 <Comment
                                                                     rate={comment.rate}
                                                                     id={comment._id}
-                                                                    // image={'https://showroom-api.novamedia.agency/' + product.images[0]}
+                                                                    image={account}
                                                                     comment={comment.comment}
                                                                     userId={comment.userId}
                                                                     date={comment.date}
