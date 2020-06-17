@@ -29,39 +29,41 @@ dbConnect(process.env.DB_USERNAME, process.env.DB_PASSWORD, process.env.DB_SERVE
         renterId
     }
 */
-const placeOrders = ({orders, renterId}) => {
+const placeOrders = async (orders, renterId = 1) => {
 
     if(!orders || !renterId) return { status:400 };
     if(orders.length == 0) return { status:400 };
 
     for(const order of orders){
         if(order.isBundle){
-            createAsBundle(order, renterId);
+            createAsBundle(order.cars, order.ownerId, renterId);
         }
         else{
-            createAsOrders(order, renterId);
+            createAsOrders(order.cars, renterId);
         }
     }
+
+    await db.collection('cart').drop();
 
     return { status: 201 };
 }
 
-const createAsBundle = async (order, renterId) => {
+const createAsBundle = async (cars, ownerId, renterId) => {
     const bundle = {
-        ownerId: order.ownerId,
+        ownerId,
         renterId: renterId,
         status: 'PENDING',
-        cars: order.carOrders
+        cars
     };
 
     await db.collection('bundles').insertOne(bundle);
 };
 
-const createAsOrders = async (order, renterId) => {
-    for(const carOrder of order.carOrders){
+const createAsOrders = async (cars, renterId) => {
+    for(const carOrder of cars){
         await db.collection('orders').insertOne({
             carId: carOrder.id,
-            ownerId: order.ownerId,
+            ownerId: carOrder.ownerId,
             renterId: renterId,
             status: 'PENDING',
             from: carOrder.from,
@@ -168,7 +170,22 @@ const getCart = async () => {
             result.push(car);
     }
 
-    return {status: 200, response: result};
+    const groups = groupBy(result, 'ownerId');
+    let ret = [];
+    Object.keys(groups).forEach((key, i) => {
+        const obj = {ownerId: key, cars: groups[key]};
+        ret.push(obj);
+    });
+
+    return {status: 200, response: ret};
+}
+
+function groupBy(arr, property) {
+    return arr.reduce(function(memo, x) {
+        if (!memo[x[property]]) { memo[x[property]] = []; }
+        memo[x[property]].push(x);
+        return memo;
+    }, {});
 }
 
 module.exports = {

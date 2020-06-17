@@ -37,6 +37,7 @@
       * model
       * class
       * transmmission
+      * productionYear
       * seats
       * mileage
       * power

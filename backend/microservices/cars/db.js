@@ -3,7 +3,7 @@ const isDocker = require('is-docker');
 const { ObjectID } = require('mongodb');
 let connection;
 
-const ignore = ['agents']
+const ignore = ['agents', 'fuels', 'makes', 'models', 'pricelist'];
 
 module.exports = function(username, password, server, dbName) {
    return new Promise((resolve, reject) => {
@@ -119,7 +119,6 @@ class dbSyncFunctions {
 
    async insertOne(data, options) {
       const res = this.db.collection(this.collection).insertOne(data, options);
-      console.log("fds");
       if(data.ownerId){
          await watchman.insertOp(this.db, data.ownerId, this.collection, res, data);
       }

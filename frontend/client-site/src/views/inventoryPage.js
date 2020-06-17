@@ -132,6 +132,7 @@ class InventoryPage extends Component {
                                                         mileage={product.mileage}
                                                         year={product.productionYear}
                                                         price={product.price}
+                                                        history = {this.props[0].history}
                                                     />
                                                 </Col>
                                             )

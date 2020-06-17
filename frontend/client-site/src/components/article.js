@@ -9,16 +9,32 @@ export class Article extends Component {
         super(props);
 
         this.state = {
-
+            addedToCart: false
         };
     }
 
     addToCart(id){
+
+        if(!localStorage.getItem('token')){
+            this.props.history.push('/signin')
+            return;
+        }
+
+        if(this.state.addedToCart){
+            return;
+        }
+        
+        this.state.addedToCart = true;
         fetch(`https://localhost:8080/orders/cart/add/${id}`, {
             method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('token')}`
+            },
         }).then(res => {
             if(res.status == '201'){
-                console.log("Added");
+                this.state.addedToCart = true;
+                this.forceUpdate();
             }
         });
     }
@@ -38,8 +54,8 @@ export class Article extends Component {
                     <div className="price-container">
                         <span className="price">{this.props.price}€</span>
                     </div>
-                    <div className="addToCart-button" onClick={()=> {this.addToCart(this.props.id)}}>
-                        <span style={{fontSize: 23}}>Add to cart</span> 
+                    <div className={this.state.addedToCart ? "addToCart-button-added" : "addToCart-button"} onClick={()=> {this.addToCart(this.props.id)}}>
+                        <span style={{fontSize: 23}}>{this.state.addedToCart ? 'Added' : 'Add to cart'}</span> 
                     </div>
                 </div>
             </div>
