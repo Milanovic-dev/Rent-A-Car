@@ -8,7 +8,7 @@ import FuelForm from '../../components/forms/fuelForm';
 
 import PageHeader from '../../containers/header/pageHeader';
 import Footer from '../../containers/footer';
-import { Link,Redirect } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 
 import editIcon from '../../assets/svg/edit.svg'
 import deleteIcon from '../../assets/svg/delete.svg'
@@ -47,7 +47,7 @@ class Makes extends Component {
 
 
     add(data) {
-        if (this.props[0].match.params.id) {
+        if (this.props[0].match.params.id !== 'new') {
             fetch(`https://localhost:8080/${this.props[0].match.params.type}/update`, {
                 method: 'POST',
                 headers: {
@@ -136,10 +136,32 @@ class Makes extends Component {
 
 
 
-    componentDidUpdate(prevProps) {
-        if (this.props[0].match.params.id && prevProps[0].match.params.id != this.props[0].match.params.id) {
+    componentDidMount() {
+        if (this.props[0].match.params.id) {
             this.get();
+        } else {
+            this.getAll();
         }
+    }
+
+    componentDidUpdate(prevProps) {
+        if (this.props[0].location.pathname != prevProps[0].location.pathname) {
+            if (this.props[0].match.params.id) {
+                this.setState({
+                    data: null
+                }, () => {
+                    this.get();
+                })
+            } else {
+                this.setState({
+                    items: []
+                }, () => {
+                    this.getAll();
+                })
+            }
+        }
+
+
     }
 
 
@@ -194,7 +216,7 @@ class Makes extends Component {
                                     </Col>
                                 </Row>
                                 :
-                                <Form makes={this.state.makes} onSubmit={this.add} />
+                                <Form makes={this.state.makes ? this.state.makes : []} onSubmit={this.add} initialValues={this.state.data} />
                             }
                         </Container>
                     </section>

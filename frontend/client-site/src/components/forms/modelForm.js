@@ -19,7 +19,7 @@ const form = (props) => {
         <form onSubmit={handleSubmit} className="contact-form">
             <h3>Create or edit model</h3>
             <Row>
-                <Col lg="6" className="input-wrap">
+                {props.makes && props.makes.length ? <Col lg="6" className="input-wrap">
                     <Field
                         name="make"
                         component={renderSelectField}
@@ -35,6 +35,9 @@ const form = (props) => {
                         }
                     </Field>
                 </Col>
+                    :
+                    null
+                }
 
                 <Col lg="6" className="input-wrap">
                     <Field
