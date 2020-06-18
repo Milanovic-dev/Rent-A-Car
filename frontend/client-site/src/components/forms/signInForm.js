@@ -10,6 +10,7 @@ const renderTextField = ({
     input,
     placeholder,
     label,
+    type,
     meta: { touched, error },
 }) => (
 
@@ -17,6 +18,7 @@ const renderTextField = ({
             placeholder={placeholder}
             label={label}
             errorText={touched && error}
+            type={type}
             {...input}
         />
     )
@@ -49,6 +51,7 @@ const signInForm = (props) => {
                             component={renderTextField}
                             label={"Enter your password"}
                             placeholder="Password"
+                            type="password"
                         />
                     </Col>
                 </Row>

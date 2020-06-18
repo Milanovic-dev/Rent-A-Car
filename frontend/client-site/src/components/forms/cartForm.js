@@ -69,7 +69,7 @@ const cartForm = (props) => {
                                     <span className="cart-item-image"><img src={item.img}></img></span>
                                     <span className="cart-item-info">{`${item.make} ${item.model} ${item.power}kw ${item.fuel}`}</span>
                                     <span className="cart-item-options">{`${item.from} - ${item.to}`}</span>
-                                    <span className="cart-item-price">{item.price}$</span>
+                                    <span className="cart-item-price">{item.price}€</span>
                                     <span className="cart-item-remove" onClick={()=> {removeFromCart(item._id)}}><img src="../../assets/images/Rectangle 587.png"></img></span>
                                 </Col>
                                 )

@@ -2,10 +2,10 @@ const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
 const cors = require('cors');
-
+const { logger } = require('./src/security/logger');
 app.use(cors());
 app.use(bodyParser.json());
-
+app.use(logger);
 
 app.listen(4000, () => {
     console.log("==========================");

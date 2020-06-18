@@ -35,6 +35,8 @@ export class Article extends Component {
             if(res.status == '201'){
                 this.state.addedToCart = true;
                 this.forceUpdate();
+            }else if(res.status == '422'){
+                console.log('Already added');
             }
         });
     }

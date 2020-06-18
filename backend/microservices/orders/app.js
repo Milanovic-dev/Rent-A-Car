@@ -15,7 +15,7 @@ server.listen(4000, () => {
 });
 
 app.post('/orders/create', async (req, res) => {
-    let result = await service.placeOrders(req.body);
+    let result = await service.placeOrders(req.body, req.headers.authorization);
     res.status(result.status).send();
 });
 
@@ -55,17 +55,22 @@ app.get('/orders/bundles/:id', async (req, res) => {
 });
 
 app.post('/orders/cart/add/:id', async(req, res) => {
-    let result = await service.addToCart(req.params.id, req.headers.authorization.split(' ')[1]);
+    let result = await service.addToCart(req.params.id, req.headers.authorization);
     res.status(result.status).send();
 });
 
 app.post('/orders/cart/remove/:id', async(req, res) => {
-    let result = await service.removeFromCart(req.params.id, req.headers.authorization.split(' ')[1]);
+    let result = await service.removeFromCart(req.params.id, req.headers.authorization);
     res.status(result.status).send();
 });
 
 app.get('/orders/cart', async(req, res) => {
-    let result = await service.getCart(req.headers.authorization.split(' ')[1]);
+    let result = await service.getCart(req.headers.authorization);
+    res.status(result.status).send(result.response);
+});
+
+app.get('/orders/cart/size', async(req, res) => {
+    let result = await service.getCartSize(req.headers.authorization);
     res.status(result.status).send(result.response);
 });
 
@@ -73,3 +78,4 @@ app.get('/orders/:id', async (req, res) => {
     const result = await service.getOrder(req.params.id);
     res.status(result.status).send(result.response);
 });
+
