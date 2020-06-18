@@ -1149,6 +1149,19 @@ button{
                 outline: none;
                 padding: 10px;
             }
+
+            .button-unblock{
+                background-color: rgb(96, 235, 68);
+                font-size: 12px;
+                border-radius: 5px;
+            }
+            .button-block{
+                background-color: rgb(240, 51, 51);
+                font-size: 12px;
+                border-radius: 5px;
+
+            }
+
           }
           
            tr:nth-child(even){background-color: #f2f2f2;}

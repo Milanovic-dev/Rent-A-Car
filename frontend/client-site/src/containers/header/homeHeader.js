@@ -139,6 +139,10 @@ class HomeHeader extends Component {
                                         {localStorage.getItem('token') ? 
                                         <>
                                         <NavItem>
+                                            <Link to='/car-attributes/make' className={this.props[0].location.pathname === '/car-attributes/make'  ? 'active' : null}>Car attributes</Link>
+                                        </NavItem>
+
+                                        <NavItem>
                                             <Link to='/cart' className={this.props[0].location.pathname === '/cart'  ? 'active' : null}>My cart</Link>
                                         </NavItem>
                                         <NavItem>

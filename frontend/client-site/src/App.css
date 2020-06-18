@@ -824,6 +824,14 @@ button {
         border: 0;
         outline: none;
         padding: 10px; }
+      .admin-wrap table td .button-unblock, .admin-wrap table th .button-unblock {
+        background-color: #60eb44;
+        font-size: 12px;
+        border-radius: 5px; }
+      .admin-wrap table td .button-block, .admin-wrap table th .button-block {
+        background-color: #f03333;
+        font-size: 12px;
+        border-radius: 5px; }
     .admin-wrap table tr:nth-child(even) {
       background-color: #f2f2f2; }
     .admin-wrap table tr:hover {
