@@ -4,7 +4,11 @@ import { connect } from 'react-redux';
 import Form from '../../components/forms/makeForm';
 import PageHeader from '../../containers/header/pageHeader';
 import Footer from '../../containers/footer';
-import {Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
+
+import editIcon from '../../assets/svg/edit.svg'
+import deleteIcon from '../../assets/svg/delete.svg'
+import Isvg from 'react-inlinesvg';
 import {
     Container,
     Row,
@@ -19,7 +23,7 @@ import {
 class Makes extends Component {
     constructor(props) {
         super(props);
-        
+
     }
 
 
@@ -34,15 +38,48 @@ class Makes extends Component {
                 <PageHeader page='Fahrzeuge' {...this.props} />
                 <div className="page-wrap">
                     <section className="admin-wrap">
-                    <Container>
-                        <ul className="admin-tabs">
-                           <li className="active"> <Link to='/'>Makes</Link></li>
-                           <li> <Link to='/'>Models</Link></li>
-                           <li> <Link to='/'>Fuels</Link></li>
-                           <li> <Link to='/'>Classes</Link></li>
-                        </ul>
-                    <Form />
-                    </Container>
+                        <Container>
+                            <ul className="admin-tabs">
+                                <li className={this.props[0].match.params.type == 'makes' ? "active" : null }> <Link to='/car-attributes/makes'>Makes</Link></li>
+                                <li className={this.props[0].match.params.type == 'models' ? "active" : null }> <Link to='/car-attributes/models'>Models</Link></li>
+                                <li className={this.props[0].match.params.type == 'fuels' ? "active" : null }> <Link to='/car-attributes/fuels'>Fuels</Link></li>
+                                <li className={this.props[0].match.params.type == 'classes' ? "active" : null }> <Link to='/car-attributes/classes'>Classes</Link></li>
+                            </ul>
+
+                            {!this.props[0].match.params.id ?
+
+                                <Row>
+                                    <Col lg="12">
+
+                                        <table>
+                                            <tr>
+                                                <th>Name</th>
+                                                <th>Options</th>
+                                            </tr>
+                                            <tr>
+                                                <td>Audi</td>
+                                                <td>
+                                                    <Link to='/'><button><Isvg src={editIcon} /> </button></Link>
+                                                    <button><Isvg src={deleteIcon} /> </button>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>VW</td>
+                                                <td>
+                                                    <Link to='/'><button><Isvg src={editIcon} /> </button></Link>
+                                                    <button><Isvg src={deleteIcon} /> </button>
+                                                </td>
+                                            </tr>
+
+                                        </table>
+
+                                       <Link to={`/car-attributes/${this.props[0].match.params.type}/new`}> <button className="button add-new">Add</button></Link>
+                                    </Col>
+                                </Row>
+                                :
+                                <Form />
+                            }
+                        </Container>
                     </section>
                 </div>
 

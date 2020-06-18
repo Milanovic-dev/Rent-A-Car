@@ -805,7 +805,35 @@ button {
     background-color: #FFFFFF;
     -webkit-box-shadow: 0px 4px 6px 0px rgba(0, 0, 0, 0.2);
     -moz-box-shadow: 0px 4px 6px 0px rgba(0, 0, 0, 0.2);
-    box-shadow: 0px 4px 6px 0px rgba(0, 0, 0, 0.2); }
+    box-shadow: 0px 4px 6px 0px rgba(0, 0, 0, 0.2);
+    padding-bottom: 50px; }
+  .admin-wrap .add-new {
+    border: 0; }
+  .admin-wrap table {
+    width: 100%;
+    margin-bottom: 30px;
+    border-collapse: collapse; }
+    .admin-wrap table td, .admin-wrap table th {
+      padding: 8px; }
+      .admin-wrap table td:last-child, .admin-wrap table th:last-child {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end; }
+      .admin-wrap table td button, .admin-wrap table th button {
+        background-color: transparent;
+        border: 0;
+        outline: none;
+        padding: 10px; }
+    .admin-wrap table tr:nth-child(even) {
+      background-color: #f2f2f2; }
+    .admin-wrap table tr:hover {
+      background-color: #ddd; }
+    .admin-wrap table th {
+      padding-top: 12px;
+      padding-bottom: 12px;
+      text-align: left;
+      background-color: #DA212E;
+      color: white; }
 
 .admin-tabs {
   list-style: none;

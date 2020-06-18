@@ -66,7 +66,14 @@ class Routes extends Component {
                             )}
                         />
                         <Route
-                            path="/makes"
+                            path="/car-attributes/:type"
+                            exact
+                            render={(...renderProps) => (
+                                <Makes {...renderProps} {...this.props} />
+                            )}
+                        />
+                        <Route
+                            path="/car-attributes/:type/:id"
                             exact
                             render={(...renderProps) => (
                                 <Makes {...renderProps} {...this.props} />
