@@ -3,7 +3,7 @@ const dotenv = require('dotenv');
 dotenv.config();
 //database
 const dbConnect = require('../../db');
-const { default: carStats } = require('../../../../../frontend/agent-admin/src/views/admin/carStats');
+// const { default: carStats } = require('../../../../../frontend/agent-admin/src/views/admin/carStats');
 const ObjectID = require('mongodb').ObjectID;
 const dbCollection = 'cars';
 let db;

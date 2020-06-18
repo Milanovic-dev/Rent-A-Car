@@ -10,6 +10,8 @@ import RegisterPage from './views/admin/register';
 import ChangeCar from './views/admin/changeCar';
 import Cars from './views/admin/cars';
 import MileageReport from './views/admin/mileageReport';
+import OrderPreview from './views/admin/orderPreview';
+
 import MileageReports from './views/admin/mileageReports';
 
 import CarStats from './views/admin/carStats';
@@ -239,6 +241,15 @@ class Routes extends Component {
                                 <MileageReports {...renderProps} {...this.props} />
                             )}
                         />
+                        <Route
+                            path="/order/:id"
+                            exact
+                            render={(...renderProps) => (
+                                <OrderPreview {...renderProps} {...this.props} />
+                            )}
+                        />
+
+
                         <Route
                             path="/carStats"
                             exact

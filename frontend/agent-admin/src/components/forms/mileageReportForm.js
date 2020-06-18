@@ -27,34 +27,34 @@ const form = (props) => {
 
                             </Col>
 
-                            <Col lg="12">
-                                    <Col lg="4" className="input-wrap">
-                                        <Field
-                                            name="rentedCar"
-                                            component={renderTextField}
-                                            label={"Car"}
-                                            placeholder=""
-                                            disabled
-                                        ></Field>
-                                    </Col>
-                                    <Col lg="4" className="input-wrap">
-                                        <Field
-                                            name="mileage"
-                                            component={renderTextField}
-                                            label={"Mileage"}
-                                            placeholder=""
-                                            required
-                                        ></Field>
-                                    </Col>
-                                    <Col lg="4" className="input-wrap">
-                                        <Field
-                                            name="additionalInfo"
-                                            component={renderTextareaField}
-                                            label={"Additional information"}
-                                            placeholder=""
-                                        ></Field>
-                                    </Col>
 
+                            <Col lg="12">
+                                <Col lg="4" className="input-wrap">
+                                    <Field
+                                        name="cars[0]rentedCar"
+                                        component={renderTextField}
+                                        label={"Car"}
+                                        placeholder=""
+                                        disabled
+                                    ></Field>
+                                </Col>
+                                <Col lg="4" className="input-wrap">
+                                    <Field
+                                        name="mileage"
+                                        component={renderTextField}
+                                        label={"Mileage"}
+                                        placeholder=""
+                                        required
+                                    ></Field>
+                                </Col>
+                                <Col lg="4" className="input-wrap">
+                                    <Field
+                                        name="additionalInfo"
+                                        component={renderTextareaField}
+                                        label={"Additional information"}
+                                        placeholder=""
+                                    ></Field>
+                                </Col>
                             </Col>
 
                         </Row>

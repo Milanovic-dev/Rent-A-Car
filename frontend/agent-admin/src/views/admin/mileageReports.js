@@ -44,18 +44,54 @@ class MileageReports extends Component {
         // })
         let result = [
             {
-                '_id':'15156161',
-                'make': 'audi',
-                'model': 'a6',
-                'productionYear': '2015',
-                'dateStart': '15.06.2020',
-                'dateEnd': '20.06.2020',
+                '_id': '15156161',
+                'cars': [
+                    {
+                        'make': 'audi',
+                        'model': 'a6',
+                        'productionYear': '2015',
+                        'dateStart': '15.06.2020',
+                        'dateEnd': '20.06.2020',
+                        'rentedCar': 'audi a6 2015'
+                    },
+                    {
+                        'make': 'bmw',
+                        'model': 'x3',
+                        'productionYear': '2015',
+                        'dateStart': '15.06.2020',
+                        'dateEnd': '20.06.2020',
+                        'rentedCar': 'bmw x3 2015'
+                    },
+                    {
+                        'make': 'golf',
+                        'model': 'mk7',
+                        'productionYear': '2015',
+                        'dateStart': '15.06.2020',
+                        'dateEnd': '20.06.2020',
+                        'rentedCar': 'audi a6 2015'
+                    }
+                ],
+                'totalCars': '3'
+            },
+            {
+                '_id': '22525266',
+                'cars': [
+                    {
+                        'make': 'audi',
+                        'model': 'a6',
+                        'productionYear': '2015',
+                        'dateStart': '15.06.2020',
+                        'dateEnd': '20.06.2020',
+                        'rentedCar': 'audi a6 2015'
+                    }
+                ],
+                'totalCars': '1'
             }
         ];
 
         this.setState({
-                    items: result
-                })
+            items: result
+        })
 
     }
 
@@ -71,29 +107,33 @@ class MileageReports extends Component {
                     </Row>
                     <Row className="table-head">
                         <Col lg="4">
-                            <span className="name">CAR</span>
+                            <span className="name">TOTAL CARS</span>
                         </Col>
                         <Col lg="4">
-                            <span className="name">DATE</span>
+                            <span className="name">ORDER ID</span>
                         </Col>
-                        <Col lg="4" className="actions">
-                            <span className="name">OPTIONS</span>
+                        <Col lg="4">
+                            <span className="name">USER ID</span>
                         </Col>
+
                     </Row>
                     {
                         this.state.items.map((item, idx) => {
                             return (
-                                <Row className="table-row" key={idx}>
-                                    <Col lg="4">
-                                        <span className="value">{item.make} {item.model} {item.productionYear}</span>
-                                    </Col>
-                                    <Col lg="4">
-                                        <span className="value">{item.dateStart} - {item.dateEnd}</span>
-                                    </Col>
-                                    <Col lg="4" className="actions">
-                                        <Link to={`/mileageReport/${item._id}`}><Isvg src={report} /></Link>
-                                    </Col>
-                                </Row>
+                                <Link to={`/order/${item._id}`}>
+                                    <Row className="table-row" key={idx}>
+                                        <Col lg="4">
+                                            <span className="value">{item.totalCars}</span>
+                                        </Col>
+                                        <Col lg="4">
+                                            <span className="value">{item._id}</span>
+                                        </Col>
+                                        <Col lg="4">
+                                            <span className="value"></span>
+                                        </Col>
+
+                                    </Row>
+                                </Link>
                             )
                         })
                     }
