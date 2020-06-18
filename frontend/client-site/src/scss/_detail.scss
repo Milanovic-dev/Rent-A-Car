@@ -319,15 +319,33 @@
             float: left;
             width: 100%;
             background-color: #9F9F9F;
-            margin: 12px 0;
+            margin: 12px 10px;
         }
         .title {
-            padding: 12px 2px;
+            padding: 12px 0px;
             margin-bottom: 0;
-            height: 50px; 
+            height: 70px; 
             display: flex;
-            justify-content: space-between;
+            // justify-content: flex-start;
             align-items: center;
+            .account{
+                display: flex;
+                // justify-content: center;
+                align-items: center;
+                svg{
+                    margin-right: 5px;
+                }
+            }
+            
+            .rating{
+                display: flex;
+                align-items: left;
+                margin-right: 5px;
+            }
+            .date{
+                display: flex;
+                justify-content: flex-end;
+            }
             h6{
             font-size: 18px;
             color: #2F3234;
@@ -340,7 +358,7 @@
             }
             h4{
                 font-size: 16px;
-                color: #2F3234;
+                color: #DA212E;
                 font-weight: 500;
             }
         

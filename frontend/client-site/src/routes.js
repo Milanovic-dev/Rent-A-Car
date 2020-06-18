@@ -18,6 +18,7 @@ import BusyCar from './views/busyCar';
 import SignIn from './views/signInPage';
 import Register from './views/register';
 import Cart from './views/cart';
+import Orders from './views/orders';
 
 import Comments from './views/admin/comments';
 import Messages from './views/messages';
@@ -158,6 +159,14 @@ class Routes extends Component {
                             exact
                             render={(...renderProps) => (
                                 <Comments {...renderProps} {...this.props} />
+                            )}
+                        />
+
+                        <Route
+                            path="/orders"
+                            exact
+                            render={(...renderProps) => (
+                                <Orders {...renderProps} {...this.props} />
                             )}
                         />
 

@@ -2,7 +2,7 @@ const service = require('../service/commentService');
 
 module.exports = function(app){
 	app.post('/api/comments/v1/add',async (req,res) =>{
-		console.log(req.method + req.route.path);
+        console.log(req.method + req.route.path);
         let result = await service.add(req.body.comment,req.body.id);
         res.status(result.status).send(result.response);
 	});

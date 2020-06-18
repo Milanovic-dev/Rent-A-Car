@@ -24,7 +24,7 @@ class InventoryPage extends Component {
         // this.fetchItems = this.fetchItems.bind(this);
         this.state = {
             products: [],
-            productFilters: null,
+            productFilters: [],
             manufacturerModels: [],
             filters: { sort: 1 },
             items: []
@@ -48,10 +48,7 @@ class InventoryPage extends Component {
     }
 
 
-   
-    // searchProducts(data) {
-    //     this.props[0].history.push(`/vehicle/${encodeURIComponent(btoa(JSON.stringify(data)))}`)
-    // }
+
     render() {
 
         let sort = [
