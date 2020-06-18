@@ -21,6 +21,9 @@ import Cart from './views/cart';
 import Orders from './views/orders';
 
 import Comments from './views/admin/comments';
+import Messages from './views/messages';
+import Makes from './views/admin/makes';
+import Users from './views/admin/users';
 
 
 
@@ -57,6 +60,36 @@ class Routes extends Component {
                                 <InventoryPage {...renderProps} {...this.props} />
                             )}
                         />
+                        <Route
+                            path="/messages"
+                            exact
+                            render={(...renderProps) => (
+                                <Messages {...renderProps} {...this.props} />
+                            )}
+                        />
+                        <Route
+                            path="/users"
+                            exact
+                            render={(...renderProps) => (
+                                <Users {...renderProps} {...this.props} />
+                            )}
+                        />
+
+                        <Route
+                            path="/car-attributes/:type"
+                            exact
+                            render={(...renderProps) => (
+                                <Makes {...renderProps} {...this.props} />
+                            )}
+                        />
+                        <Route
+                            path="/car-attributes/:type/:id"
+                            exact
+                            render={(...renderProps) => (
+                                <Makes {...renderProps} {...this.props} />
+                            )}
+                        />
+
                         <Route
                             path="/fahrzeuge/:searchQuery"
                             exact
@@ -128,6 +161,7 @@ class Routes extends Component {
                                 <Comments {...renderProps} {...this.props} />
                             )}
                         />
+
                         <Route
                             path="/orders"
                             exact
@@ -135,6 +169,7 @@ class Routes extends Component {
                                 <Orders {...renderProps} {...this.props} />
                             )}
                         />
+
                     </Switch>
                 </div>
             </Router>
