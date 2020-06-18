@@ -18,9 +18,26 @@ class PageHeader extends Component {
         super(props);
 
         this.state = {
+            cartSize: 0
         };
     }
 
+    componentWillMount() {
+
+        if(!localStorage.getItem('token')) return;
+
+        fetch('https://localhost:8080/orders/cart/size', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('token')}`
+            },
+        }).then(async (res) => {
+            const body = await res.json();
+            this.state.cartSize = body.size;
+            this.forceUpdate();
+        })
+    }
 
     render() {
         return (
@@ -66,7 +83,10 @@ class PageHeader extends Component {
                                         {localStorage.getItem('token') ? 
                                         <>
                                         <NavItem>
-                                            <Link to='/cart' className={this.props[0].location.pathname === '/cart'  ? 'active' : null}>My cart</Link>
+                                            <Link to='/orders' className={this.props[0].location.pathname === '/orders'  ? 'active' : null}>My Orders</Link>
+                                        </NavItem>
+                                        <NavItem>
+                                            <Link to='/cart' className={this.props[0].location.pathname === '/cart'  ? 'active' : null}>{this.state.cartSize != 0 ? `My Cart (${this.state.cartSize})` : 'My Cart'}</Link>
                                         </NavItem>
                                         <NavItem>
                                             <Link to='/' onClick={() => {

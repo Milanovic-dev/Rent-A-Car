@@ -4137,4 +4137,80 @@ button {
   background-color: #a81721;
   color: white;
   cursor: pointer;
-}            
+}      
+
+.order-item {
+  display: flex;
+  flex-direction: row;
+  line-height: 120px;
+  border-radius: 10px;
+  border-style: solid;
+  border-width: 1px;
+  border-color: rgb(214, 214, 214);
+  font-size: 14px;
+}
+
+.order-sidebar {
+  background-color:#da212e;
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+  flex: 0.08;
+}
+
+.order-item-img {
+  flex: 1;
+}
+
+.order-item-info {
+  flex: 2;
+}
+
+.order-item-options {
+  flex: 1;
+}
+
+.order-item-price {
+  flex: 0.5;
+}
+
+.order-item-owner {
+  flex: 0.8;
+}
+
+.order-item-status {
+  flex: 0.5;
+  color: green;
+  font-weight: 600;
+}
+
+.select-header {
+  margin-bottom: 20px;
+}
+
+.select-orders {
+  margin: 5px;
+  background-color: white;
+  border-radius: 15px;
+  border-style: solid;
+  border-width: 1px;
+  border-color: #333333;
+  font-size: 16px;
+  padding: 6px;
+  cursor: pointer;
+}
+
+.select-orders.selected {
+  color: #e01826;
+  border-color: #e01826;
+  border-width: 2px;
+  font-weight: 600;
+}
+
+.select-orders:hover {
+  color: #da212e;
+  border-color: #da212e;
+}
+
+.select-bundles {
+  
+}

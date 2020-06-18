@@ -5,6 +5,7 @@ dotenv.config();
 //database
 const ObjectID = require('mongodb').ObjectID;
 const dbConnect = require('../db');
+const { GridFSBucket } = require('mongodb');
 const dbCollection = 'orders';
 let db;
 dbConnect(process.env.DB_USERNAME, process.env.DB_PASSWORD, process.env.DB_SERVER, process.env.DB_NAME)
@@ -30,7 +31,11 @@ dbConnect(process.env.DB_USERNAME, process.env.DB_PASSWORD, process.env.DB_SERVE
         renterId
     }
 */
-const placeOrders = async (orders, renterId = 1) => {
+const placeOrders = async (orders, authorization) => {
+
+    if(!authorization) return {status: 401};
+
+    const renterId = await verifyToken(authorization.split(' ')[1]);
 
     if(!orders || !renterId) return { status:400 };
     if(orders.length == 0) return { status:400 };
@@ -63,7 +68,7 @@ const createAsBundle = async (cars, ownerId, renterId) => {
 const createAsOrders = async (cars, renterId) => {
     for(const carOrder of cars){
         await db.collection('orders').insertOne({
-            carId: carOrder.id,
+            car: carOrder,
             ownerId: carOrder.ownerId,
             renterId: renterId,
             status: 'PENDING',
@@ -147,9 +152,20 @@ const getBundles = async () => {
     return await db.collection('bundles').find({}).toArray();
 }
 
-const addToCart = async (carId, username) => {
-    console.log(username);
-    const result = await db.collection('cart').insertOne({carId, username});
+const addToCart = async (carId, authorization) => {
+    
+    if(!authorization) return {status: 401};
+
+    const id = await verifyToken(authorization.split(' ')[1]);
+
+    const item = await db.collection('cart').findOne({carId, id});
+    const order = await db.collection('orders').findOne({car: {_id: carId}, renterId: id});
+
+    if(item || order){
+        return {status: 422}
+    }
+
+    const result = await db.collection('cart').insertOne({carId, id});
     if(result.insertedId){
         return {status: 201};
     }
@@ -157,14 +173,22 @@ const addToCart = async (carId, username) => {
     return {status: 500};
 }
 
-const removeFromCart = async (carId, username) => {
-    await db.collection('cart').deleteOne({carId, username});
+const removeFromCart = async (carId, authorization) => {
+    if(!authorization) return {status: 401};
+
+    const id = await verifyToken(authorization.split(' ')[1]);
+
+    await db.collection('cart').deleteOne({carId, id});
     return {status: 200};
 }
 
 
-const getCart = async (username) => {
-    const cart = await db.collection('cart').find({username}).toArray();
+const getCart = async (authorization) => {
+    if(!authorization) return {status: 401};
+
+    const id = await verifyToken(authorization.split(' ')[1]);
+
+    const cart = await db.collection('cart').find({id}).toArray();
     let result = [];
     for(const item of cart){
         const car = await db.collection('cars').findOne({_id: ObjectID(item.carId)});
@@ -182,6 +206,16 @@ const getCart = async (username) => {
     return {status: 200, response: ret};
 }
 
+const getCartSize = async (authorization) => {
+    if(!authorization) return {status: 401};
+
+    const id = await verifyToken(authorization.split(' ')[1]);
+
+    const result = await db.collection('cart').find({id}).toArray();
+
+    return {status: 200, response: {size: result.length}}
+}
+
 function groupBy(arr, property) {
     return arr.reduce(function(memo, x) {
         if (!memo[x[property]]) { memo[x[property]] = []; }
@@ -190,7 +224,22 @@ function groupBy(arr, property) {
     }, {});
 }
 
+const verifyToken = async (token) => {
 
+    if(!token) return '400';
+
+    const result = await new Promise((resolve, reject) => {
+        jwt.verify(token, process.env.JWT_SECRET, (err, tokenData) => {
+            if(err){
+                console.error(err);
+                reject('401');
+            }
+            const username = tokenData;
+            resolve(username.id);
+        });
+    });
+    return result;
+}
 
 module.exports = {
     placeOrders,
@@ -203,5 +252,6 @@ module.exports = {
     acceptOrder,
     addToCart,
     removeFromCart,
-    getCart
+    getCart,
+    getCartSize
 }
