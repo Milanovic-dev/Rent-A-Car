@@ -3,6 +3,7 @@ const dotenv = require('dotenv');
 dotenv.config();
 //database
 const dbConnect = require('../../db');
+const { default: carStats } = require('../../../../../frontend/agent-admin/src/views/admin/carStats');
 const ObjectID = require('mongodb').ObjectID;
 const dbCollection = 'cars';
 let db;
@@ -144,11 +145,21 @@ const getAll = async () => {
   };
 };
 
+const carStats = async () => {
+    result = [{'name':'Aleksandar'}];
+
+    return {
+        response: result,
+        status: 200
+    };
+};
+
 module.exports = {
   create: createCar,
   busy: busyCar,
   update: updateCar,
   remove: removeCar,
   get: getCar,
+  stats: carStats,
   getAll
 };

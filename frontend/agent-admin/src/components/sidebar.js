@@ -34,9 +34,9 @@ class Sidebar extends Component {
                         </li>
 
                         <li>
-                            <Link to='/mileageReport' className={this.props[0].location.pathname === '/mileageReport' ? 'active' : null}>
+                            <Link to='/completedRentals' className={this.props[0].location.pathname === '/completedRentals' ? 'active' : null}>
                                 <Isvg src={list} />
-                                Mileage report
+                                Completed rentals
                             </Link>
                         </li>
                         <li>

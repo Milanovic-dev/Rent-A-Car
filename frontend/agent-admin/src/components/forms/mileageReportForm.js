@@ -34,6 +34,7 @@ const form = (props) => {
                                             component={renderTextField}
                                             label={"Car"}
                                             placeholder=""
+                                            disabled
                                         ></Field>
                                     </Col>
                                     <Col lg="4" className="input-wrap">
