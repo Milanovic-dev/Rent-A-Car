@@ -12,9 +12,6 @@ const soapService = require('./src/soap/soapService');
 
 const securityMiddleware = require('./src/security/securityMiddleware');
 
-require('./src/api/carApi') (app);
-require('./src/api/pricelistApi') (app);
-require('./src/api/uploadApi') (app);
 
 // Server
 const server = http.createServer(app);
@@ -32,6 +29,11 @@ app.use(cors({
 }));
 app.use('/uploads', express.static('uploads'))
 app.use(fileUpload());
+
+
+require('./src/api/carApi') (app);
+require('./src/api/pricelistApi') (app);
+require('./src/api/uploadApi') (app);
 
 //securityMiddleware.config(app, server);
 
