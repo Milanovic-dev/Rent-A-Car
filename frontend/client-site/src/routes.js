@@ -19,6 +19,7 @@ import SignIn from './views/signInPage';
 import Register from './views/register';
 import Cart from './views/cart';
 import Orders from './views/orders';
+import Requests from './views/requests'
 
 import Comments from './views/admin/comments';
 import Messages from './views/messages';
@@ -169,7 +170,13 @@ class Routes extends Component {
                                 <Orders {...renderProps} {...this.props} />
                             )}
                         />
-
+                        <Route
+                            path="/requests"
+                            exact
+                            render={(...renderProps) => (
+                                <Requests {...renderProps} {...this.props} />
+                            )}
+                        />
                     </Switch>
                 </div>
             </Router>

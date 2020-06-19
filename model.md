@@ -143,7 +143,6 @@
     * to
     * startLocation
     * endLocation
-    * bundleId
     * isBundle ?
    ## OrderBundle
     * id

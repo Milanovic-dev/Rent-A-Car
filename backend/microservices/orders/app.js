@@ -36,16 +36,25 @@ app.delete('/orders/bundles/revoke/:id', async (req, res) => {
     res.status(result.status).send();
 });
 
+app.get('/orders/requests', async (req, res) => {
+    let result = await service.getOrderRequests(req.headers.authorization);
+    res.status(result.status).send(result.response);
+})
+
+app.get('/orders/bundles/requests', async (req, res) => {
+    let result = await service.getBundleRequests(req.headers.authorization);
+    res.status(result.status).send(result.response);
+})
 
 app.get('/orders', async (req, res) => {
-    const result = await service.getOrders();
-    res.status(200).send(result);
+    const result = await service.getOrders(req.headers.authorization);
+    res.status(result.status).send(result.response);
 });
 
 
 app.get('/orders/bundles', async (req, res) => {
-    const result = await service.getBundles();
-    res.status(200).send(result);
+    const result = await service.getBundles(req.headers.authorization);
+    res.status(result.status).send(result.response);
 });
 
 

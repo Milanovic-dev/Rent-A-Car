@@ -97,8 +97,7 @@ const acceptOrder = async (id) => {
     if(!order) return { status: '404'}
 
     await db.collection('orders').updateOne({_id: ObjectID(id)}, {$set:{status: 'PAID'}});
-    await db.collection('orders').deleteMany({carId: order.carId});
-    await db.collection('bundles').deleteMany({carId: order.carId});
+    await db.collection('orders').deleteMany({_id: {$ne: ObjectID(id)}, carId: order.carId});
     return { status: '200' };
 };
 
@@ -141,10 +140,6 @@ const getOrder = async (id) => {
     return { status: 200, response: order };
 };
 
-const getOrders = async () => {
-    return await db.collection('orders').find({}).toArray();
-};
-
 const getBundle = async (id) => {
 
     if(!id) return { status: 400 };
@@ -158,8 +153,40 @@ const getBundle = async (id) => {
     return { status: 200, response: bundle };
 };
 
-const getBundles = async () => {
-    return await db.collection('bundles').find({}).toArray();
+const getOrders = async (authorization) => {
+    if(!authorization) return {status: 401};
+
+    const id = await verifyToken(authorization.split(' ')[1]);
+
+    const result = await db.collection('orders').find({renterId: id}).toArray();
+
+    return {status: 200, response: result};
+};
+
+
+const getBundles = async (authorization) => {
+    if(!authorization) return {status: 401};
+
+    const id = await verifyToken(authorization.split(' ')[1]);
+    const result = await db.collection('bundles').find({renterId: id}).toArray();
+
+    return {stauts: 200, response:result};
+}
+
+const getOrderRequests = async (authorization) => {
+    if(!authorization) return {status: 401};
+
+    const id = await verifyToken(authorization.split(' ')[1]);
+    let result = await db.collection('orders').find({ownerId: id}).toArray();
+    return {status: 200, response: result};
+}
+
+const getBundleRequests = async (authorization) => {
+    if(!authorization) return {status: 401};
+
+    const id = await verifyToken(authorization.split(' ')[1]);
+    let result = await db.collection('bundles').find({ownerId: id}).toArray();
+    return {status: 200, response: result};
 }
 
 const addToCart = async (carId, authorization) => {
@@ -263,5 +290,7 @@ module.exports = {
     addToCart,
     removeFromCart,
     getCart,
-    getCartSize
+    getCartSize,
+    getOrderRequests,
+    getBundleRequests
 }

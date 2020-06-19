@@ -16,9 +16,9 @@ dbConnect(process.env.DB_USERNAME, process.env.DB_PASSWORD, process.env.DB_SERVE
 })
 
 const subscribeAgent = async (args) => {
-    
+    console.log(args.username);
     const agent = await db.collection('agents').findOne({username: args.username});
-
+    console.log(agent);
     if(agent){
         if(bcrypt.compareSync(args.password, agent.password)){
             const accessToken = jwt.sign({"username": args.username}, process.env.JWT_AGENT_SECRET, { algorithm: 'HS256' });
