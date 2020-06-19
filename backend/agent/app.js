@@ -49,7 +49,7 @@ require('./db')().then(db => {
                 console.error(err);
                 return;
             }
-            db.dropDatabase();
+
             if(res.accessToken){
                 await db.saveToken(res.accessToken);
                 console.log('Sync: '.yellow + 'ON'.green);

@@ -14,7 +14,7 @@ module.exports = function(app){
         res.status(result.status).send(result.response);
     });
 
-    app.put('/api/cars/update', csrfProtection, async (req, res) => {
+    app.put('/api/cars/update', async (req, res) => {
         console.log(req.method + req.route.path);
         let result = await service.update(req.body);
         res.status(result.status).send(result.response);

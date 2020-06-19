@@ -43,7 +43,7 @@ module.exports = function() {
 const insertOp = async (db, collectionName, res, data) => {
    const r = await res;
    data._id = ObjectID(r.insertedId);
-   const insert = {changes: data}
+   const insert = data
 
    const changesCollection = await db.collection('changes').findOne({collName: collectionName});
 

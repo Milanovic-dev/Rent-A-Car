@@ -16,9 +16,9 @@ dbConnect(process.env.DB_USERNAME, process.env.DB_PASSWORD, process.env.DB_SERVE
 })
 
 const subscribeAgent = async (args) => {
-    console.log(args.username);
+
     const agent = await db.collection('agents').findOne({username: args.username});
-    console.log(agent);
+
     if(agent){
         if(bcrypt.compareSync(args.password, agent.password)){
             const accessToken = jwt.sign({"username": args.username}, process.env.JWT_AGENT_SECRET, { algorithm: 'HS256' });
@@ -72,10 +72,16 @@ const updateData = async (aData, username) => {
                 await db.getDirectDb().collection(coll).insertOne(change.toInsert[j]);
             }
             for(let j = 0 ; j < change.toUpdate.length ; j++){
+                if(change.toUpdate[i].filter._id){
+                    change.toUpdate[i].filter._id = ObjectID(change.toUpdate[i].filter._id);
+                }
                 change.toUpdate[j].ownerId = username;
                 await db.getDirectDb().collection(coll).updateMany(change.toUpdate[j].filter, {$set:change.toUpdate[j].update});
             }
             for(let j = 0 ; j < change.toRemove.length; j++){
+                if(change.toRemove[i]._id){
+                    change.toRemove[i]._id = ObjectID(change.toRemove[i]._id);
+                }
                 await db.getDirectDb().collection(coll).deleteMany(change.toRemove[i]);
             }
         }

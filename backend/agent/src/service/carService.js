@@ -15,6 +15,7 @@ const createCar = async (car) => {
 
     let result = await db.collection(dbCollection).insertOne(car);
     if (result.insertedId) {
+        db.sync();
         return {
             response: result.insertedId,
             status: 201
@@ -67,6 +68,7 @@ const updateCar = async (car) => {
     );
 
     if (result.modifiedCount == 1) {
+        db.sync();
         return { status: 200 };
     }
 
@@ -81,6 +83,7 @@ const removeCar = async (id) => {
     );
 
     if (result.deletedCount == 1) {
+        db.sync();
         return { status: 200 };
     }
 
