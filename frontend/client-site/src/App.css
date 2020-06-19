@@ -4311,6 +4311,8 @@ button {
   text-align: center;
   height: 30%;
   background-color: #da212e;
+  color: white;
+  font-size: 15px;
   border-radius: 10px;
   line-height: 30px;
   cursor: pointer; }
@@ -4414,11 +4416,40 @@ button {
   border-width: 0; }
 
 .bundle-item-owner {
-  flex: 1; }
+  flex: 0.7; }
 
 .bundle-item-price {
   flex: 1; }
 
 .bundle-item-status {
-  flex: 1;
+  flex: 0.7;
   font-weight: 600; }
+
+.request-item-accept {
+  flex: 0.2;
+  align-self: center;
+  justify-content: center;
+  text-align: center;
+  height: 30%;
+  background-color: green;
+  color: white;
+  font-size: 15px;
+  border-radius: 10px;
+  border-style: none;
+  line-height: 30px;
+  cursor: pointer;
+  margin-right: 3px; }
+
+.request-item-decline {
+  flex: 0.2;
+  align-self: center;
+  justify-content: center;
+  text-align: center;
+  height: 30%;
+  background-color: #da212e;
+  color: white;
+  font-size: 15px;
+  border-radius: 10px;
+  border-style: none;
+  line-height: 30px;
+  cursor: pointer; }

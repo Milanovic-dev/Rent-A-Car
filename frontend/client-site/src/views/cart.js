@@ -60,7 +60,7 @@ class Cart extends Component{
             body: JSON.stringify(this.state.orders)
         }).then(res => {
             if(res.status == '201'){
-                this.props[0].history.push('/ads');
+                this.props[0].history.push('/orders');
             }
         }).catch(err => {
             console.error(err);

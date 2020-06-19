@@ -43,6 +43,7 @@ services:
         depends_on: 
             - db
             - gateway
+            - auth
         env_file: 
             - ./cars/.env
         environment: 

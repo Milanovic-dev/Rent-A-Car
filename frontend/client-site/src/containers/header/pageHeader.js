@@ -83,6 +83,9 @@ class PageHeader extends Component {
                                         {localStorage.getItem('token') ? 
                                         <>
                                         <NavItem>
+                                            <Link to='/requests' className={this.props[0].location.pathname === '/requests'  ? 'active' : null}>My Requests</Link>
+                                        </NavItem>
+                                        <NavItem>
                                             <Link to='/orders' className={this.props[0].location.pathname === '/orders'  ? 'active' : null}>My Orders</Link>
                                         </NavItem>
                                         <NavItem>

@@ -158,7 +158,7 @@ const login = async (username, password) => {
 
     if (user) {
         if (bcrypt.compareSync(password, user.password)) {
-            let token = jwt.sign({ "id": user._id }, process.env.JWT_SECRET, { algorithm: 'HS256', expiresIn: '7d' });
+            let token = jwt.sign({ "id": user.username }, process.env.JWT_SECRET, { algorithm: 'HS256', expiresIn: '7d' });
             if (user.status == 1) {
                 return {
                     response: {
