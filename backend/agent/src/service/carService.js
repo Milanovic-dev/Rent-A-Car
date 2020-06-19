@@ -3,19 +3,18 @@ const dbCollection = 'cars';
 const dbConnect = require('../../db');
 let db;
 dbConnect(process.env.DB_USERNAME, process.env.DB_PASSWORD, process.env.DB_SERVER, process.env.DB_NAME)
-.then((conn) => {
-    db = conn;
-}).catch((e) => {
-    console.log(`DB error: ${e}`);
-})
+    .then((conn) => {
+        db = conn;
+    }).catch((e) => {
+        console.log(`DB error: ${e}`);
+    })
 
 const createCar = async (car) => {
-    
-    if(car == undefined) return { status: 400 }; 
+
+    if (car == undefined) return { status: 400 };
 
     let result = await db.collection(dbCollection).insertOne(car);
-    if(result.insertedId)
-    {
+    if (result.insertedId) {
         return {
             response: result.insertedId,
             status: 201
@@ -27,7 +26,7 @@ const createCar = async (car) => {
 
 const updateCar = async (car) => {
 
-    if(car == undefined) return { status: 400 }; 
+    if (car == undefined) return { status: 400 };
 
     let dbCar = await db.collection(dbCollection).findOne(
         {
@@ -35,13 +34,13 @@ const updateCar = async (car) => {
         }
     );
 
-    if(!dbCar){
-        return { status:404 };
+    if (!dbCar) {
+        return { status: 404 };
     }
 
     let result = await db.collection(dbCollection).updateOne(
         {
-            _id : ObjectID(car._id)
+            _id: ObjectID(car._id)
         },
         {
             $set: {
@@ -67,8 +66,8 @@ const updateCar = async (car) => {
         }
     );
 
-    if(result.modifiedCount == 1){
-        return { status:200 };
+    if (result.modifiedCount == 1) {
+        return { status: 200 };
     }
 
     return { status: 404 };
@@ -81,7 +80,7 @@ const removeCar = async (id) => {
         }
     );
 
-    if(result.deletedCount == 1){
+    if (result.deletedCount == 1) {
         return { status: 200 };
     }
 
@@ -96,7 +95,7 @@ const getCar = async (id) => {
         }
     );
 
-    if(result){
+    if (result) {
         return {
             response: result,
             status: 200
@@ -109,14 +108,31 @@ const getCar = async (id) => {
 const getAll = async () => {
     let result = await db.collection(dbCollection).find({}).toArray();
     return {
-        response:  result,
+        response: result,
         status: 200
     };
 };
-const rentedCar = async (data) => {
-    console.log(data);
-    if(data == undefined) return { status: 400 };
+const completedRentals = async () => {
+    let result = [];
+    // result = await db.collection('orders').find({finished: true}).toArray();
+    return {
+        response: result,
+        status: 200
+    };
+};
+const milReport = async (id) => {
+    let result = [];
+    // result = await db.collection('orders').find({_id : id}).toArray();
+    return {
+        response: result[0],
+        status: 200
+    };
+};
 
+
+const mileageReport = async (data,id) => {
+    console.log(data);
+    if (data == undefined) return { status: 400 };
     // let car = await db.collection('cars').find({ _id: ObjectID(data.carId)}).toArray();
     // let newMileage = Number(car[0].mileage) + Number(data.mileage);
 
@@ -136,40 +152,55 @@ const rentedCar = async (data) => {
     //     }
     // );
     // }
+    let order = await db.collection('orders').find({_id : id}).toArray();
+    order[0].mileageReport = data;
 
-    let result = await db.collection('mileageReport').insertOne(data);
-    if(result.insertedId)
-    {
-        return {
-            response: result.insertedId,
-            status: 201
-        };
-    }
+    return {
+        response: order[0]._id,
+        status: 200
+    };
 
-    return { status: 500 };
+    // let result = await db.collection('mileageReport').insertOne(data);
+    // if (result.insertedId) {
+    //     return {
+    //         response: result.insertedId,
+    //         status: 201
+    //     };
+    // }
+
+    // return { status: 500 };
 
 };
-const carStats = async () => {
-    let cars = await db.collection('cars').find({});
-    let comments = await db.collection('comments').find({});
-    let result = [];
-  
-    let maxMileage = cars[0];
-    let maxComments = cars[0]; //potrebno je prebrojati komentare za sva auta i pronaci ono sa najvise njih
-    let maxRating = cars[0];
-    for(let i=1; i < cars.length; i++){
-        if(Number(cars[i].mileage) > Number(maxMileage.mileage)){
-            maxMileage = cars[i];
-        }
-        if(Number(cars[i].rating) > Number(maxRating.rating)){
-            maxRating = cars[i];
+const carStats = async (sort) => {
+    let cars = await db.collection(dbCollection).find().toArray();
+    let comments = await db.collection('reviews').find().toArray();
+    for (let i = 0; i < cars.length; i++) {
+        for (let j = 0; j < comments.length; j++) {
+            if (cars[i]._id == comments[j].carId) {
+                cars[i].comments.push(comments[j]);
+            }
         }
     }
+    for (let i = 0; i < cars.length; i++) {
+        cars[i].totalComments = cars[i].comments.length;
+        let sum = 0;
+        for (let j = 0; j < cars[i].comments.length; j++) {
+            sum += Number(cars[i].comments[j].rate);
+        }
+        cars[i].avgRate = sum / cars[i].totalComments;
+    }
 
-    result[0] = maxMileage;
-    result[1] = maxComments;
-    result[2] = maxRating;
+    let result = [];
+    // if(sort == 0){
+    //     result = cars.sort({ mileage : -1 });
+    // } else if (sort == 1){
+    //     result = cars.sort({ totalComments : -1 });
+    // }else if (sort == 2){
+    //     result = cars.sort({ avgRate : -1 });
+    // }
 
+
+  
     return {
         response: result,
         status: 200
@@ -181,7 +212,9 @@ module.exports = {
     update: updateCar,
     remove: removeCar,
     get: getCar,
-    rented: rentedCar,
     stats: carStats,
+    report: milReport,
+    mileageReport,
+    completedRentals,
     getAll
 };

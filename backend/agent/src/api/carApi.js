@@ -32,15 +32,27 @@ module.exports = function(app){
         res.status(result.status).send(result.response);
     });
 
-    app.post('/api/cars/rented', async (req, res) => {
+    app.post('/api/cars/mileageReport/:id', async (req, res) => {
         console.log(req.method + req.route.path);
-        let result = await service.rented(req.body);
+        let result = await service.mileageReport(req.body, req.params.id);
         res.status(result.status).send(result.response);
     });
-    app.get('/api/cars/stats', async (req, res) => {
+    app.post('/api/cars/stats/:sort', async (req, res) => {
         console.log(req.method + req.route.path);
-        let result = await service.stats();
+        let result = await service.stats(req.params.sort);
         res.status(result.status).send(result.response);
     });
+    app.get('/api/cars/completedRentals', async (req, res) => {
+        console.log(req.method + req.route.path);
+        let result = await service.completedRentals();
+        res.status(result.status).send(result.response);
+    });
+    app.get('/api/cars/mileageReport/get/:id', async (req, res) => {
+        console.log(req.method + req.route.path);
+        let result = await service.report(req.params.id);
+        res.status(result.status).send(result.response);
+    });
+    
+    
 };
 

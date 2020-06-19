@@ -48,7 +48,9 @@ module.exports = function(app){
     });
 
     app.get('/cars/stats', async (req, res) => {
-
+        console.log(req.method + req.route.path);
+        let result = await service.stats();
+        res.status(result.status).send(result.response);
     });
 
     app.get('/cars/stats/:id', async (req, res) => {
