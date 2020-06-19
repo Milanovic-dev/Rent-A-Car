@@ -196,6 +196,14 @@ const login = async (username, password) => {
     }
 };
 
+const checkPassword = (password) => {
+    var decimal = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,15}$/;
+    if (password.match(decimal))
+        return true;
+    else
+        return false;
+} 
+
 const register = async (user) => {
 
     let dbUser = await db.collection(dbCollection).findOne({ username: user.username });
@@ -210,6 +218,14 @@ const register = async (user) => {
     }
 
     if (!user.password) return { status: 400 };
+
+    /*
+    if (!checkPassword(user.password)){
+        return {
+            status: 400
+        }
+    }
+    */
 
     user.password = bcrypt.hashSync(user.password, bcrypt.genSaltSync(10, 'b'));
     user.role = 'user';
