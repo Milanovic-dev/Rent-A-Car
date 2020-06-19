@@ -27,11 +27,11 @@ class Cars extends Component {
     }
     
     get() {
-        if (!localStorage.token) {
-            return;
-        }
+        // if (!localStorage.token) {
+        //     return;
+        // }
         
-        fetch('https://localhost:8282/api/cars/all', {
+        fetch('http://localhost:8282/api/cars/all', {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -47,11 +47,11 @@ class Cars extends Component {
     }
 
     delete(id) {
-        if (!localStorage.token) {
-            return;
-        }
+        // if (!localStorage.token) {
+        //     return;
+        // }
 
-        fetch('https://127.0.0.1:8080/cars/remove/' + id, {
+        fetch('http://127.0.0.1:8282/api/cars/remove/' + id, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',

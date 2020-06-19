@@ -112,9 +112,65 @@ const getAll = async () => {
         status: 200
     };
 };
+
+const completedRental = async (id) => {
+    
+    let orders = await db.collection('orders').find({_id: ObjectID(id)}).toArray();
+    let result = orders[0];
+    return {
+        response: result,
+        status: 200
+    };
+};
 const completedRentals = async () => {
+    await db.collection('orders').insertOne({
+         'cars': [
+                        {
+                            'make': 'audi',
+                            'model': 'a6',
+                            'productionYear': '2015',
+                            'dateStart': '15.06.2020',
+                            'dateEnd': '20.06.2020',
+                            'rentedCar': 'audi a6 2015'
+                        },
+                        {
+                            'make': 'bmw',
+                            'model': 'x3',
+                            'productionYear': '2015',
+                            'dateStart': '15.06.2020',
+                            'dateEnd': '20.06.2020',
+                            'rentedCar': 'bmw x3 2015'
+                        },
+                        {
+                            'make': 'golf',
+                            'model': 'mk7',
+                            'productionYear': '2015',
+                            'dateStart': '15.06.2020',
+                            'dateEnd': '20.06.2020',
+                            'rentedCar': 'audi a6 2015'
+                        }
+                    ],
+                    'totalCars': '3',
+                    'finished': true
+        });
+        await db.collection('orders').insertOne({
+            'cars': [
+                           {
+                               'make': 'audi',
+                               'model': 'a6',
+                               'productionYear': '2015',
+                               'dateStart': '15.06.2020',
+                               'dateEnd': '20.06.2020',
+                               'rentedCar': 'audi a6 2015'
+                           },
+                           
+                       ],
+                       'totalCars': '1',
+                       'finished': true
+           });
+
     let result = [];
-    // result = await db.collection('orders').find({finished: true}).toArray();
+    result = await db.collection('orders').find({finished: true}).toArray();
     return {
         response: result,
         status: 200
@@ -130,7 +186,7 @@ const milReport = async (id) => {
 };
 
 
-const mileageReport = async (data,id) => {
+const mileageReport = async (data, id) => {
     console.log(data);
     if (data == undefined) return { status: 400 };
     // let car = await db.collection('cars').find({ _id: ObjectID(data.carId)}).toArray();
@@ -152,7 +208,7 @@ const mileageReport = async (data,id) => {
     //     }
     // );
     // }
-    let order = await db.collection('orders').find({_id : id}).toArray();
+    let order = await db.collection('orders').find({ _id: id }).toArray();
     order[0].mileageReport = data;
 
     return {
@@ -172,35 +228,38 @@ const mileageReport = async (data,id) => {
 
 };
 const carStats = async (sort) => {
+    // await db.collection(dbCollection).insertOne({ 'make': 'audi', 'model': 'a4', 'productionYear': '2015', 'mileage': '22', 'totalComments': '4', 'avgRate': '4.5' });
+    // await db.collection(dbCollection).insertOne({ 'make': 'bmw', 'model': 'x2', 'productionYear': '2015', 'mileage': '22223', 'totalComments': '2', 'avgRate': '5' });
     let cars = await db.collection(dbCollection).find().toArray();
     let comments = await db.collection('reviews').find().toArray();
-    for (let i = 0; i < cars.length; i++) {
-        for (let j = 0; j < comments.length; j++) {
-            if (cars[i]._id == comments[j].carId) {
-                cars[i].comments.push(comments[j]);
-            }
-        }
-    }
-    for (let i = 0; i < cars.length; i++) {
-        cars[i].totalComments = cars[i].comments.length;
-        let sum = 0;
-        for (let j = 0; j < cars[i].comments.length; j++) {
-            sum += Number(cars[i].comments[j].rate);
-        }
-        cars[i].avgRate = sum / cars[i].totalComments;
-    }
-
-    let result = [];
-    // if(sort == 0){
-    //     result = cars.sort({ mileage : -1 });
-    // } else if (sort == 1){
-    //     result = cars.sort({ totalComments : -1 });
-    // }else if (sort == 2){
-    //     result = cars.sort({ avgRate : -1 });
+    // for (let i = 0; i < cars.length; i++) {
+    //     for (let j = 0; j < comments.length; j++) {
+    //         if (cars[i]._id == comments[j].carId) {
+    //             cars[i].comments.push(comments[j]);
+    //         }
+    //     }
+    // }
+    // for (let i = 0; i < cars.length; i++) {
+    //     cars[i].totalComments = cars[i].comments.length;
+    //     let sum = 0;
+    //     for (let j = 0; j < cars[i].comments.length; j++) {
+    //         sum += Number(cars[i].comments[j].rate);
+    //     }
+    //     cars[i].avgRate = sum / cars[i].totalComments;
     // }
 
+    let result = [];
 
-  
+    if (sort == 0) {
+        result = cars.sort((a, b) => a.mileage > b.mileage ? -1 : 1);
+    } else if (sort == 1) {
+        result = cars.sort((a, b) => a.totalComments > b.totalComments ? -1 : 1);
+    } else if (sort == 2) {
+        result = cars.sort((a, b) => a.avgRate > b.avgRate ? -1 : 1);
+    }
+
+
+
     return {
         response: result,
         status: 200
@@ -216,5 +275,6 @@ module.exports = {
     report: milReport,
     mileageReport,
     completedRentals,
+    completedRental,
     getAll
 };

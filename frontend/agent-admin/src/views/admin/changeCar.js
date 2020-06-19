@@ -36,7 +36,7 @@ class ChangeCar extends Component {
         console.log(data);
 
         if (this.props[0].match.params.id){
-            fetch(`https://localhost:8080/cars/update`, {
+            fetch(`http://localhost:8282/api/cars/update`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -65,7 +65,7 @@ class ChangeCar extends Component {
     }
     get() {
          if (this.props[0].match.params.id) {
-            fetch('https://localhost:8080/cars/get/' + this.props[0].match.params.id, {
+            fetch('http://localhost:8282/api/cars/get/' + this.props[0].match.params.id, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',

@@ -30,18 +30,18 @@ class CarStats extends Component {
         //     return;
         // }
 
-        // fetch('http://127.0.0.1:8282/api/cars/stats/' + this.state.sort, {
-        //     method: 'POST',
-        //     headers: {
-        //         'Content-Type': 'application/json',
-        //         'Authorization': `Bearer ${localStorage.getItem('token')}`
-        //     },
-        // }).then((res) => res.json()).then((result) => {
-        //     console.log(result);
-        //     this.setState({
-        //         cars: result
-        //     })
-        // })
+        fetch('http://127.0.0.1:8282/api/cars/stats/' + this.state.sort, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('token')}`
+            },
+        }).then((res) => res.json()).then((result) => {
+            console.log(result);
+            this.setState({
+                cars: result
+            })
+        })
         let res = [
             {
                 'id': '2',
@@ -157,10 +157,10 @@ class CarStats extends Component {
         }
         
 
-        this.setState({
-            cars: res
-        })
-        console.log(res);
+        // this.setState({
+        //     cars: res
+        // })
+        // console.log(res);
 
     }
 
@@ -173,7 +173,7 @@ class CarStats extends Component {
                 <Container fluid className="table">
                     <Row className="page-title">
                         <Col lg="8">
-                            <h3>CARS</h3>
+                            <h3>CARS STATISTIC</h3>
                         </Col>
                         <Col lg="4">
                             <Select placeholder="Sort by" onChange={(val) => this.setState({ sort: val }, this.get)} value={this.state.sort}>

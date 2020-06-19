@@ -31,58 +31,57 @@ class OrderPreview extends Component {
         // if (!localStorage.token) {
         //     return;
         // }
+        console.log(this.props[0].match.params.id);
+        fetch('http://localhost:8282/api/cars/completedRentals/' + this.props[0].match.params.id, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('token')}`
+            },
+        }).then((res) => res.json()).then((result) => {
+            this.setState({
+                data: result,
+                items: result.cars
+            })
+        })
+        // let obj = {
+        //     '_id': '15156161',
+        //     'cars': [
+        //         {
+        //             'carId': '33333',
+        //             'make': 'audi',
+        //             'model': 'a6',
+        //             'productionYear': '2015',
+        //             'dateStart': '15.06.2020',
+        //             'dateEnd': '20.06.2020',
+        //             'rentedCar': 'audi a6 2015'
+        //         },
+        //         {
+        //             'carId': '2222',
+        //             'make': 'bmw',
+        //             'model': 'x3',
+        //             'productionYear': '2015',
+        //             'dateStart': '15.06.2020',
+        //             'dateEnd': '20.06.2020',
+        //             'rentedCar': 'bmw x3 2015'
+        //         },
+        //         {
+        //             'carId': '11111',
+        //             'make': 'golf',
+        //             'model': 'mk7',
+        //             'productionYear': '2015',
+        //             'dateStart': '15.06.2020',
+        //             'dateEnd': '20.06.2020',
+        //             'rentedCar': 'audi a6 2015'
+        //         }
+        //     ],
+        //     'totalCars': '3'
 
-        // fetch('https://localhost:8282/api/cars/completedRentals', {
-        //     method: 'GET',
-        //     headers: {
-        //         'Content-Type': 'application/json',
-        //         'Authorization': `Bearer ${localStorage.getItem('token')}`
-        //     },
-        // }).then((res) => res.json()).then((result) => {
-        //     this.setState({
-        //         items: result
-        //     })
-        // })
-        let obj = {
-            '_id': '15156161',
-            'cars': [
-                {
-                    'carId': '33333',
-                    'make': 'audi',
-                    'model': 'a6',
-                    'productionYear': '2015',
-                    'dateStart': '15.06.2020',
-                    'dateEnd': '20.06.2020',
-                    'rentedCar': 'audi a6 2015'
-                },
-                {
-                    'carId': '2222',
-                    'make': 'bmw',
-                    'model': 'x3',
-                    'productionYear': '2015',
-                    'dateStart': '15.06.2020',
-                    'dateEnd': '20.06.2020',
-                    'rentedCar': 'bmw x3 2015'
-                },
-                {
-                    'carId': '11111',
-                    'make': 'golf',
-                    'model': 'mk7',
-                    'productionYear': '2015',
-                    'dateStart': '15.06.2020',
-                    'dateEnd': '20.06.2020',
-                    'rentedCar': 'audi a6 2015'
-                }
-            ],
-            'totalCars': '3'
-
-        };
-        this.setState({
-            data: obj
-        });
-        this.setState({
-            items: obj.cars
-        });
+        // };
+        // this.setState({
+        //     data: obj
+        // });
+        
     }
 
     render() {

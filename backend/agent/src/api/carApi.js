@@ -47,6 +47,11 @@ module.exports = function(app){
         let result = await service.completedRentals();
         res.status(result.status).send(result.response);
     });
+    app.get('/api/cars/completedRentals/:id', async (req, res) => {
+        console.log(req.method + req.route.path);
+        let result = await service.completedRental(req.params.id);
+        res.status(result.status).send(result.response);
+    });
     app.get('/api/cars/mileageReport/get/:id', async (req, res) => {
         console.log(req.method + req.route.path);
         let result = await service.report(req.params.id);
