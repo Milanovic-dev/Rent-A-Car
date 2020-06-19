@@ -52,7 +52,7 @@ class Sidebar extends Component {
                             </Link>
                         </li>
                     </ul>
-                    <h6>Manufacturers</h6>
+                    {/*<h6>Manufacturers</h6>
 
                     <ul>
                         <li>
@@ -132,6 +132,8 @@ class Sidebar extends Component {
                             </Link>
                         </li>
                     </ul>
+                    */}
+
                     <ul className="logout">
                         <li id="logout" onClick={() => { localStorage.removeItem('token'); localStorage.removeItem('clinicAdminToken'); localStorage.removeItem('clinicUserToken'); localStorage.removeItem('patientToken'); }}>
                             <Link to='/login' id="logout-link" >

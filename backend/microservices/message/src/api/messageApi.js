@@ -2,36 +2,28 @@ const service = require('../service/messageService');
 
 module.exports = function(app){
 
-    app.get('/api/messages/:id', async (req, res) => {
-        console.log(req.method + req.route.path);
-
-        if(!req.params.id) return res.status('400');
-
-        let result = await service.get(req.params.id);
-        res.status(result.status).send(result.response);
-    });
     
-    app.post('/api/messages/sent', async (req, res) => {
+    app.post('/message/send', async (req, res) => {
       console.log(req.method + req.route.path);
 
       if(!req.body) return res.status('400');
 
-      let result = await service.create(req.body);
+      let result = await service.sendMessage(req.headers.authorization, req.body);
       res.status(result.status).send(result.response);
   });
 
-    app.delete('/api/messages/remove/:id', async (req, res) => {
+    app.delete('/message/remove/:id', async (req, res) => {
         console.log(req.method + req.route.path);
 
         if(!req.params.id) return res.status('400');
 
-        let result = await service.remove(req.params.id);
+        let result = await service.removeMessage(req.headers.authorization, req.params.id);
         res.status(result.status).send(result.response);
     });
 
-    app.get('/api/messages', async (req, res) => {
+    app.post('/message/all', async (req, res) => {
         console.log(req.method + req.route.path);
-        let result = await service.getAll();
+        let result = await service.getAll(req.headers.authorization, req.body.receiverId);
         res.status(result.status).send(result.response);
     });
     

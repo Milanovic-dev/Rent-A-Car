@@ -4,6 +4,9 @@ dotenv.config();
 //database
 const dbConnect = require('../../db');
 const dbCollection = 'messages';
+const ObjectID = require('mongodb').ObjectID;
+const jwt = require('jsonwebtoken');
+
 let db;
 dbConnect(process.env.DB_USERNAME, process.env.DB_PASSWORD, process.env.DB_SERVER, process.env.DB_NAME)
 .then((conn) => {
@@ -12,11 +15,41 @@ dbConnect(process.env.DB_USERNAME, process.env.DB_PASSWORD, process.env.DB_SERVE
     console.log(`DB error: ${e}`);
 })
 
-const createMessage = async (message) => {
+const verifyToken = async (token) => {
+
+    if(!token) return '400';
+
+    const result = await new Promise((resolve, reject) => {
+        jwt.verify(token, process.env.JWT_SECRET, (err, tokenData) => {
+            if(err){
+                console.error(err);
+                reject('401');
+            }
+            const username = tokenData;
+            resolve(username.id);
+        });
+    });
+    return result;
+}
+
+
+const sendMessage = async (authorization, msgObj) => {
     
-    if(message == undefined) return { status: 400 }; 
+    if(!authorization) return {status: 401};
+
+    const senderId = await verifyToken(authorization.split(' ')[1]);
+
+
+    if(msgObj == undefined) return { status: 400 }; 
   
-    let result = await db.collection(dbCollection).insertOne(message);
+
+    let result = await db.collection(dbCollection).insertOne({
+        senderId: senderId,
+        receiverId: msgObj.receiverId,
+        message: msgObj.message,
+        timestamp: Math.floor(new Date().getTime() / 1000)
+    });
+
     if(result.insertedId)
     {
         return {
@@ -28,25 +61,13 @@ const createMessage = async (message) => {
     return { status: 500 };
   };
 
-  const getMessage = async (id) => {
-    let result = await db.collection(dbCollection).findOne(
-        {
-            _id: ObjectID(id)
-        }
-    );
-  
-    if(result){
-        return {
-            response: result,
-            status: 200
-        };
-    }
-  
-    return { status: 404 };
-  };
 
-  const getAll = async () => {
-    let result = await db.collection(dbCollection).find().toArray();
+  const getAll = async (authorization, receiverId) => {
+    if(!authorization) return {status: 401};
+
+    const senderId = await verifyToken(authorization.split(' ')[1]);
+
+    let result = await db.collection(dbCollection).find({ $or: [{receiverId: receiverId, senderId: senderId}, {receiverId: senderId, senderId: receiverId}]  }).sort({timestamp: 1}).toArray();
   
     return {
         response: result,
@@ -54,10 +75,15 @@ const createMessage = async (message) => {
     };
   };
 
-  const removeMessage = async (id) => {
+  const removeMessage = async (authorization, id) => {
+    if(!authorization) return {status: 401};
+
+    const senderId = await verifyToken(authorization.split(' ')[1]);
+
     let result = await db.collection(dbCollection).deleteOne(
         {
-            _id: ObjectID(id)
+            _id: ObjectID(id),
+            senderId: senderId
         }
     );
   
@@ -69,8 +95,7 @@ const createMessage = async (message) => {
   };
   
 module.exports = {
-    create: createMessage,
-    remove: removeMessage,
-    get: getMessage,
-    getAll
+    sendMessage: sendMessage,
+    removeMessage: removeMessage,
+    getAll: getAll,
 };

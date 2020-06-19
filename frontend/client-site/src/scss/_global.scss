@@ -1852,7 +1852,7 @@ button{
 
         .messages{
             padding: 100px 50px;
-            max-height: calc(100vh - 200px);
+            height: calc(100vh - 200px);
             overflow-y: scroll;
             margin-bottom: 20px;
             .message{
@@ -1910,6 +1910,8 @@ button{
             resize: none;
             height: 68px;
             border: 1px solid $primary;
+            padding: 10px 20px;
+            outline: none;
         }
 
         button{

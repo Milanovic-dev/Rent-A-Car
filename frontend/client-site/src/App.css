@@ -1355,7 +1355,7 @@ button {
         font-weight: 400; }
     .messages-wrap .right .messages {
       padding: 100px 50px;
-      max-height: calc(100vh - 200px);
+      height: calc(100vh - 200px);
       overflow-y: scroll;
       margin-bottom: 20px; }
       .messages-wrap .right .messages .message {
@@ -1396,7 +1396,9 @@ button {
       border-radius: 50px;
       resize: none;
       height: 68px;
-      border: 1px solid #DA212E; }
+      border: 1px solid #DA212E;
+      padding: 10px 20px;
+      outline: none; }
     .messages-wrap .send-message-wrap button {
       border-radius: 50%;
       height: 48px;
