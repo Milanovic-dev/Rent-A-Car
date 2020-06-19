@@ -43,6 +43,9 @@ import Test from './views/admin/test';
 //
 
 
+import Messages from './views/admin/messages';
+
+
 
 class Routes extends Component {
 
@@ -98,6 +101,13 @@ class Routes extends Component {
                             exact
                             render={(...renderProps) => (
                                 <BusyCar {...renderProps} {...this.props} />
+                            )}
+                        />
+                        <Route
+                            path="/messages"
+                            exact
+                            render={(...renderProps) => (
+                                <Messages {...renderProps} {...this.props} />
                             )}
                         />
 

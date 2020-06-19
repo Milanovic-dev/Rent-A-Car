@@ -91,3 +91,7 @@
 1592594883337: METHOD:GET /favicon.ico PROTOCOL:http HOST:localhost IP:::1 
 1592594909532: METHOD:GET /api/cars/completedRentals/5eed110cfbb68b0020bff6fe PROTOCOL:http HOST:localhost IP:::1 
 1592595354510: METHOD:POST /api/cars/stats/0 PROTOCOL:http HOST:127.0.0.1 IP:::ffff:127.0.0.1 
+1592598836149: METHOD:GET /api/cars/all PROTOCOL:http HOST:localhost IP:::1 
+1592598937687: METHOD:GET /api/cars/all PROTOCOL:http HOST:localhost IP:::1 
+1592598943529: METHOD:GET /api/cars/all PROTOCOL:http HOST:localhost IP:::1 
+1592598968941: METHOD:GET /api/cars/all PROTOCOL:http HOST:localhost IP:::1 
