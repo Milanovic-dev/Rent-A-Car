@@ -10,7 +10,7 @@ let db;
 dbConnect(process.env.DB_USERNAME, process.env.DB_PASSWORD, process.env.DB_SERVER, process.env.DB_NAME)
 .then(async (conn) => {
     db = conn;
-    await db.dropDatabase();
+    db.dropDatabase();
 }).catch((e) => {
     console.log(`DB error: ${e}`);
 })

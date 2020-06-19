@@ -55,10 +55,20 @@ const placeOrders = async (orders, authorization) => {
 }
 
 const createAsBundle = async (cars, ownerId, renterId) => {
+
+    let sum = 0;
+
+    for(const car of cars){
+        sum += parseInt(car.price);
+    }
+
+    sum = sum - ((sum/10) * 2);
+
     const bundle = {
         ownerId,
         renterId: renterId,
         status: 'PENDING',
+        price: sum,
         cars
     };
 

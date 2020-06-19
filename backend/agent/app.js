@@ -12,7 +12,7 @@ const soapService = require('./src/soap/soapService');
 
 const securityMiddleware = require('./src/security/securityMiddleware');
 
-
+const { logger } = require('./src/security/logger');
 // Server
 const server = http.createServer(app);
 
@@ -29,7 +29,7 @@ app.use(cors({
 }));
 app.use('/uploads', express.static('uploads'))
 app.use(fileUpload());
-
+app.use(logger());
 
 require('./src/api/carApi') (app);
 require('./src/api/pricelistApi') (app);

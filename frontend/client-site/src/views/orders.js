@@ -7,12 +7,16 @@ import Select from '../components/forms/fields/select'
 import Isvg from 'react-inlinesvg';
 import { Field, reduxForm } from 'redux-form'
 import Tabs from '../components/forms/fields/tabs';
+import { NavLink } from 'react-router-dom';
 
 import {
     Container,
     Row,
     Col,
-    Spinner
+    Spinner,
+    UncontrolledCollapse,
+    Card,
+    CardBody
 } from 'reactstrap';
 
 const renderTabsField = ({
@@ -89,6 +93,77 @@ class Orders extends Component {
         
     }
 
+    getStatusColor(status){
+        if(status == 'PENDING'){
+            return '#FDA50F'
+        }else if(status == 'CANCELED'){
+            return 'red'
+        }else
+        {
+            return 'green'
+        }
+    }
+
+    renderItems(item, i){
+        if(this.state.showingOrders){
+            return this.renderOrders(item, i);
+        }
+        else
+        {
+            return this.renderBunldes(item,i);
+        }
+    }
+
+    renderOrders(item, i){
+        return (
+        <>
+            <Col md="12" key={i}>
+                <span>order id: {item._id}</span>
+                <div className="order-item">
+                    <div className="order-sidebar"></div>
+                    <span className="order-item-img"><img src="./fsd.png" alt=""></img></span>
+                    <span className="order-item-info"><NavLink style={{color:'#da212e'}} to={`/cars/${item.car._id}`}>{`${item.car.make} ${item.car.model} ${item.car.power}kw ${item.car.fuel}`}</NavLink></span>
+                    <span className="order-item-options">{`${item.from} - ${item.to}`}</span>
+                    <span className="order-item-price">{item.car.price}€</span>
+                    <span className="order-item-owner">{item.ownerId}</span>
+                    <span className="order-item-status" style={{color: this.getStatusColor(item.status)}}>{item.status}</span>
+                </div>
+            </Col>
+        </>
+        )
+    }
+
+    renderBunldes(item, i) {
+        return (
+            <>
+            <Col md="12" key={i}>
+                <span>bundle id: {item._id}</span>
+                <div className="bundle-item">
+                    <div className="order-sidebar"></div>
+                    <button className="bundle-item-info" id={`toggler${i}`}>Cars</button>
+                    <span className="bundle-item-owner">{item.ownerId}</span>
+                    <span className="bundle-item-price">{item.price}€<span style={{color:'red'}}>{` (-20%)`}</span></span>
+                    <span className="bundle-item-status" style={{color: this.getStatusColor(item.status)}}>{item.status}</span>
+                </div>
+                    <UncontrolledCollapse toggler={`#toggler${i}`}>
+                    {item.cars.map((car, i) => { return (
+                        <Card>
+                            <CardBody>
+                            <div className="order-item">
+                                <span className="order-item-img"><img src="./fsd.png" alt=""></img></span>
+                                <span className="order-item-info"><NavLink style={{color:'#da212e'}} to={`/cars/${car._id}`}>{`${car.make} ${car.model} ${car.power}kw ${car.fuel}`}</NavLink></span>
+                                <span className="order-item-options">{`${car.from} - ${car.to}`}</span>
+                                <span className="order-item-price">{car.price}€</span>
+                            </div>
+                            </CardBody>
+                        </Card>)
+                    })}
+                    </UncontrolledCollapse>
+            </Col>
+        </>
+        )
+    }
+
     render(){
         return (
             <>
@@ -110,20 +185,7 @@ class Orders extends Component {
                                     {
                                         !this.state.data ? <div><Spinner color="danger" /></div> : (
                                             this.state.data.length == 0 ? 'Nothing to show.' : ( this.state.data.map((item, i) => (
-                                                <>
-                                                <Col md="12" key={i}>
-                                                    <span>order id: {item._id}</span>
-                                                    <div className="order-item">
-                                                        <div className="order-sidebar"></div>
-                                                        <span className="order-item-img"><img src="./fsd.png" alt=""></img></span>
-                                                        <span className="order-item-info">{`${item.car.make} ${item.car.model} ${item.car.power}kw ${item.car.fuel}`}</span>
-                                                        <span className="order-item-options">{`${item.from} - ${item.to}`}</span>
-                                                        <span className="order-item-price">{item.car.price}€</span>
-                                                        <span className="order-item-owner">{item.ownerId}</span>
-                                                        <span className="order-item-status">{item.status}</span>
-                                                    </div>
-                                                 </Col>
-                                                 </>
+                                                this.renderItems(item, i)
                                             ))
                                             )
                                         )

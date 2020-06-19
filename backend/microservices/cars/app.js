@@ -12,8 +12,8 @@ app.listen(4000, () => {
     console.log(`Cars microservice running!`);
     console.log("==========================");
 });
-require('./src/api/carApi') (app);
 
+require('./src/api/carApi') (app);
 require('./src/api/carApi') (app);
 require('./src/api/makeApi') (app);
 require('./src/api/modelApi') (app);

@@ -24,7 +24,7 @@ class InventoryPage extends Component {
         // this.fetchItems = this.fetchItems.bind(this);
         this.state = {
             products: [],
-            productFilters: [],
+            productFilters: {},
             manufacturerModels: [],
             filters: { sort: 1 },
             items: []
@@ -45,6 +45,7 @@ class InventoryPage extends Component {
                 items: result
             })
         })
+
     }
 
 

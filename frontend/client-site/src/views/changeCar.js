@@ -78,6 +78,9 @@ class ChangeCar extends Component {
     
 
     componentDidMount() {
+
+        if(!localStorage.getItem('token')) this.props[0].history.push('/signin')
+
         if (this.props[0].match.params.id) {
             fetch('https://localhost:8080/cars/get/' + this.props[0].match.params.id, {
                 method: 'GET',
