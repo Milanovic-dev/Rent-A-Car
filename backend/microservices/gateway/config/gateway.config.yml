@@ -26,6 +26,9 @@ apiEndpoints:
   search:
     paths:
       - '/search/*'
+  message:
+    paths:
+      - '/message/*'
 serviceEndpoints:
   auth:
     url: 'http://auth:4000'
@@ -37,6 +40,9 @@ serviceEndpoints:
     url: 'http://orders:4000'
   search:
     url: 'http://search:4000'
+  message:
+    url: 'http://message:4000'
+
 policies:
   - proxy
   - rate-limit
@@ -74,6 +80,22 @@ pipelines:
       - proxy:
         - action: 
             serviceEndpoint: cars
+            changeOrigin: true
+      - cors:
+        - action:
+            origin: ['http://localhost:3000', 'http://localhost:3001']
+            methods: 'HEAD,PUT,PATCH,POST,DELETE'
+  message:
+    apiEndpoints:
+      - message
+    policies:
+      - rate-limit:
+        - action:
+            max: 10
+            windowMs: 1000
+      - proxy:
+        - action: 
+            serviceEndpoint: message
             changeOrigin: true
       - cors:
         - action:
