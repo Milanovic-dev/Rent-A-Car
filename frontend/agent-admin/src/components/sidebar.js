@@ -51,6 +51,13 @@ class Sidebar extends Component {
                                 Car Orders
                             </Link>
                         </li>
+                        <li>
+                            <Link to='/messages' className={this.props[0].location.pathname === '/messages' ? 'active' : null}>
+                                <Isvg src={list} />
+                                Messages
+                            </Link>
+                        </li>
+
                     </ul>
                     {/*<h6>Manufacturers</h6>
 
