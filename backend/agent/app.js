@@ -35,6 +35,7 @@ require('./src/api/carApi') (app);
 require('./src/api/pricelistApi') (app);
 require('./src/api/uploadApi') (app);
 require('./src/api/orderApi') (app);
+require('./src/api/messagesApi') (app);
 
 //securityMiddleware.config(app, server);
 
