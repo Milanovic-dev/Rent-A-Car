@@ -143,6 +143,55 @@ const completedRental = async (id) => {
     };
 };
 
+const completedRentals = async () => {
+    await db.collection('orders').insertOne({
+         'cars': [
+                        {
+                            'make': 'audi',
+                            'model': 'a6',
+                            'productionYear': '2015',
+                            'dateStart': '15.06.2020',
+                            'dateEnd': '20.06.2020',
+                            'rentedCar': 'audi a6 2015'
+                        },
+                        {
+                            'make': 'bmw',
+                            'model': 'x3',
+                            'productionYear': '2015',
+                            'dateStart': '15.06.2020',
+                            'dateEnd': '20.06.2020',
+                            'rentedCar': 'bmw x3 2015'
+                        },
+                        {
+                            'make': 'golf',
+                            'model': 'mk7',
+                            'productionYear': '2015',
+                            'dateStart': '15.06.2020',
+                            'dateEnd': '20.06.2020',
+                            'rentedCar': 'audi a6 2015'
+                        }
+                    ],
+                    'status': 'PENDING',
+                    'totalCars': '3',
+                    'finished': true
+        });
+        await db.collection('orders').insertOne({
+            'cars': [
+                           {
+                               'make': 'audi',
+                               'model': 'a6',
+                               'productionYear': '2015',
+                               'dateStart': '15.06.2020',
+                               'dateEnd': '20.06.2020',
+                               'rentedCar': 'audi a6 2015'
+                           },
+                           
+                       ],
+                       'status': 'PENDING',
+                       'totalCars': '1',
+                       'finished': true
+           });
+
 const completedRentalsBundles = async () => {
     let result = [];
     result = await db.collection('bundles').find({ status: "FINISHED" }).toArray();

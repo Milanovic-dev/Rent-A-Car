@@ -9,11 +9,47 @@ dbConnect(process.env.DB_USERNAME, process.env.DB_PASSWORD, process.env.DB_SERVE
         console.log(`DB error: ${e}`);
     })
 
+const acceptOrder = async (id) => {
+
+    if(!id) return { status:400 }
+
+    let res = await db.collection('orders').updateOne({_id: ObjectID(id)}, {$set:{status: 'PAID'}});
+
+    if(res.modifiedCount == 1){
+        db.sync();
+        return {status: 200};
+    }
+
+    return { status: 404 };
+}
+
+const declineOrder = async (id) => {
+    if(!id) return { status:400 }
+
+    let res = await db.collection('orders').updateOne({_id: ObjectID(id)}, {$set:{status: 'CANCELED'}});
+
+    if(res.modifiedCount == 1){
+        db.sync();
+        return {status: 200};
+    }
+
+    return { status: 404 };
+}
+
 const getAll = async () => {
     let res = await db.collection('orders').find({}).toArray();
+
+    for(let order of res){
+        const car = await db.collection('cars').findOne({_id: ObjectID(order.carId)});
+        order.car = car;
+    }
+
     return {status: 200, response: res};
 }
 
+
 module.exports = {
-    getAll
+    getAll,
+    acceptOrder,
+    declineOrder
 }
