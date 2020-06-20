@@ -3,9 +3,14 @@ const app = express();
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const { logger } = require('./src/security/logger');
+const fileUpload = require('express-fileupload');
+
 app.use(cors());
 app.use(bodyParser.json());
 app.use(logger);
+app.use('/cars/uploads', express.static('uploads'))
+app.use(fileUpload());
+
 const service = require('./src/services/carService');
 
 app.listen(4000, () => {
