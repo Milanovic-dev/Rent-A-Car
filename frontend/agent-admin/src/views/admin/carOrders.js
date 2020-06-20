@@ -15,7 +15,6 @@ class Orders extends Component {
     constructor(props) {
         super(props);
         this.get = this.get.bind(this);
-        this.delete = this.delete.bind(this);
 
         this.state = {
             items: []
@@ -27,20 +26,19 @@ class Orders extends Component {
     }
     
     get() {
-        /*
-        fetch('http://localhost:8282/api/cars/all', {
+        
+        fetch('http://localhost:8282/api/orders/all', {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${localStorage.getItem('token')}`
             },
         }).then((res) => res.json()).then((result) => {
-            console.log("MILANA");
             this.setState({
                 items: result
             })
         })
-        */
+        
     }
 
 
@@ -51,12 +49,12 @@ class Orders extends Component {
                 <Container fluid className="table">
                     <Row className="page-title">
                         <Col lg="12">
-                            <h3>Cars</h3>
+                            <h3>Orders</h3>
                         </Col>
                     </Row>
                     <Row className="table-head">
                         <Col lg="7">
-                            <span className="name">NAME</span>
+                            <span className="name">ID</span>
                         </Col>
                         <Col lg="5" className="actions">
 
@@ -68,12 +66,13 @@ class Orders extends Component {
                             return (
                                 <Row className="table-row" key={idx}>
                                     <Col lg="7">
-                                        <span className="value">{item.make} {item.model} {item.location}</span>
+                                        <span className="value">{item.car._id}</span>
+                                    </Col>
+                                    <Col lg="7">
+                                        <span className="value">{item.car.make} {item.car.model} {item.car.location}</span>
                                     </Col>
                                     <Col lg="5" className="actions">
-                                        <Link to={`/cars/${item._id}`}><Isvg src={editIcon} /></Link>
-                                        <Link to={`/cars/busy/${item._id}`}><Isvg src={car} /></Link>
-                                        <button onClick={() => this.delete(item._id)}><Isvg src={deleteIcon} /></button>
+                                        <button></button>
                                     </Col>
                                 </Row>
                             )

@@ -39,6 +39,7 @@ import TestLogin from './views/admin/testLogin';
 import Users from './views/admin/users';
 import User from './views/admin/user';
 import Test from './views/admin/test';
+import Orders from './views/admin/carOrders';
 
 //
 
@@ -238,7 +239,7 @@ class Routes extends Component {
                             )}
                         />
                         <Route
-                            path="/mileageReport/:id"
+                            path="/mileageReport/:id/:carId"
                             exact
                             render={(...renderProps) => (
                                 <MileageReport {...renderProps} {...this.props} />
@@ -252,7 +253,7 @@ class Routes extends Component {
                             )}
                         />
                         <Route
-                            path="/order/:id"
+                            path="/order-preview/:id"
                             exact
                             render={(...renderProps) => (
                                 <OrderPreview {...renderProps} {...this.props} />
@@ -273,6 +274,14 @@ class Routes extends Component {
                             exact
                             render={(...renderProps) => (
                                 <Test {...renderProps} {...this.props} />
+                            )}
+                        />
+
+                        <Route
+                            path="/carOrders"
+                            exact
+                            render={(...renderProps) => (
+                                <Orders {...renderProps} {...this.props} />
                             )}
                         />
 

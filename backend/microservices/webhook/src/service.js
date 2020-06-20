@@ -67,26 +67,27 @@ const updateData = async (aData, username) => {
             const change = aData[i];
             const coll = change.collName;
             for(let j = 0 ; j < change.toInsert.length ; j++){
-                change.toInsert[j]._id = ObjectId(change.toInsert[i]._id);
+                change.toInsert[j]._id = ObjectId(change.toInsert[j]._id);
                 change.toInsert[j].ownerId = username;
                 await db.getDirectDb().collection(coll).insertOne(change.toInsert[j]);
             }
             for(let j = 0 ; j < change.toUpdate.length ; j++){
-                if(change.toUpdate[i].filter._id){
-                    change.toUpdate[i].filter._id = ObjectID(change.toUpdate[i].filter._id);
+                if(change.toUpdate[j].filter._id){
+                    change.toUpdate[j].filter._id = ObjectID(change.toUpdate[j].filter._id);
                 }
                 change.toUpdate[j].ownerId = username;
                 await db.getDirectDb().collection(coll).updateMany(change.toUpdate[j].filter, {$set:change.toUpdate[j].update});
             }
             for(let j = 0 ; j < change.toRemove.length; j++){
-                if(change.toRemove[i]._id){
-                    change.toRemove[i]._id = ObjectID(change.toRemove[i]._id);
+                if(change.toRemove[j]._id){
+                    change.toRemove[j]._id = ObjectID(change.toRemove[j]._id);
                 }
-                await db.getDirectDb().collection(coll).deleteMany(change.toRemove[i]);
+                await db.getDirectDb().collection(coll).deleteMany(change.toRemove[j]);
             }
         }
         return {};
     } catch(err){
+        console.error(err);
         return {error: err}
     }
 };

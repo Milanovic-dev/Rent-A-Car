@@ -17,6 +17,8 @@
     "internal-ip": "^6.0.0",
     "is-docker": "^2.0.0",
     "mongodb": "^3.5.7",
-    "nodemon": "^2.0.3"
+    "nodemon": "^2.0.3",
+    "express-fileupload": "^1.1.6",
+    "uuid": "^3.3.3"
   }
 }

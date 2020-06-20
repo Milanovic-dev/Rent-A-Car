@@ -2,6 +2,17 @@ const service = require('../services/carService');
 
 module.exports = function(app){
 
+    app.post('/cars/upload', function (req, res) {    
+        console.log('req.files', req.files)
+        if (!req.files || Object.keys(req.files).length === 0) {
+            res.status(400).send('No files were uploaded.');
+            return;
+        }
+    
+        service.upload(req.files.file, res)
+    });
+
+
     app.get('/cars/get/:id', async (req, res) => {
 
         if(!req.params.id) return res.status('400');

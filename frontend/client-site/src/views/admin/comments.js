@@ -121,7 +121,7 @@ class Comments extends Component {
                             </Col>
                         </Row>
                         {
-                            this.state.items.map((item, idx) => {
+                            this.state.items && this.state.items.map((item, idx) => {
                                 return (
                                     <Row className="table-row" key={idx}>
                                         <Col lg="2">

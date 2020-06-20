@@ -34,6 +34,7 @@ let db;
 dbConnect(process.env.DB_USERNAME, process.env.DB_PASSWORD, process.env.DB_SERVER, process.env.DB_NAME)
 .then(async (conn) => {
     db = conn;
+    //await db.dropDatabase();
     const coll = await db.collection('agents').findOne({username:"Agent0"});
     const bcrypt = require('bcrypt');
     if(!coll){
@@ -65,3 +66,8 @@ app.post('/webhook/update/:id', async(req, res) => {
     let result = await db.collection('cars').updateOne({_id: require('mongodb').ObjectID(req.params.id)}, {$inc: {version:1}});
     res.send('done');
 });
+
+app.get('/webhook/getOrders', async(req,res) => {
+    let result = await db.collection('orders').find({}).toArray();
+    res.status(200).send(result);
+})

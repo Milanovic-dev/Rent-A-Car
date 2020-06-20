@@ -32,9 +32,9 @@ module.exports = function(app){
         res.status(result.status).send(result.response);
     });
 
-    app.post('/api/cars/mileageReport/:id', async (req, res) => {
+    app.post('/api/cars/mileageReport/:id/:carId', async (req, res) => {
         console.log(req.method + req.route.path);
-        let result = await service.mileageReport(req.body, req.params.id);
+        let result = await service.mileageReport(req.body, req.params.id, req.params.carId);
         res.status(result.status).send(result.response);
     });
     app.post('/api/cars/stats/:sort', async (req, res) => {
@@ -47,14 +47,20 @@ module.exports = function(app){
         let result = await service.completedRentals();
         res.status(result.status).send(result.response);
     });
+    app.get('/api/cars/completedRentals/bundles', async (req, res) => {
+        console.log(req.method + req.route.path);
+        let result = await service.completedRentalsBundles();
+        res.status(result.status).send(result.response);
+    });
+    
     app.get('/api/cars/completedRentals/:id', async (req, res) => {
         console.log(req.method + req.route.path);
         let result = await service.completedRental(req.params.id);
         res.status(result.status).send(result.response);
     });
-    app.get('/api/cars/mileageReport/get/:id', async (req, res) => {
+    app.get('/api/cars/mileageReport/get/:id/:carId', async (req, res) => {
         console.log(req.method + req.route.path);
-        let result = await service.report(req.params.id);
+        let result = await service.report(req.params.id, req.params.carId);
         res.status(result.status).send(result.response);
     });
     
