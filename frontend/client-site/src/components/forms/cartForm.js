@@ -69,9 +69,9 @@ const cartForm = (props) => {
                             {item.cars ? item.cars.map((item, i) => {
                                 return (
                                 <Col md="12" className="cart-item" key={i}>
-                                    <span className="cart-item-image"><img src={item.img}></img></span>
+                                    <span className="cart-item-image"><img width="120px" src={item.images ? item.images[0] : ""}></img></span>
                                     <span className="cart-item-info"><NavLink style={{color:'#da212e'}} to={`/cars/${item._id}`}>{`${item.make} ${item.model} ${item.power}kw ${item.fuel}`}</NavLink></span>
-                                    <span className="cart-item-options">{`${item.from} - ${item.to}`}</span>
+                                    <span className="cart-item-options">{item.from && item.to ? `${item.from} - ${item.to}`: `N/A`}</span>
                                     <span className="cart-item-price">{item.price}€</span>
                                     <span className="cart-item-remove" onClick={()=> {removeFromCart(item._id)}}><img src="../../assets/images/Rectangle 587.png"></img></span>
                                 </Col>

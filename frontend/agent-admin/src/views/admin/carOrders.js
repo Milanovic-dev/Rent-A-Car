@@ -129,10 +129,10 @@ class Orders extends Component {
                                         <span className="name" style={{color: this.getStatusColor(item.status)}}>{item.status}</span>
                                     </Col>
                                     <Col lg="1">
-                                        <span className="name"><button onClick={(e) => this.acceptOrder(e, item._id)}>Accept</button></span>
+                                        <span className="name"><button disabled={item.status == 'PAID'} onClick={(e) => this.acceptOrder(e, item._id)}>Accept</button></span>
                                     </Col> 
                                     <Col lg="1">
-                                        <span className="name"><button onClick={(e) => this.declineOrder(e, item._id)}>Decline</button></span>
+                                        <span className="name"><button disabled={item.status == 'CANCELED'} onClick={(e) => this.declineOrder(e, item._id)}>Decline</button></span>
                                     </Col>   
                                 </Row>
                             )
