@@ -27,11 +27,10 @@ class BusyCar extends Component {
         obj.busyFrom = data.dateFrom;
         obj.busyTo = data.dateTo;
         console.log(obj);
-        fetch(`https://localhost:8080/cars/busy`, {
+        fetch(`http://localhost:8282/api/cars/busy`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${localStorage.getItem('token')}`
                 },
                 body: JSON.stringify(obj)
             }).then((res) => this.props[0].history.push('/cars'))

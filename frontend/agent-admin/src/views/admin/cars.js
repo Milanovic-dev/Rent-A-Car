@@ -38,7 +38,6 @@ class Cars extends Component {
                 'Authorization': `Bearer ${localStorage.getItem('token')}`
             },
         }).then((res) => res.json()).then((result) => {
-            console.log("MILANA");
             this.setState({
                 items: result
             })
