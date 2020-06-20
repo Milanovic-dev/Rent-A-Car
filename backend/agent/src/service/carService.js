@@ -153,6 +153,7 @@ const completedRentals = async () => {
                             'rentedCar': 'audi a6 2015'
                         }
                     ],
+                    'status': 'PENDING',
                     'totalCars': '3',
                     'finished': true
         });
@@ -168,6 +169,7 @@ const completedRentals = async () => {
                            },
                            
                        ],
+                       'status': 'PENDING',
                        'totalCars': '1',
                        'finished': true
            });

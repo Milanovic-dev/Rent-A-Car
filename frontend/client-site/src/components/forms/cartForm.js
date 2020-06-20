@@ -7,6 +7,7 @@ import {
     Spinner
 } from 'reactstrap';
 import Text from './fields/text';
+import { NavLink } from 'react-router-dom';
 
 const renderTextField = ({
     input,
@@ -56,7 +57,7 @@ const cartForm = (props) => {
                             <Row key={i}>
                                 <Col md="12" className="cart-owner-wrap">
                                     <span className="cart-owner">{item.ownerId}</span>
-                                    {data.length > 1 ? (
+                                    {item.cars.length > 1 ? (
                                     <span className="cart-isBundle">
                                         <span >isBundle</span>
                                         <input type="checkbox" className="checkbox" onClick={()=> checkBundle(item.ownerId)}/>
@@ -69,7 +70,7 @@ const cartForm = (props) => {
                                 return (
                                 <Col md="12" className="cart-item" key={i}>
                                     <span className="cart-item-image"><img src={item.img}></img></span>
-                                    <span className="cart-item-info">{`${item.make} ${item.model} ${item.power}kw ${item.fuel}`}</span>
+                                    <span className="cart-item-info"><NavLink style={{color:'#da212e'}} to={`/cars/${item._id}`}>{`${item.make} ${item.model} ${item.power}kw ${item.fuel}`}</NavLink></span>
                                     <span className="cart-item-options">{`${item.from} - ${item.to}`}</span>
                                     <span className="cart-item-price">{item.price}€</span>
                                     <span className="cart-item-remove" onClick={()=> {removeFromCart(item._id)}}><img src="../../assets/images/Rectangle 587.png"></img></span>

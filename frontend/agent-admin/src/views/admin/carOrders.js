@@ -10,6 +10,7 @@ import {
     Row,
     Col
 } from 'reactstrap';
+import accept from '../../assets/svg/done.svg';
 
 class Orders extends Component {
     constructor(props) {
@@ -41,6 +42,48 @@ class Orders extends Component {
         
     }
 
+    getStatusColor(status){
+        if(status == 'PENDING'){
+            return '#FDA50F'
+        }else if(status == 'CANCELED'){
+            return 'red'
+        }else
+        {
+            return 'green'
+        }
+    }
+
+    acceptOrder(e, id){
+        e.preventDefault();
+
+        fetch(`http://localhost:8282/api/orders/accept/${id}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('token')}`
+            },
+        }).then(res => {
+            if(res.status == 200){
+                window.location.reload();
+            }
+        })
+    }
+
+    declineOrder(e, id){
+        e.preventDefault();
+
+        fetch(`http://localhost:8282/api/orders/decline/${id}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('token')}`
+            },
+        }).then(res => {
+            if(res.status == 200){
+                window.location.reload();
+            }
+        })
+    }
 
     render() {
 
@@ -53,27 +96,44 @@ class Orders extends Component {
                         </Col>
                     </Row>
                     <Row className="table-head">
-                        <Col lg="7">
-                            <span className="name">ID</span>
+                        <Col lg="3">
+                            <span className="name">Id</span>
                         </Col>
-                        <Col lg="5" className="actions">
-
-                            <span className="name">OPTIONS</span>
+                        <Col lg="2">
+                            <span className="name">Info</span>
+                        </Col>
+                        <Col lg="2">
+                            <span className="name">Renter</span>
+                        </Col>
+                        <Col lg="2">
+                            <span className="name">Status</span>
+                        </Col>
+                        <Col lg="2">
+                            <span className="name">Options</span>
                         </Col>
                     </Row>
                     {
                         this.state.items.map((item, idx) => {
                             return (
                                 <Row className="table-row" key={idx}>
-                                    <Col lg="7">
-                                        <span className="value">{item.car._id}</span>
+                                    <Col lg="3">
+                                        <span className="name">{item._id}</span>
                                     </Col>
-                                    <Col lg="7">
-                                        <span className="value">{item.car.make} {item.car.model} {item.car.location}</span>
+                                    <Col lg="2">
+                                        <span className="name">{`${item.car.make} ${item.car.model} ${item.car.fuel}`}</span>
                                     </Col>
-                                    <Col lg="5" className="actions">
-                                        <button></button>
+                                    <Col lg="2">
+                                        <span className="name">{item.renterId}</span>
                                     </Col>
+                                    <Col lg="2">
+                                        <span className="name" style={{color: this.getStatusColor(item.status)}}>{item.status}</span>
+                                    </Col>
+                                    <Col lg="1">
+                                        <span className="name"><button onClick={(e) => this.acceptOrder(e, item._id)}>Accept</button></span>
+                                    </Col> 
+                                    <Col lg="1">
+                                        <span className="name"><button onClick={(e) => this.declineOrder(e, item._id)}>Decline</button></span>
+                                    </Col>   
                                 </Row>
                             )
                         })
