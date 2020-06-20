@@ -118,11 +118,40 @@ const getAll = async () => {
 
 const completedRental = async (id) => {
 
+    let bundles = await db.collection('bundles').find({ _id: ObjectID(id) }).toArray();
     let orders = await db.collection('orders').find({ _id: ObjectID(id) }).toArray();
-    let result = orders[0];
-    car = await db.collection('cars').find({ _id: ObjectID(result.carId) }).toArray();
-    result.car = car[0];
-    result.totalCars = '1';
+    let result = {};
+    if (orders[0]) {
+        result = orders[0];
+        car = await db.collection('cars').find({ _id: ObjectID(result.carId) }).toArray();
+        result.car = car[0];
+        result.totalCars = '1';
+    } else if (bundles[0]) {
+        result = bundles[0];
+        let car = {};
+        for (let i = 0; i < result.cars.length; i++) {
+            car = await db.collection('cars').find({ _id: ObjectID(result.cars[i]) }).toArray();
+            result.cars[i] = car[0];
+        }
+
+        result.totalCars = String(result.cars.length);
+        console.log(result);
+    }
+    return {
+        response: result,
+        status: 200
+    };
+};
+
+const completedRentalsBundles = async () => {
+    let result = [];
+    result = await db.collection('bundles').find({ status: "FINISHED" }).toArray();
+    let car = {};
+    for (let i = 0; i < result.length; i++) {
+        // car[i] = await db.collection('cars').find({ _id: ObjectID(result[i].carId) }).toArray();
+        // result[i].car = car[i];
+        result[i].totalCars = String(result[i].cars.length);
+    }
     return {
         response: result,
         status: 200
@@ -142,40 +171,66 @@ const completedRentals = async () => {
         status: 200
     };
 };
-const milReport = async (id) => {
-    let mileageReport = await db.collection('mileageReports').find({ orderId: id }).toArray();
-
+const milReport = async (id, carId) => {
+    let mileageReport = await db.collection('mileageReports').find({$and : [{ orderId: id }, { carId: carId }]}).toArray();
     if (mileageReport[0]) {
+        let bundles = await db.collection('bundles').find({ _id: ObjectID(id) }).toArray();
         let order = await db.collection('orders').find({ _id: ObjectID(id) }).toArray();
-        let result = order[0];
-        let car = await db.collection('cars').find({ _id: ObjectID(result.carId) }).toArray();
-        result.car = car[0];
-        result.rentedCar = result.car.make + " " + result.car.model + " " + result.car.productionYear;
-        result.newMileage = mileageReport[0].newMileage;
-        result.additionalInfo = mileageReport[0].additionalInfo;
-        return {
-            response: result,
-            status: 200
-        };
+        if (order[0]) {
+            let result = order[0];
+            let car = await db.collection('cars').find({ _id: ObjectID(result.carId) }).toArray();
+            result.car = car[0];
+            result.rentedCar = result.car.make + " " + result.car.model + " " + result.car.productionYear;
+            result.newMileage = mileageReport[0].newMileage;
+            result.additionalInfo = mileageReport[0].additionalInfo;
+            return {
+                response: result,
+                status: 200
+            };
+        }
+        else {
+            let result = bundles[0];
+            let car = await db.collection('cars').find({ _id: ObjectID(carId) }).toArray();
+            result.car = car[0];
+            result.rentedCar = result.car.make + " " + result.car.model + " " + result.car.productionYear;
+            result.newMileage = mileageReport[0].newMileage;
+            result.additionalInfo = mileageReport[0].additionalInfo;
+            return {
+                response: result,
+                status: 200
+            };
+        }
 
     } else {
+        let bundles = await db.collection('bundles').find({ _id: ObjectID(id) }).toArray();
         let order = await db.collection('orders').find({ _id: ObjectID(id) }).toArray();
-        let result = order[0];
-        let car = await db.collection('cars').find({ _id: ObjectID(result.carId) }).toArray();
-        result.car = car[0];
-        result.rentedCar = result.car.make + " " + result.car.model + " " + result.car.productionYear;
-        return {
-            response: result,
-            status: 200
-        };
+        if (order[0]) {
+            let result = order[0];
+            let car = await db.collection('cars').find({ _id: ObjectID(result.carId) }).toArray();
+            result.car = car[0];
+            result.rentedCar = result.car.make + " " + result.car.model + " " + result.car.productionYear;
+            return {
+                response: result,
+                status: 200
+            };
+        }else{
+            let result = bundles[0];
+            let car = await db.collection('cars').find({ _id: ObjectID(carId) }).toArray();
+            result.car = car[0];
+            result.rentedCar = result.car.make + " " + result.car.model + " " + result.car.productionYear;
+            return {
+                response: result,
+                status: 200
+            };
+        }
     }
 
 
 };
 
 
-const mileageReport = async (data, id) => {
-    let mileageReport = await db.collection('mileageReports').find({ orderId: id }).toArray();
+const mileageReport = async (data, id, carId) => {
+    let mileageReport = await db.collection('mileageReports').find({$and : [{ orderId: id }, { carId: carId }]}).toArray();
     if (mileageReport[0]) {
         console.log(data);
         if (data == undefined) return { status: 400 };
@@ -195,7 +250,7 @@ const mileageReport = async (data, id) => {
         // );
         // }
 
-        
+
         let result = await db.collection('mileageReports').updateOne({ _id: ObjectID(mileageReport[0]._id) }, {
             $set: {
                 newMileage: data.newMileage,
@@ -207,9 +262,9 @@ const mileageReport = async (data, id) => {
             db.sync();
             return { status: 200 };
         }
-    
+
         return { status: 404 };
-      
+
     } else {
 
         console.log(data);
@@ -236,7 +291,7 @@ const mileageReport = async (data, id) => {
         obj.orderId = data._id;
         obj.carId = data.car._id;
         console.log(obj);
-        
+
         let result = await db.collection('mileageReports').insertOne(obj);
         if (result.insertedId) {
             db.sync();
@@ -299,6 +354,7 @@ module.exports = {
     report: milReport,
     mileageReport,
     completedRentals,
+    completedRentalsBundles,
     completedRental,
     getAll
 };

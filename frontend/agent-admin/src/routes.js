@@ -238,7 +238,7 @@ class Routes extends Component {
                             )}
                         />
                         <Route
-                            path="/mileageReport/:id"
+                            path="/mileageReport/:id/:carId"
                             exact
                             render={(...renderProps) => (
                                 <MileageReport {...renderProps} {...this.props} />

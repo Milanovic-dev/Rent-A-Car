@@ -31,7 +31,6 @@ class OrderPreview extends Component {
         // if (!localStorage.token) {
         //     return;
         // }
-        console.log(this.props[0].match.params.id);
         fetch('http://localhost:8282/api/cars/completedRentals/' + this.props[0].match.params.id, {
             method: 'GET',
             headers: {
@@ -39,16 +38,19 @@ class OrderPreview extends Component {
                 'Authorization': `Bearer ${localStorage.getItem('token')}`
             },
         }).then((res) => res.json()).then((result) => {
-            this.setState({
-                data: result,
-            })
+
             if (result.totalCars != '1') {
                 this.setState({
+                    data: result,
                     items: result.cars,
                     bundle: 1
                 })
+            } else {
+                this.setState({
+                    data: result,
+                })
             }
-          
+
         })
 
     }
@@ -90,30 +92,30 @@ class OrderPreview extends Component {
                                     <span className="value">{this.state.data.car.make} {this.state.data.car.model} {this.state.data.car.productionYear}</span>
                                 </Col>
                                 <Col lg="4">
-                                    {/* <span className="value">{this.state.data.car.dateStart} - {item.dateEnd}</span> */}
+                                    <span className="value">{this.state.data.car.from} - {this.state.data.car.to}</span>
                                 </Col>
                                 <Col lg="4" className="actions">
-                                    <Link to={`/mileageReport/${this.state.data._id}`}><Isvg src={report} /></Link>
+                                    <Link to={`/mileageReport/${this.state.data._id}/${this.state.data.car._id}`}><Isvg src={report} /></Link>
                                 </Col>
                             </Row>
 
                             :
-                            // this.state.items.map((item, idx) => {
-                            //     return (
-                            //         <Row className="table-row" key={idx}>
-                            //             <Col lg="4">
-                            //                 <span className="value">{item.make} {item.model} {item.productionYear}</span>
-                            //             </Col>
-                            //             <Col lg="4">
-                            //                 <span className="value">{item.dateStart} - {item.dateEnd}</span>
-                            //             </Col>
-                            //             <Col lg="4" className="actions">
-                            //                 <Link to={`/mileageReport/${item.carId}`}><Isvg src={report} /></Link>
-                            //             </Col>
-                            //         </Row>
-                            //     )
-                            // }) 
-                            null
+                            this.state.items.map((item, idx) => {
+                                return (
+                                    <Row className="table-row" key={idx}>
+                                        <Col lg="4">
+                                            <span className="value">{item.make} {item.model} {item.productionYear}</span>
+                                        </Col>
+                                        <Col lg="4">
+                                            <span className="value">{item.from} - {item.to}</span>
+                                        </Col>
+                                        <Col lg="4" className="actions">
+                                            <Link to={`/mileageReport/${this.state.data._id}/${item._id}`}><Isvg src={report} /></Link>
+                                        </Col>
+                                    </Row>
+                                )
+                            }) 
+                            
                     }
 
                 </Container>

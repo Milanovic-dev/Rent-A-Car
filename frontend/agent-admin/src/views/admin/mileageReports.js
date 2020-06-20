@@ -42,6 +42,17 @@ class MileageReports extends Component {
                 items: result
             })
         })
+        fetch('http://localhost:8282/api/cars/completedRentals/bundles', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('token')}`
+            },
+        }).then((res) => res.json()).then((result) => {
+            this.setState({
+                data: result
+            })
+        })
         
     }
 
@@ -71,7 +82,30 @@ class MileageReports extends Component {
 
                     </Row>
                     {
-                        this.state.items.map((item, idx) => {
+                        this.state.items && this.state.items.map((item, idx) => {
+                            return (
+                                <Link to={`/order-preview/${item._id}`}>
+                                    <Row className="table-row" key={idx}>
+                                        <Col lg="2">
+                                            <span className="value">{item.totalCars}</span>
+                                        </Col>
+                                        <Col lg="4">
+                                            <span className="value">{item._id}</span>
+                                        </Col>
+                                        <Col lg="3">
+                                            <span className="value">{item.ownerId}</span>
+                                        </Col>
+                                        <Col lg="3">
+                                            <span className="value">{item.renterId}</span>
+                                        </Col>
+
+                                    </Row>
+                                </Link>
+                            )
+                        })
+                    }
+                    {
+                        this.state.data && this.state.data.map((item, idx) => {
                             return (
                                 <Link to={`/order-preview/${item._id}`}>
                                     <Row className="table-row" key={idx}>
