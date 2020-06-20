@@ -46,28 +46,18 @@ dbConnect(process.env.DB_USERNAME, process.env.DB_PASSWORD, process.env.DB_SERVE
     console.log(`DB error: ${e}`);
 })
 
-app.get('/webhook/testBase', async (req, res) => {
-    let result = await db.collection('cars').find().toArray();
-    res.json(result);
-});
-
 app.get('/webhook/testChanges', async(req, res) => {
     let result = await db.collection('changes').find().toArray();
     res.json(result);
 });
 
-app.post('/webhook/insert', async(req, res) => {
-    let result = await db.collection('cars').insertOne(req.body);
-    console.log(result.insertedId);
-    res.send('done');
-});
-
-app.post('/webhook/update/:id', async(req, res) => {
-    let result = await db.collection('cars').updateOne({_id: require('mongodb').ObjectID(req.params.id)}, {$inc: {version:1}});
-    res.send('done');
-});
 
 app.get('/webhook/getOrders', async(req,res) => {
     let result = await db.collection('orders').find({}).toArray();
     res.status(200).send(result);
+})
+
+app.delete('/webhook/drop', async(req, res) => {
+    db.dropDatabase();
+    res.send('ok');
 })

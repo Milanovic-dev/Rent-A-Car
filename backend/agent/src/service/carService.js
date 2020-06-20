@@ -397,6 +397,43 @@ const carStats = async (sort) => {
     };
 };
 
+const busyCar = async (car) => {
+    
+    if(car == undefined) return { status: 400 }; 
+
+    let dbCar = await db.collection(dbCollection).findOne(
+        {
+            _id: ObjectID(car.id)
+        }
+    );
+  
+    if(!dbCar){
+        return { status:404 };
+    }
+
+    await db.collection('orders').updateMany({carId: car.id}, {$set:{status: 'CANCELED'}});
+  
+    let result = await db.collection(dbCollection).updateOne(
+        {
+            _id : ObjectID(car.id)
+        },
+        {
+            $set: {
+                busyFrom: car.busyFrom,
+                busyTo: car.busyTo                
+            }
+        }
+    );
+    
+  
+    if(result.modifiedCount == 1){
+        db.sync();
+        return { status:200 };
+    }
+  
+    return { status: 404 };
+  };
+
 module.exports = {
     create: createCar,
     update: updateCar,
@@ -408,5 +445,6 @@ module.exports = {
     completedRentals,
     completedRentalsBundles,
     completedRental,
-    getAll
+    getAll,
+    busy: busyCar
 };

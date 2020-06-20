@@ -3,6 +3,7 @@ import Isvg from 'react-inlinesvg';
 import fuel_icon from '../assets/svg/fuel.svg';
 import calendar_icon from '../assets/svg/calendar.svg';
 import guage_icon from '../assets/svg/guage.svg';
+import cartIcon from '../assets/svg/shopping-cart.svg';
 
 export class Article extends Component {
     constructor(props) {
@@ -44,7 +45,7 @@ export class Article extends Component {
     render() {
         return (
             <div className="article-box" key={this.props.id}>
-                <img src={this.props.image} />
+                <img src={this.props.images ? this.props.images[0] : ""} />
                 <div className="content">
                     <h6 className="title"><a href={`/cars/${this.props.id}`} style={{color:'black'}}>{this.props.title}</a></h6>
                     <ul className="attrs">
@@ -56,9 +57,10 @@ export class Article extends Component {
                     <div className="price-container">
                         <span className="price">{this.props.price}€</span>
                     </div>
+                    {!this.props.userCar ?
                     <div className={this.state.addedToCart ? "addToCart-button-added" : "addToCart-button"} onClick={()=> {this.addToCart(this.props.id)}}>
-                        <span style={{fontSize: 23}}>{this.state.addedToCart ? 'Added' : 'Add to cart'}</span> 
-                    </div>
+                        <span style={{fontSize: 23}}><Isvg src={cartIcon}></Isvg>{this.state.addedToCart ? 'Added' : 'Add to cart'}</span> 
+                    </div> : null}
                 </div>
             </div>
         )

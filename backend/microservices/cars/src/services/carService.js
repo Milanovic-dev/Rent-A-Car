@@ -1,4 +1,5 @@
 //env
+const jwt = require('jsonwebtoken')
 const dotenv = require('dotenv');
 dotenv.config();
 //database
@@ -41,10 +42,17 @@ const upload = (file, res) => {
 }
 
 
-const createCar = async (car) => {
+const createCar = async (car, authorization) => {
     
   if(car == undefined) return { status: 400 }; 
 
+  if(!car.ownerId){
+      if(!authorization) return {status: 401};
+      const id = await verifyToken(authorization.split(' ')[1]);
+      car.ownerId = id;
+  }
+
+  
   let result = await db.collection(dbCollection).insertOne(car);
   if(result.insertedId)
   {
@@ -163,8 +171,21 @@ const getCar = async (id) => {
   return { status: 404 };
 };
 
-const getAll = async () => {
-  let result = await db.collection(dbCollection).find().toArray();
+const getAll = async (authorization) => {
+
+    
+    let result = await db.collection(dbCollection).find().toArray();
+    
+    if(authorization) {
+        const id = await verifyToken(authorization.split(' ')[1]);
+
+        for(let car of result) {
+            if(car.ownerId == id){
+                car.userCar = true;
+            }
+        }
+    }
+
 
   return {
       response: result,
@@ -180,6 +201,23 @@ const carStats = async () => {
         status: 200
     };
 };
+
+const verifyToken = async (token) => {
+
+    if(!token) return '400';
+
+    const result = await new Promise((resolve, reject) => {
+        jwt.verify(token, process.env.JWT_SECRET, (err, tokenData) => {
+            if(err){
+                console.error(err);
+                reject('401');
+            }
+            const username = tokenData;
+            resolve(username.id);
+        });
+    });
+    return result;
+}
 
 module.exports = {
   create: createCar,

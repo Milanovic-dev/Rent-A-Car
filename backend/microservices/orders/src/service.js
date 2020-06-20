@@ -11,7 +11,6 @@ let db;
 dbConnect(process.env.DB_USERNAME, process.env.DB_PASSWORD, process.env.DB_SERVER, process.env.DB_NAME)
 .then((conn) => {
     db = conn;
-    db.collection('orders').drop();
 }).catch((e) => {
     console.log(`DB error: ${e}`);
 })
@@ -106,7 +105,12 @@ const acceptOrder = async (id) => {
     if(!order) return { status: '404'}
 
     await db.collection('orders').updateOne({_id: ObjectID(id)}, {$set:{status: 'PAID'}});
-    await db.collection('orders').updateMany({_id: {$ne: ObjectID(id)}, carId: order.carId}, {$set:{status: 'CANCELED'}});
+    let result = await db.collection('orders').find({_id: {$ne: ObjectID(id)}, carId: order.carId}).toArray();
+
+    for(const order of result){
+        db.collection('orders').updateOne({_id:ObjectID(order)}, {$set:{status: 'CANCELED'}});
+    }
+
     return { status: '200' };
 };
 
@@ -343,6 +347,7 @@ module.exports = {
     revokeOrder,
     revokeBundle,
     acceptOrder,
+    declineOrder,
     addToCart,
     removeFromCart,
     getCart,

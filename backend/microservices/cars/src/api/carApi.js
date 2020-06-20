@@ -25,7 +25,7 @@ module.exports = function(app){
 
         if(!req.body) return res.status('400');
 
-        let result = await service.create(req.body);
+        let result = await service.create(req.body, req.headers.authorization);
         res.status(result.status).send(result.response);
     });
 
@@ -54,7 +54,7 @@ module.exports = function(app){
     });
 
     app.get('/cars', async (req, res) => {
-        let result = await service.getAll();
+        let result = await service.getAll(req.headers.authorization);
         res.status(result.status).send(result.response);
     });
 
