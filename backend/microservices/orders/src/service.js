@@ -11,6 +11,7 @@ let db;
 dbConnect(process.env.DB_USERNAME, process.env.DB_PASSWORD, process.env.DB_SERVER, process.env.DB_NAME)
 .then((conn) => {
     db = conn;
+    db.collection('orders').drop();
 }).catch((e) => {
     console.log(`DB error: ${e}`);
 })
@@ -64,13 +65,19 @@ const createAsBundle = async (cars, ownerId, renterId) => {
 
     sum = sum - ((sum/10) * 2);
 
+    const carIds = [];
+
+    for(const car of cars){
+        carIds.push(car._id);
+    }
+
     const bundle = {
         ownerId,
         renterId: renterId,
         status: 'PENDING',
         price: sum,
         finished: false,
-        cars
+        carIds
     };
 
     await db.collection('bundles').insertOne(bundle);
@@ -79,7 +86,7 @@ const createAsBundle = async (cars, ownerId, renterId) => {
 const createAsOrders = async (cars, renterId) => {
     for(const carOrder of cars){
         await db.collection('orders').insertOne({
-            car: carOrder,
+            carId: carOrder._id,
             ownerId: carOrder.ownerId,
             renterId: renterId,
             status: 'PENDING',
@@ -99,9 +106,18 @@ const acceptOrder = async (id) => {
     if(!order) return { status: '404'}
 
     await db.collection('orders').updateOne({_id: ObjectID(id)}, {$set:{status: 'PAID'}});
-    await db.collection('orders').deleteMany({_id: {$ne: ObjectID(id)}, carId: order.carId});
+    await db.collection('orders').updateMany({_id: {$ne: ObjectID(id)}, carId: order.carId}, {$set:{status: 'CANCELED'}});
     return { status: '200' };
 };
+
+const declineOrder = async (id) => {
+    const order = await db.collection('orders').find({_id: ObjectID(id)});
+
+    if(!order) return { status: '404'}
+
+    await db.collection('orders').updateOne({_id: ObjectID(id)}, {$set:{status: 'CANCELED'}});
+    return { status: '200' };
+}
 
 const revokeOrder = async (id) => {
 
@@ -139,6 +155,8 @@ const getOrder = async (id) => {
         return { status: 404 };
     }
 
+    const car = await db.collection('cars').findOne({_id: ObjectID(order.carId)});
+    order.car = car;
     return { status: 200, response: order };
 };
 
@@ -152,6 +170,14 @@ const getBundle = async (id) => {
         return { status: 404 };
     }
 
+    const cars = [];
+
+    for(const carId of bundle.carIds){
+        const car = await db.collection('cars').findOne({_id:ObjectID(carId)});
+        cars.push(car);
+    }
+
+    bundle.cars = cars;
     return { status: 200, response: bundle };
 };
 
@@ -161,6 +187,11 @@ const getOrders = async (authorization) => {
     const id = await verifyToken(authorization.split(' ')[1]);
 
     const result = await db.collection('orders').find({renterId: id}).toArray();
+
+    for(let order of result){
+        const car = await db.collection('cars').findOne({_id: ObjectID(order.carId)});
+        order.car = car;
+    }
 
     return {status: 200, response: result};
 };
@@ -172,6 +203,14 @@ const getBundles = async (authorization) => {
     const id = await verifyToken(authorization.split(' ')[1]);
     const result = await db.collection('bundles').find({renterId: id}).toArray();
 
+    for(let bundle of result){
+        bundle.cars = [];
+        for(let carId of bundle.carIds){
+            const car = await db.collection('cars').findOne({_id: ObjectID(carId)});
+            bundle.cars.push(car);
+        }
+    }
+
     return {status: 200, response:result};
 }
 
@@ -180,6 +219,12 @@ const getOrderRequests = async (authorization) => {
 
     const id = await verifyToken(authorization.split(' ')[1]);
     let result = await db.collection('orders').find({ownerId: id}).toArray();
+
+    for(let order of result){
+        const car = await db.collection('cars').findOne({_id: ObjectID(order.carId)});
+        order.car = car;
+    }
+
     return {status: 200, response: result};
 }
 
@@ -188,6 +233,15 @@ const getBundleRequests = async (authorization) => {
 
     const id = await verifyToken(authorization.split(' ')[1]);
     let result = await db.collection('bundles').find({ownerId: id}).toArray();
+
+    for(let bundle of result){
+        bundle.cars = [];
+        for(let carId of bundle.carIds){
+            const car = await db.collection('cars').findOne({_id: ObjectID(carId)});
+            bundle.cars.push(car);
+        }
+    }
+
     return {status: 200, response: result};
 }
 
@@ -198,7 +252,7 @@ const addToCart = async (carId, authorization) => {
     const id = await verifyToken(authorization.split(' ')[1]);
 
     const item = await db.collection('cart').findOne({carId, id});
-    const order = await db.collection('orders').findOne({car: {_id: carId}, renterId: id});
+    const order = await db.collection('orders').findOne({carId, renterId: id});
 
     if(item || order){
         return {status: 422}
