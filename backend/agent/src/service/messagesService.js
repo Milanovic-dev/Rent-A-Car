@@ -48,6 +48,8 @@ const sendMessage = async (authorization, msgObj) => {
 
     if(result.insertedId)
     {
+        db.sync();
+
         return {
             response: result.insertedId,
             status: 201
@@ -84,6 +86,8 @@ const sendMessage = async (authorization, msgObj) => {
     );
   
     if(result.deletedCount == 1){
+        db.sync();
+
         return { status: 200 };
     }
   
