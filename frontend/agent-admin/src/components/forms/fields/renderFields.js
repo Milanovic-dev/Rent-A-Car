@@ -1,6 +1,7 @@
 import React from 'react';
 import Text from './text';
 import Image from './image';
+import Gallery from './gallery';
 import Select from './select';
 import Check from './check';
 import DateTime from './date_picker';
@@ -48,6 +49,26 @@ export const renderMultiSelectField = ({
 //       {...input}
 //     />
 //   )
+
+export const renderGalleryField = ({
+  input,
+  placeholder,
+  label,
+  meta: { touched, error },
+  lang,
+  multilang
+}) => (
+
+      <Gallery
+          placeholder={placeholder}
+          label={label}
+          errorText={touched && error}
+          error={touched && error}
+          lang={lang}
+          multilang={multilang}
+          {...input}
+      />
+  )
 
 export const renderTextField = ({
   input,

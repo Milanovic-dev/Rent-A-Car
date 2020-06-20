@@ -1413,6 +1413,102 @@ button {
         width: 26px;
         height: 26px; }
 
+.file-drop {
+  border: 1px solid #D9D9D9;
+  border-radius: 10px;
+  width: 100%;
+  height: 500px;
+  position: relative;
+  overflow-y: auto; }
+  .file-drop .dropzone {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /*margin-left: -32px;
+        margin-top: -32px;
+        */ }
+    .file-drop .dropzone input {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%; }
+    .file-drop .dropzone > button {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      margin-left: -32px;
+      margin-top: -32px;
+      border: 0;
+      background-color: transparent; }
+      .file-drop .dropzone > button i {
+        font-size: 64px;
+        color: transparent; }
+  .file-drop .no-image {
+    pointer-events: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 50%;
+    margin-top: -52px;
+    left: 50%;
+    margin-left: -52px; }
+    .file-drop .no-image .text {
+      margin-top: 16px;
+      color: #828DB1;
+      font-size: 16px;
+      font-weight: 300; }
+  .file-drop .grid-layout {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 650px; }
+    .file-drop .grid-layout .image-wrap {
+      border: 1px solid #D9D9D9;
+      height: 150px;
+      position: relative;
+      background-color: #f6f6f6;
+      border-radius: 6px;
+      display: flex;
+      flex-direction: column;
+      align-items: center; }
+      .file-drop .grid-layout .image-wrap img {
+        width: 100%;
+        height: 100px;
+        object-fit: contain;
+        object-position: center;
+        padding: 10px; }
+      .file-drop .grid-layout .image-wrap .delete {
+        margin-top: 10px; }
+  .file-drop .gallery-grid .image-wrap {
+    height: 300px; }
+
+.lds-dual-ring {
+  display: inline-block;
+  width: 40px;
+  height: 22px; }
+
+.lds-dual-ring:after {
+  content: " ";
+  display: block;
+  width: 18px;
+  height: 18px;
+  margin: 8px;
+  border-radius: 50%;
+  border: 2px solid #fff;
+  border-color: #fff transparent #fff transparent;
+  animation: lds-dual-ring 1.2s linear infinite; }
+
+@keyframes lds-dual-ring {
+  0% {
+    transform: rotate(0deg); }
+  100% {
+    transform: rotate(360deg); } }
+
 .button {
   height: 40px;
   display: flex;
