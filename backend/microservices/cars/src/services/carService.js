@@ -6,6 +6,8 @@ const dbConnect = require('../../db');
 // const { default: carStats } = require('../../../../../frontend/agent-admin/src/views/admin/carStats');
 const ObjectID = require('mongodb').ObjectID;
 const dbCollection = 'cars';
+const uuidv4 = require('uuid/v4');
+
 let db;
 dbConnect(process.env.DB_USERNAME, process.env.DB_PASSWORD, process.env.DB_SERVER, process.env.DB_NAME)
 .then((conn) => {
@@ -13,6 +15,31 @@ dbConnect(process.env.DB_USERNAME, process.env.DB_PASSWORD, process.env.DB_SERVE
 }).catch((e) => {
     console.log(`DB error: ${e}`);
 })
+
+const upload = (file, res) => {
+        
+
+    let fname = uuidv4();
+    let extension = '.'  + file.name.split('.').pop();
+
+    if (extension.indexOf('svg') != -1) {
+        extension = '.svg';
+    }
+
+    //let base64Image = base64.split(';base64,').pop();
+    let filename = fname + extension;
+
+    file.mv('./uploads/' + filename, (err) => {
+        if (err){
+            res.status(500).send('Error');
+        }
+
+        res.status(200).send({file:'https://localhost:8080/cars/uploads/' + filename});
+
+
+    })
+}
+
 
 const createCar = async (car) => {
     
@@ -161,5 +188,6 @@ module.exports = {
   remove: removeCar,
   get: getCar,
   stats: carStats,
-  getAll
+  getAll,
+  upload
 };
