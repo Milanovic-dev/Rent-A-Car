@@ -869,3 +869,136 @@ button{
 }
 
 
+.file-drop{
+    border: 1px solid $fieldBorder;
+    border-radius: 10px;
+    
+    width: 100%;
+    height: 500px;
+    position: relative;
+    overflow-y: auto;
+    .dropzone{
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        /*margin-left: -32px;
+        margin-top: -32px;
+        */
+
+        input{
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+
+        }
+        > button {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        margin-left: -32px;
+        margin-top: -32px;
+        border: 0;
+        background-color: transparent;
+        
+        i {
+            font-size: 64px;
+            color: $red;
+        }
+
+    }
+
+
+    
+
+    }
+
+    .no-image{
+        pointer-events: none;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        position: absolute;
+        top: 50%;
+        margin-top: -52px;
+        left: 50%;
+        margin-left: -52px;
+
+        .text{
+            margin-top: 16px;
+            color: $blueGray;
+            font-size: 16px;
+            font-weight: $light;
+    
+        }
+    }
+
+
+    .grid-layout{
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 650px;
+
+            .image-wrap{
+            border: 1px solid $fieldBorder;
+            height: 150px;
+            position: relative;
+            background-color: #f6f6f6;
+            border-radius: 6px;
+
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            img {
+                width: 100%;
+                height: 100px;
+                object-fit: contain;
+                object-position: center;
+                padding: 10px;
+            }
+
+            .delete{
+               margin-top: 10px;
+            }
+        
+        }
+    }
+
+
+    .gallery-grid{
+        .image-wrap{
+            height: 300px;
+        }
+    }
+}
+
+.lds-dual-ring {
+    display: inline-block;
+    width: 40px;
+    height: 22px;
+  }
+  .lds-dual-ring:after {
+    content: " ";
+    display: block;
+    width: 18px;
+    height: 18px;
+    margin: 8px;
+    border-radius: 50%;
+    border: 2px solid #fff;
+    border-color: #fff transparent #fff transparent;
+    animation: lds-dual-ring 1.2s linear infinite;
+  }
+  @keyframes lds-dual-ring {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+  

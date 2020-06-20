@@ -1,6 +1,6 @@
 import React from 'react';
 import { Field, reduxForm } from 'redux-form'
-import { renderTextField, renderHtmlField, renderImageField, renderSelectField, renderDateTimeField } from './fields/renderFields';
+import { renderTextField, renderHtmlField, renderGalleryField, renderImageField, renderSelectField, renderDateTimeField } from './fields/renderFields';
 
 import {
     Container,
@@ -202,7 +202,7 @@ const form = (props) => {
 
                                 <Field
                                     name="image"
-                                    component={renderImageField}
+                                    component={renderGalleryField}
 
                                 ></Field>
                             </Col>
