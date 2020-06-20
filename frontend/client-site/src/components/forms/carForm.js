@@ -9,17 +9,38 @@ import Text from './fields/text';
 //import Textarea from './fields/textarea';
 import Html from './fields/html';
 import Image from './fields/image';
+import Gallery from './fields/gallery';
+
 //import RangeSlider from './fields/rangeSlider';
 
 const renderImageField = ({
     input,
     placeholder,
     meta: { touched, error }
-    }) => (
+}) => (
         <Image
             placeholder={placeholder}
             errorText={touched && error}
             error={touched && error}
+            {...input}
+        />
+    )
+const renderGalleryField = ({
+    input,
+    placeholder,
+    label,
+    meta: { touched, error },
+    lang,
+    multilang
+}) => (
+
+        <Gallery
+            placeholder={placeholder}
+            label={label}
+            errorText={touched && error}
+            error={touched && error}
+            lang={lang}
+            multilang={multilang}
             {...input}
         />
     )
@@ -281,8 +302,8 @@ const carForm = (props) => {
                 <Col lg="6" className="input-wrap">
 
                     <Field
-                        name="image"
-                        component={renderImageField}
+                        name="images"
+                        component={renderGalleryField}
 
                     ></Field>
                 </Col>

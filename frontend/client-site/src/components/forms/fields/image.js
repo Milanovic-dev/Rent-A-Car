@@ -20,7 +20,7 @@ class Image extends Component {
             let formData = new FormData();
             formData.append('file', input.files[0]);
 
-            fetch('http://127.0.0.1:8282/api/upload/v1', {
+            fetch('https://localhost:8080/cars/upload', {
                 method: 'POST',
                 headers: {
                     Accept: 'application/json',

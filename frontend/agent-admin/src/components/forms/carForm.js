@@ -1,6 +1,6 @@
 import React from 'react';
 import { Field, reduxForm } from 'redux-form'
-import { renderTextField, renderHtmlField, renderImageField, renderSelectField, renderDateTimeField } from './fields/renderFields';
+import { renderTextField, renderHtmlField, renderGalleryField, renderImageField, renderSelectField, renderDateTimeField } from './fields/renderFields';
 
 import {
     Container,
@@ -201,8 +201,8 @@ const form = (props) => {
                             <Col lg="6" className="input-wrap">
 
                                 <Field
-                                    name="image"
-                                    component={renderImageField}
+                                    name="images"
+                                    component={renderGalleryField}
 
                                 ></Field>
                             </Col>
