@@ -145,7 +145,7 @@ const completedRental = async (id) => {
     };
 };
 
-const completedRentals = async () => {
+/*const completedRentals = async () => {
     await db.collection('orders').insertOne({
          'cars': [
                         {
@@ -194,7 +194,7 @@ const completedRentals = async () => {
                        'finished': true
            });
     }
-
+*/
 const completedRentalsBundles = async () => {
     let result = [];
     result = await db.collection('bundles').find({ status: "FINISHED" }).toArray();

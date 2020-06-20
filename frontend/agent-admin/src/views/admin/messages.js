@@ -44,7 +44,8 @@ class Messages extends Component {
             const body = await res.json();
             let users = {};
             for (let i = 0; i < body.length; i++) {
-                users[body[i].ownerId] = body[i].ownerId;
+                if (body[i].status == 'PAID')
+                    users[body[i].ownerId] = body[i].ownerId;
             }
 
             this.setState({

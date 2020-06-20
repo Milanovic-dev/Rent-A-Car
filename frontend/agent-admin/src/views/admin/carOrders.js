@@ -120,7 +120,7 @@ class Orders extends Component {
                                         <span className="name">{item._id}</span>
                                     </Col>
                                     <Col lg="2">
-                                        <span className="name">{`${item.car.make} ${item.car.model} ${item.car.fuel}`}</span>
+                                        <span className="name">{`${item.car && item.car.make} ${item.car && item.car.model} ${item.car && item.car.fuel}`}</span>
                                     </Col>
                                     <Col lg="2">
                                         <span className="name">{item.renterId}</span>
