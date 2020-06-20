@@ -34,6 +34,7 @@ app.use(logger());
 require('./src/api/carApi') (app);
 require('./src/api/pricelistApi') (app);
 require('./src/api/uploadApi') (app);
+require('./src/api/orderApi') (app);
 
 //securityMiddleware.config(app, server);
 

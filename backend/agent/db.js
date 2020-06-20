@@ -196,6 +196,10 @@ class dbSyncFunctions {
    }
 
    async insertOne(data, options){
+      let x = new ObjectID().id;
+      x[0] = 1;
+      x[1] = 0;
+      data._id = ObjectID(x);
       const res = this.db.collection(this.collection).insertOne(data, options);
       await watchman.insertOp(this.db, this.collection, res, data)
       return res;

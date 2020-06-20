@@ -69,6 +69,7 @@ const createAsBundle = async (cars, ownerId, renterId) => {
         renterId: renterId,
         status: 'PENDING',
         price: sum,
+        finished: false,
         cars
     };
 
@@ -86,7 +87,8 @@ const createAsOrders = async (cars, renterId) => {
             to: carOrder.to,
             startLocation: carOrder.startLocation,
             endLocation: carOrder.endLocation,
-            isBundle: false
+            isBundle: false,
+            finished: false
         });
     }
 };
@@ -170,7 +172,7 @@ const getBundles = async (authorization) => {
     const id = await verifyToken(authorization.split(' ')[1]);
     const result = await db.collection('bundles').find({renterId: id}).toArray();
 
-    return {stauts: 200, response:result};
+    return {status: 200, response:result};
 }
 
 const getOrderRequests = async (authorization) => {

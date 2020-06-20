@@ -56,10 +56,12 @@ const cartForm = (props) => {
                             <Row key={i}>
                                 <Col md="12" className="cart-owner-wrap">
                                     <span className="cart-owner">{item.ownerId}</span>
+                                    {data.length > 1 ? (
                                     <span className="cart-isBundle">
                                         <span >isBundle</span>
                                         <input type="checkbox" className="checkbox" onClick={()=> checkBundle(item.ownerId)}/>
-                                    </span>
+                                    </span>)
+                                    : null}
                                 </Col>
                             </Row>
                             <Row>
