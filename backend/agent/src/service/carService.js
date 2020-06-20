@@ -191,6 +191,7 @@ const completedRentals = async () => {
                        'totalCars': '1',
                        'finished': true
            });
+    }
 
 const completedRentalsBundles = async () => {
     let result = [];
