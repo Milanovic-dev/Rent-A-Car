@@ -239,7 +239,7 @@ class Routes extends Component {
                             )}
                         />
                         <Route
-                            path="/mileageReport/:id"
+                            path="/mileageReport/:id/:carId"
                             exact
                             render={(...renderProps) => (
                                 <MileageReport {...renderProps} {...this.props} />
@@ -253,7 +253,7 @@ class Routes extends Component {
                             )}
                         />
                         <Route
-                            path="/order/:id"
+                            path="/order-preview/:id"
                             exact
                             render={(...renderProps) => (
                                 <OrderPreview {...renderProps} {...this.props} />

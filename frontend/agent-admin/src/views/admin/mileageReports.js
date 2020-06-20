@@ -42,57 +42,18 @@ class MileageReports extends Component {
                 items: result
             })
         })
-        // let result = [
-        //     {
-        //         '_id': '15156161',
-        //         'cars': [
-        //             {
-        //                 'make': 'audi',
-        //                 'model': 'a6',
-        //                 'productionYear': '2015',
-        //                 'dateStart': '15.06.2020',
-        //                 'dateEnd': '20.06.2020',
-        //                 'rentedCar': 'audi a6 2015'
-        //             },
-        //             {
-        //                 'make': 'bmw',
-        //                 'model': 'x3',
-        //                 'productionYear': '2015',
-        //                 'dateStart': '15.06.2020',
-        //                 'dateEnd': '20.06.2020',
-        //                 'rentedCar': 'bmw x3 2015'
-        //             },
-        //             {
-        //                 'make': 'golf',
-        //                 'model': 'mk7',
-        //                 'productionYear': '2015',
-        //                 'dateStart': '15.06.2020',
-        //                 'dateEnd': '20.06.2020',
-        //                 'rentedCar': 'audi a6 2015'
-        //             }
-        //         ],
-        //         'totalCars': '3'
-        //     },
-        //     {
-        //         '_id': '22525266',
-        //         'cars': [
-        //             {
-        //                 'make': 'audi',
-        //                 'model': 'a6',
-        //                 'productionYear': '2015',
-        //                 'dateStart': '15.06.2020',
-        //                 'dateEnd': '20.06.2020',
-        //                 'rentedCar': 'audi a6 2015'
-        //             }
-        //         ],
-        //         'totalCars': '1'
-        //     }
-        // ];
-
-        // this.setState({
-        //     items: result
-        // })
-
+        fetch('http://localhost:8282/api/cars/completedRentals/bundles', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('token')}`
+            },
+        }).then((res) => res.json()).then((result) => {
+            this.setState({
+                data: result
+            })
+        })
+        
     }
 
     render() {
@@ -106,30 +67,59 @@ class MileageReports extends Component {
                         </Col>
                     </Row>
                     <Row className="table-head">
-                        <Col lg="4">
+                        <Col lg="2">
                             <span className="name">TOTAL CARS</span>
                         </Col>
                         <Col lg="4">
                             <span className="name">ORDER ID</span>
                         </Col>
-                        <Col lg="4">
-                            <span className="name">USER ID</span>
+                        <Col lg="3">
+                            <span className="name">OWNER ID</span>
+                        </Col>
+                        <Col lg="3">
+                            <span className="name">RENTER ID</span>
                         </Col>
 
                     </Row>
                     {
-                        this.state.items.map((item, idx) => {
+                        this.state.items && this.state.items.map((item, idx) => {
                             return (
-                                <Link to={`/order/${item._id}`}>
+                                <Link to={`/order-preview/${item._id}`}>
                                     <Row className="table-row" key={idx}>
-                                        <Col lg="4">
+                                        <Col lg="2">
                                             <span className="value">{item.totalCars}</span>
                                         </Col>
                                         <Col lg="4">
                                             <span className="value">{item._id}</span>
                                         </Col>
+                                        <Col lg="3">
+                                            <span className="value">{item.ownerId}</span>
+                                        </Col>
+                                        <Col lg="3">
+                                            <span className="value">{item.renterId}</span>
+                                        </Col>
+
+                                    </Row>
+                                </Link>
+                            )
+                        })
+                    }
+                    {
+                        this.state.data && this.state.data.map((item, idx) => {
+                            return (
+                                <Link to={`/order-preview/${item._id}`}>
+                                    <Row className="table-row" key={idx}>
+                                        <Col lg="2">
+                                            <span className="value">{item.totalCars}</span>
+                                        </Col>
                                         <Col lg="4">
-                                            <span className="value"></span>
+                                            <span className="value">{item._id}</span>
+                                        </Col>
+                                        <Col lg="3">
+                                            <span className="value">{item.ownerId}</span>
+                                        </Col>
+                                        <Col lg="3">
+                                            <span className="value">{item.renterId}</span>
                                         </Col>
 
                                     </Row>

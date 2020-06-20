@@ -26,7 +26,7 @@ class Messages extends Component {
 
     componentWillMount() {
         if (!localStorage.getItem('token')) {
-            this.props[0].history.push('/signin')
+            this.props[0].history.push('/login')
         }
 
     }
@@ -34,7 +34,7 @@ class Messages extends Component {
 
 
     getMyOrders = async () => {
-        fetch('https://localhost:8080/orders/', {
+        fetch('http://localhost:8282/api/orders/all', {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -54,7 +54,7 @@ class Messages extends Component {
     }
 
     getMessages = (username) => {
-        fetch('https://localhost:8080/message/all', {
+        fetch('http://localhost:8282/message/all', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -76,7 +76,7 @@ class Messages extends Component {
             return;
         }
 
-        fetch('https://localhost:8080/message/send', {
+        fetch('http://localhost:8282/message/send', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

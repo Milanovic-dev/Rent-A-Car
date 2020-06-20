@@ -19,7 +19,7 @@ class OrderPreview extends Component {
 
         this.state = {
             items: [],
-        
+            bundle: 0
         };
     }
 
@@ -31,7 +31,6 @@ class OrderPreview extends Component {
         // if (!localStorage.token) {
         //     return;
         // }
-        console.log(this.props[0].match.params.id);
         fetch('http://localhost:8282/api/cars/completedRentals/' + this.props[0].match.params.id, {
             method: 'GET',
             headers: {
@@ -39,49 +38,21 @@ class OrderPreview extends Component {
                 'Authorization': `Bearer ${localStorage.getItem('token')}`
             },
         }).then((res) => res.json()).then((result) => {
-            this.setState({
-                data: result,
-                items: result.cars
-            })
-        })
-        // let obj = {
-        //     '_id': '15156161',
-        //     'cars': [
-        //         {
-        //             'carId': '33333',
-        //             'make': 'audi',
-        //             'model': 'a6',
-        //             'productionYear': '2015',
-        //             'dateStart': '15.06.2020',
-        //             'dateEnd': '20.06.2020',
-        //             'rentedCar': 'audi a6 2015'
-        //         },
-        //         {
-        //             'carId': '2222',
-        //             'make': 'bmw',
-        //             'model': 'x3',
-        //             'productionYear': '2015',
-        //             'dateStart': '15.06.2020',
-        //             'dateEnd': '20.06.2020',
-        //             'rentedCar': 'bmw x3 2015'
-        //         },
-        //         {
-        //             'carId': '11111',
-        //             'make': 'golf',
-        //             'model': 'mk7',
-        //             'productionYear': '2015',
-        //             'dateStart': '15.06.2020',
-        //             'dateEnd': '20.06.2020',
-        //             'rentedCar': 'audi a6 2015'
-        //         }
-        //     ],
-        //     'totalCars': '3'
 
-        // };
-        // this.setState({
-        //     data: obj
-        // });
-        
+            if (result.totalCars != '1') {
+                this.setState({
+                    data: result,
+                    items: result.cars,
+                    bundle: 1
+                })
+            } else {
+                this.setState({
+                    data: result,
+                })
+            }
+
+        })
+
     }
 
     render() {
@@ -93,13 +64,13 @@ class OrderPreview extends Component {
                         <Col lg="12">
                             {
                                 this.state.data ?
-                                <>
-                                    <h3>Order: {this.state.data._id}</h3>
-                                    <h6>Owner id: {this.state.data.ownerId}</h6>
-                                    <h6>Renter id: {this.state.data.renterId}</h6>
-                                    <h6>Total cars: {this.state.data.totalCars}</h6>
-                                </>
-                                : null
+                                    <>
+                                        <h3>Order: {this.state.data._id}</h3>
+                                        <h6>Owner id: {this.state.data.ownerId}</h6>
+                                        <h6>Renter id: {this.state.data.renterId}</h6>
+                                        <h6>Total cars: {this.state.data.totalCars}</h6>
+                                    </>
+                                    : null
                             }
                         </Col>
                     </Row>
@@ -115,22 +86,38 @@ class OrderPreview extends Component {
                         </Col>
                     </Row>
                     {
-                        this.state.items.map((item, idx) => {
-                            return (
-                                <Row className="table-row" key={idx}>
-                                    <Col lg="4">
-                                        <span className="value">{item.make} {item.model} {item.productionYear}</span>
-                                    </Col>
-                                    <Col lg="4">
-                                        <span className="value">{item.dateStart} - {item.dateEnd}</span>
-                                    </Col>
-                                    <Col lg="4" className="actions">
-                                        <Link to={`/mileageReport/${item.carId}`}><Isvg src={report} /></Link>
-                                    </Col>
-                                </Row>
-                            )
-                        })
+                        this.state.data && this.state.bundle == 0 ?
+                            <Row className="table-row">
+                                <Col lg="4">
+                                    <span className="value">{this.state.data.car.make} {this.state.data.car.model} {this.state.data.car.productionYear}</span>
+                                </Col>
+                                <Col lg="4">
+                                    <span className="value">{this.state.data.car.from} - {this.state.data.car.to}</span>
+                                </Col>
+                                <Col lg="4" className="actions">
+                                    <Link to={`/mileageReport/${this.state.data._id}/${this.state.data.car._id}`}><Isvg src={report} /></Link>
+                                </Col>
+                            </Row>
+
+                            :
+                            this.state.items.map((item, idx) => {
+                                return (
+                                    <Row className="table-row" key={idx}>
+                                        <Col lg="4">
+                                            <span className="value">{item.make} {item.model} {item.productionYear}</span>
+                                        </Col>
+                                        <Col lg="4">
+                                            <span className="value">{item.from} - {item.to}</span>
+                                        </Col>
+                                        <Col lg="4" className="actions">
+                                            <Link to={`/mileageReport/${this.state.data._id}/${item._id}`}><Isvg src={report} /></Link>
+                                        </Col>
+                                    </Row>
+                                )
+                            }) 
+                            
                     }
+
                 </Container>
             </div>
         );
