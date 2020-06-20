@@ -92,6 +92,7 @@ const removeCar = async (id) => {
 
 
 const getCar = async (id) => {
+    await db.sync();
     let result = await db.collection(dbCollection).findOne(
         {
             _id: ObjectID(id)
@@ -109,6 +110,7 @@ const getCar = async (id) => {
 }
 
 const getAll = async () => {
+    await db.sync();
     let result = await db.collection(dbCollection).find({}).toArray();
     return {
         response: result,

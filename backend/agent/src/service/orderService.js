@@ -37,6 +37,7 @@ const declineOrder = async (id) => {
 }
 
 const getAll = async () => {
+    await db.sync();
     let res = await db.collection('orders').find({}).toArray();
 
     for(let order of res){
