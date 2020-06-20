@@ -31,7 +31,7 @@ const form = (props) => {
                             <Col lg="12">
                                 <Col lg="4" className="input-wrap">
                                     <Field
-                                        name="cars[0]rentedCar"
+                                        name="rentedCar"
                                         component={renderTextField}
                                         label={"Car"}
                                         placeholder=""
@@ -40,7 +40,7 @@ const form = (props) => {
                                 </Col>
                                 <Col lg="4" className="input-wrap">
                                     <Field
-                                        name="mileage"
+                                        name="newMileage"
                                         component={renderTextField}
                                         label={"Mileage"}
                                         placeholder=""

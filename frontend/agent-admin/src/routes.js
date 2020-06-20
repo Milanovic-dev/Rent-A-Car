@@ -252,7 +252,7 @@ class Routes extends Component {
                             )}
                         />
                         <Route
-                            path="/order/:id"
+                            path="/order-preview/:id"
                             exact
                             render={(...renderProps) => (
                                 <OrderPreview {...renderProps} {...this.props} />

@@ -36,18 +36,17 @@ class MileageReport extends Component {
 
         // }else{
 
-        data.rentedCar ? data.rentedCar = stripHtml(data.rentedCar) : data.rentedCar = "";
-        data.mileage ? data.mileage = stripHtml(data.mileage) : data.mileage = "";
+        data.newMileage ? data.newMileage = stripHtml(data.newMileage) : data.newMileage = "";
         data.additionalInfo ? data.additionalInfo = stripHtml(data.additionalInfo) : data.additionalInfo = "";
 
-        // fetch(`http://localhost:8282/api/cars/mileageReport/` + this.props[0].match.params.id, {
-        //     method: 'POST',
-        //     headers: {
-        //         'Content-Type': 'application/json',
-        //         'Authorization': `Bearer ${localStorage.getItem('token')}`
-        //     },
-        //     body: JSON.stringify(data)
-        // }).then((res) => this.props[0].history.push('/cars'))
+        fetch(`http://localhost:8282/api/cars/mileageReport/` + this.props[0].match.params.id, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('token')}`
+            },
+            body: JSON.stringify(data)
+        }).then((res) => this.props[0].history.push('/completedRentals'))
 
 
         // }
@@ -57,53 +56,22 @@ class MileageReport extends Component {
 
     }
     get() {
-        //  if (this.props[0].match.params.id) {
-        //     fetch('http://localhost:8282/api/cars/mileageReport/get/' + this.props[0].match.params.id, {
-        //         method: 'GET',
-        //         headers: {
-        //             'Content-Type': 'application/json',
-        //             'Authorization': `Bearer ${localStorage.getItem('token')}`
-        //         },
-        //     }).then((res) => res.json()).then((result) => {
-        //         this.setState({
-        //             data: result
-        //         })
-        //     });
-        // }
-        let obj = {
-            '_id': '15156161',
-            'cars': [
-                {
-                    'make': 'audi',
-                    'model': 'a6',
-                    'productionYear': '2015',
-                    'dateStart': '15.06.2020',
-                    'dateEnd': '20.06.2020',
-                    'rentedCar': 'audi a6 2015'
+         if (this.props[0].match.params.id) {
+            fetch('http://localhost:8282/api/cars/mileageReport/get/' + this.props[0].match.params.id, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`
                 },
-                {
-                    'make': 'bmw',
-                    'model': 'x3',
-                    'productionYear': '2015',
-                    'dateStart': '15.06.2020',
-                    'dateEnd': '20.06.2020',
-                    'rentedCar': 'bmw x3 2015'
-                },
-                {
-                    'make': 'golf',
-                    'model': 'mk7',
-                    'productionYear': '2015',
-                    'dateStart': '15.06.2020',
-                    'dateEnd': '20.06.2020',
-                    'rentedCar': 'audi a6 2015'
-                }
-            ],
-            'totalCars': '3'
+            }).then((res) => res.json()).then((result) => {
+                this.setState({
+                    data: result
+                })
+            });
 
-        };
-        this.setState({
-            data: obj
-        });
+        }
+        
+      
 
     }
 
