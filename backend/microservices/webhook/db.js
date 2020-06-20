@@ -62,6 +62,11 @@ const updateOp = async (db, collectionName, filter, update) => {
    if(ignoreOp(collectionName)) return;
 
    const res = await db.collection(collectionName).findOne(filter);
+
+   if(!res) {
+      return;
+   }
+
    const ownerId = res.ownerId;
    const changesCollection = await db.collection('changes').findOne({ownerId:ownerId, collName: collectionName});
 
@@ -79,7 +84,7 @@ const updateOp = async (db, collectionName, filter, update) => {
 const removeOp = async (db, collectionName, query) => {
    if(ignoreOp(collectionName)) return;
 
-   const res = await db.collection(collectionName).find(query).toArray();
+   const res = await db.collection(collectionName).findOne(query);
    const ownerId = res.ownerId
    const changesCollection = await db.collection('changes').findOne({collName: collectionName});
 
@@ -127,12 +132,6 @@ class dbSyncFunctions {
 
    async updateOne(filter, update, options) {
       const res = this.db.collection(this.collection).updateOne(filter, update, options);
-      await watchman.updateOp(this.db, this.collection, filter, update);
-      return res;
-   }
-
-   async updateMany(filter, update, options) {
-      const res = this.db.collection(this.collection).updateMany(filter, update, options);
       await watchman.updateOp(this.db, this.collection, filter, update);
       return res;
    }
