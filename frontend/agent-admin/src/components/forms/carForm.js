@@ -201,7 +201,7 @@ const form = (props) => {
                             <Col lg="6" className="input-wrap">
 
                                 <Field
-                                    name="image"
+                                    name="images"
                                     component={renderGalleryField}
 
                                 ></Field>

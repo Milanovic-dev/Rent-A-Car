@@ -237,7 +237,7 @@ class DetailPage extends Component {
                         onExited={this.onExited}
                     >
                         <div className="lightbox-item">
-                            <img src={'https://showroom-api.novamedia.agency/' + item} />
+                            <img src={item} />
                         </div>
 
                     </CarouselItem>
@@ -268,7 +268,7 @@ class DetailPage extends Component {
                                                 return (
 
                                                     <div onClick={() => this.setState({ previewImage: image, modalIdx: idx })} className={this.state.previewImage == image ? "image active" : "image"}>
-                                                        <img draggable="false" src={'https://showroom-api.novamedia.agency/' + image} />
+                                                        <img draggable="false" src={image} />
                                                     </div>
 
 

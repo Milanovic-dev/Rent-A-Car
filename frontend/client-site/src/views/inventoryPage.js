@@ -125,7 +125,7 @@ class InventoryPage extends Component {
                                                         title={product.make + " " + product.model}
                                                         // alias={product.alias}
                                                         id={product._id}
-                                                        // image={'https://showroom-api.novamedia.agency/' + product.images[0]}
+                                                        // image={product.images[0]}
                                                         fuel={product.fuel}
                                                         mileage={product.mileage}
                                                         year={product.productionYear}
