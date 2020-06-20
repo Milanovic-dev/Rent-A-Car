@@ -162,3 +162,11 @@
 1592652306777: METHOD:GET /api/cars/completedRentals PROTOCOL:http HOST:localhost IP:::1 
 1592652450617: METHOD:GET /api/cars/all PROTOCOL:http HOST:localhost IP:::1 
 1592652453451: METHOD:GET /api/cars/completedRentals PROTOCOL:http HOST:localhost IP:::1 
+1592660741604: METHOD:GET /api/cars/all PROTOCOL:http HOST:localhost IP:::1 
+1592660745000: METHOD:GET /api/cars/get/5eed0b0bd8c5bb002084335d PROTOCOL:http HOST:localhost IP:::1 
+1592660782446: METHOD:GET /api/cars/get/5eed0b0bd8c5bb002084335d PROTOCOL:http HOST:localhost IP:::1 
+1592660817031: METHOD:GET /api/cars/get/5eed0b0bd8c5bb002084335d PROTOCOL:http HOST:localhost IP:::1 
+1592660824837: METHOD:GET /api/cars/get/5eed0b0bd8c5bb002084335d PROTOCOL:http HOST:localhost IP:::1 
+1592660845955: METHOD:GET /api/cars/get/5eed0b0bd8c5bb002084335d PROTOCOL:http HOST:localhost IP:::1 
+1592661581744: METHOD:GET /api/cars/get/5eed0b0bd8c5bb002084335d PROTOCOL:http HOST:localhost IP:::1 
+1592661637393: METHOD:GET /api/cars/get/5eed0b0bd8c5bb002084335d PROTOCOL:http HOST:localhost IP:::1 
