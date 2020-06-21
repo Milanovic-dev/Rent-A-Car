@@ -24,7 +24,7 @@ const acceptOrder = async (id) => {
             await db.collection('orders').updateOne({_id:ObjectID(order._id)}, {$set:{status: 'CANCELED'}});
         }
 
-        const otherBundles = await db.collection('bundles').find({carIds: {$in: [id]}}).toArray();
+        const otherBundles = await db.collection('bundles').find({carIds: order.carId}).toArray();
         for(const bundle of otherBundles){
             await db.collection('bundles').updateOne({_id: ObjectID(bundle._id)}, {$set:{status: 'CANCELED'}});
         }
@@ -57,12 +57,12 @@ const acceptBundle = async (id) => {
 
     if(res.modifiedCount == 1){
         for(const carId of bundle.carIds){
-            const otherBundles = await db.collection('bundles').find({carIds: {$in: [carId]}}).toArray();
+            const otherBundles = await db.collection('bundles').find({carIds: carId}).toArray();
             for(const bundle of otherBundles){
                 await db.collection('bundles').updateOne({_id: ObjectID(bundle._id)}, {$set:{status: 'CANCELED'}});
             }
     
-            const otherOrders = await db.collection('orders').find({carId: ObjectID(carId)}).toArray();
+            const otherOrders = await db.collection('orders').find({carId}).toArray();
             for(const order of otherOrders){
                 await db.collection('orders').updateOne({_id: ObjectID(order._id)}, {$set:{status: 'CANCELED'}});
             }

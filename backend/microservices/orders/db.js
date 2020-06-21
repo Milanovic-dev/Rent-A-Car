@@ -84,17 +84,20 @@ const updateOp = async (db, collectionName, filter, update) => {
 const removeOp = async (db, collectionName, query) => {
    if(ignoreOp(collectionName)) return;
 
-   const res = await db.collection(collectionName).findOne(query);
+   const res = await db.collection(collectionName).findOne(query)
+
+   if(res.length == 0){
+      return;
+   }
    const ownerId = res.ownerId
    const changesCollection = await db.collection('changes').findOne({collName: collectionName});
 
+   
    if(!changesCollection) {
       await db.collection('changes').insertOne({ownerId: ownerId, collName: collectionName, toInsert:[], toUpdate:[], toRemove:[]});
    }
 
-   for(let i = 0 ; i < res.length ; i++){
-      await db.collection('changes').updateOne({ownerId: ownerId, collName:collectionName}, {$push:{toRemove: query}});
-   }
+   await db.collection('changes').updateOne({ownerId: ownerId, collName:collectionName}, {$push:{toRemove: query}});
 }
 
 const ignoreOp = (collectionName) => {
@@ -137,16 +140,10 @@ class dbSyncFunctions {
    }
 
    async deleteOne(filter, options) {
-      const res = this.db.collection(this.collection).deleteOne(filter, options);
       await watchman.removeOp(this.db, this.collection, filter);
+      const res = this.db.collection(this.collection).deleteOne(filter, options);
       return res;
    };
-
-   async deleteMany(filter, options) {
-      const res = this.db.collection(this.collection).deleteMany(filter, options);
-      await watchman.removeOp(this.db, this.collection, filter);
-      return res;
-   }
 
    drop(){
      return this.db.collection(this.collection).drop();

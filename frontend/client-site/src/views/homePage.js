@@ -62,10 +62,11 @@ class HomePage extends Component {
 
         console.log(data);
         fetch('https://localhost:8080/search/cars', {
-            method: 'GET',
+            method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
+            body: JSON.stringify(data)
         }).then((res) => res.json()).then((result) => {
             console.log(result);
             this.setState({
@@ -166,7 +167,7 @@ class HomePage extends Component {
                                             <Article
                                                 title={product.make + ' ' + product.model}
                                                 id={product._id}
-                                                image={ product.image}
+                                                images={product.images}
                                                 fuel={product.fuel}
                                                 mileage={product.mileage}
                                                 year={product.productionYear}

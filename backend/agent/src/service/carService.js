@@ -76,6 +76,23 @@ const updateCar = async (car) => {
 };
 
 const removeCar = async (id) => {
+
+    const orders = await db.collection('orders').find({carId: id}).toArray();
+
+    if(orders){
+        if(orders.length > 0){
+            return {status: 400};
+        }
+    }
+
+    const bundles = await db.collection('bundles').find({carIds: {$in:[id]}}).toArray();
+
+    if(bundles){
+        if(bundles.length > 0){
+            return {status:400};
+        }
+    }
+
     let result = await db.collection(dbCollection).deleteOne(
         {
             _id: ObjectID(id)

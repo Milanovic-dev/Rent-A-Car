@@ -146,15 +146,16 @@ class Requests extends Component {
     }
 
     renderOrders(item, i){
+        console.log(item);
         return (
         <>
             <Col md="12" key={i}>
                 <span>order id: {item._id}</span>
                 <div className="order-item">
                     <div className="order-sidebar"></div>
-                    <span className="order-item-img"><img width="120px" src={item.images ? item.images[0] : ""} alt=""></img></span>
+                    <span className="order-item-img"><img width="120px" src={item.car.images ? item.car.images[0] : ""} alt=""></img></span>
                     <span className="order-item-info"><NavLink style={{color:'#da212e'}} to={`/cars/${item.car._id}`}>{`${item.car.make} ${item.car.model} ${item.car.power}kw ${item.car.fuel}`}</NavLink></span>
-                    <span className="order-item-options">{`${item.from} - ${item.to}`}</span>
+                    <span className="order-item-options">{item.from && item.to ? `${item.from} - ${item.to}` : 'N/A'}</span>
                     <span className="order-item-price">{item.car.price}€</span>
                     <span className="order-item-owner">{item.renterId}</span>
                     <span className="order-item-status" style={{color: this.getStatusColor(item.status)}}>{item.status}</span>
@@ -177,7 +178,7 @@ class Requests extends Component {
                     <div className="order-sidebar"></div>
                     <button className="bundle-item-info" id={`toggler${i}`}>Cars</button>
                     <span className="bundle-item-owner">{item.ownerId}</span>
-                    <span className="bundle-item-price">{item.price}€<span style={{color:'red'}}>{` (-20%)`}</span></span>
+                    <span className="bundle-item-price">{item.price}€<span style={{color:'green'}}>{` (-20%)`}</span></span>
                     <span className="bundle-item-status" style={{color: this.getStatusColor(item.status)}}>{item.status}</span>
                 </div>
                     <UncontrolledCollapse toggler={`#toggler${i}`}>
@@ -185,9 +186,9 @@ class Requests extends Component {
                         <Card>
                             <CardBody>
                             <div className="order-item">
-                                <span className="order-item-img"><img src="./fsd.png" alt=""></img></span>
+                                <span className="order-item-img"><img width="120px" src={car.images ? car.images[0] : ""} alt=""></img></span>
                                 <span className="order-item-info"><NavLink style={{color:'#da212e'}} to={`/cars/${car._id}`}>{`${car.make} ${car.model} ${car.power}kw ${car.fuel}`}</NavLink></span>
-                                <span className="order-item-options">{`${car.from} - ${car.to}`}</span>
+                                <span className="order-item-options">{car.from && car.to ? `${car.from} - ${car.to}` : 'N/A'}</span>
                                 <span className="order-item-price">{car.price}€</span>
                             </div>
                             </CardBody>
@@ -236,5 +237,10 @@ class Requests extends Component {
         )
     }
 }
+
+Requests = reduxForm({
+    form: 'requestsForm', // a unique identifier for this form,
+    initialValues: { condition: 'all' }
+})(Requests)
 
 export default Requests;
