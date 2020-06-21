@@ -285,7 +285,13 @@ class Routes extends Component {
                             )}
                         />
 
-
+                        <Route
+                            path="/carBundles"
+                            exact
+                            render={(...renderProps) => (
+                                <Bundles {...renderProps} {...this.props} />
+                            )}
+                        />
                     </Switch>
                 </div>
             </Router >
