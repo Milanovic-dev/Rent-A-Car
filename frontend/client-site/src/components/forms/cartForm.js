@@ -30,7 +30,8 @@ const renderTextField = ({
 const cartForm = (props) => {
     const { handleSubmit, pristine, submitting, data, checkBundle } = props;
 
-    const removeFromCart = (id) => {
+    const removeFromCart = (e, id) => {
+        e.preventDefault();
         fetch(`https://localhost:8080/orders/cart/remove/${id}`, {
             method:'POST',
             headers: {
@@ -87,10 +88,10 @@ const cartForm = (props) => {
                                 return (
                                 <Col md="12" className="cart-item" key={i}>
                                     <span className="cart-item-image"><img width="120px" src={item.images ? item.images[0] : ""}></img></span>
-                                    <span className="cart-item-info"><NavLink style={{color:'#da212e'}} to={`/cars/${item._id}`}>{`${item.make} ${item.model} ${item.power}kw ${item.fuel}`}</NavLink></span>
+                                    <span className="cart-item-info"><NavLink style={{color:'#da212e'}} to={`/cars/${item._id}`}>{`${item.make} ${item.model} ${item.power}kw`}</NavLink></span>
                                     <span className="cart-item-options">{item.from && item.to ? `${item.from} - ${item.to}`: `N/A`}</span>
                                     <span className="cart-item-price">{item.price}€</span>
-                                    <span className="cart-item-remove" style={{backgroundColor:'white'}} onClick={()=> {removeFromCart(item._id)}}><Isvg src={Delete}></Isvg></span>
+                                    <button className="cart-item-remove" style={{backgroundColor:'white'}} onClick={(e)=> {removeFromCart(e, item._id)}}><Isvg src={Delete}></Isvg></button>
                                 </Col>
                                 )
                             }) : null}
@@ -102,7 +103,7 @@ const cartForm = (props) => {
                 <Row>
                 <Col md="12" style={{marginTop: '3%'}}>
                         <div className="input-wrap buttons">
-                            <h5>Total: {data ? total() : ''}€</h5>
+                            <h5 style={{fontWeight:'bold'}}>Total: {data ? total() : ''}€</h5>
                         </div>
                     </Col>
                     <Col md="12" style={{marginTop: '-3%'}}>

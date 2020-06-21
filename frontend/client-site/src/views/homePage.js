@@ -172,6 +172,8 @@ class HomePage extends Component {
                                                 mileage={product.mileage}
                                                 year={product.productionYear}
                                                 price={product.price}
+                                                from={product.from}
+                                                to={product.to}
                                             />
                                         </Col>
                                     )
