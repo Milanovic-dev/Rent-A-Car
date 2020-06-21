@@ -6,7 +6,19 @@ const cors = require('cors');
 const service = require('./src/service');
 app.use(bodyParser.json({limit:'20mb'}));
 app.use(cors());
+app.use((req, res, next) => {
+    const auth = req.headers.authorization;
 
+    if(auth){
+        const token = auth.split(' ')[1];
+
+        if(!token) req.headers.authorization = undefined;
+        if(token == null) req.headers.authorization = undefined;
+        if(token == 'null') req.headers.authorization = undefined;
+    }
+
+    next();
+});
 
 const server = http.createServer(app);
 

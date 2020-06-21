@@ -142,6 +142,7 @@ class dbSyncWrapper {
          if(err){
             console.error(err.Fault);
             console.log(`Sync: `.yellow + ` failed (SoapError)`.red);
+            reject('Error')
          }
         
          let responseBody;
@@ -150,6 +151,7 @@ class dbSyncWrapper {
          }
          catch(err){
             console.log(`Sync: `.yellow + ` failed (Can't parse response)`.red);
+            reject('Error')
             return;
          }
         
@@ -159,6 +161,7 @@ class dbSyncWrapper {
         
          if(responseBody.status/100 !== 2){
             console.log(`Sync: `.yellow + ` failed (Status: ${responseBody.status} Reason: ${responseBody.reason})`.red);
+            reject('Error')
             return;
          }
    

@@ -10,6 +10,19 @@ app.use(bodyParser.json());
 app.use(logger);
 app.use('/cars/uploads', express.static('uploads'))
 app.use(fileUpload());
+app.use((req, res, next) => {
+    const auth = req.headers.authorization;
+
+    if(auth){
+        const token = auth.split(' ')[1];
+
+        if(!token) req.headers.authorization = undefined;
+        if(token == null) req.headers.authorization = undefined;
+        if(token == 'null') req.headers.authorization = undefined;
+    }
+
+    next();
+});
 
 const service = require('./src/services/carService');
 
