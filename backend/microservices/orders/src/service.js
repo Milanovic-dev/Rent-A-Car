@@ -108,7 +108,7 @@ const acceptOrder = async (id) => {
     let result = await db.collection('orders').find({_id: {$ne: ObjectID(id)}, carId: order.carId}).toArray();
 
     for(const order of result){
-        db.collection('orders').updateOne({_id:ObjectID(order)}, {$set:{status: 'CANCELED'}});
+        db.collection('orders').updateOne({_id:ObjectID(order._id)}, {$set:{status: 'CANCELED'}});
     }
 
     return { status: '200' };

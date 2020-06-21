@@ -93,7 +93,7 @@ class Bundles extends Component {
                 <Container fluid className="table">
                     <Row className="page-title">
                         <Col lg="12">
-                            <h3>Orders</h3>
+                            <h3>Bundles</h3>
                         </Col>
                     </Row>
                     <Row className="table-head">
@@ -101,7 +101,7 @@ class Bundles extends Component {
                             <span className="name">Id</span>
                         </Col>
                         <Col lg="2">
-                            <span className="name">Info</span>
+                            <span className="name">Cars</span>
                         </Col>
                         <Col lg="2">
                             <span className="name">Renter</span>
@@ -121,7 +121,11 @@ class Bundles extends Component {
                                         <span className="name">{item._id}</span>
                                     </Col>
                                     <Col lg="2">
-                                        <span className="name">{`${item.car && item.car.make} ${item.car && item.car.model} ${item.car && item.car.fuel}`}</span>
+                                        {item.cars ? item.cars.map((car, i) => (
+                                            <Row>
+                                            <span className="name">{`${car && car.make} ${car && car.model} ${car && car.fuel}`}</span>
+                                            </Row>
+                                        )) : null}
                                     </Col>
                                     <Col lg="2">
                                         <span className="name">{item.renterId}</span>

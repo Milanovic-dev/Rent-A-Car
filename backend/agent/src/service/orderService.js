@@ -12,10 +12,23 @@ dbConnect(process.env.DB_USERNAME, process.env.DB_PASSWORD, process.env.DB_SERVE
 const acceptOrder = async (id) => {
 
     if(!id) return { status:400 }
+    const order = await db.collection('orders').findOne({_id: ObjectID(id)});
 
     let res = await db.collection('orders').updateOne({_id: ObjectID(id)}, {$set:{status: 'PAID'}});
-
+    
+    
     if(res.modifiedCount == 1){
+        let otherOrders = await db.collection('orders').find({_id: {$ne: ObjectID(id)}, carId: order.carId}).toArray();
+ 
+        for(const order of otherOrders){
+            await db.collection('orders').updateOne({_id:ObjectID(order._id)}, {$set:{status: 'CANCELED'}});
+        }
+
+        const otherBundles = await db.collection('bundles').find({carIds: {$in: [id]}}).toArray();
+        for(const bundle of otherBundles){
+            await db.collection('bundles').updateOne({_id: ObjectID(bundle._id)}, {$set:{status: 'CANCELED'}});
+        }
+
         db.sync();
         return {status: 200};
     }
@@ -27,6 +40,45 @@ const declineOrder = async (id) => {
     if(!id) return { status:400 }
 
     let res = await db.collection('orders').updateOne({_id: ObjectID(id)}, {$set:{status: 'CANCELED'}});
+
+    if(res.modifiedCount == 1){
+        db.sync();
+        return {status: 200};
+    }
+
+    return { status: 404 };
+}
+
+const acceptBundle = async (id) => {
+    if(!id) return { status:400 }
+
+    const bundle = await db.collection('bundles').findOne({_id:ObjectID(id)});
+    const res = await db.collection('bundles').updateOne({_id: ObjectID(id)}, {$set:{status: 'PAID'}});
+
+    if(res.modifiedCount == 1){
+        for(const carId of bundle.carIds){
+            const otherBundles = await db.collection('bundles').find({carIds: {$in: [carId]}}).toArray();
+            for(const bundle of otherBundles){
+                await db.collection('bundles').updateOne({_id: ObjectID(bundle._id)}, {$set:{status: 'CANCELED'}});
+            }
+    
+            const otherOrders = await db.collection('orders').find({carId: ObjectID(carId)}).toArray();
+            for(const order of otherOrders){
+                await db.collection('orders').updateOne({_id: ObjectID(order._id)}, {$set:{status: 'CANCELED'}});
+            }
+        }
+        
+        db.sync();
+        return {status: 200};
+    }
+
+    return {status: 404 };
+}
+
+const declineBundle = async (id) => {
+    if(!id) return { status:400 }
+
+    const res = await db.collection('bundles').updateOne({_id: ObjectID(id)}, {$set:{status: 'PAID'}});
 
     if(res.modifiedCount == 1){
         db.sync();
@@ -67,5 +119,7 @@ module.exports = {
     getAll,
     getAllBundles,
     acceptOrder,
-    declineOrder
+    declineOrder,
+    acceptBundle,
+    declineBundle
 }
