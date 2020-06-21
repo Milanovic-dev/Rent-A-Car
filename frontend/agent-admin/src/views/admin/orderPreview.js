@@ -42,7 +42,7 @@ class OrderPreview extends Component {
             if (result.totalCars != '1') {
                 this.setState({
                     data: result,
-                    items: result.cars,
+                    items: result.carIds,
                     bundle: 1
                 })
             } else {

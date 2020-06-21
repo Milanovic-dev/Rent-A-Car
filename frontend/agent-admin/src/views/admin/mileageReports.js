@@ -74,10 +74,10 @@ class MileageReports extends Component {
                             <span className="name">ORDER ID</span>
                         </Col>
                         <Col lg="3">
-                            <span className="name">OWNER ID</span>
+                            <span className="name">OWNER</span>
                         </Col>
                         <Col lg="3">
-                            <span className="name">RENTER ID</span>
+                            <span className="name">RENTER</span>
                         </Col>
 
                     </Row>

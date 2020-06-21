@@ -180,7 +180,7 @@ const getAll = async () => {
           result[i].user = user[0];
 
     }
-    console.log(result);
+    // console.log(result);
 
     return {
         response: result,

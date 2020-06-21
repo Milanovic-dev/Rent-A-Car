@@ -17,7 +17,7 @@ module.exports = function(app){
 
         if(!req.params.id) return res.status('400');
 
-        let result = await service.get(req.params.id);
+        let result = await service.get(req.params.id, req.headers.authorization);
         res.status(result.status).send(result.response);
     });
 

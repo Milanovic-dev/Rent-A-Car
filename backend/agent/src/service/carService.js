@@ -131,12 +131,12 @@ const completedRental = async (id) => {
     } else if (bundles[0]) {
         result = bundles[0];
         let car = {};
-        for (let i = 0; i < result.cars.length; i++) {
-            car = await db.collection('cars').find({ _id: ObjectID(result.cars[i]) }).toArray();
-            result.cars[i] = car[0];
+        for (let i = 0; i < result.carIds.length; i++) {
+            car = await db.collection('cars').find({ _id: ObjectID(result.carIds[i]) }).toArray();
+            result.carIds[i] = car[0];
         }
 
-        result.totalCars = String(result.cars.length);
+        result.totalCars = String(result.carIds.length);
         console.log(result);
     }
     return {
@@ -202,7 +202,7 @@ const completedRentalsBundles = async () => {
     for (let i = 0; i < result.length; i++) {
         // car[i] = await db.collection('cars').find({ _id: ObjectID(result[i].carId) }).toArray();
         // result[i].car = car[i];
-        result[i].totalCars = String(result[i].cars.length);
+        result[i].totalCars = String(result[i].carIds.length);
     }
     return {
         response: result,
