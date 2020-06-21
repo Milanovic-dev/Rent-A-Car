@@ -119,10 +119,10 @@ class DetailPage extends Component {
     }
 
     componentDidMount() {
-       this.get();
+        this.get();
 
     }
-    get(){
+    get() {
         fetch('https://localhost:8080/cars/get/' + this.props[0].match.params.id, {
             method: 'GET',
             headers: {
@@ -143,7 +143,7 @@ class DetailPage extends Component {
                 'Authorization': `Bearer ${localStorage.getItem('token')}`
             },
         }).then((res) => res.json()).then((result) => {
-            
+
             this.setState({
                 reviews: result,
             })
@@ -297,7 +297,7 @@ class DetailPage extends Component {
                                         <div className="price">
                                             <label>RATING</label>
                                             <div>
-                                                <p style={{color:"#fda919"}}>{this.state.product && this.state.product.rating}*</p>
+                                                <p style={{ color: "#fda919" }}>{this.state.product && this.state.product.rating}*</p>
                                             </div>
 
                                         </div>
@@ -434,7 +434,7 @@ class DetailPage extends Component {
                                     <div >
                                         <Row>
                                             <Col md="12" >
-                                                <p>Collision Damage Waiver Protection: {this.state.product && this.state.product.cdwp}</p><br/>
+                                                <p>Collision Damage Waiver Protection: {this.state.product && this.state.product.cdwp}</p><br />
                                                 <p dangerouslySetInnerHTML={{ __html: this.state.product && this.state.product.description }}></p>
                                             </Col>
                                         </Row>
@@ -442,38 +442,43 @@ class DetailPage extends Component {
                                 </Col>
 
                                 <Col md="12" className="extra-features">
+                                    {
+                                        this.state.product && this.state.product.commentAllow ?
+                                            <div >
+                                                <Row>
+                                                    <Col md="12" >
+                                                        <CommentForm onSubmit={this.submitComment} />
+                                                    </Col>
+                                                </Row>
+                                            </div>
+                                            : null
+                                    }
 
-                                    <div >
-                                        <Row>
-                                            <Col md="12" >
-                                                <CommentForm onSubmit={this.submitComment} />
-                                            </Col>
-                                        </Row>
-                                    </div>
+
                                 </Col>
                                 <Col md="12" >
-                                    
+
 
                                     <div className="comments">
-                                    <h3>COMMENTS</h3>
+                                        <h3>COMMENTS</h3>
                                         <Row>
                                             <Col md="12" >
                                                 {
                                                     this.state.reviews && this.state.reviews.map((comment) => {
-                                                        if(comment.status == 2)
-                                                        return (
-                                                            <Col md="12">
-                                                                <Comment
-                                                                    rate={comment.rate}
-                                                                    id={comment._id}
-                                                                    image={account}
-                                                                    comment={comment.comment}
-                                                                    userId={comment.userId}
-                                                                    date={comment.date}
-                                                                />
-                                                                
-                                                            </Col>
-                                                        )
+                                                        if (comment.status == 2)
+                                                            return (
+                                                                <Col md="12">
+                                                                    <Comment
+                                                                        rate={comment.rate}
+                                                                        id={comment._id}
+                                                                        image={account}
+                                                                        comment={comment.comment}
+                                                                        userId={comment.userId}
+                                                                        date={comment.date}
+                                                                    />
+
+                                                                </Col>
+                                                            )
                                                     })
                                                 }
                                             </Col>

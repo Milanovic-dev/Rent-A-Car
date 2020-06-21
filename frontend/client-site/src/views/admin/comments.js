@@ -4,6 +4,8 @@ import { connect } from 'react-redux';
 import FilterForm from '../../components/forms/filterForm';
 import PageHeader from '../../containers/header/pageHeader';
 import Footer from '../../containers/footer';
+import { Link, Redirect } from 'react-router-dom';
+
 import Map from '../../components/map';
 import {
     Container,
@@ -34,7 +36,7 @@ class Comments extends Component {
     componentDidMount() {
         this.get();
     }
-    get(){
+    get() {
         fetch('https://127.0.0.1:8080/review/getAll', {
             method: 'GET',
             headers: {
@@ -52,7 +54,7 @@ class Comments extends Component {
         //     return;
         // }
 
-     
+
 
 
         fetch('https://127.0.0.1:8080/review/allow/' + id, {
@@ -72,7 +74,7 @@ class Comments extends Component {
         // }
 
 
-       
+
         fetch('https://127.0.0.1:8080/review/disallow/' + id, {
             method: 'POST',
             headers: {
@@ -91,6 +93,9 @@ class Comments extends Component {
 
         return (
             <div>
+                {
+                    !localStorage.getItem('token') ? <Redirect to={'/signin'}></Redirect> : null
+                }
                 <PageHeader page='Fahrzeuge' {...this.props} />
                 <div className="page-wrap">
                     <Container className="table">
@@ -123,9 +128,16 @@ class Comments extends Component {
                         {
                             this.state.items && this.state.items.map((item, idx) => {
                                 return (
+
                                     <Row className="table-row" key={idx}>
                                         <Col lg="2">
-                                            <span className="value">{item.car.make} {item.car.model} {item.car.productionYear} </span>
+                                            {
+                                                item.car ?
+                                                    <span className="value">{item.car.make} {item.car.model} {item.car.productionYear} </span>
+                                                :
+                                                <span className="value">{item.carId} </span>
+                                            }
+
                                         </Col>
                                         <Col lg="1">
                                             <span className="value">{item.date} </span>
@@ -143,19 +155,19 @@ class Comments extends Component {
                                         <Col lg="3" className="actions">
                                             {
                                                 item.status == 0 ?
-                                                <div className="btns">
-                                                    <button className="button-allow"  onClick={() => { this.allow(item._id) }}>ODOBRI</button>
-                                                    <button className="button-disallow" onClick={() => { this.disallow(item._id) }}>ODBIJ</button>
-                                                </div>
-                                                : 
-                                                item.status == 1 ?
-                                                <div className="btns">
-                                                    <button className="button-allow" onClick={() => { this.allow(item._id) }}>ODOBRI</button>
-                                                </div>
-                                                :
-                                                <div className="btns">
-                                                    <button className="button-disallow" onClick={() => { this.disallow(item._id) }}>ODBIJ</button>
-                                                </div>
+                                                    <div className="btns">
+                                                        <button className="button-allow" onClick={() => { this.allow(item._id) }}>ODOBRI</button>
+                                                        <button className="button-disallow" onClick={() => { this.disallow(item._id) }}>ODBIJ</button>
+                                                    </div>
+                                                    :
+                                                    item.status == 1 ?
+                                                        <div className="btns">
+                                                            <button className="button-allow" onClick={() => { this.allow(item._id) }}>ODOBRI</button>
+                                                        </div>
+                                                        :
+                                                        <div className="btns">
+                                                            <button className="button-disallow" onClick={() => { this.disallow(item._id) }}>ODBIJ</button>
+                                                        </div>
                                             }
                                         </Col>
                                     </Row>

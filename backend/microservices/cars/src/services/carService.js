@@ -12,17 +12,17 @@ const { response } = require('express');
 
 let db;
 dbConnect(process.env.DB_USERNAME, process.env.DB_PASSWORD, process.env.DB_SERVER, process.env.DB_NAME)
-.then((conn) => {
-    db = conn;
-}).catch((e) => {
-    console.log(`DB error: ${e}`);
-})
+    .then((conn) => {
+        db = conn;
+    }).catch((e) => {
+        console.log(`DB error: ${e}`);
+    })
 
 const upload = (file, res) => {
-        
+
 
     let fname = uuidv4();
-    let extension = '.'  + file.name.split('.').pop();
+    let extension = '.' + file.name.split('.').pop();
 
     if (extension.indexOf('svg') != -1) {
         extension = '.svg';
@@ -32,11 +32,11 @@ const upload = (file, res) => {
     let filename = fname + extension;
 
     file.mv('./uploads/' + filename, (err) => {
-        if (err){
+        if (err) {
             res.status(500).send('Error');
         }
 
-        res.status(200).send({file:'https://localhost:8080/cars/uploads/' + filename});
+        res.status(200).send({ file: 'https://localhost:8080/cars/uploads/' + filename });
 
 
     })
@@ -44,6 +44,7 @@ const upload = (file, res) => {
 
 
 const createCar = async (car, authorization) => {
+
     
   if(car == undefined) return { status: 400 }; 
 
@@ -73,133 +74,155 @@ const createCar = async (car, authorization) => {
 
 const updateCar = async (car) => {
 
-  if(car == undefined) return { status: 400 }; 
+    if (car == undefined) return { status: 400 };
 
-  let dbCar = await db.collection(dbCollection).findOne(
-      {
-          _id: ObjectID(car._id)
-      }
-  );
+    let dbCar = await db.collection(dbCollection).findOne(
+        {
+            _id: ObjectID(car._id)
+        }
+    );
 
-  if(!dbCar){
-      return { status:404 };
-  }
+    if (!dbCar) {
+        return { status: 404 };
+    }
 
-  let result = await db.collection(dbCollection).updateOne(
-      {
-          _id : ObjectID(car._id)
-      },
-      {
-          $set: {
-              location: car.location ? car.location : dbCar.location,
-              make: car.make ? car.make : dbCar.make,
-              model: car.model ? car.model : dbCar.model,
-              fuel: car.fuel ? car.fuel : dbCar.fuel,
-              transmission: car.transmission ? car.transmission : dbCar.transmission,
-              class: car.class ? car.class : dbCar.class,
-              mileage: car.mileage ? car.mileage : dbCar.mileage,
-              cdw: car.cdw ? car.cdw : dbCar.cdw,
-              seatCount: car.seatCount ? car.seatCount : dbCar.seatCount,
-              description: car.description ? car.description : dbCar.description
-          }
-      }
-  );
+    let result = await db.collection(dbCollection).updateOne(
+        {
+            _id: ObjectID(car._id)
+        },
+        {
+            $set: {
+                location: car.location ? car.location : dbCar.location,
+                make: car.make ? car.make : dbCar.make,
+                model: car.model ? car.model : dbCar.model,
+                fuel: car.fuel ? car.fuel : dbCar.fuel,
+                transmission: car.transmission ? car.transmission : dbCar.transmission,
+                class: car.class ? car.class : dbCar.class,
+                mileage: car.mileage ? car.mileage : dbCar.mileage,
+                cdw: car.cdw ? car.cdw : dbCar.cdw,
+                seatCount: car.seatCount ? car.seatCount : dbCar.seatCount,
+                description: car.description ? car.description : dbCar.description
+            }
+        }
+    );
 
-  if(result.modifiedCount == 1){
-      return { status:200 };
-  }
+    if (result.modifiedCount == 1) {
+        return { status: 200 };
+    }
 
-  return { status: 404 };
+    return { status: 404 };
 };
 const busyCar = async (car) => {
 
-    if(car == undefined) return { status: 400 }; 
-  
+    if (car == undefined) return { status: 400 };
+
     let dbCar = await db.collection(dbCollection).findOne(
         {
             _id: ObjectID(car.id)
         }
     );
-  
-    if(!dbCar){
-        return { status:404 };
+
+    if (!dbCar) {
+        return { status: 404 };
     }
-  
+
     let result = await db.collection(dbCollection).updateOne(
         {
-            _id : ObjectID(car.id)
+            _id: ObjectID(car.id)
         },
         {
             $set: {
                 busyFrom: car.busyFrom,
-                busyTo: car.busyTo                
+                busyTo: car.busyTo
             }
         }
     );
-  
-    if(result.modifiedCount == 1){
-        return { status:200 };
+
+    if (result.modifiedCount == 1) {
+        return { status: 200 };
     }
-  
+
     return { status: 404 };
-  };
-  
-
-const removeCar = async (id) => {
-  let result = await db.collection(dbCollection).deleteOne(
-      {
-          _id: ObjectID(id)
-      }
-  );
-
-  if(result.deletedCount == 1){
-      return { status: 200 };
-  }
-
-  return { status: 404 };
 };
 
 
-const getCar = async (id) => {
-  let result = await db.collection(dbCollection).findOne(
-      {
-          _id: ObjectID(id)
-      }
-  );
+const removeCar = async (id) => {
+    let result = await db.collection(dbCollection).deleteOne(
+        {
+            _id: ObjectID(id)
+        }
+    );
 
-  if(result){
-      return {
-          response: result,
-          status: 200
-      };
-  }
+    if (result.deletedCount == 1) {
+        return { status: 200 };
+    }
 
-  return { status: 404 };
+    return { status: 404 };
+};
+
+
+const getCar = async (id, authorization) => {
+    let result = await db.collection(dbCollection).findOne(
+        {
+            _id: ObjectID(id)
+        }
+    );
+    const userId = await verifyToken(authorization.split(' ')[1]);
+    console.log(userId);
+    let orders = await db.collection('orders').find({ $and: [{ carId: id }, { renterId: userId }] }).toArray();
+    let bundles = await db.collection('bundles').find({ $and: [{ renterId: userId }] }).toArray();
+
+    let bndl = 0;
+    for (let i = 0; i < bundles.length; i++) {
+        for (let j = 0; j < bundles[i].carIds.length; j++) {
+            if (id == bundles[i].carIds[j]) {
+                bndl++;
+            }
+        }
+
+    }
+    console.log(orders.length);
+    console.log(bndl);
+
+    if (orders.length > 0 || bndl > 0) {
+        result.commentAllow = true;
+    } else {
+        result.commentAllow = false;
+    }
+
+    if (result) {
+        return {
+            response: result,
+            status: 200
+        };
+    }
+
+    return { status: 404 };
 };
 
 const getAll = async (authorization) => {
 
     let result = await db.collection(dbCollection).find().toArray();
-    
-    if(authorization) {
+
+    if (authorization) {
         const id = await verifyToken(authorization.split(' ')[1]);
 
-        for(let car of result) {
-            if(car.ownerId == id){
+        for (let car of result) {
+            if (car.ownerId == id) {
                 car.userCar = true;
             }
         }
     }
 
 
-  return {
-      response: result,
-      status: 200
-  };
+    return {
+        response: result,
+        status: 200
+    };
 };
 
 const carStats = async () => {
-    result = [{'name':'Aleksandar'}];
+    result = [{ 'name': 'Aleksandar' }];
 
     return {
         response: result,
@@ -209,11 +232,11 @@ const carStats = async () => {
 
 const verifyToken = async (token) => {
 
-    if(!token) return '400';
+    if (!token) return '400';
 
     const result = await new Promise((resolve, reject) => {
         jwt.verify(token, process.env.JWT_SECRET, (err, tokenData) => {
-            if(err){
+            if (err) {
                 console.error(err);
                 reject('401');
             }
@@ -225,12 +248,12 @@ const verifyToken = async (token) => {
 }
 
 module.exports = {
-  create: createCar,
-  busy: busyCar,
-  update: updateCar,
-  remove: removeCar,
-  get: getCar,
-  stats: carStats,
-  getAll,
-  upload
+    create: createCar,
+    busy: busyCar,
+    update: updateCar,
+    remove: removeCar,
+    get: getCar,
+    stats: carStats,
+    getAll,
+    upload
 };
