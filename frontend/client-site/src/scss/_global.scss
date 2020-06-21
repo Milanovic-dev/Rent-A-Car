@@ -1904,6 +1904,7 @@ button{
         display: flex;
         
         position: relative;
+        z-index: 999;
         textarea{
             width: 100%;
             border-radius: 50px;
@@ -2068,3 +2069,23 @@ button{
     }
   }
   
+
+
+  .messages-icon{
+      position: fixed;
+      bottom: 52px;
+      right: 64px;
+      width: 46px;
+      height: 48px;
+      background-color: $red;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    svg{
+        path{
+            fill: $white;
+        }
+    }
+    
+}

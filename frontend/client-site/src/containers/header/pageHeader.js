@@ -50,7 +50,7 @@ class PageHeader extends Component {
                                             <Link to='/' className={this.props[0].location.pathname === '/'  ? 'active' : null}>Home Page</Link>
                                         </NavItem>
                                         <NavItem>
-                                            <Link to='/ads' className={this.props[0].location.pathname === '/ads'  ? 'active' : null}>Ads</Link>
+                                            <Link to='/ads' className={this.props[0].location.pathname === '/ads'  ? 'active' : null}>Offers</Link>
                                         </NavItem>
                                         <NavItem>
                                             <Link to='/cars/new' className={this.props[0].location.pathname === '/cars/new'  ? 'active' : null}>Create ad</Link>

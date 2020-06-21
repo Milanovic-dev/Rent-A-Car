@@ -123,12 +123,15 @@ class ChangeCar extends Component {
                     'Authorization': `Bearer ${localStorage.getItem('token')}`
                 },
                 body: JSON.stringify(data)
-            }).then((res) => this.props[0].history.push('/ads'))
-
-
+            }).then((res) => {
+                if(res.status == 201){
+                    this.props[0].history.push('/ads')
+                }
+                else if(res.status == 405){
+                    console.log('Cant create more than 3');
+                }
+            })
         }
-
-        
     }
 
 

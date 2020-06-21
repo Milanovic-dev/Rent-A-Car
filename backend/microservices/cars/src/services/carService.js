@@ -8,6 +8,7 @@ const dbConnect = require('../../db');
 const ObjectID = require('mongodb').ObjectID;
 const dbCollection = 'cars';
 const uuidv4 = require('uuid/v4');
+const { response } = require('express');
 
 let db;
 dbConnect(process.env.DB_USERNAME, process.env.DB_PASSWORD, process.env.DB_SERVER, process.env.DB_NAME)
@@ -44,24 +45,31 @@ const upload = (file, res) => {
 
 const createCar = async (car, authorization) => {
 
-    if (car == undefined) return { status: 400 };
+    
+  if(car == undefined) return { status: 400 }; 
 
-    if (!car.ownerId) {
-        if (!authorization) return { status: 401 };
-        const id = await verifyToken(authorization.split(' ')[1]);
-        car.ownerId = id;
-    }
+  if(!car.ownerId){
+      if(!authorization) return {status: 401};
+      const id = await verifyToken(authorization.split(' ')[1]);
+      car.ownerId = id;
+      let result = await db.collection(dbCollection).find({ownerId: id}).toArray();
+      console.log(result.length);
+      if(result.length >= 3)
+      {
+          return { status: 405 };
+      }
+  }
 
+  let result = await db.collection(dbCollection).insertOne(car);
+  if(result.insertedId)
+  {
+      return {
+          response: result.insertedId,
+          status: 201
+      };
+  }
 
-    let result = await db.collection(dbCollection).insertOne(car);
-    if (result.insertedId) {
-        return {
-            response: result.insertedId,
-            status: 201
-        };
-    }
-
-    return { status: 500 };
+  return { status: 500 };
 };
 
 const updateCar = async (car) => {

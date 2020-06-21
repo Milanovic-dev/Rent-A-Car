@@ -8,6 +8,7 @@ import Isvg from 'react-inlinesvg';
 import { Field, reduxForm } from 'redux-form'
 import Tabs from '../components/forms/fields/tabs';
 import { NavLink } from 'react-router-dom';
+import Delete from '../assets/svg/delete.svg';
 
 import {
     Container,
@@ -114,6 +115,34 @@ class Orders extends Component {
         }
     }
 
+    revokeOrder(id){
+        fetch(`https://localhost:8080/orders/revoke/${id}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('token')}`
+            },
+        }).then(res => {
+            if(res.status == 200){
+                window.location.reload();
+            }
+        })
+    } 
+
+    revokenBundle(id){
+        fetch(`https://localhost:8080/orders/bundles/revoke/${id}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('token')}`
+            },
+        }).then(res => {
+            if(res.status == 200){
+                window.location.reload();
+            }
+        })
+    }
+
     renderOrders(item, i){
         return (
         <>
@@ -127,6 +156,7 @@ class Orders extends Component {
                     <span className="order-item-price">{item.car.price}€</span>
                     <span className="order-item-owner">{item.ownerId}</span>
                     <span className="order-item-status" style={{color: this.getStatusColor(item.status)}}>{item.status}</span>
+                    <span className="cart-item-remove" onClick={()=> this.revokeOrder(item._id)} style={{backgroundColor:'white'}}><Isvg src={Delete}></Isvg></span>
                 </div>
             </Col>
         </>
@@ -142,8 +172,9 @@ class Orders extends Component {
                     <div className="order-sidebar"></div>
                     <button className="bundle-item-info" id={`toggler${i}`}>Cars</button>
                     <span className="bundle-item-owner">{item.ownerId}</span>
-                    <span className="bundle-item-price">{item.price}€<span style={{color:'red'}}>{` (-20%)`}</span></span>
+                    <span className="bundle-item-price">{item.price}€<span style={{color:'green'}}>{` (-20%)`}</span></span>
                     <span className="bundle-item-status" style={{color: this.getStatusColor(item.status)}}>{item.status}</span>
+                    <span className="cart-item-remove" style={{backgroundColor:'white'}}><Isvg src={Delete}></Isvg></span>
                 </div>
                     <UncontrolledCollapse toggler={`#toggler${i}`}>
                     {item.cars.map((car, i) => { return (
@@ -152,7 +183,7 @@ class Orders extends Component {
                             <div className="order-item">
                                 <span className="order-item-img"><img width="120px" src={car.images ? car.images[0] : ""} alt=""></img></span>
                                 <span className="order-item-info"><NavLink style={{color:'#da212e'}} to={`/cars/${car._id}`}>{`${car.make} ${car.model} ${car.power}kw ${car.fuel}`}</NavLink></span>
-                                <span className="order-item-options">{`${car.from} - ${car.to}`}</span>
+                                <span className="order-item-options">{car.from && car.to ? `${car.from} - ${car.to}` : 'N/A'}</span>
                                 <span className="order-item-price">{car.price}€</span>
                             </div>
                             </CardBody>
