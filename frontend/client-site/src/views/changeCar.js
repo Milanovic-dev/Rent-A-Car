@@ -124,11 +124,7 @@ class ChangeCar extends Component {
                 },
                 body: JSON.stringify(data)
             }).then((res) => this.props[0].history.push('/ads'))
-
-
         }
-
-        
     }
 
 

@@ -61,7 +61,6 @@ class Gallery extends Component {
         }
 
         if (prevState.files.length && !this.state.files.length) {
-            console.log("TTTTTTTTTTTT");
             let files = [];
             for (let i = 0; i < this.state.imagesLayout.length; i++) {
                 files.push(this.state.files[this.state.imagesLayout[i]]);
