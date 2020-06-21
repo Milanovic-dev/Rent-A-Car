@@ -132,7 +132,7 @@ class DetailPage extends Component {
         }).then((res) => res.json()).then((result) => {
             this.setState({
                 product: result,
-                previewImage: result.images[0]
+                previewImage: result.images ? result.images[0] : "" 
             })
         });
 
@@ -251,7 +251,7 @@ class DetailPage extends Component {
 
             <div onMouseUp={this.onTouchEnd} className={this.props.menu ? "detail-wrap active-menu-animation" : "detail-wrap"}>
 
-                <PageHeader page='Fahrzeuge' {...this.props} />
+                <PageHeader page='Rent-a-car' {...this.props} />
                 <div className="page-wrap">
 
                     <section className="section detail-section">
