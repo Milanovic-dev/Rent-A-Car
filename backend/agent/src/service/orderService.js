@@ -48,9 +48,24 @@ const getAll = async () => {
     return {status: 200, response: res};
 }
 
+const getAllBundles = async () => {
+    await db.sync();
+    let res = await db.collection('bundles').find({}).toArray();
+
+    for(let bundle of res){
+        bundle.cars = []
+        for(let carId of bundle.carIds){
+            const car = await db.collection('cars').findOne({_id: ObjectID(carId)});
+            bundle.cars.push(car);
+        }
+    }
+
+    return {status: 200, response: res};
+}
 
 module.exports = {
     getAll,
+    getAllBundles,
     acceptOrder,
     declineOrder
 }

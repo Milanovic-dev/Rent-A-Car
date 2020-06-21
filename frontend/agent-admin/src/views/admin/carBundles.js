@@ -38,6 +38,7 @@ class Bundles extends Component {
             this.setState({
                 items: result
             })
+            console.log(this.state.items);
         })
         
     }
