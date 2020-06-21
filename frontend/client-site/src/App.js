@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 import Routes from './routes'
+import {Link} from 'react-router-dom';
+import messageIcon from './assets/svg/email-icon.svg';
+import Isvg from 'react-inlinesvg';
 
 class App extends Component {
   constructor(props) {
@@ -45,6 +48,12 @@ class App extends Component {
         <Routes
           {...this.state}
         />
+                  <a href='/messages'>
+
+        <div className="messages-icon">
+          <Isvg src={messageIcon} />
+          </div>
+          </a>
       </>
     );
   }
