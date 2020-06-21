@@ -21,7 +21,9 @@ const search = async (filter) => {
         return { status: 500 };
     }
 
-    if(filter.takePoint) searchObject.takePoint = filter.takePoint;
+    console.log(filter);
+
+    if(filter.takePoint) searchObject.location = filter.takePoint;
     if(filter.returnPoint) searchObject.returnPoint = filter.returnPoint;
     if(filter.takeDate) searchObject.takeDate = filter.takeDate;
     if(filter.returnDate) searchObject.returnDate = filter.returnDate;

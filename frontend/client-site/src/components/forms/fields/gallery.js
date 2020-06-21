@@ -363,7 +363,7 @@ class Gallery extends Component {
 
                     <div className="no-image">
                         <Isvg src={image} />
-                        <span className="text">Izaberi sliku</span>
+                        <span className="text">Choose images</span>
                     </div>
 
 
