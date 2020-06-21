@@ -40,7 +40,7 @@ const sendMessage = async (authorization, msgObj) => {
   
 
     let result = await db.collection(dbCollection).insertOne({
-        senderId: senderId,
+        senderId: 'Agent0',
         receiverId: msgObj.receiverId,
         message: msgObj.message,
         timestamp: Math.floor(new Date().getTime() / 1000)
@@ -66,7 +66,7 @@ const sendMessage = async (authorization, msgObj) => {
     const senderId = await verifyToken(authorization.split(' ')[1]);
     await db.sync();
 
-    let result = await db.collection(dbCollection).find({ $or: [{receiverId: receiverId, senderId: senderId}, {receiverId: senderId, senderId: receiverId}]  }).sort({timestamp: 1}).toArray();
+    let result = await db.collection(dbCollection).find({ $or: [{receiverId: receiverId, senderId: 'Agent0'}, {receiverId: 'Agent0', senderId: receiverId}]  }).sort({timestamp: 1}).toArray();
   
     return {
         response: result,
@@ -82,7 +82,7 @@ const sendMessage = async (authorization, msgObj) => {
     let result = await db.collection(dbCollection).deleteOne(
         {
             _id: ObjectID(id),
-            senderId: senderId
+            senderId: 'Agent0'
         }
     );
   
