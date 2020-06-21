@@ -40,7 +40,7 @@ const updateClass = async (carClass) => {
       }
   );
 
-  if(!dbCar){
+  if(!dbClass){
       return { status:404 };
   }
 

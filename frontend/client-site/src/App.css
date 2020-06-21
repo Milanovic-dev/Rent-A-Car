@@ -1390,7 +1390,8 @@ button {
           order: 1; }
   .messages-wrap .send-message-wrap {
     display: flex;
-    position: relative; }
+    position: relative;
+    z-index: 999; }
     .messages-wrap .send-message-wrap textarea {
       width: 100%;
       border-radius: 50px;
@@ -1508,6 +1509,20 @@ button {
     transform: rotate(0deg); }
   100% {
     transform: rotate(360deg); } }
+
+.messages-icon {
+  position: fixed;
+  bottom: 52px;
+  right: 64px;
+  width: 46px;
+  height: 48px;
+  background-color: #F1646C;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center; }
+  .messages-icon svg path {
+    fill: #FFFFFF; }
 
 .button {
   height: 40px;
