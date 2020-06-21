@@ -67,6 +67,7 @@ class HomePage extends Component {
                 'Content-Type': 'application/json',
             },
         }).then((res) => res.json()).then((result) => {
+            console.log(result);
             this.setState({
                 newestProducts: result
             })

@@ -75,11 +75,8 @@ export class Map extends Component {
                         <Container >
                             <Row>
                                 <Col lg="8">
-                                    <h3>Hinterlassen Sie Ihre Bewertung!</h3>
-                                    <p>Wir wären Ihnen sehr dankbar, wenn Sie unsere Arbeit schätzen würden.</p>
-                                </Col>
-                                <Col lg="4" className="footer-button">
-                                    <a href="https://www.google.com/maps/place/SHOWROOM+-+DAS+AUTOHAUS+-/@49.2467298,8.5323693,19z/data=!3m1!4b1!4m5!3m4!1s0x4797ba8ccdc38f75:0xc40b1426ff4e021b!8m2!3d49.2467298!4d8.5329165"><button className="button">Bewerten Sie Uns</button></a>
+                                    <h3>Leave a rate and review!</h3>
+                                    <p>We would like to hear your experience!</p>
                                 </Col>
                             </Row>
                         </Container>

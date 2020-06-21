@@ -132,10 +132,7 @@ let SearchForm = (props) => {
                             <option value="ankauf">Extended search</option>
                         </Field>
                     </Col>
-                    <Col lg="2" className="num-results hide-mobile">
-                        <Isvg src={car_icon} /> {props.productFilters && props.productFilters.carCount} Vehicle available
-                </Col>
-
+                    
                 </Row>
                 <div className="form-wrap">
                     <Row >
