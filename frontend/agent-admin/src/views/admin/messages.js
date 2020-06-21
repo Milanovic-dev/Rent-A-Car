@@ -45,7 +45,7 @@ class Messages extends Component {
             let users = {};
             for (let i = 0; i < body.length; i++) {
                 if (body[i].status == 'PAID')
-                    users[body[i].ownerId] = body[i].ownerId;
+                    users[body[i].renterId] = body[i].renterId;
             }
 
             this.setState({
