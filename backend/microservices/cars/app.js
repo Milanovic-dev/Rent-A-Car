@@ -14,9 +14,7 @@ app.use(fileUpload());
 const service = require('./src/services/carService');
 
 app.listen(4000, () => {
-    console.log("==========================");
     console.log(`Cars microservice running!`);
-    console.log("==========================");
 });
 
 require('./src/api/carApi') (app);

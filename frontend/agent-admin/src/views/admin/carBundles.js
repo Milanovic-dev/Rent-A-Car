@@ -56,7 +56,7 @@ class Bundles extends Component {
     acceptOrder(e, id){
         e.preventDefault();
 
-        fetch(`http://localhost:8282/api/orders/accept/${id}`, {
+        fetch(`http://localhost:8282/api/orders/bundles/accept/${id}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -72,7 +72,7 @@ class Bundles extends Component {
     declineOrder(e, id){
         e.preventDefault();
 
-        fetch(`http://localhost:8282/api/orders/decline/${id}`, {
+        fetch(`http://localhost:8282/api/orders/bundles/decline/${id}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
