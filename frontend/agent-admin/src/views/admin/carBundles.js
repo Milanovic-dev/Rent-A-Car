@@ -12,7 +12,7 @@ import {
 } from 'reactstrap';
 import accept from '../../assets/svg/done.svg';
 
-class Orders extends Component {
+class Bundles extends Component {
     constructor(props) {
         super(props);
         this.get = this.get.bind(this);
@@ -28,7 +28,7 @@ class Orders extends Component {
     
     get() {
         
-        fetch('http://localhost:8282/api/orders/all', {
+        fetch('http://localhost:8282/api/orders/bundles/all', {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -144,4 +144,4 @@ class Orders extends Component {
     }
 }
 
-export default Page(Orders);
+export default Page(Bundles);
