@@ -125,74 +125,77 @@ class dbSyncWrapper {
   };
 
   async sync(){
-   const timestamp = Date.now();
-   const soapClient = await getClient();
-   const accessToken = await this.getToken();
-
-   if(!accessToken){
-      console.log(`Sync: `.yellow + ` failed (No token)`.red);
-      return;
-   }
-
-   const diffData = await this.db.collection('changes').find().toArray();   
-   const requestBody = JSON.stringify({data:diffData, auth:{token: accessToken}});
-
-   soapClient.Synchronize(requestBody, async (err, res) => {
-      if(err){
-         console.error(err.Fault);
-         console.log(`Sync: `.yellow + ` failed (SoapError)`.red);
-      }
-     
-      let responseBody;
-      try{
-         responseBody = JSON.parse(res);
-      }
-      catch(err){
-         console.log(`Sync: `.yellow + ` failed (Can't parse response)`.red);
+   return new Promise(async (resolve, reject) => {
+      const timestamp = Date.now();
+      const soapClient = await getClient();
+      const accessToken = await this.getToken();
+   
+      if(!accessToken){
+         console.log(`Sync: `.yellow + ` failed (No token)`.red);
          return;
       }
-     
-      if(!responseBody){
-         return;
-      }
-     
-      if(responseBody.status/100 !== 2){
-         console.log(`Sync: `.yellow + ` failed (Status: ${responseBody.status} Reason: ${responseBody.reason})`.red);
-         return;
-      }
-
-      let endTimestamp;
-      if(responseBody){
-         for(let i = 0 ; i < responseBody.updates.length ; i++){
-            const collName = responseBody.updates[i].collName;
-            for(let j = 0 ; j < responseBody.updates[i].toInsert.length ; j++){
-               responseBody.updates[i].toInsert[j]._id = ObjectID(responseBody.updates[i].toInsert[j]._id);
-               this.db.collection(collName).insertOne(responseBody.updates[i].toInsert[j]);
-            }
-            for(let j = 0 ; j < responseBody.updates[i].toUpdate.length ; j++){
-               if(responseBody.updates[i].toUpdate[j].filter) {
-                  if(responseBody.updates[i].toUpdate[j].filter._id){
-                     responseBody.updates[i].toUpdate[j].filter._id = ObjectID(responseBody.updates[i].toUpdate[j].filter._id);
+   
+      const diffData = await this.db.collection('changes').find().toArray();   
+      const requestBody = JSON.stringify({data:diffData, auth:{token: accessToken}});
+   
+      soapClient.Synchronize(requestBody, async (err, res) => {
+         if(err){
+            console.error(err.Fault);
+            console.log(`Sync: `.yellow + ` failed (SoapError)`.red);
+         }
+        
+         let responseBody;
+         try{
+            responseBody = JSON.parse(res);
+         }
+         catch(err){
+            console.log(`Sync: `.yellow + ` failed (Can't parse response)`.red);
+            return;
+         }
+        
+         if(!responseBody){
+            return;
+         }
+        
+         if(responseBody.status/100 !== 2){
+            console.log(`Sync: `.yellow + ` failed (Status: ${responseBody.status} Reason: ${responseBody.reason})`.red);
+            return;
+         }
+   
+         let endTimestamp;
+         if(responseBody){
+            for(let i = 0 ; i < responseBody.updates.length ; i++){
+               const collName = responseBody.updates[i].collName;
+               for(let j = 0 ; j < responseBody.updates[i].toInsert.length ; j++){
+                  responseBody.updates[i].toInsert[j]._id = ObjectID(responseBody.updates[i].toInsert[j]._id);
+                  this.db.collection(collName).insertOne(responseBody.updates[i].toInsert[j]);
+               }
+               for(let j = 0 ; j < responseBody.updates[i].toUpdate.length ; j++){
+                  if(responseBody.updates[i].toUpdate[j].filter) {
+                     if(responseBody.updates[i].toUpdate[j].filter._id){
+                        responseBody.updates[i].toUpdate[j].filter._id = ObjectID(responseBody.updates[i].toUpdate[j].filter._id);
+                     }
                   }
+                  await this.db.collection(collName).updateMany(responseBody.updates[i].toUpdate[j].filter, {$set:responseBody.updates[i].toUpdate[j].update});
                }
-               await this.db.collection(collName).updateMany(responseBody.updates[i].toUpdate[j].filter, {$set:responseBody.updates[i].toUpdate[j].update});
-            }
-            for(let j = 0 ; j < responseBody.updates[i].toRemove.length; j++){
-               if(responseBody.updates[i].toRemove[j]._id){
-                  responseBody.updates[i].toRemove[j]._id = ObjectID(responseBody.updates[i].toRemove[j]._id);
+               for(let j = 0 ; j < responseBody.updates[i].toRemove.length; j++){
+                  if(responseBody.updates[i].toRemove[j]._id){
+                     responseBody.updates[i].toRemove[j]._id = ObjectID(responseBody.updates[i].toRemove[j]._id);
+                  }
+                  await this.db.collection(collName).deleteMany(responseBody.updates[i].toRemove[j]);
                }
-               await this.db.collection(collName).deleteMany(responseBody.updates[i].toRemove[j]);
             }
          }
-      }
-      
-      try{
-         await this.db.collection('changes').drop()
-      } catch (err){
-      }
-      
-      endTimestamp = Date.now();
-      console.log(`Sync:` .yellow + ` done(${endTimestamp-timestamp}ms)`.green);    
+         
+         try{
+            await this.db.collection('changes').drop()
+         } catch (err){
+         }
+         
+         endTimestamp = Date.now();
+         console.log(`Sync:` .yellow + ` done(${endTimestamp-timestamp}ms)`.green);    
+         resolve('Done');
+      })
    })
    }
   

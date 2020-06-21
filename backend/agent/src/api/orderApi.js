@@ -7,7 +7,8 @@ module.exports = function(app){
     });
 
     app.get('/api/orders/bundles/all', async (req, res) => {
-
+        let result = await service.getAllBundles();
+        res.status(result.status).send(result.response);
     });
 
     app.post('/api/orders/accept/:id', async(req, res) => {
