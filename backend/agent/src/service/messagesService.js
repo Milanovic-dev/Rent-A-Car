@@ -65,6 +65,7 @@ const sendMessage = async (authorization, msgObj) => {
 
     const senderId = await verifyToken(authorization.split(' ')[1]);
     await db.sync();
+    console.log(receiverId)
 
     let result = await db.collection(dbCollection).find({ $or: [{receiverId: receiverId, senderId: 'Agent0'}, {receiverId: 'Agent0', senderId: receiverId}]  }).sort({timestamp: 1}).toArray();
   
