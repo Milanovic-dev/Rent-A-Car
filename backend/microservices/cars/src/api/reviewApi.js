@@ -18,11 +18,10 @@ module.exports = function(app) {
 
     app.post('/review/create', async (req, res) => {
         console.log(req.method + req.route.path);
-        // let uid = res.locals.uid;
-        console.log("ID KORISNIKA: " + res);
+
         if(!req.body) return res.status('400');
 
-        let result = await service.create(req.body);
+        let result = await service.create(req.body, req.headers.authorization);
         res.status(result.status).send(result.response);
     });
     app.post('/review/allow/:id', async (req, res) => {
