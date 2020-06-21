@@ -52,8 +52,8 @@ const createCar = async (car, authorization) => {
       const id = await verifyToken(authorization.split(' ')[1]);
       car.ownerId = id;
       let result = await db.collection(dbCollection).find({ownerId: id}).toArray();
-      console.log(result);
-      if(result.length > 3)
+      console.log(result.length);
+      if(result.length >= 3)
       {
           return { status: 405 };
       }
