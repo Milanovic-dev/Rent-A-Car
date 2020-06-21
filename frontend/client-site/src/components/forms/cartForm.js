@@ -8,6 +8,8 @@ import {
 } from 'reactstrap';
 import Text from './fields/text';
 import { NavLink } from 'react-router-dom';
+import Isvg from 'react-inlinesvg';
+import Delete from '../../assets/svg/delete.svg';
 
 const renderTextField = ({
     input,
@@ -43,6 +45,21 @@ const cartForm = (props) => {
         })
     }
 
+    const total = () => {
+        let sum = 0;
+
+        for(const order of data){
+            for(const car of order.cars){
+                sum += parseInt(car.price);
+                if(order.isBundle){
+                    sum -= (parseInt(car.price) / 10 * 2)
+                }
+            }       
+        }
+
+        return sum;
+    }
+
     return (
         <form onSubmit={handleSubmit} className="contact-form space-form" style={{width:1000, marginLeft: -150}}>
             <Row>
@@ -73,7 +90,7 @@ const cartForm = (props) => {
                                     <span className="cart-item-info"><NavLink style={{color:'#da212e'}} to={`/cars/${item._id}`}>{`${item.make} ${item.model} ${item.power}kw ${item.fuel}`}</NavLink></span>
                                     <span className="cart-item-options">{item.from && item.to ? `${item.from} - ${item.to}`: `N/A`}</span>
                                     <span className="cart-item-price">{item.price}€</span>
-                                    <span className="cart-item-remove" onClick={()=> {removeFromCart(item._id)}}><img src="../../assets/images/Rectangle 587.png"></img></span>
+                                    <span className="cart-item-remove" style={{backgroundColor:'white'}} onClick={()=> {removeFromCart(item._id)}}><Isvg src={Delete}></Isvg></span>
                                 </Col>
                                 )
                             }) : null}
@@ -81,11 +98,16 @@ const cartForm = (props) => {
                         </>
                         )
                     }) : (<h5>Cart is empty</h5>)
-                }              
+                }           
                 <Row>
-                    <Col md="12">
+                <Col md="12" style={{marginTop: '3%'}}>
                         <div className="input-wrap buttons">
-                            <button type="submit" disabled={data && data.length == 0} className={data && data.length > 0 ? "button" : "button disabled"} style={{marginLeft:'-1%', marginTop:'5%'}}>Place orders</button>
+                            <h5>Total: {data ? total() : ''}€</h5>
+                        </div>
+                    </Col>
+                    <Col md="12" style={{marginTop: '-3%'}}>
+                        <div className="input-wrap buttons">
+                            <button type="submit" disabled={data && data.length == 0} className={data && data.length > 0 ? "button" : "button disabled"} style={{marginLeft:'-1%', marginTop:'5%'}}>Checkout</button>
                         </div>
                     </Col>
                 </Row>

@@ -173,7 +173,6 @@ const getCar = async (id) => {
 
 const getAll = async (authorization) => {
 
-    
     let result = await db.collection(dbCollection).find().toArray();
     
     if(authorization) {
