@@ -175,6 +175,17 @@ const form = (props) => {
                                             placeholder=""
                                         ></Field>
                                     </Col>
+                                    <Col lg="6" className="input-wrap">
+                                        <Field
+                                            name="cdwp"
+                                            component={renderSelectField}
+                                            label={"CDWP"}
+                                            placeholder=""
+                                        >
+                                            <option value="true">Yes</option>
+                                            <option value="false">No</option>
+                                        </Field>
+                                    </Col>
                                     <Col lg="12" className="input-wrap">
                                         <Field
                                             name="availableFrom"
