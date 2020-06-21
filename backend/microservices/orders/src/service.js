@@ -100,18 +100,27 @@ const createAsOrders = async (cars, renterId) => {
 };
 
 const acceptOrder = async (id) => {
-    const order = await db.collection('orders').find({_id: ObjectID(id)});
+    if(!id) return { status:400 }
+    const order = await db.collection('orders').findOne({_id: ObjectID(id)});
 
-    if(!order) return { status: '404'}
+    let res = await db.collection('orders').updateOne({_id: ObjectID(id)}, {$set:{status: 'PAID'}});
+    
+    
+    if(res.modifiedCount == 1){
+        let otherOrders = await db.collection('orders').find({_id: {$ne: ObjectID(id)}, carId: order.carId}).toArray();
+        for(const order of otherOrders){
+            await db.collection('orders').updateOne({_id:ObjectID(order._id)}, {$set:{status: 'CANCELED'}});
+        }
+        
+        const otherBundles = await db.collection('bundles').find({carIds: order.carId}).toArray();
+        for(const bundle of otherBundles){
+            await db.collection('bundles').updateOne({_id: ObjectID(bundle._id)}, {$set:{status: 'CANCELED'}});
+        }
 
-    await db.collection('orders').updateOne({_id: ObjectID(id)}, {$set:{status: 'PAID'}});
-    let result = await db.collection('orders').find({_id: {$ne: ObjectID(id)}, carId: order.carId}).toArray();
-
-    for(const order of result){
-        db.collection('orders').updateOne({_id:ObjectID(order._id)}, {$set:{status: 'CANCELED'}});
+        return {status: 200};
     }
 
-    return { status: '200' };
+    return { status: 404 };
 };
 
 const declineOrder = async (id) => {
@@ -127,8 +136,8 @@ const revokeOrder = async (id) => {
 
     if(!id) return { status: 400 };
 
-    const result = db.collection('orders').deleteOne({_id:ObjectID(id)});
-    
+    const result = await db.collection('orders').deleteOne({_id:ObjectID(id)});
+
     if(result.deletedCount == 1) {
         return { status: 200 };
     }
@@ -140,7 +149,7 @@ const revokeBundle = async (id) => {
 
     if(!id) return { status: 400 };
 
-    const result = db.collection('bundles').deleteOne({_id:ObjectID(id)});
+    const result = await db.collection('bundles').deleteOne({_id:ObjectID(id)});
     
     if(result.deletedCount == 1) {
         return { status: 200 };

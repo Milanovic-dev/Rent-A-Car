@@ -55,9 +55,16 @@ class Cars extends Component {
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${localStorage.getItem('token')}`
-
             },
-        }).then((res) => this.get())
+        }).then((res) => {
+            if(res.status == 200){
+                this.get()
+            }
+            else
+            {
+                
+            }
+        })
     }
 
     render() {

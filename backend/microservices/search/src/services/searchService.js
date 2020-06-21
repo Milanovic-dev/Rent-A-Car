@@ -18,7 +18,7 @@ const search = async (filter) => {
 
     if(filter.takePoint == "" & filter.takeDate == "" && filter.returnDate == "")
     {
-        return { status: 500 };
+        return { status: 400 };
     }
 
     console.log(filter);
