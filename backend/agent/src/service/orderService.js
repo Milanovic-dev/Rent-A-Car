@@ -78,7 +78,7 @@ const acceptBundle = async (id) => {
 const declineBundle = async (id) => {
     if(!id) return { status:400 }
 
-    const res = await db.collection('bundles').updateOne({_id: ObjectID(id)}, {$set:{status: 'PAID'}});
+    const res = await db.collection('bundles').updateOne({_id: ObjectID(id)}, {$set:{status: 'CANCELED'}});
 
     if(res.modifiedCount == 1){
         db.sync();

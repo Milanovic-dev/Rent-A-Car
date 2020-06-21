@@ -10,7 +10,7 @@ import Text from './fields/text';
 import Html from './fields/html';
 import Image from './fields/image';
 import Gallery from './fields/gallery';
-
+import DateTime from './fields/datePicker';
 //import RangeSlider from './fields/rangeSlider';
 
 const renderImageField = ({
@@ -93,42 +93,23 @@ const renderTextField = ({
             {...input}
         />
     )
-/*
-const renderTextareaField = ({
-    input,
-    placeholder,
-    label,
-    meta: { touched, error },
-}) => (
 
-        <Textarea
+    export const renderDateTimeField = ({
+        input,
+        placeholder,
+        label,
+        meta: { touched, error },
+      }) => (
+      
+          <DateTime
             placeholder={placeholder}
             label={label}
             errorText={touched && error}
+            error={touched && error}
+      
             {...input}
-        />
-    )
-
-const renderRangeSliderField = ({
-    input,
-    label,
-    meta: { touched, error },
-    children,
-    min, max, defaultValue
-}) => (
-
-        <RangeSlider
-            label={label}
-            errorText={touched && error}
-            {...input}
-            children={children}
-            min={min}
-            max={max}
-            defaultValue={defaultValue}
-        />
-    )
-*/
-
+          />
+        )   
 
 const carForm = (props) => {
     const { handleSubmit, pristine, submitting } = props;
@@ -296,6 +277,20 @@ const carForm = (props) => {
                             >
                                 <option value="true">Yes</option>
                                 <option value="false">No</option>
+                            </Field>
+                        </Col>
+                        <Col lg="12" className="input-wrap">
+                            <Field
+                                name="from"
+                                component={renderDateTimeField}
+                            >
+                            </Field>
+                        </Col>
+                        <Col lg="12" className="input-wrap">
+                            <Field
+                                name="to"
+                                component={renderDateTimeField}
+                            >
                             </Field>
                         </Col>
 

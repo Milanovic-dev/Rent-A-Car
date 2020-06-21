@@ -18,6 +18,7 @@ class Cart extends Component{
     constructor(props){
         super(props);
         this.state = {
+
         };
 
         this.getMyCart = this.getMyCart.bind(this);

@@ -133,6 +133,8 @@ class InventoryPage extends Component {
                                                         history = {this.props[0].history}
                                                         images={product.images}
                                                         userCar={product.userCar}
+                                                        from={product.from}
+                                                        to={product.to}
                                                     />
                                                 </Col>
                                             )

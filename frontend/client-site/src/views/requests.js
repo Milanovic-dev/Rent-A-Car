@@ -135,6 +135,36 @@ class Requests extends Component {
         })
     }
 
+    handleBundleAccept(e, id) {
+        e.preventDefault();
+        fetch(`https://localhost:8080/orders/bundles/accept/${id}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('token')}`
+            },
+        }).then(res => {
+            if(res.status == 200){
+                window.location.reload();
+            }
+        })
+    }
+
+    handleBundleDecline(e, id) {
+        e.preventDefault();
+        fetch(`https://localhost:8080/orders/bundles/decline/${id}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('token')}`
+            },
+        }).then(res => {
+            if(res.status == 200){
+                window.location.reload();
+            }
+        })
+    }
+
     renderItems(item, i){
         if(this.state.showingOrders){
             return this.renderOrders(item, i);
@@ -154,7 +184,7 @@ class Requests extends Component {
                 <div className="order-item">
                     <div className="order-sidebar"></div>
                     <span className="order-item-img"><img width="120px" src={item.car.images ? item.car.images[0] : ""} alt=""></img></span>
-                    <span className="order-item-info"><NavLink style={{color:'#da212e'}} to={`/cars/${item.car._id}`}>{`${item.car.make} ${item.car.model} ${item.car.power}kw ${item.car.fuel}`}</NavLink></span>
+                    <span className="order-item-info"><NavLink style={{color:'#da212e'}} to={`/cars/${item.car._id}`}>{`${item.car.make} ${item.car.model} ${item.car.power}kw`}</NavLink></span>
                     <span className="order-item-options">{item.from && item.to ? `${item.from} - ${item.to}` : 'N/A'}</span>
                     <span className="order-item-price">{item.car.price}€</span>
                     <span className="order-item-owner">{item.renterId}</span>
@@ -177,9 +207,13 @@ class Requests extends Component {
                 <div className="bundle-item">
                     <div className="order-sidebar"></div>
                     <button className="bundle-item-info" id={`toggler${i}`}>Cars</button>
-                    <span className="bundle-item-owner">{item.ownerId}</span>
+                    <span className="bundle-item-owner">{item.renterId}</span>
                     <span className="bundle-item-price">{item.price}€<span style={{color:'green'}}>{` (-20%)`}</span></span>
                     <span className="bundle-item-status" style={{color: this.getStatusColor(item.status)}}>{item.status}</span>
+                    {item.status == 'PENDING' ? (<>
+                    <button className="request-item-accept" onClick={(e) => this.handleBundleAccept(e, item._id)}>Accept</button>
+                    <button className="request-item-decline" onClick={(e) => this.handleBundleDecline(e, item._id)}>Decline</button>
+                    </>) : null}
                 </div>
                     <UncontrolledCollapse toggler={`#toggler${i}`}>
                     {item.cars.map((car, i) => { return (
@@ -187,7 +221,7 @@ class Requests extends Component {
                             <CardBody>
                             <div className="order-item">
                                 <span className="order-item-img"><img width="120px" src={car.images ? car.images[0] : ""} alt=""></img></span>
-                                <span className="order-item-info"><NavLink style={{color:'#da212e'}} to={`/cars/${car._id}`}>{`${car.make} ${car.model} ${car.power}kw ${car.fuel}`}</NavLink></span>
+                                <span className="order-item-info"><NavLink style={{color:'#da212e'}} to={`/cars/${car._id}`}>{`${car.make} ${car.model} ${car.power}kw `}</NavLink></span>
                                 <span className="order-item-options">{car.from && car.to ? `${car.from} - ${car.to}` : 'N/A'}</span>
                                 <span className="order-item-price">{car.price}€</span>
                             </div>

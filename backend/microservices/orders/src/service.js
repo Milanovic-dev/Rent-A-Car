@@ -145,6 +145,43 @@ const revokeOrder = async (id) => {
     return { status: 404 };
 };
 
+const acceptBundle = async (id) => {
+    if(!id) return { status:400 }
+
+    const bundle = await db.collection('bundles').findOne({_id:ObjectID(id)});
+    const res = await db.collection('bundles').updateOne({_id: ObjectID(id)}, {$set:{status: 'PAID'}});
+
+    if(res.modifiedCount == 1){
+        for(const carId of bundle.carIds){
+            const otherBundles = await db.collection('bundles').find({carIds: carId}).toArray();
+            for(const bundle of otherBundles){
+                await db.collection('bundles').updateOne({_id: ObjectID(bundle._id)}, {$set:{status: 'CANCELED'}});
+            }
+    
+            const otherOrders = await db.collection('orders').find({carId}).toArray();
+            for(const order of otherOrders){
+                await db.collection('orders').updateOne({_id: ObjectID(order._id)}, {$set:{status: 'CANCELED'}});
+            }
+        }
+        
+        return {status: 200};
+    }
+
+    return {status: 404 };
+}
+
+const declineBundle = async (id) => {
+    if(!id) return { status:400 }
+
+    const res = await db.collection('bundles').updateOne({_id: ObjectID(id)}, {$set:{status: 'CANCELED'}});
+
+    if(res.modifiedCount == 1){
+        return {status: 200};
+    }
+
+    return { status: 404 };
+}
+
 const revokeBundle = async (id) => {
 
     if(!id) return { status: 400 };
@@ -357,6 +394,8 @@ module.exports = {
     revokeBundle,
     acceptOrder,
     declineOrder,
+    acceptBundle,
+    declineBundle,
     addToCart,
     removeFromCart,
     getCart,

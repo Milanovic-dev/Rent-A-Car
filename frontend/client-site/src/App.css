@@ -4394,7 +4394,7 @@ button {
   flex: 1; }
 
 .cart-item-info {
-  flex: 2; }
+  flex: 1; }
 
 .cart-item-options {
   flex: 1; }
@@ -4407,12 +4407,11 @@ button {
   align-self: center;
   justify-content: center;
   text-align: center;
-  height: 30%;
   background-color: #da212e;
   color: white;
   font-size: 15px;
+  border-style: none;
   border-radius: 10px;
-  line-height: 30px;
   cursor: pointer; }
 
 .addToCart-button {
@@ -4458,13 +4457,13 @@ button {
   flex: 1.2; }
 
 .order-item-options {
-  flex: 1; }
+  flex: 1.5; }
 
 .order-item-price {
   flex: 0.5; }
 
 .order-item-owner {
-  flex: 0.8; }
+  flex: 0.6; }
 
 .order-item-status {
   flex: 0.5;

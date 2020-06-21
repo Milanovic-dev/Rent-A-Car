@@ -9,8 +9,6 @@ import Footer from '../containers/footer';
 
 import Map from '../components/map';
 import Form from '../components/forms/carForm';
-
-
 import {
     Container,
     Row,
@@ -20,46 +18,8 @@ import {
     CarouselControl
 
 } from 'reactstrap';
-// import Article from '../components/article';
 
-
-// import car_image6 from '../assets/images/car6.png';
-// import car_image7 from '../assets/images/car7.png';
-// import car_image8 from '../assets/images/car8.png';
-
-// import fuel_icon from '../assets/svg/fuel.svg';
-// import calendar_icon from '../assets/svg/calendar.svg';
-// import guage_icon from '../assets/svg/guage.svg';
-// import color_icon from '../assets/svg/color.svg';
-// import engine_icon from '../assets/svg/engine.svg';
-// import door_icon from '../assets/svg/car-door.svg';
-// import transmission_icon from '../assets/svg/transmission.svg';
-// import car_icon from '../assets/svg/car-icon.svg';
-
-
-// import gallery1 from '../assets/images/gallery1.png';
-// import gallery2 from '../assets/images/gallery2.png';
-// import gallery3 from '../assets/images/gallery3.png';
-// import gallery4 from '../assets/images/gallery4.png';
-// import gallery5 from '../assets/images/gallery5.png';
-// import gallery6 from '../assets/images/gallery6.png';
-// import gallery7 from '../assets/images/gallery7.png';
-
-// function generateAlias(str) {
-//     /*str = str.toLowerCase();
-//     str = str.replace(/\s\s+/g, ' ');
-//     str = str.replace(/ /g, '-');
-//     str = str.replace(/\./g, '-');
-//     str = str.replace(/\,/g, '-');
-//     str = str.replace(/š/g, 's');
-//     str = str.replace(/č/g, 'c');
-//     str = str.replace(/ć/g, 'c');
-//     str = str.replace(/đ/g, 'dj');
-//     str = str.replace(/ž/g, 'z');*/
-//     str = str.replace(/[^a-zA-Z0-9]/gi, '-').toLowerCase()
-//     return str;
-// }
-
+const moment = require('moment')
 
 class ChangeCar extends Component {
 
@@ -116,6 +76,8 @@ class ChangeCar extends Component {
 
 
         }else{
+            data.to = moment(data.to, "x").format("DD MMM hh:mm");
+            data.from = moment(data.from, "x").format("DD MMM hh:mm");
             fetch(`https://localhost:8080/cars/create`, {
                 method: 'POST',
                 headers: {

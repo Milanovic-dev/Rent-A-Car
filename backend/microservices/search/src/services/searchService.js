@@ -25,9 +25,9 @@ const search = async (filter) => {
 
     if(filter.takePoint) searchObject.location = filter.takePoint;
     if(filter.returnPoint) searchObject.returnPoint = filter.returnPoint;
-    if(filter.takeDate) searchObject.takeDate = filter.takeDate;
-    if(filter.returnDate) searchObject.returnDate = filter.returnDate;
-
+    //if(filter.takeDate) searchObject.from = filter.takeDate;
+    //if(filter.returnDate) searchObject.to = filter.returnDate;
+    //TODO: FIX THIS SHIT
     if(filter.make) searchObject.make = filter.make;
     if(filter.model) searchObject.model = filter.model;
     if(filter.fuel) searchObject.fuel = filter.fuel;

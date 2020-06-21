@@ -36,6 +36,21 @@ app.post('/orders/accept/:id', async(req, res) => {
     res.status(result.status).send();
 });
 
+app.post('/orders/decline/:id', async(req, res) => {
+    let result = await service.declineOrder(req.params.id);
+    res.status(result.status).send();
+});
+
+app.post('/orders/bundles/accept/:id', async(req, res) => {
+    let result = await service.acceptBundle(req.params.id);
+    res.status(result.status).send();
+});
+
+app.post('/orders/bundles/decline/:id', async(req, res) => {
+    let result = await service.declineBundle(req.params.id);
+    res.status(result.status).send();
+});
+
 
 app.delete('/orders/revoke/:id', async (req, res) => {
     let result = await service.revokeOrder(req.params.id);
