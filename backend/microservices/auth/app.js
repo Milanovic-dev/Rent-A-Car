@@ -16,9 +16,7 @@ security.config(app, server);
 
 
 server.listen(4000, () => {
-    console.log("==========================");
     console.log(`Auth microservice running!`);
-    console.log("==========================");
 });
 
 app.get('/auth', (req, res) => {
@@ -26,7 +24,6 @@ app.get('/auth', (req, res) => {
 });
 
 app.post('/auth/login', async (req, res) => {
-    console.log("LOGIN: ", req.body.username, req.body.password);
     const result = await service.login(req.body.username, req.body.password);
     if(result.status == 200){
         res.cookie('jwt', result.response, {httpOnly:true, secure:false});
@@ -35,8 +32,6 @@ app.post('/auth/login', async (req, res) => {
 });
 
 app.get('/auth/users', service.generatePermissionMiddleware('*'),  async (req, res) => {
-    console.log(req.session);
-    console.log(req.headers.cookie);
     const result = await service.users();
     res.status(result.status).send(result.response);
 });
@@ -48,7 +43,6 @@ app.delete('/auth/users/remove/:id', async (req, res) => {
     const result = await service.removeUser(req.params.id );
     res.status(result.status).send(result.response);
 });
-
 
 
 app.post('/auth/users/update', async (req, res) => {

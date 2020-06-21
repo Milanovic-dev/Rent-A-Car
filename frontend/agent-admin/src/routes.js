@@ -40,6 +40,7 @@ import Users from './views/admin/users';
 import User from './views/admin/user';
 import Test from './views/admin/test';
 import Orders from './views/admin/carOrders';
+import Bundles from './views/admin/carBundles';
 
 //
 
@@ -285,7 +286,13 @@ class Routes extends Component {
                             )}
                         />
 
-
+                        <Route
+                            path="/carBundles"
+                            exact
+                            render={(...renderProps) => (
+                                <Bundles {...renderProps} {...this.props} />
+                            )}
+                        />
                     </Switch>
                 </div>
             </Router >

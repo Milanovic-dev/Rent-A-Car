@@ -12,7 +12,7 @@ import {
 } from 'reactstrap';
 import accept from '../../assets/svg/done.svg';
 
-class Orders extends Component {
+class Bundles extends Component {
     constructor(props) {
         super(props);
         this.get = this.get.bind(this);
@@ -28,7 +28,7 @@ class Orders extends Component {
     
     get() {
         
-        fetch('http://localhost:8282/api/orders/all', {
+        fetch('http://localhost:8282/api/orders/bundles/all', {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -38,6 +38,7 @@ class Orders extends Component {
             this.setState({
                 items: result
             })
+            console.log(this.state.items);
         })
         
     }
@@ -56,7 +57,7 @@ class Orders extends Component {
     acceptOrder(e, id){
         e.preventDefault();
 
-        fetch(`http://localhost:8282/api/orders/accept/${id}`, {
+        fetch(`http://localhost:8282/api/orders/bundles/accept/${id}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -72,7 +73,7 @@ class Orders extends Component {
     declineOrder(e, id){
         e.preventDefault();
 
-        fetch(`http://localhost:8282/api/orders/decline/${id}`, {
+        fetch(`http://localhost:8282/api/orders/bundles/decline/${id}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -144,4 +145,4 @@ class Orders extends Component {
     }
 }
 
-export default Page(Orders);
+export default Page(Bundles);
