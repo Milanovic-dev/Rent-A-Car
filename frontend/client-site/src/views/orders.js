@@ -150,7 +150,7 @@ class Orders extends Component {
                         <Card>
                             <CardBody>
                             <div className="order-item">
-                                <span className="order-item-img"><img width="120px" src={item.car.images ? item.car.images[0] : ""} alt=""></img></span>
+                                <span className="order-item-img"><img width="120px" src={car.images ? car.images[0] : ""} alt=""></img></span>
                                 <span className="order-item-info"><NavLink style={{color:'#da212e'}} to={`/cars/${car._id}`}>{`${car.make} ${car.model} ${car.power}kw ${car.fuel}`}</NavLink></span>
                                 <span className="order-item-options">{`${car.from} - ${car.to}`}</span>
                                 <span className="order-item-price">{car.price}€</span>

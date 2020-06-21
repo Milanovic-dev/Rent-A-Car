@@ -6,6 +6,10 @@ module.exports = function(app){
         res.status(result.status).send(result.response);
     });
 
+    app.get('/api/orders/bundles/all', async (req, res) => {
+
+    });
+
     app.post('/api/orders/accept/:id', async(req, res) => {
         let result = await service.acceptOrder(req.params.id);
         res.status(result.status).send();

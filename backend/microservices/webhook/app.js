@@ -13,7 +13,6 @@ const server = http.createServer(app);
 const soapService = require('./src/soap/soapService');
 
 server.listen(4000, () => {
-    console.log("==========================");
     console.log(`Webhook microservice running!`);
     soapService.createService(server);
 });
