@@ -30,9 +30,9 @@ let db;
 dbConnect(process.env.DB_USERNAME, process.env.DB_PASSWORD, process.env.DB_SERVER, process.env.DB_NAME)
 .then(async (conn) => {
     db = conn;
-    await service.create({make:"Audi", model:"A4", power:"110", fuel:'Diesel', productionYear:'2014', from:'14/03', to:'14/04', price:'500', transmission:'Manual', rating: 4.7, seatCount: 4, mileage:'150000', ownerId:'Agent0', images:['https://localhost:8080/cars/uploads/audi-a4.jpg'], color:'Dark Silver', location: 'Novi Sad', limitMileage: '200000', class:'Small Car'});
-    await service.create({make:"BMW", model:"M3", power:"90", fuel:'Petrol', productionYear:'2014', from:'06/03', to:'08/04', price:'800', transmission:'Automatic', rating: 3.0, seatCount: 4, mileage:'100000', ownerId:'Agent0', images:['https://localhost:8080/cars/uploads/M3.jpg'], color:'Blue', location: 'Novi Sad', limitMileage: '200000', class:'Saloon'});
-    await service.create({make:"Mercedes", model:"E220", power:"110", fuel:'Diesel', productionYear:'2015', from:'14/03', to:'14/04', price:'1100', transmission:'Manual', rating: 4.4, seatCount: 4, mileage:'120000', ownerId:'user0', images:['https://localhost:8080/cars/uploads/merc.jpg'], color:'White', location: 'Novi Sad', limitMileage: '200000', class:'Saloon'});
+    await service.create({make:"Audi", model:"A4", power:"110", fuel:'Diesel', productionYear:'2014', from:'14/03', to:'14/04', price:'500', transmission:'Manual', rating: 4.7, seatCount: 4, mileage:'150000', ownerId:'Agent0', images:['https://localhost:8080/cars/uploads/audi-a4.jpg'], color:'Dark Silver', location: 'Novi Sad', limitMileage: '200000', class:'Small Car', cdwp: 'yes', description: 'Very reliable and very cheap.Do not miss this chance!'});
+    await service.create({make:"BMW", model:"M3", power:"90", fuel:'Petrol', productionYear:'2014', from:'06/03', to:'08/04', price:'800', transmission:'Automatic', rating: 3.0, seatCount: 4, mileage:'100000', ownerId:'Agent0', images:['https://localhost:8080/cars/uploads/M3.jpg'], color:'Blue', location: 'Novi Sad', limitMileage: '200000', class:'Saloon', cdwp: 'yes'});
+    await service.create({make:"Mercedes", model:"E220", power:"110", fuel:'Diesel', productionYear:'2015', from:'14/03', to:'14/04', price:'1100', transmission:'Manual', rating: 4.4, seatCount: 4, mileage:'120000', ownerId:'user0', images:['https://localhost:8080/cars/uploads/merc.jpg'], color:'White', location: 'Novi Sad', limitMileage: '200000', class:'Saloon', cdwp: 'no'});
 }).catch((e) => {
     console.log(`DB error: ${e}`);
 })

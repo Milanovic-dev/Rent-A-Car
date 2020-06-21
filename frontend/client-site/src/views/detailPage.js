@@ -132,7 +132,7 @@ class DetailPage extends Component {
         }).then((res) => res.json()).then((result) => {
             this.setState({
                 product: result,
-                previewImage: result.image
+                previewImage: result.images[0]
             })
         });
 
@@ -292,10 +292,15 @@ class DetailPage extends Component {
                                             <div>
                                                 <p>{this.state.product && this.state.product.price}€</p>
                                             </div>
+                                        </div>
+                                        <div className="spacer"></div>
+                                        <div className="price">
+                                            <label>RATING</label>
+                                            <div>
+                                                <p style={{color:"#fda919"}}>{this.state.product && this.state.product.rating}*</p>
+                                            </div>
 
                                         </div>
-
-
                                         <div className="spacer"></div>
                                         <Row>
                                             {this.state.product ?
@@ -429,6 +434,7 @@ class DetailPage extends Component {
                                     <div >
                                         <Row>
                                             <Col md="12" >
+                                                <p>Collision Damage Waiver Protection: {this.state.product && this.state.product.cdwp}</p><br/>
                                                 <p dangerouslySetInnerHTML={{ __html: this.state.product && this.state.product.description }}></p>
                                             </Col>
                                         </Row>

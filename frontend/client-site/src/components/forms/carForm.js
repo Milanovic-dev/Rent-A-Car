@@ -288,6 +288,16 @@ const carForm = (props) => {
                                 placeholder="Price"
                             ></Field>
                         </Col>
+                        <Col lg="6" className="input-wrap">
+                            <Field
+                                name="cdwp"
+                                component={renderSelectField}
+                                placeholder="Cdwp"
+                            >
+                                <option value="true">Yes</option>
+                                <option value="false">No</option>
+                            </Field>
+                        </Col>
 
                         <Col lg="12" className="input-wrap">
                             <Field
@@ -300,11 +310,9 @@ const carForm = (props) => {
                     </Row>
                 </Col>
                 <Col lg="6" className="input-wrap">
-
                     <Field
                         name="images"
                         component={renderGalleryField}
-
                     ></Field>
                 </Col>
 
