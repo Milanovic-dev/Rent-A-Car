@@ -43,39 +43,31 @@ export class Footer extends Component {
                             <div className="description">
                                 <p>{this.props.config && this.props.config.footerText}</p>
                             </div>
-
-                            <div className="social">
-                                <p>Folgen Sie uns
-                                <a href={this.props.config && this.props.config.facebook} target="_blank" rel="noopener noreferrer" ><Isvg src={fb_icon} /></a>
-                                    <a href={this.props.config && this.props.config.instagram} target="_blank" rel="noopener noreferrer" ><Isvg src={instagram_icon} /></a>
-                                </p>
-                            </div>
-                                <div id="mobile-drw"></div>
                         </Col>
-
                         <Col md="4">
                             <div className="nav">
                                 <h6>NAVIGATION</h6>
                                 <ul>
                                     <li><Link to='/'>Home page</Link></li>
-                                    <li><Link to='/'>Ads</Link></li>
-                                    <li> <Link to='/fahrzeuge'>Agency</Link></li>
-                                    <li><Link to='/service'>Service</Link></li>
-                                    <li><Link to='/galerie'>Galery</Link></li>
+                                    <li><Link to='/ads'>Ads</Link></li>
+                                    <li><Link to="/cars/new">Create ad</Link></li>
+                                    { !localStorage.getItem('token') ?
+                                        <li><Link to='/signin'>Sign in</Link></li>
+                                    : null
+                                    }
+                                    { !localStorage.getItem('token') ?
+                                        <li><Link to='/signup'>Sign up</Link></li>
+                                    : null
+                                    }
                                 </ul>
                             </div>
                         </Col>
 
                         <Col md="4">
                             <div className="contact hide-mobile">
-                                <i className="mdi mdi-map-marker" /> BESUCHEN SIE UNS
+                                <i className="mdi mdi-map-marker" /> Find us on
                                 <p>{this.props.config ? this.props.config.address : ''}</p>
                             </div>
-                            <h6>ÖFFNUNGSZEITEN</h6>
-                            <h6>MO - FR</h6>
-                            <p>{this.props.config && this.props.config.workingHours && this.props.config.workingHours[0]}</p>
-                            <h6>SA</h6>
-                            <p>{this.props.config && this.props.config.workingHours && this.props.config.workingHours[1]}</p>
                         </Col>
                         <div className="spacer"></div>
                     </Row>

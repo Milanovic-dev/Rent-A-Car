@@ -10,6 +10,7 @@ const jwt = require('jsonwebtoken');
 let db;
 dbConnect(process.env.DB_USERNAME, process.env.DB_PASSWORD, process.env.DB_SERVER, process.env.DB_NAME)
 .then((conn) => {
+
     db = conn;
 }).catch((e) => {
     console.log(`DB error: ${e}`);
@@ -44,6 +45,7 @@ const sendMessage = async (authorization, msgObj) => {
   
 
     let result = await db.collection(dbCollection).insertOne({
+        ownerId: 'Agent0',
         senderId: senderId,
         receiverId: msgObj.receiverId,
         message: msgObj.message,

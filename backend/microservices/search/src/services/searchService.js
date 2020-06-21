@@ -16,7 +16,14 @@ const search = async (filter) => {
 
     let searchObject={};
 
-    if(filter.takePoint) searchObject.takePoint = filter.takePoint;
+    if(filter.takePoint == "" & filter.takeDate == "" && filter.returnDate == "")
+    {
+        return { status: 500 };
+    }
+
+    console.log(filter);
+
+    if(filter.takePoint) searchObject.location = filter.takePoint;
     if(filter.returnPoint) searchObject.returnPoint = filter.returnPoint;
     if(filter.takeDate) searchObject.takeDate = filter.takeDate;
     if(filter.returnDate) searchObject.returnDate = filter.returnDate;

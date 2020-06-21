@@ -101,6 +101,7 @@ export const renderDateTimeField = ({
     />
   )
 
+
 let SearchForm = (props) => {
     const { handleSubmit, pristine, reset, submitting } = props;
     //console.log(props);
@@ -131,17 +132,14 @@ let SearchForm = (props) => {
                             <option value="ankauf">Extended search</option>
                         </Field>
                     </Col>
-                    <Col lg="2" className="num-results hide-mobile">
-                        <Isvg src={car_icon} /> {props.productFilters && props.productFilters.carCount} Vehicle available
-                </Col>
-
+                    
                 </Row>
                 <div className="form-wrap">
                     <Row >
                         <Col lg="6">
                             <div className="input-wrap">
                                 <Field
-                                    name="startPlace"
+                                    name="takePoint"
                                     component={renderTextField}
                                     placeholder="Start place"
                                     label="Pick a place where you what to pick up your vehicle"
@@ -153,46 +151,26 @@ let SearchForm = (props) => {
                         <Col lg="6">
                             <div className="input-wrap">
                                 <Field
-                                    name="dateAndTime"
+                                    name="takeDate"
                                     component={renderDateTimeField}
                                     label="Choose a date and time to pick up your vehicle"
                                 />
                             </div>
                         </Col>
-                        <Col md="2">
+                    </Row>
+                    <Row>
+                        <Col lg="6">
                             <div className="input-wrap">
                                 <Field
-                                    name="year[1]"
-                                    component={renderSelectField}
-                                    placeholder="TO"
-                                >
-                                    {
-                                        [...Array(Math.abs(props.productFilters.maxProductionYear - props.productFilters.minProductionYear) + 1)].map((x, i) => { return (<option value={props.productFilters.minProductionYear + i}>{props.productFilters.minProductionYear + i}</option>) })}
-
-                                </Field>
-
-                            </div>
-
-                        </Col>
-
-
-                        <Col md="4">
-                            <div className="input-wrap">
-                            </div>
-                        </Col>
-                        <Col md="4">
-                            <div className="input-wrap">
-                                <Field
-                                    name="price"
-                                    component={renderRangeSliderField}
-                                    label="Price"
-                                    min={props.productFilters.minPrice}
-                                    max={props.productFilters.maxPrice}
-                                    defaultValue={[props.productFilters.minPrice, props.productFilters.maxPrice]}
+                                    name="returnDate"
+                                    component={renderDateTimeField}
+                                    label="Choose a date and time to return your vehicle"
                                 />
                             </div>
                         </Col>
-                        <Col md="4">
+                    </Row>
+                    <Row>
+                        <Col lg="6">
                             <div className="input-wrap buttons">
                                 <button type="button" className="button clear-btn" onClick={reset}>Reset</button>
                                 <button type="submit" className="button black-btn right-chevron" >Search</button>
@@ -205,25 +183,7 @@ let SearchForm = (props) => {
 
     )
 }
-/*
-const mapStateToProps = state => ({
-    searchForm: state.searchForm,
-});
 
-const mapDispatchToProps = (dispatch, ownProps) => {
-    console.log(dispatch);
-    return {
-        handleMobileSearchForm: (val) => {
-            dispatch(handleMobileSearchForm(val))
-        }
-    }
-}
-
-
-export default connect(mapStateToProps, mapDispatchToProps)(reduxForm({
-    form: 'searchForm'  // a unique identifier for this form
-})(SearchForm));
-*/
 const mapDispatchToProps = (dispatch, ownProps) => {
     //console.log(dispatch);
     return {

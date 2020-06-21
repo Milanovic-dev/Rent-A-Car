@@ -54,30 +54,25 @@ class HomePage extends Component {
 
       
     componentDidMount() {
-
-
-
-
-        fetch('http://127.0.0.1:8080/api/cars/v1/all', {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${localStorage.getItem('token')}`
-            },
-        }).then((res) => res.json()).then((result) => {
-            this.setState({
-                newestProducts: result
-            })
-        })
-
-
-
         fetch('https://showroom-api.novamedia.agency/cars/filters').then((res) => res.json()).then((productFilters) => { console.log(productFilters); this.setState({ productFilters }); })
 
     }
 
     searchProducts(data) {
+
         console.log(data);
+        fetch('https://localhost:8080/search/cars', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        }).then((res) => res.json()).then((result) => {
+            console.log(result);
+            this.setState({
+                newestProducts: result
+            })
+        })
+        /*
         if (data.year) {
             if (!data.year[0]) {
                 data.year[0] = this.state.productFilters.minProductionYear;
@@ -86,7 +81,8 @@ class HomePage extends Component {
                 data.year[1] = this.state.productFilters.maxProductionYear;
             }
         }
-        this.props[0].history.push(`/fahrzeuge/${encodeURIComponent(btoa(JSON.stringify(data)))}`)
+        this.props[0].history.push(`/cars/${encodeURIComponent(btoa(JSON.stringify(data)))}`)
+        */
     }
 
 
@@ -163,12 +159,10 @@ class HomePage extends Component {
                 <section className="section latest-cars-section">
                     <Container>
                         <Row>
-
                             {
                                 this.state.newestProducts.map((product) => {
                                     return (
                                         <Col md="3" xs="6">
-
                                             <Article
                                                 title={product.make + ' ' + product.model}
                                                 id={product._id}
