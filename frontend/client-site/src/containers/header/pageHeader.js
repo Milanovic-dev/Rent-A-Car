@@ -22,23 +22,6 @@ class PageHeader extends Component {
         };
     }
 
-    componentWillMount() {
-
-        if(!localStorage.getItem('token')) return;
-
-        fetch('https://localhost:8080/orders/cart/size', {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${localStorage.getItem('token')}`
-            },
-        }).then(async (res) => {
-            const body = await res.json();
-            this.state.cartSize = body.size;
-            this.forceUpdate();
-        })
-    }
-
     render() {
         return (
             <div>

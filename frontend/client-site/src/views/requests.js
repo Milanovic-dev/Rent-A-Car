@@ -152,7 +152,7 @@ class Requests extends Component {
                 <span>order id: {item._id}</span>
                 <div className="order-item">
                     <div className="order-sidebar"></div>
-                    <span className="order-item-img"><img src="./fsd.png" alt=""></img></span>
+                    <span className="order-item-img"><img width="120px" src={item.images ? item.images[0] : ""} alt=""></img></span>
                     <span className="order-item-info"><NavLink style={{color:'#da212e'}} to={`/cars/${item.car._id}`}>{`${item.car.make} ${item.car.model} ${item.car.power}kw ${item.car.fuel}`}</NavLink></span>
                     <span className="order-item-options">{`${item.from} - ${item.to}`}</span>
                     <span className="order-item-price">{item.car.price}€</span>

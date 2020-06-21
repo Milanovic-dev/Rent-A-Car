@@ -6,6 +6,8 @@ const { ObjectID } = require('mongodb');
 var connection;
 // db.createUser( { user: "rootAgent", pwd: "EEskoqhm#~AJdK4iX", roles: [ { role: "readWrite", db: "agent" } ] } )
 
+const ignore = [];
+
 module.exports = function() {
    username = process.env.DB_USERNAME
    password = process.env.DB_PASSWORD
@@ -41,6 +43,8 @@ module.exports = function() {
 
 
 const insertOp = async (db, collectionName, res, data) => {
+   if(ignoreOp(collectionName)) return;
+
    const r = await res;
    data._id = ObjectID(r.insertedId);
    const insert = data
@@ -55,6 +59,8 @@ const insertOp = async (db, collectionName, res, data) => {
 }
 
 const updateOp = async (db, collectionName, filter, update) => {
+   if(ignoreOp(collectionName)) return;
+
    const res = await db.collection(collectionName).findOne(filter);
    
    const changesCollection = await db.collection('changes').findOne({collName: collectionName});
@@ -70,6 +76,8 @@ const updateOp = async (db, collectionName, filter, update) => {
 }
 
 const removeOp = async (db, collectionName, query) => {
+   if(ignoreOp(collectionName)) return;
+
    const res = await db.collection(collectionName).find(query).toArray();
    
    const changesCollection = await db.collection('changes').findOne({collName: collectionName});
@@ -81,6 +89,10 @@ const removeOp = async (db, collectionName, query) => {
    for(let i = 0 ; i < res.length ; i++){
       await db.collection('changes').updateOne({collName:collectionName}, {$push:{toRemove: query}});
    }
+}
+
+const ignoreOp = (collectionName) => {
+   return ignore.includes(collectionName);
 }
 
 const watchman = {
@@ -108,13 +120,19 @@ class dbSyncWrapper {
   
    async getToken(){
       let result = await this.db.collection('user').findOne({id: 'agentUser'});
-      return result.accessToken;
+      if(result)
+         return result.accessToken;
   };
 
   async sync(){
    const timestamp = Date.now();
    const soapClient = await getClient();
    const accessToken = await this.getToken();
+
+   if(!accessToken){
+      console.log(`Sync: `.yellow + ` failed (No token)`.red);
+      return;
+   }
 
    const diffData = await this.db.collection('changes').find().toArray();   
    const requestBody = JSON.stringify({data:diffData, auth:{token: accessToken}});

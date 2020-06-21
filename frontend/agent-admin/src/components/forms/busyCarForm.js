@@ -14,7 +14,6 @@ import {
 
 const form = (props) => {
     const { handleSubmit, pristine, submitting } = props;
-    console.log(pristine, submitting);
 
     return (
         <form onSubmit={handleSubmit}>
@@ -23,7 +22,7 @@ const form = (props) => {
                     <Container fluid className="form-box">
                         <Row>
                             <Col lg="12">
-                                <h3 className="title">Auto je rentano:</h3>
+                                <h3 className="title">Car is busy:</h3>
                                 <h6></h6>
 
                             </Col>
