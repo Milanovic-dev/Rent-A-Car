@@ -1,0 +1,23 @@
+                       === npm audit security report ===
+
+
+                                 Manual Review
+             Some vulnerabilities require your attention to resolve
+
+          Visit https://go.npm.me/audit-guide for additional guidance
+
+
+  Low             Prototype Pollution
+
+  Package         yargs-parser
+
+  Patched in      >=13.1.2 <14.0.0 || >=15.0.1 <16.0.0 || >=18.1.2
+
+  Dependency of   react-scripts
+
+  Path            react-scripts > webpack-dev-server > yargs > yargs-parser
+
+  More info       https://nodesecurity.io/advisories/1500
+
+found 1 low severity vulnerability in 1827 scanned packages
+  1 vulnerability requires manual review. See the full report for details.
