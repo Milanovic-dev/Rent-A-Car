@@ -1,0 +1,1347 @@
+                       === npm audit security report ===
+
+
+                                 Manual Review
+             Some vulnerabilities require your attention to resolve
+
+          Visit https://go.npm.me/audit-guide for additional guidance
+
+
+  High            Missing Origin Validation
+
+  Package         webpack-dev-server
+
+  Patched in      >=2.11.4 <3.0.0 || >=3.1.11
+
+  Dependency of   react-treelist
+
+  Path            react-treelist > react-scripts > webpack-dev-server
+
+  More info       https://nodesecurity.io/advisories/725
+
+
+  Low             Regular Expression Denial of Service
+
+  Package         braces
+
+  Patched in      >=2.3.1
+
+  Dependency of   react-treelist
+
+  Path            react-treelist > react-scripts > babel-jest >
+                  babel-plugin-istanbul > test-exclude > micromatch > braces
+
+  More info       https://nodesecurity.io/advisories/786
+
+
+  Low             Regular Expression Denial of Service
+
+  Package         braces
+
+  Patched in      >=2.3.1
+
+  Dependency of   react-treelist
+
+  Path            react-treelist > react-scripts > jest > jest-cli >
+                  jest-config > babel-jest > babel-plugin-istanbul >
+                  test-exclude > micromatch > braces
+
+  More info       https://nodesecurity.io/advisories/786
+
+
+  Low             Regular Expression Denial of Service
+
+  Package         braces
+
+  Patched in      >=2.3.1
+
+  Dependency of   react-treelist
+
+  Path            react-treelist > react-scripts > jest > jest-cli >
+                  jest-runner > jest-config > babel-jest >
+                  babel-plugin-istanbul > test-exclude > micromatch > braces
+
+  More info       https://nodesecurity.io/advisories/786
+
+
+  Low             Regular Expression Denial of Service
+
+  Package         braces
+
+  Patched in      >=2.3.1
+
+  Dependency of   react-treelist
+
+  Path            react-treelist > react-scripts > jest > jest-cli >
+                  jest-runner > jest-runtime > jest-config > babel-jest >
+                  babel-plugin-istanbul > test-exclude > micromatch > braces
+
+  More info       https://nodesecurity.io/advisories/786
+
+
+  Low             Regular Expression Denial of Service
+
+  Package         braces
+
+  Patched in      >=2.3.1
+
+  Dependency of   react-treelist
+
+  Path            react-treelist > react-scripts > jest > jest-cli >
+                  jest-runtime > jest-config > babel-jest >
+                  babel-plugin-istanbul > test-exclude > micromatch > braces
+
+  More info       https://nodesecurity.io/advisories/786
+
+
+  Low             Regular Expression Denial of Service
+
+  Package         braces
+
+  Patched in      >=2.3.1
+
+  Dependency of   react-treelist
+
+  Path            react-treelist > react-scripts > jest > jest-cli >
+                  jest-runner > jest-runtime > babel-plugin-istanbul >
+                  test-exclude > micromatch > braces
+
+  More info       https://nodesecurity.io/advisories/786
+
+
+  Low             Regular Expression Denial of Service
+
+  Package         braces
+
+  Patched in      >=2.3.1
+
+  Dependency of   react-treelist
+
+  Path            react-treelist > react-scripts > jest > jest-cli >
+                  jest-runtime > babel-plugin-istanbul > test-exclude >
+                  micromatch > braces
+
+  More info       https://nodesecurity.io/advisories/786
+
+
+  Low             Regular Expression Denial of Service
+
+  Package         braces
+
+  Patched in      >=2.3.1
+
+  Dependency of   react-treelist
+
+  Path            react-treelist > react-scripts > jest > jest-cli >
+                  jest-config > jest-environment-jsdom > jest-util >
+                  jest-message-util > micromatch > braces
+
+  More info       https://nodesecurity.io/advisories/786
+
+
+  Low             Regular Expression Denial of Service
+
+  Package         braces
+
+  Patched in      >=2.3.1
+
+  Dependency of   react-treelist
+
+  Path            react-treelist > react-scripts > jest > jest-cli >
+                  jest-runner > jest-config > jest-environment-jsdom >
+                  jest-util > jest-message-util > micromatch > braces
+
+  More info       https://nodesecurity.io/advisories/786
+
+
+  Low             Regular Expression Denial of Service
+
+  Package         braces
+
+  Patched in      >=2.3.1
+
+  Dependency of   react-treelist
+
+  Path            react-treelist > react-scripts > jest > jest-cli >
+                  jest-runner > jest-runtime > jest-config >
+                  jest-environment-jsdom > jest-util > jest-message-util >
+                  micromatch > braces
+
+  More info       https://nodesecurity.io/advisories/786
+
+
+  Low             Regular Expression Denial of Service
+
+  Package         braces
+
+  Patched in      >=2.3.1
+
+  Dependency of   react-treelist
+
+  Path            react-treelist > react-scripts > jest > jest-cli >
+                  jest-runtime > jest-config > jest-environment-jsdom >
+                  jest-util > jest-message-util > micromatch > braces
+
+  More info       https://nodesecurity.io/advisories/786
+
+
+  Low             Regular Expression Denial of Service
+
+  Package         braces
+
+  Patched in      >=2.3.1
+
+  Dependency of   react-treelist
+
+  Path            react-treelist > react-scripts > jest > jest-cli >
+                  jest-environment-jsdom > jest-util > jest-message-util >
+                  micromatch > braces
+
+  More info       https://nodesecurity.io/advisories/786
+
+
+  Low             Regular Expression Denial of Service
+
+  Package         braces
+
+  Patched in      >=2.3.1
+
+  Dependency of   react-treelist
+
+  Path            react-treelist > react-scripts > jest > jest-cli >
+                  jest-config > jest-environment-node > jest-util >
+                  jest-message-util > micromatch > braces
+
+  More info       https://nodesecurity.io/advisories/786
+
+
+  Low             Regular Expression Denial of Service
+
+  Package         braces
+
+  Patched in      >=2.3.1
+
+  Dependency of   react-treelist
+
+  Path            react-treelist > react-scripts > jest > jest-cli >
+                  jest-runner > jest-config > jest-environment-node >
+                  jest-util > jest-message-util > micromatch > braces
+
+  More info       https://nodesecurity.io/advisories/786
+
+
+  Low             Regular Expression Denial of Service
+
+  Package         braces
+
+  Patched in      >=2.3.1
+
+  Dependency of   react-treelist
+
+  Path            react-treelist > react-scripts > jest > jest-cli >
+                  jest-runner > jest-runtime > jest-config >
+                  jest-environment-node > jest-util > jest-message-util >
+                  micromatch > braces
+
+  More info       https://nodesecurity.io/advisories/786
+
+
+  Low             Regular Expression Denial of Service
+
+  Package         braces
+
+  Patched in      >=2.3.1
+
+  Dependency of   react-treelist
+
+  Path            react-treelist > react-scripts > jest > jest-cli >
+                  jest-runtime > jest-config > jest-environment-node >
+                  jest-util > jest-message-util > micromatch > braces
+
+  More info       https://nodesecurity.io/advisories/786
+
+
+  Low             Regular Expression Denial of Service
+
+  Package         braces
+
+  Patched in      >=2.3.1
+
+  Dependency of   react-treelist
+
+  Path            react-treelist > react-scripts > jest > jest-cli >
+                  jest-config > jest-jasmine2 > jest-util > jest-message-util
+                  > micromatch > braces
+
+  More info       https://nodesecurity.io/advisories/786
+
+
+  Low             Regular Expression Denial of Service
+
+  Package         braces
+
+  Patched in      >=2.3.1
+
+  Dependency of   react-treelist
+
+  Path            react-treelist > react-scripts > jest > jest-cli >
+                  jest-runner > jest-config > jest-jasmine2 > jest-util >
+                  jest-message-util > micromatch > braces
+
+  More info       https://nodesecurity.io/advisories/786
+
+
+  Low             Regular Expression Denial of Service
+
+  Package         braces
+
+  Patched in      >=2.3.1
+
+  Dependency of   react-treelist
+
+  Path            react-treelist > react-scripts > jest > jest-cli >
+                  jest-runner > jest-runtime > jest-config > jest-jasmine2 >
+                  jest-util > jest-message-util > micromatch > braces
+
+  More info       https://nodesecurity.io/advisories/786
+
+
+  Low             Regular Expression Denial of Service
+
+  Package         braces
+
+  Patched in      >=2.3.1
+
+  Dependency of   react-treelist
+
+  Path            react-treelist > react-scripts > jest > jest-cli >
+                  jest-runtime > jest-config > jest-jasmine2 > jest-util >
+                  jest-message-util > micromatch > braces
+
+  More info       https://nodesecurity.io/advisories/786
+
+
+  Low             Regular Expression Denial of Service
+
+  Package         braces
+
+  Patched in      >=2.3.1
+
+  Dependency of   react-treelist
+
+  Path            react-treelist > react-scripts > jest > jest-cli >
+                  jest-runner > jest-jasmine2 > jest-util > jest-message-util
+                  > micromatch > braces
+
+  More info       https://nodesecurity.io/advisories/786
+
+
+  Low             Regular Expression Denial of Service
+
+  Package         braces
+
+  Patched in      >=2.3.1
+
+  Dependency of   react-treelist
+
+  Path            react-treelist > react-scripts > jest > jest-cli >
+                  jest-config > jest-util > jest-message-util > micromatch >
+                  braces
+
+  More info       https://nodesecurity.io/advisories/786
+
+
+  Low             Regular Expression Denial of Service
+
+  Package         braces
+
+  Patched in      >=2.3.1
+
+  Dependency of   react-treelist
+
+  Path            react-treelist > react-scripts > jest > jest-cli >
+                  jest-runner > jest-config > jest-util > jest-message-util >
+                  micromatch > braces
+
+  More info       https://nodesecurity.io/advisories/786
+
+
+  Low             Regular Expression Denial of Service
+
+  Package         braces
+
+  Patched in      >=2.3.1
+
+  Dependency of   react-treelist
+
+  Path            react-treelist > react-scripts > jest > jest-cli >
+                  jest-runner > jest-runtime > jest-config > jest-util >
+                  jest-message-util > micromatch > braces
+
+  More info       https://nodesecurity.io/advisories/786
+
+
+  Low             Regular Expression Denial of Service
+
+  Package         braces
+
+  Patched in      >=2.3.1
+
+  Dependency of   react-treelist
+
+  Path            react-treelist > react-scripts > jest > jest-cli >
+                  jest-runtime > jest-config > jest-util > jest-message-util >
+                  micromatch > braces
+
+  More info       https://nodesecurity.io/advisories/786
+
+
+  Low             Regular Expression Denial of Service
+
+  Package         braces
+
+  Patched in      >=2.3.1
+
+  Dependency of   react-treelist
+
+  Path            react-treelist > react-scripts > jest > jest-cli >
+                  jest-runner > jest-runtime > jest-util > jest-message-util >
+                  micromatch > braces
+
+  More info       https://nodesecurity.io/advisories/786
+
+
+  Low             Regular Expression Denial of Service
+
+  Package         braces
+
+  Patched in      >=2.3.1
+
+  Dependency of   react-treelist
+
+  Path            react-treelist > react-scripts > jest > jest-cli >
+                  jest-runtime > jest-util > jest-message-util > micromatch >
+                  braces
+
+  More info       https://nodesecurity.io/advisories/786
+
+
+  Low             Regular Expression Denial of Service
+
+  Package         braces
+
+  Patched in      >=2.3.1
+
+  Dependency of   react-treelist
+
+  Path            react-treelist > react-scripts > jest > jest-cli >
+                  jest-runner > jest-util > jest-message-util > micromatch >
+                  braces
+
+  More info       https://nodesecurity.io/advisories/786
+
+
+  Low             Regular Expression Denial of Service
+
+  Package         braces
+
+  Patched in      >=2.3.1
+
+  Dependency of   react-treelist
+
+  Path            react-treelist > react-scripts > jest > jest-cli > jest-util
+                  > jest-message-util > micromatch > braces
+
+  More info       https://nodesecurity.io/advisories/786
+
+
+  Low             Regular Expression Denial of Service
+
+  Package         braces
+
+  Patched in      >=2.3.1
+
+  Dependency of   react-treelist
+
+  Path            react-treelist > react-scripts > jest > jest-cli >
+                  jest-config > jest-jasmine2 > expect > jest-message-util >
+                  micromatch > braces
+
+  More info       https://nodesecurity.io/advisories/786
+
+
+  Low             Regular Expression Denial of Service
+
+  Package         braces
+
+  Patched in      >=2.3.1
+
+  Dependency of   react-treelist
+
+  Path            react-treelist > react-scripts > jest > jest-cli >
+                  jest-runner > jest-config > jest-jasmine2 > expect >
+                  jest-message-util > micromatch > braces
+
+  More info       https://nodesecurity.io/advisories/786
+
+
+  Low             Regular Expression Denial of Service
+
+  Package         braces
+
+  Patched in      >=2.3.1
+
+  Dependency of   react-treelist
+
+  Path            react-treelist > react-scripts > jest > jest-cli >
+                  jest-runner > jest-runtime > jest-config > jest-jasmine2 >
+                  expect > jest-message-util > micromatch > braces
+
+  More info       https://nodesecurity.io/advisories/786
+
+
+  Low             Regular Expression Denial of Service
+
+  Package         braces
+
+  Patched in      >=2.3.1
+
+  Dependency of   react-treelist
+
+  Path            react-treelist > react-scripts > jest > jest-cli >
+                  jest-runtime > jest-config > jest-jasmine2 > expect >
+                  jest-message-util > micromatch > braces
+
+  More info       https://nodesecurity.io/advisories/786
+
+
+  Low             Regular Expression Denial of Service
+
+  Package         braces
+
+  Patched in      >=2.3.1
+
+  Dependency of   react-treelist
+
+  Path            react-treelist > react-scripts > jest > jest-cli >
+                  jest-runner > jest-jasmine2 > expect > jest-message-util >
+                  micromatch > braces
+
+  More info       https://nodesecurity.io/advisories/786
+
+
+  Low             Regular Expression Denial of Service
+
+  Package         braces
+
+  Patched in      >=2.3.1
+
+  Dependency of   react-treelist
+
+  Path            react-treelist > react-scripts > jest > jest-cli >
+                  jest-config > jest-jasmine2 > jest-message-util > micromatch
+                  > braces
+
+  More info       https://nodesecurity.io/advisories/786
+
+
+  Low             Regular Expression Denial of Service
+
+  Package         braces
+
+  Patched in      >=2.3.1
+
+  Dependency of   react-treelist
+
+  Path            react-treelist > react-scripts > jest > jest-cli >
+                  jest-runner > jest-config > jest-jasmine2 >
+                  jest-message-util > micromatch > braces
+
+  More info       https://nodesecurity.io/advisories/786
+
+
+  Low             Regular Expression Denial of Service
+
+  Package         braces
+
+  Patched in      >=2.3.1
+
+  Dependency of   react-treelist
+
+  Path            react-treelist > react-scripts > jest > jest-cli >
+                  jest-runner > jest-runtime > jest-config > jest-jasmine2 >
+                  jest-message-util > micromatch > braces
+
+  More info       https://nodesecurity.io/advisories/786
+
+
+  Low             Regular Expression Denial of Service
+
+  Package         braces
+
+  Patched in      >=2.3.1
+
+  Dependency of   react-treelist
+
+  Path            react-treelist > react-scripts > jest > jest-cli >
+                  jest-runtime > jest-config > jest-jasmine2 >
+                  jest-message-util > micromatch > braces
+
+  More info       https://nodesecurity.io/advisories/786
+
+
+  Low             Regular Expression Denial of Service
+
+  Package         braces
+
+  Patched in      >=2.3.1
+
+  Dependency of   react-treelist
+
+  Path            react-treelist > react-scripts > jest > jest-cli >
+                  jest-runner > jest-jasmine2 > jest-message-util > micromatch
+                  > braces
+
+  More info       https://nodesecurity.io/advisories/786
+
+
+  Low             Regular Expression Denial of Service
+
+  Package         braces
+
+  Patched in      >=2.3.1
+
+  Dependency of   react-treelist
+
+  Path            react-treelist > react-scripts > jest > jest-cli >
+                  jest-config > jest-jasmine2 > jest-snapshot >
+                  jest-message-util > micromatch > braces
+
+  More info       https://nodesecurity.io/advisories/786
+
+
+  Low             Regular Expression Denial of Service
+
+  Package         braces
+
+  Patched in      >=2.3.1
+
+  Dependency of   react-treelist
+
+  Path            react-treelist > react-scripts > jest > jest-cli >
+                  jest-runner > jest-config > jest-jasmine2 > jest-snapshot >
+                  jest-message-util > micromatch > braces
+
+  More info       https://nodesecurity.io/advisories/786
+
+
+  Low             Regular Expression Denial of Service
+
+  Package         braces
+
+  Patched in      >=2.3.1
+
+  Dependency of   react-treelist
+
+  Path            react-treelist > react-scripts > jest > jest-cli >
+                  jest-runner > jest-runtime > jest-config > jest-jasmine2 >
+                  jest-snapshot > jest-message-util > micromatch > braces
+
+  More info       https://nodesecurity.io/advisories/786
+
+
+  Low             Regular Expression Denial of Service
+
+  Package         braces
+
+  Patched in      >=2.3.1
+
+  Dependency of   react-treelist
+
+  Path            react-treelist > react-scripts > jest > jest-cli >
+                  jest-runtime > jest-config > jest-jasmine2 > jest-snapshot >
+                  jest-message-util > micromatch > braces
+
+  More info       https://nodesecurity.io/advisories/786
+
+
+  Low             Regular Expression Denial of Service
+
+  Package         braces
+
+  Patched in      >=2.3.1
+
+  Dependency of   react-treelist
+
+  Path            react-treelist > react-scripts > jest > jest-cli >
+                  jest-runner > jest-jasmine2 > jest-snapshot >
+                  jest-message-util > micromatch > braces
+
+  More info       https://nodesecurity.io/advisories/786
+
+
+  Low             Regular Expression Denial of Service
+
+  Package         braces
+
+  Patched in      >=2.3.1
+
+  Dependency of   react-treelist
+
+  Path            react-treelist > react-scripts > jest > jest-cli >
+                  jest-resolve-dependencies > jest-snapshot >
+                  jest-message-util > micromatch > braces
+
+  More info       https://nodesecurity.io/advisories/786
+
+
+  Low             Regular Expression Denial of Service
+
+  Package         braces
+
+  Patched in      >=2.3.1
+
+  Dependency of   react-treelist
+
+  Path            react-treelist > react-scripts > jest > jest-cli >
+                  jest-runner > jest-runtime > jest-snapshot >
+                  jest-message-util > micromatch > braces
+
+  More info       https://nodesecurity.io/advisories/786
+
+
+  Low             Regular Expression Denial of Service
+
+  Package         braces
+
+  Patched in      >=2.3.1
+
+  Dependency of   react-treelist
+
+  Path            react-treelist > react-scripts > jest > jest-cli >
+                  jest-runtime > jest-snapshot > jest-message-util >
+                  micromatch > braces
+
+  More info       https://nodesecurity.io/advisories/786
+
+
+  Low             Regular Expression Denial of Service
+
+  Package         braces
+
+  Patched in      >=2.3.1
+
+  Dependency of   react-treelist
+
+  Path            react-treelist > react-scripts > jest > jest-cli >
+                  jest-snapshot > jest-message-util > micromatch > braces
+
+  More info       https://nodesecurity.io/advisories/786
+
+
+  Low             Regular Expression Denial of Service
+
+  Package         braces
+
+  Patched in      >=2.3.1
+
+  Dependency of   react-treelist
+
+  Path            react-treelist > react-scripts > jest > jest-cli >
+                  jest-message-util > micromatch > braces
+
+  More info       https://nodesecurity.io/advisories/786
+
+
+  Low             Regular Expression Denial of Service
+
+  Package         braces
+
+  Patched in      >=2.3.1
+
+  Dependency of   react-treelist
+
+  Path            react-treelist > react-scripts > jest > jest-cli >
+                  jest-runner > jest-message-util > micromatch > braces
+
+  More info       https://nodesecurity.io/advisories/786
+
+
+  Low             Regular Expression Denial of Service
+
+  Package         braces
+
+  Patched in      >=2.3.1
+
+  Dependency of   react-treelist
+
+  Path            react-treelist > react-scripts > jest > jest-cli >
+                  jest-runner > jest-runtime > jest-message-util > micromatch
+                  > braces
+
+  More info       https://nodesecurity.io/advisories/786
+
+
+  Low             Regular Expression Denial of Service
+
+  Package         braces
+
+  Patched in      >=2.3.1
+
+  Dependency of   react-treelist
+
+  Path            react-treelist > react-scripts > jest > jest-cli >
+                  jest-runtime > jest-message-util > micromatch > braces
+
+  More info       https://nodesecurity.io/advisories/786
+
+
+  Low             Regular Expression Denial of Service
+
+  Package         braces
+
+  Patched in      >=2.3.1
+
+  Dependency of   react-treelist
+
+  Path            react-treelist > react-scripts > jest > jest-cli >
+                  jest-config > micromatch > braces
+
+  More info       https://nodesecurity.io/advisories/786
+
+
+  Low             Regular Expression Denial of Service
+
+  Package         braces
+
+  Patched in      >=2.3.1
+
+  Dependency of   react-treelist
+
+  Path            react-treelist > react-scripts > jest > jest-cli >
+                  jest-runner > jest-config > micromatch > braces
+
+  More info       https://nodesecurity.io/advisories/786
+
+
+  Low             Regular Expression Denial of Service
+
+  Package         braces
+
+  Patched in      >=2.3.1
+
+  Dependency of   react-treelist
+
+  Path            react-treelist > react-scripts > jest > jest-cli >
+                  jest-runner > jest-runtime > jest-config > micromatch >
+                  braces
+
+  More info       https://nodesecurity.io/advisories/786
+
+
+  Low             Regular Expression Denial of Service
+
+  Package         braces
+
+  Patched in      >=2.3.1
+
+  Dependency of   react-treelist
+
+  Path            react-treelist > react-scripts > jest > jest-cli >
+                  jest-runtime > jest-config > micromatch > braces
+
+  More info       https://nodesecurity.io/advisories/786
+
+
+  Low             Regular Expression Denial of Service
+
+  Package         braces
+
+  Patched in      >=2.3.1
+
+  Dependency of   react-treelist
+
+  Path            react-treelist > react-scripts > jest > jest-cli >
+                  jest-haste-map > micromatch > braces
+
+  More info       https://nodesecurity.io/advisories/786
+
+
+  Low             Regular Expression Denial of Service
+
+  Package         braces
+
+  Patched in      >=2.3.1
+
+  Dependency of   react-treelist
+
+  Path            react-treelist > react-scripts > jest > jest-cli >
+                  jest-runner > jest-haste-map > micromatch > braces
+
+  More info       https://nodesecurity.io/advisories/786
+
+
+  Low             Regular Expression Denial of Service
+
+  Package         braces
+
+  Patched in      >=2.3.1
+
+  Dependency of   react-treelist
+
+  Path            react-treelist > react-scripts > jest > jest-cli >
+                  jest-runner > jest-runtime > jest-haste-map > micromatch >
+                  braces
+
+  More info       https://nodesecurity.io/advisories/786
+
+
+  Low             Regular Expression Denial of Service
+
+  Package         braces
+
+  Patched in      >=2.3.1
+
+  Dependency of   react-treelist
+
+  Path            react-treelist > react-scripts > jest > jest-cli >
+                  jest-runtime > jest-haste-map > micromatch > braces
+
+  More info       https://nodesecurity.io/advisories/786
+
+
+  Low             Regular Expression Denial of Service
+
+  Package         braces
+
+  Patched in      >=2.3.1
+
+  Dependency of   react-treelist
+
+  Path            react-treelist > react-scripts > jest > jest-cli >
+                  jest-runner > jest-runtime > micromatch > braces
+
+  More info       https://nodesecurity.io/advisories/786
+
+
+  Low             Regular Expression Denial of Service
+
+  Package         braces
+
+  Patched in      >=2.3.1
+
+  Dependency of   react-treelist
+
+  Path            react-treelist > react-scripts > jest > jest-cli >
+                  jest-runtime > micromatch > braces
+
+  More info       https://nodesecurity.io/advisories/786
+
+
+  Low             Regular Expression Denial of Service
+
+  Package         braces
+
+  Patched in      >=2.3.1
+
+  Dependency of   react-treelist
+
+  Path            react-treelist > react-scripts > jest > jest-cli >
+                  micromatch > braces
+
+  More info       https://nodesecurity.io/advisories/786
+
+
+  High            Arbitrary File Overwrite
+
+  Package         tar
+
+  Patched in      >=2.2.2 <3.0.0 || >=4.4.2
+
+  Dependency of   react-treelist
+
+  Path            react-treelist > react-scripts > fsevents > node-pre-gyp >
+                  tar
+
+  More info       https://nodesecurity.io/advisories/803
+
+
+  High            Arbitrary File Overwrite
+
+  Package         tar
+
+  Patched in      >=2.2.2 <3.0.0 || >=4.4.2
+
+  Dependency of   react-treelist
+
+  Path            react-treelist > react-scripts > jest > jest-cli >
+                  jest-haste-map > sane > fsevents > node-pre-gyp > tar
+
+  More info       https://nodesecurity.io/advisories/803
+
+
+  High            Arbitrary File Overwrite
+
+  Package         tar
+
+  Patched in      >=2.2.2 <3.0.0 || >=4.4.2
+
+  Dependency of   react-treelist
+
+  Path            react-treelist > react-scripts > jest > jest-cli >
+                  jest-runner > jest-haste-map > sane > fsevents >
+                  node-pre-gyp > tar
+
+  More info       https://nodesecurity.io/advisories/803
+
+
+  High            Arbitrary File Overwrite
+
+  Package         tar
+
+  Patched in      >=2.2.2 <3.0.0 || >=4.4.2
+
+  Dependency of   react-treelist
+
+  Path            react-treelist > react-scripts > jest > jest-cli >
+                  jest-runner > jest-runtime > jest-haste-map > sane >
+                  fsevents > node-pre-gyp > tar
+
+  More info       https://nodesecurity.io/advisories/803
+
+
+  High            Arbitrary File Overwrite
+
+  Package         tar
+
+  Patched in      >=2.2.2 <3.0.0 || >=4.4.2
+
+  Dependency of   react-treelist
+
+  Path            react-treelist > react-scripts > jest > jest-cli >
+                  jest-runtime > jest-haste-map > sane > fsevents >
+                  node-pre-gyp > tar
+
+  More info       https://nodesecurity.io/advisories/803
+
+
+  Low             Prototype Pollution
+
+  Package         minimist
+
+  Patched in      >=0.2.1 <1.0.0 || >=1.2.3
+
+  Dependency of   react-treelist
+
+  Path            react-treelist > react-scripts > fsevents > node-pre-gyp >
+                  mkdirp > minimist
+
+  More info       https://nodesecurity.io/advisories/1179
+
+
+  Low             Prototype Pollution
+
+  Package         minimist
+
+  Patched in      >=0.2.1 <1.0.0 || >=1.2.3
+
+  Dependency of   react-treelist
+
+  Path            react-treelist > react-scripts > jest > jest-cli >
+                  jest-haste-map > sane > fsevents > node-pre-gyp > mkdirp >
+                  minimist
+
+  More info       https://nodesecurity.io/advisories/1179
+
+
+  Low             Prototype Pollution
+
+  Package         minimist
+
+  Patched in      >=0.2.1 <1.0.0 || >=1.2.3
+
+  Dependency of   react-treelist
+
+  Path            react-treelist > react-scripts > jest > jest-cli >
+                  jest-runner > jest-haste-map > sane > fsevents >
+                  node-pre-gyp > mkdirp > minimist
+
+  More info       https://nodesecurity.io/advisories/1179
+
+
+  Low             Prototype Pollution
+
+  Package         minimist
+
+  Patched in      >=0.2.1 <1.0.0 || >=1.2.3
+
+  Dependency of   react-treelist
+
+  Path            react-treelist > react-scripts > jest > jest-cli >
+                  jest-runner > jest-runtime > jest-haste-map > sane >
+                  fsevents > node-pre-gyp > mkdirp > minimist
+
+  More info       https://nodesecurity.io/advisories/1179
+
+
+  Low             Prototype Pollution
+
+  Package         minimist
+
+  Patched in      >=0.2.1 <1.0.0 || >=1.2.3
+
+  Dependency of   react-treelist
+
+  Path            react-treelist > react-scripts > jest > jest-cli >
+                  jest-runtime > jest-haste-map > sane > fsevents >
+                  node-pre-gyp > mkdirp > minimist
+
+  More info       https://nodesecurity.io/advisories/1179
+
+
+  Low             Prototype Pollution
+
+  Package         minimist
+
+  Patched in      >=0.2.1 <1.0.0 || >=1.2.3
+
+  Dependency of   react-treelist
+
+  Path            react-treelist > react-scripts > fsevents > node-pre-gyp >
+                  tar > mkdirp > minimist
+
+  More info       https://nodesecurity.io/advisories/1179
+
+
+  Low             Prototype Pollution
+
+  Package         minimist
+
+  Patched in      >=0.2.1 <1.0.0 || >=1.2.3
+
+  Dependency of   react-treelist
+
+  Path            react-treelist > react-scripts > jest > jest-cli >
+                  jest-haste-map > sane > fsevents > node-pre-gyp > tar >
+                  mkdirp > minimist
+
+  More info       https://nodesecurity.io/advisories/1179
+
+
+  Low             Prototype Pollution
+
+  Package         minimist
+
+  Patched in      >=0.2.1 <1.0.0 || >=1.2.3
+
+  Dependency of   react-treelist
+
+  Path            react-treelist > react-scripts > jest > jest-cli >
+                  jest-runner > jest-haste-map > sane > fsevents >
+                  node-pre-gyp > tar > mkdirp > minimist
+
+  More info       https://nodesecurity.io/advisories/1179
+
+
+  Low             Prototype Pollution
+
+  Package         minimist
+
+  Patched in      >=0.2.1 <1.0.0 || >=1.2.3
+
+  Dependency of   react-treelist
+
+  Path            react-treelist > react-scripts > jest > jest-cli >
+                  jest-runner > jest-runtime > jest-haste-map > sane >
+                  fsevents > node-pre-gyp > tar > mkdirp > minimist
+
+  More info       https://nodesecurity.io/advisories/1179
+
+
+  Low             Prototype Pollution
+
+  Package         minimist
+
+  Patched in      >=0.2.1 <1.0.0 || >=1.2.3
+
+  Dependency of   react-treelist
+
+  Path            react-treelist > react-scripts > jest > jest-cli >
+                  jest-runtime > jest-haste-map > sane > fsevents >
+                  node-pre-gyp > tar > mkdirp > minimist
+
+  More info       https://nodesecurity.io/advisories/1179
+
+
+  Low             Prototype Pollution
+
+  Package         minimist
+
+  Patched in      >=0.2.1 <1.0.0 || >=1.2.3
+
+  Dependency of   react-treelist
+
+  Path            react-treelist > react-scripts > fsevents > node-pre-gyp >
+                  rc > minimist
+
+  More info       https://nodesecurity.io/advisories/1179
+
+
+  Low             Prototype Pollution
+
+  Package         minimist
+
+  Patched in      >=0.2.1 <1.0.0 || >=1.2.3
+
+  Dependency of   react-treelist
+
+  Path            react-treelist > react-scripts > jest > jest-cli >
+                  jest-haste-map > sane > fsevents > node-pre-gyp > rc >
+                  minimist
+
+  More info       https://nodesecurity.io/advisories/1179
+
+
+  Low             Prototype Pollution
+
+  Package         minimist
+
+  Patched in      >=0.2.1 <1.0.0 || >=1.2.3
+
+  Dependency of   react-treelist
+
+  Path            react-treelist > react-scripts > jest > jest-cli >
+                  jest-runner > jest-haste-map > sane > fsevents >
+                  node-pre-gyp > rc > minimist
+
+  More info       https://nodesecurity.io/advisories/1179
+
+
+  Low             Prototype Pollution
+
+  Package         minimist
+
+  Patched in      >=0.2.1 <1.0.0 || >=1.2.3
+
+  Dependency of   react-treelist
+
+  Path            react-treelist > react-scripts > jest > jest-cli >
+                  jest-runner > jest-runtime > jest-haste-map > sane >
+                  fsevents > node-pre-gyp > rc > minimist
+
+  More info       https://nodesecurity.io/advisories/1179
+
+
+  Low             Prototype Pollution
+
+  Package         minimist
+
+  Patched in      >=0.2.1 <1.0.0 || >=1.2.3
+
+  Dependency of   react-treelist
+
+  Path            react-treelist > react-scripts > jest > jest-cli >
+                  jest-runtime > jest-haste-map > sane > fsevents >
+                  node-pre-gyp > rc > minimist
+
+  More info       https://nodesecurity.io/advisories/1179
+
+
+  Moderate        Cross-Site Scripting
+
+  Package         serialize-javascript
+
+  Patched in      >=2.1.1
+
+  Dependency of   react-treelist
+
+  Path            react-treelist > react-scripts > terser-webpack-plugin >
+                  serialize-javascript
+
+  More info       https://nodesecurity.io/advisories/1426
+
+
+  Moderate        Cross-Site Scripting
+
+  Package         serialize-javascript
+
+  Patched in      >=2.1.1
+
+  Dependency of   react-treelist
+
+  Path            react-treelist > react-scripts > webpack >
+                  uglifyjs-webpack-plugin > serialize-javascript
+
+  More info       https://nodesecurity.io/advisories/1426
+
+
+  Low             Prototype Pollution
+
+  Package         yargs-parser
+
+  Patched in      >=13.1.2 <14.0.0 || >=15.0.1 <16.0.0 || >=18.1.2
+
+  Dependency of   react-scripts
+
+  Path            react-scripts > webpack-dev-server > yargs > yargs-parser
+
+  More info       https://nodesecurity.io/advisories/1500
+
+
+  Low             Prototype Pollution
+
+  Package         yargs-parser
+
+  Patched in      >=13.1.2 <14.0.0 || >=15.0.1 <16.0.0 || >=18.1.2
+
+  Dependency of   react-treelist
+
+  Path            react-treelist > react-scripts > jest > jest-cli >
+                  jest-runner > jest-runtime > yargs > yargs-parser
+
+  More info       https://nodesecurity.io/advisories/1500
+
+
+  Low             Prototype Pollution
+
+  Package         yargs-parser
+
+  Patched in      >=13.1.2 <14.0.0 || >=15.0.1 <16.0.0 || >=18.1.2
+
+  Dependency of   react-treelist
+
+  Path            react-treelist > react-scripts > jest > jest-cli >
+                  jest-runtime > yargs > yargs-parser
+
+  More info       https://nodesecurity.io/advisories/1500
+
+
+  Low             Prototype Pollution
+
+  Package         yargs-parser
+
+  Patched in      >=13.1.2 <14.0.0 || >=15.0.1 <16.0.0 || >=18.1.2
+
+  Dependency of   react-treelist
+
+  Path            react-treelist > react-scripts > jest > jest-cli > yargs >
+                  yargs-parser
+
+  More info       https://nodesecurity.io/advisories/1500
+
+
+  Low             Prototype Pollution
+
+  Package         yargs-parser
+
+  Patched in      >=13.1.2 <14.0.0 || >=15.0.1 <16.0.0 || >=18.1.2
+
+  Dependency of   react-treelist
+
+  Path            react-treelist > react-scripts > webpack-dev-server > yargs
+                  > yargs-parser
+
+  More info       https://nodesecurity.io/advisories/1500
+
+found 91 vulnerabilities (83 low, 2 moderate, 6 high) in 3653 scanned packages
+  91 vulnerabilities require manual review. See the full report for details.
