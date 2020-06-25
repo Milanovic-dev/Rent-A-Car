@@ -188,14 +188,14 @@ const form = (props) => {
                                     </Col>
                                     <Col lg="12" className="input-wrap">
                                         <Field
-                                            name="availableFrom"
+                                            name="from"
                                             component={renderDateTimeField}
                                             label={"Available From"}
                                         ></Field>
                                     </Col>
                                     <Col lg="12" className="input-wrap">
                                         <Field
-                                            name="availableTo"
+                                            name="to"
                                             component={renderDateTimeField}
                                             label={"Available To"}
                                         ></Field>

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Page from '../../containers/admin/page';
 import Form from '../../components/forms/carForm';
 import stripHtml from "string-strip-html";
-
+import moment from 'moment';
 import {
     Container,
     Row,
@@ -47,6 +47,8 @@ class ChangeCar extends Component {
 
 
         }else{
+            data.to = moment.unix(data.to).format("DD MMM hh:mm");
+            data.from = moment.unix(data.from).format("DD MMM hh:mm");
             fetch(`http://localhost:8282/api/cars/create`, {
                 method: 'POST',
                 headers: {
