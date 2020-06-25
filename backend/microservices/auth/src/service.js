@@ -16,7 +16,7 @@ dbConnect(process.env.DB_USERNAME, process.env.DB_PASSWORD, process.env.DB_SERVE
 
         register({
             username: 'user0',
-            password: 'user0',
+            password: 'User0#2020',
             firstName: 'Nikola',
             lastName: 'Milanovic',
             email: 'nikolamilanovic21@gmail.com',
@@ -29,7 +29,7 @@ dbConnect(process.env.DB_USERNAME, process.env.DB_PASSWORD, process.env.DB_SERVE
 
         register({
             username: 'user1',
-            password: 'user1',
+            password: 'User1#2020',
             firstName: 'Milana',
             lastName: 'Tucakov',
             email: 'milanatucakov@gmail.com',
@@ -41,7 +41,7 @@ dbConnect(process.env.DB_USERNAME, process.env.DB_PASSWORD, process.env.DB_SERVE
 
         register({
             username: 'user2',
-            password: 'user2',
+            password: 'User2#2020',
             firstName: 'Milan',
             lastName: 'Stanojevic',
             email: 'milanstanojevic@gmail.com',
@@ -53,7 +53,7 @@ dbConnect(process.env.DB_USERNAME, process.env.DB_PASSWORD, process.env.DB_SERVE
 
         register({
             username: 'admin',
-            password: 'admin',
+            password: 'Admin2020#',
             firstName: 'Admin',
             lastName: 'Admin',
             email: 'admin@gmail.com',
@@ -219,13 +219,16 @@ const register = async (user) => {
 
     if (!user.password) return { status: 400 };
 
-    /*
+    
     if (!checkPassword(user.password)){
         return {
+            response: {
+                error: "Password must contain between 8-15 characters, one uppercase, one lowercase, one number and one special char."
+            },
             status: 400
         }
     }
-    */
+    
 
     user.password = bcrypt.hashSync(user.password, bcrypt.genSaltSync(10, 'b'));
     user.role = 'user';
