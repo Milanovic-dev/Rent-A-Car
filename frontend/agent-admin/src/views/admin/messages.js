@@ -34,7 +34,7 @@ class Messages extends Component {
 
 
     getMyOrders = async () => {
-        fetch('http://localhost:8282/api/orders/all', {
+        fetch('https://localhost:8282/api/orders/all', {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -55,7 +55,7 @@ class Messages extends Component {
     }
 
     getMessages = (username) => {
-        fetch('http://localhost:8282/message/all', {
+        fetch('https://localhost:8282/message/all', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -77,7 +77,7 @@ class Messages extends Component {
             return;
         }
 
-        fetch('http://localhost:8282/message/send', {
+        fetch('https://localhost:8282/message/send', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

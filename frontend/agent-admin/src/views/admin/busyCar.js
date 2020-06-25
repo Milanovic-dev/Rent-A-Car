@@ -27,7 +27,7 @@ class BusyCar extends Component {
         obj.busyFrom = data.dateFrom;
         obj.busyTo = data.dateTo;
         console.log(obj);
-        fetch(`http://localhost:8282/api/cars/busy`, {
+        fetch(`https://localhost:8282/api/cars/busy`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',

@@ -36,7 +36,7 @@ class ChangeCar extends Component {
         console.log(data);
 
         if (this.props[0].match.params.id){
-            fetch(`http://localhost:8282/api/cars/update`, {
+            fetch(`https://localhost:8282/api/cars/update`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -49,7 +49,7 @@ class ChangeCar extends Component {
         }else{
             data.to = moment.unix(data.to).format("DD MMM hh:mm");
             data.from = moment.unix(data.from).format("DD MMM hh:mm");
-            fetch(`http://localhost:8282/api/cars/create`, {
+            fetch(`https://localhost:8282/api/cars/create`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -67,7 +67,7 @@ class ChangeCar extends Component {
     }
     get() {
          if (this.props[0].match.params.id) {
-            fetch('http://localhost:8282/api/cars/get/' + this.props[0].match.params.id, {
+            fetch('https://localhost:8282/api/cars/get/' + this.props[0].match.params.id, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',

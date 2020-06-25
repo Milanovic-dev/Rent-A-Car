@@ -1,0 +1,4 @@
+[2020-06-25T20:14:53.362Z]: "GET /api/cars/all HTTPS/1.1 200"  localhost ::1 Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.116 Safari/537.36 B {} {}
+[2020-06-25T20:15:43.272Z]: "GET /api/cars/all HTTPS/1.1 200"  localhost ::1 Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.116 Safari/537.36 B {} {}
+[2020-06-25T20:15:59.689Z]: "GET /api/cars/all HTTPS/1.1 200"  localhost ::1 Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.116 Safari/537.36 B {} {}
+[2020-06-25T20:16:03.329Z]: "GET /api/cars/all HTTPS/1.1 200"  localhost ::1 Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.116 Safari/537.36 B {} {}
