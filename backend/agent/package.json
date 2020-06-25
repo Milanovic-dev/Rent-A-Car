@@ -10,7 +10,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "bcrypt": "^4.0.1",
     "body-parser": "^1.19.0",
     "colors": "^1.4.0",
     "cors": "^2.8.5",
@@ -21,19 +20,15 @@
     "express-session": "^1.17.1",
     "helmet": "^3.22.0",
     "hpp": "^0.2.3",
-    "http": "0.0.1-security",
     "is-docker": "^2.0.0",
     "jsonwebtoken": "^8.5.1",
     "line-by-line": "^0.1.6",
     "moment": "^2.27.0",
     "mongo-sanitize": "^1.1.0",
     "mongodb": "^3.5.7",
-    "node-fetch": "^2.6.0",
-    "nodemon": "^2.0.3",
-    "performance": "^1.4.0",
+    "request": "^2.88.2",
     "soap": "^0.31.0",
-    "strong-soap": "^2.0.0",
     "toobusy-js": "^0.5.1",
-    "validator": "^13.0.0"
+    "uuid": "^8.2.0"
   }
 }
