@@ -127,8 +127,9 @@ class dbSyncWrapper {
   async sync(){
    return new Promise(async (resolve, reject) => {
       const timestamp = Date.now();
+      let soapClient;
       try{
-         const soapClient = await getClient();
+         soapClient = await getClient();
       } catch(err){
          reject('error');
          return;

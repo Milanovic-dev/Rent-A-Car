@@ -223,7 +223,7 @@ class Gallery extends Component {
                     this.props.onChange(this.state.files);
                 })
             });
-            // fetch('http://127.0.0.1:8282/api/upload/v1', {
+            // fetch('https://localhost:8282/api/upload/v1', {
             //     method: 'POST',
             //     headers: {
             //         Accept: 'application/json',

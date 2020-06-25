@@ -31,7 +31,7 @@ class Cars extends Component {
         //     return;
         // }
         
-        fetch('http://localhost:8282/api/cars/all', {
+        fetch('https://localhost:8282/api/cars/all', {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -51,7 +51,7 @@ class Cars extends Component {
         //     return;
         // }
 
-        fetch('http://127.0.0.1:8282/api/cars/remove/' + id, {
+        fetch('https://localhost:8282/api/cars/remove/' + id, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',

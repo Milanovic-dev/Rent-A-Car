@@ -30,7 +30,7 @@ class CarStats extends Component {
         //     return;
         // }
 
-        fetch('http://127.0.0.1:8282/api/cars/stats/' + this.state.sort, {
+        fetch('https://localhost:8282/api/cars/stats/' + this.state.sort, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

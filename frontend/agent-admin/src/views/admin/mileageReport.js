@@ -24,7 +24,7 @@ class MileageReport extends Component {
     add(data) {
 
         // if (this.props[0].match.params.id){
-        //     fetch(`http://localhost:8282/api/cars/v1/update`, {
+        //     fetch(`https://localhost:8282/api/cars/v1/update`, {
         //         method: 'PUT',
         //         headers: {
         //             'Content-Type': 'application/json',
@@ -39,7 +39,7 @@ class MileageReport extends Component {
         data.newMileage ? data.newMileage = stripHtml(data.newMileage) : data.newMileage = "";
         data.additionalInfo ? data.additionalInfo = stripHtml(data.additionalInfo) : data.additionalInfo = "";
 
-        fetch(`http://localhost:8282/api/cars/mileageReport/` + this.props[0].match.params.id + '/' + this.props[0].match.params.carId, {
+        fetch(`https://localhost:8282/api/cars/mileageReport/` + this.props[0].match.params.id + '/' + this.props[0].match.params.carId, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -57,7 +57,7 @@ class MileageReport extends Component {
     get() {
         // console.log(this.props[0].match.params);
          if (this.props[0].match.params.id) {
-            fetch('http://localhost:8282/api/cars/mileageReport/get/' + this.props[0].match.params.id + '/' + this.props[0].match.params.carId, {
+            fetch('https://localhost:8282/api/cars/mileageReport/get/' + this.props[0].match.params.id + '/' + this.props[0].match.params.carId, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
