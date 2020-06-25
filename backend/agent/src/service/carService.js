@@ -109,7 +109,11 @@ const removeCar = async (id) => {
 
 
 const getCar = async (id) => {
-    await db.sync();
+    try{
+        await db.sync();
+    } catch(err){
+
+    }
     let result = await db.collection(dbCollection).findOne(
         {
             _id: ObjectID(id)
@@ -127,12 +131,17 @@ const getCar = async (id) => {
 }
 
 const getAll = async () => {
-    await db.sync();
-    let result = await db.collection(dbCollection).find({}).toArray();
-    return {
-        response: result,
-        status: 200
-    };
+    try{
+        await db.sync();
+    }catch(err){
+
+    } finally {
+        let result = await db.collection(dbCollection).find({}).toArray();
+        return {
+            response: result,
+            status: 200
+        };
+    }
 };
 
 const completedRental = async (id) => {
