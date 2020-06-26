@@ -27,6 +27,8 @@ import Makes from './views/admin/makes';
 import Users from './views/admin/users';
 import Logs from './views/admin/logs';
 import Reset from './views/resetPasswordPage'
+import ChangePassword from './views/changePasswordPage'
+
 
 
 
@@ -191,6 +193,13 @@ class Routes extends Component {
                             exact
                             render={(...renderProps) => (
                                 <Reset {...renderProps} {...this.props} />
+                            )}
+                        />
+                        <Route
+                            path="/password/change"
+                            exact
+                            render={(...renderProps) => (
+                                <ChangePassword {...renderProps} {...this.props} />
                             )}
                         />
                     </Switch>

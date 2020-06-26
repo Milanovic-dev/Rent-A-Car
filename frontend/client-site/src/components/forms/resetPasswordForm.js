@@ -45,7 +45,7 @@ const resetPasswordForm = (props) => {
                         name="email"
                         component={renderTextField}
                         label={"Enter your email"}
-                        placeholder="Emails"
+                        placeholder="Email"
                     />
                 </Col>
             </Row>

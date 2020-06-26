@@ -4,7 +4,9 @@ import { connect } from 'react-redux';
 import PageHeader from '../containers/header/pageHeader';
 import Footer from '../containers/footer';
 import Map from '../components/map';
-import Form from '../components/forms/resetPasswordForm'
+import Form from '../components/forms/changePasswordForm';
+
+
 import {
     Container,
     Row,
@@ -15,7 +17,7 @@ import {
 const striptags = require('striptags');
 
 
-class resetPasswordPage extends Component {
+class changePasswordPage extends Component {
 
     constructor(props) {
         super(props);
@@ -25,22 +27,19 @@ class resetPasswordPage extends Component {
     }
 
     submit(data) {
-        data.username ? data.username = striptags(data.username) : data.username = "";
-        data.password ? data.password = striptags(data.password) : data.password = "";
+        data.newPassword ? data.newPassword = striptags(data.newPassword) : data.newPassword = "";
+        data.oldPassword ? data.oldPassword = striptags(data.oldPassword) : data.oldPassword = "";
         
-        fetch('https://localhost:8080/auth/login', {
+        fetch('https://localhost:8080/auth/user/updatePassword', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('token')}`
             },
             body: JSON.stringify(data)
         }).then((res) => res.json()).then((result) => {
             if (!result.error) {
-                localStorage.setItem('token', result.token);
-                this.setState({
-                    _done: true
-                })
-                this.props[0].history.push('/ads');
+                console.log(result.status);
             } else {
                 this.setState({
                     error: result.error
@@ -70,6 +69,7 @@ class resetPasswordPage extends Component {
                     </CarouselItem>
                 );
             });
+
         }
 
         return (
@@ -104,4 +104,6 @@ const mapStateToProps = state => ({
 });
 
 
-export default connect(mapStateToProps)(PageWithLayout(resetPasswordPage));
+
+
+export default connect(mapStateToProps)(PageWithLayout(changePasswordPage));
