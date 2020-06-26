@@ -9,7 +9,7 @@ const ObjectID = require('mongodb').ObjectID;
 const dbCollection = 'cars';
 const uuidv4 = require('uuid/v4');
 const { response } = require('express');
-
+const { log, logCustom } = require('../security/logger')
 let db;
 dbConnect(process.env.DB_USERNAME, process.env.DB_PASSWORD, process.env.DB_SERVER, process.env.DB_NAME)
     .then((conn) => {
@@ -52,6 +52,8 @@ const generatePermissionMiddleware = (permission) => {
                 console.log(err, user);
                 if (err) {
                     res.status(401).json({ error: "Not Authorized" });
+                    log(req, 401)
+                    logCustom('WARNING Attempted access to resource without permission ');
                     return;
                     //throw new Error("Not Authorized");
                 }
@@ -76,11 +78,15 @@ const generatePermissionMiddleware = (permission) => {
                     }
 
                     res.status(401).json({ error: "Not Authorized" });
+                    log(req, 401)
+                    logCustom('WARNING 401 Attempted access to resource without permission ');
                     return;
                 });
             });
         } else {
             res.status(401).json({ error: "Not Authorized" });
+            log(req, 401)
+            logCustom('WARNING 401 Attempted access to resource without permission ');
             return;
             //throw new Error("Not Authorized");
         }

@@ -4,17 +4,13 @@ const https = require('https');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const dotenv = require('dotenv');
+dotenv.config();
 const fileUpload = require('express-fileupload');
 const colors = require('colors');
 
 const fs = require('fs');
-dotenv.config();
-
-
 const device = require('express-device');
-const fs = require('fs');
 
-dotenv.config();
 const { logCustom } = require('./src/security/logger')
 const soapService = require('./src/soap/soapService');
 
@@ -49,7 +45,7 @@ require('./src/api/uploadApi')(app);
 require('./src/api/orderApi')(app);
 require('./src/api/messagesApi')(app);
 
-//securityMiddleware.config(app, server);
+securityMiddleware.config(app, server);
 
 server.listen(8282, () => {
     logCustom('Starting the server on port 8282');
@@ -95,8 +91,3 @@ app.get('/getWsdl', async (req, res) => {
     res.send(wsdl);
 });
 
-
-app.post('/testSecurity/:id', async (req, res) => {
-    const resu = await db.collection('cars').removeOne({ _id: ObjectID(req.params.id) });
-    res.status(200).json(req.body).send();
-});

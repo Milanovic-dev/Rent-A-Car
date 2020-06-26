@@ -127,11 +127,19 @@ class dbSyncWrapper {
   async sync(){
    return new Promise(async (resolve, reject) => {
       const timestamp = Date.now();
+
+      const accessToken = await this.getToken();
+   
+      if(!accessToken){
+         console.log(`Sync: `.yellow + ` failed (No token)`.red);
+         return;
+      }
       let soapClient;
+
       try{
-         soapClient = await getClient();
+         const soapClient = await getClient();
       } catch(err){
-         reject('error');
+         resolve('error');
          return;
       }
    

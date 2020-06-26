@@ -2,14 +2,16 @@ const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
 const cors = require('cors');
-const { logger } = require('./src/security/logger');
 const fileUpload = require('express-fileupload');
+const device = require('express-device');
+const { generatePermissionMiddleware } = require('./src/services/carService');
+const fs = require('fs');
 
 app.use(cors());
 app.use(bodyParser.json());
-app.use(logger);
 app.use('/cars/uploads', express.static('uploads'))
 app.use(fileUpload());
+app.use(device.capture());
 app.use((req, res, next) => {
     const auth = req.headers.authorization;
 
@@ -58,3 +60,7 @@ app.get('/cars/test', async (req,res) => {
     res.send('Success');
 });
 
+app.get('/cars/logs', service.generatePermissionMiddleware('*'),  async(req, res) => {
+    const log = 'logs.log';
+    res.download(log);
+});

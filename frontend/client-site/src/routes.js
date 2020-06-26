@@ -25,7 +25,7 @@ import Comments from './views/admin/comments';
 import Messages from './views/messages';
 import Makes from './views/admin/makes';
 import Users from './views/admin/users';
-
+import Logs from './views/admin/logs';
 
 
 const history = createBrowserHistory();
@@ -175,6 +175,13 @@ class Routes extends Component {
                             exact
                             render={(...renderProps) => (
                                 <Requests {...renderProps} {...this.props} />
+                            )}
+                        />
+                        <Route
+                            path="/logs"
+                            exact
+                            render={(...renderProps) => (
+                                <Logs {...renderProps} {...this.props} />
                             )}
                         />
                     </Switch>
