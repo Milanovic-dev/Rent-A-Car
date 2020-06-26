@@ -21,8 +21,7 @@ const createCar = async (car) => {
             status: 201
         };
     }
-
-    return { status: 500 };
+    throw 'Cannot insert';
 };
 
 const updateCar = async (car) => {

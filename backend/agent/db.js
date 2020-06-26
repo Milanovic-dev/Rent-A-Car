@@ -134,12 +134,6 @@ class dbSyncWrapper {
          reject('error');
          return;
       }
-      const accessToken = await this.getToken();
-   
-      if(!accessToken){
-         console.log(`Sync: `.yellow + ` failed (No token)`.red);
-         return;
-      }
    
       const diffData = await this.db.collection('changes').find().toArray();   
       const requestBody = JSON.stringify({data:diffData, auth:{token: accessToken}});
