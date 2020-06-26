@@ -1,5 +1,4 @@
 const service = require('../service/carService');
-const { csrfProtection } = require('../security/securityMiddleware');
 const { log } = require('../security/logger');
 module.exports = function(app){
 
@@ -9,32 +8,58 @@ module.exports = function(app){
     });
 
     app.post('/api/cars/create', async (req, res) => {
-        let result = await service.create(req.body);
-        log(req, res);
-        res.status(result.status).send(result.response);
+        try{
+            let result = await service.create(req.body);
+            log(req, res, 'info');
+            res.status(result.status).send(result.response);
+        }catch(err){
+            log(req, res, 'error');
+            res.status(500).send();
+        }
     });
 
     app.put('/api/cars/update', async (req, res) => {
-        let result = await service.update(req.body);
-        log(req, res);
-        res.status(result.status).send(result.response);
+        try{
+            let result = await service.update(req.body);
+            log(req, res, 'info');
+            res.status(result.status).send(result.response);
+        }catch(err){
+            log(req, res, 'error', {errMessage: err});
+            res.status(500).send();
+        }
     });
 
     app.delete('/api/cars/remove/:id', async (req, res) => {
-        let result = await service.remove(req.params.id);
-        log(req, res);
-        res.status(result.status).send(result.response);
+        try{
+            let result = await service.remove(req.params.id);
+            log(req, res, 'info');
+            res.status(result.status).send(result.response);
+        }catch(err){
+            log(req, res, 'error', {errMessage: err});
+            res.status(500).send();
+        }
     });
 
     app.get('/api/cars/all', async (req, res) => {
-        let result = await service.getAll();
-        log(req, res);
-        res.status(result.status).send(result.response);
+        try{
+            let result = await service.getAll();
+            log(req, res, 'info');
+            res.status(result.status).send(result.response);
+        }catch(err){
+            log(req, res, 'error', {errMessage:err});
+            res.status(500).send();
+        }
     });
 
     app.post('/api/cars/mileageReport/:id/:carId', async (req, res) => {
-        let result = await service.mileageReport(req.body, req.params.id, req.params.carId);
-        res.status(result.status).send(result.response);
+        try{
+            let result = await service.mileageReport(req.body, req.params.id, req.params.carId);
+            log(req, res, 'info');
+            res.status(result.status).send(result.response);
+        }catch(err){
+            log(req, res, 'error', {errMessage: err});
+            res.status(500).send();
+        }
     });
     app.post('/api/cars/stats/:sort', async (req, res) => {       
         let result = await service.stats(req.params.sort);
@@ -62,10 +87,14 @@ module.exports = function(app){
         res.status(result.status).send(result.response);
     });
     app.put('/api/cars/busy', async (req, res) => {
-        console.log(req.body);
-        let result = await service.busy(req.body);
-        log(req, res);
-        res.status(result.status).send(result.response);
+        try{
+            let result = await service.busy(req.body);
+            log(req, res, 'info');
+            res.status(result.status).send(result.response);
+        }catch(err){
+            log(req, res, 'error', {errMessage: err});
+            res.status(500).send();
+        }
     });
     
 };

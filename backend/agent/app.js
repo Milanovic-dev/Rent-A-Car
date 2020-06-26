@@ -6,13 +6,16 @@ const cors = require('cors');
 const dotenv = require('dotenv');
 const fileUpload = require('express-fileupload');
 const colors = require('colors');
-dotenv.config();
 
+const device = require('express-device');
+const fs = require('fs');
+
+dotenv.config();
+const { logCustom } = require('./src/security/logger')
 const soapService = require('./src/soap/soapService');
 
 const securityMiddleware = require('./src/security/securityMiddleware');
 
-//const { logger } = require('./src/security/logger');
 // Server
 const server = http.createServer(app);
 
@@ -29,7 +32,7 @@ app.use(cors({
 }));
 app.use('/uploads', express.static('uploads'))
 app.use(fileUpload());
-//app.use(logger());
+app.use(device.capture());
 
 require('./src/api/carApi') (app);
 require('./src/api/pricelistApi') (app);
@@ -40,6 +43,7 @@ require('./src/api/messagesApi') (app);
 //securityMiddleware.config(app, server);
 
 server.listen(8282, () => {
+    logCustom('Starting the server on port 8282');
     console.log("Agent Server running on port 8282!");
 });
 

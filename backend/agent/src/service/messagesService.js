@@ -56,7 +56,7 @@ const sendMessage = async (authorization, msgObj) => {
         };
     }
   
-    return { status: 500 };
+    throw 'Cannot insert';
   };
 
 

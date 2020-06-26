@@ -23,7 +23,7 @@ const createPricelist = async (ps) => {
         };
     }
 
-    return { status: 500 };
+    throw 'Cannot insert';
 };
 
 const updatePricelist = async (ps) => {
