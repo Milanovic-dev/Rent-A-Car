@@ -31,7 +31,51 @@ const verifyToken = async (token) => {
     });
     return result;
 }
+const generatePermissionMiddleware = (permission) => {
+    return async (req, res, next) => {
+        if (typeof req.headers.authorization !== "undefined") {
+            let token = req.headers.authorization.split(" ")[1];
 
+            jwt.verify(token, process.env.JWT_SECRET, { algorithm: "HS256" }, (err, user) => {
+                res.locals.uid = user.id;
+                console.log(err,user);
+                if (err) {
+                    res.status(401).json({ error: "Not Authorized" });
+                    return;
+                    //throw new Error("Not Authorized");
+                }
+
+                db.collection('users').find({ username: user.id }).toArray((err, result) => {
+                    if (err) {
+                        res.status(404).json({ error: "Not Found" });
+                        return;
+                    }
+
+                    if (result && !result.length) {
+                        res.status(404).json({ error: "Not Found" });
+                        return;
+                    }
+
+                    if (result[0].permissions && result[0].permissions.indexOf('*') !== -1) {
+                        return next();
+                    }
+
+                    if (result[0].permissions && result[0].permissions.indexOf(permission) !== -1) {
+                        return next();
+                    }
+
+                    res.status(401).json({ error: "Not Authorized" });
+                    return;
+                });
+            });
+        } else {
+            res.status(401).json({ error: "Not Authorized" });
+            return;
+            //throw new Error("Not Authorized");
+        }
+    }
+
+}
 const createReview = async (review, authorization) => {
 
     if (!review) return { status: 400 };
@@ -195,5 +239,6 @@ module.exports = {
     remove: removeReview,
     allow: allowReview,
     disallow: disallowReview,
-    getAll
+    getAll,
+    generatePermissionMiddleware
 };

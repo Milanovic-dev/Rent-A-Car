@@ -10,6 +10,7 @@ import {
 } from 'reactstrap';
 
 
+const striptags = require('striptags');
 
 class ChangeCar extends Component {
     constructor(props) {
@@ -22,21 +23,21 @@ class ChangeCar extends Component {
     }
 
     add(data) {
-        //data.make ?  data.make = stripHtml(data.make) : data.make = "";
-       // data.model ?  data.model = stripHtml(data.model) : data.model = "";
-        //data.productionYear ?  data.productionYear = stripHtml(data.productionYear) : data.productionYear = "";
-        //data.mileage ?  data.mileage = stripHtml(data.mileage) : data.mileage = "";
-        //data.limitMileage ?  data.limitMileage = stripHtml(data.limitMileage) : data.limitMileage = "";
-        //data.power ?  data.power = stripHtml(data.power) : data.power = "";
-        //data.seatCount ?  data.seatCount = stripHtml(data.seatCount) : data.seatCount = "";
-        //data.location ?  data.location = stripHtml(data.location) : data.location = "";
-        //data.price ?  data.price = stripHtml(data.price) : data.price = "";
-        //data.description ?  data.description = stripHtml(data.description) : data.description = "";
+        data.make ? data.make = striptags(data.make) : data.make = "";
+        data.model ? data.model = striptags(data.model) : data.model = "";
+        data.productionYear ? data.productionYear = striptags(data.productionYear) : data.productionYear = "";
+        data.mileage ? data.mileage = striptags(data.mileage) : data.mileage = "";
+        data.limitMileage ? data.limitMileage = striptags(data.limitMileage) : data.limitMileage = "";
+        data.power ? data.power = striptags(data.power) : data.power = "";
+        data.seatCount ? data.seatCount = striptags(data.seatCount) : data.seatCount = "";
+        data.location ? data.location = striptags(data.location) : data.location = "";
+        data.price ? data.price = striptags(data.price) : data.price = "";
+        data.description ? data.description = striptags(data.description) : data.description = "";
 
         console.log(data);
 
-        if (this.props[0].match.params.id){
-            fetch(`http://localhost:8282/api/cars/update`, {
+        if (this.props[0].match.params.id) {
+            fetch(`https://localhost:8282/api/cars/update`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -46,10 +47,10 @@ class ChangeCar extends Component {
             }).then((res) => this.props[0].history.push('/cars'))
 
 
-        }else{
+        } else {
             data.to = moment.unix(data.to).format("DD MMM hh:mm");
             data.from = moment.unix(data.from).format("DD MMM hh:mm");
-            fetch(`http://localhost:8282/api/cars/create`, {
+            fetch(`https://localhost:8282/api/cars/create`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -66,8 +67,8 @@ class ChangeCar extends Component {
 
     }
     get() {
-         if (this.props[0].match.params.id) {
-            fetch('http://localhost:8282/api/cars/get/' + this.props[0].match.params.id, {
+        if (this.props[0].match.params.id) {
+            fetch('https://localhost:8282/api/cars/get/' + this.props[0].match.params.id, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -92,11 +93,11 @@ class ChangeCar extends Component {
                         <Col lg="12">
                         </Col>
                     </Row>
-                    { 
+                    {
                         this.state.data ?
-                        <Form initialValues={this.state.data} onSubmit={this.add} />
-                        :
-                        <Form onSubmit={this.add} />
+                            <Form initialValues={this.state.data} onSubmit={this.add} />
+                            :
+                            <Form onSubmit={this.add} />
                     }
                 </Container>
             </div>

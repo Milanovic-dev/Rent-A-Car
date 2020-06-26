@@ -19,27 +19,29 @@ import {
 
 } from 'reactstrap';
 
-const moment = require('moment')
+const moment = require('moment');
+const striptags = require('striptags');
+
 
 class ChangeCar extends Component {
 
     constructor(props) {
         super(props);
-       
+
         this.add = this.add.bind(this);
 
-  
+
 
         this.state = {
-           
+
         };
     }
 
-    
+
 
     componentDidMount() {
 
-        if(!localStorage.getItem('token')) this.props[0].history.push('/signin')
+        if (!localStorage.getItem('token')) this.props[0].history.push('/signin')
 
         if (this.props[0].match.params.id) {
             fetch('https://localhost:8080/cars/get/' + this.props[0].match.params.id, {
@@ -58,13 +60,23 @@ class ChangeCar extends Component {
     }
 
 
-    
 
 
-    
-    add(data){
+
+
+    add(data) {
+        data.make ? data.make = striptags(data.make) : data.make = "";
+        data.model ? data.model = striptags(data.model) : data.model = "";
+        data.productionYear ? data.productionYear = striptags(data.productionYear) : data.productionYear = "";
+        data.mileage ? data.mileage = striptags(data.mileage) : data.mileage = "";
+        data.limitMileage ? data.limitMileage = striptags(data.limitMileage) : data.limitMileage = "";
+        data.power ? data.power = striptags(data.power) : data.power = "";
+        data.seatCount ? data.seatCount = striptags(data.seatCount) : data.seatCount = "";
+        data.location ? data.location = striptags(data.location) : data.location = "";
+        data.price ? data.price = striptags(data.price) : data.price = "";
+        data.description ? data.description = striptags(data.description) : data.description = "";
         
-        if (this.props[0].match.params.id){
+        if (this.props[0].match.params.id) {
             fetch(`https://localhost:8080/cars/update`, {
                 method: 'PUT',
                 headers: {
@@ -75,7 +87,7 @@ class ChangeCar extends Component {
             }).then((res) => this.props[0].history.push('/cars/' + this.props[0].match.params.id))
 
 
-        }else{
+        } else {
             data.to = moment.unix(data.to).format("DD MMM hh:mm");
             data.from = moment.unix(data.from).format("DD MMM hh:mm");
             fetch(`https://localhost:8080/cars/create`, {
@@ -86,10 +98,10 @@ class ChangeCar extends Component {
                 },
                 body: JSON.stringify(data)
             }).then((res) => {
-                if(res.status == 201){
+                if (res.status == 201) {
                     this.props[0].history.push('/ads')
                 }
-                else if(res.status == 405){
+                else if (res.status == 405) {
                     console.log('Cant create more than 3');
                 }
             })
@@ -98,7 +110,7 @@ class ChangeCar extends Component {
 
 
     render() {
-        
+
 
         return (
 

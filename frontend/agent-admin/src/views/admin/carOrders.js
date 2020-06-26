@@ -28,7 +28,7 @@ class Orders extends Component {
     
     get() {
         
-        fetch('http://localhost:8282/api/orders/all', {
+        fetch('https://localhost:8282/api/orders/all', {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -56,7 +56,7 @@ class Orders extends Component {
     acceptOrder(e, id){
         e.preventDefault();
 
-        fetch(`http://localhost:8282/api/orders/accept/${id}`, {
+        fetch(`https://localhost:8282/api/orders/accept/${id}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -72,7 +72,7 @@ class Orders extends Component {
     declineOrder(e, id){
         e.preventDefault();
 
-        fetch(`http://localhost:8282/api/orders/decline/${id}`, {
+        fetch(`https://localhost:8282/api/orders/decline/${id}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

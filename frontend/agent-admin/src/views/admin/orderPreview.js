@@ -31,7 +31,7 @@ class OrderPreview extends Component {
         // if (!localStorage.token) {
         //     return;
         // }
-        fetch('http://localhost:8282/api/cars/completedRentals/' + this.props[0].match.params.id, {
+        fetch('https://localhost:8282/api/cars/completedRentals/' + this.props[0].match.params.id, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',

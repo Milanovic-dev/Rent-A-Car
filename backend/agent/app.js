@@ -1,11 +1,15 @@
 const express = require('express');
 const app = express();
-const http = require('http');
+const https = require('https');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const dotenv = require('dotenv');
 const fileUpload = require('express-fileupload');
 const colors = require('colors');
+
+const fs = require('fs');
+dotenv.config();
+
 
 const device = require('express-device');
 const fs = require('fs');
@@ -17,7 +21,12 @@ const soapService = require('./src/soap/soapService');
 const securityMiddleware = require('./src/security/securityMiddleware');
 
 // Server
-const server = http.createServer(app);
+//const server = http.createServer(app);
+const httpsOptions = {
+    key: fs.readFileSync('./security/cert.key'),
+    cert: fs.readFileSync('./security/cert.crt')
+}
+const server = https.createServer(httpsOptions, app);
 
 const { ObjectID } = require('mongodb');
 const db = require('./db');
@@ -26,19 +35,19 @@ const db = require('./db');
 app.use(bodyParser.json({ limit: '20mb' }));
 app.use(cors({
     "origin": "*",
-  "methods": "GET,HEAD,PUT,PATCH,POST,DELETE",
-  "preflightContinue": false,
-  "optionsSuccessStatus": 200
+    "methods": "GET,HEAD,PUT,PATCH,POST,DELETE",
+    "preflightContinue": false,
+    "optionsSuccessStatus": 200
 }));
 app.use('/uploads', express.static('uploads'))
 app.use(fileUpload());
 app.use(device.capture());
 
-require('./src/api/carApi') (app);
-require('./src/api/pricelistApi') (app);
-require('./src/api/uploadApi') (app);
-require('./src/api/orderApi') (app);
-require('./src/api/messagesApi') (app);
+require('./src/api/carApi')(app);
+require('./src/api/pricelistApi')(app);
+require('./src/api/uploadApi')(app);
+require('./src/api/orderApi')(app);
+require('./src/api/messagesApi')(app);
 
 //securityMiddleware.config(app, server);
 
@@ -47,29 +56,30 @@ server.listen(8282, () => {
     console.log("Agent Server running on port 8282!");
 });
 
+
+
 require('./db')().then(db => {
     //Register to Microservices Webhook
     soapService.getClient().then(soapClient => {
-        soapClient.SubscribeAgent({username: process.env.APP_USERNAME, password: process.env.APP_PASSWORD}, async (err, res) => {
-            if(err){
+        soapClient.SubscribeAgent({ username: process.env.APP_USERNAME, password: process.env.APP_PASSWORD }, async (err, res) => {
+            if (err) {
                 console.error(err);
                 return;
             }
 
-            if(res.accessToken){
+            if (res.accessToken) {
                 await db.saveToken(res.accessToken);
                 console.log('Sync: '.yellow + 'ON'.green);
                 await db.sync();
             }
-            else
-            {
+            else {
                 console.error('Could not subscribe. Status:' + res.status);
-                console.log('Sync: ' + 'OFF'.red); 
+                console.log('Sync: ' + 'OFF'.red);
             }
         });
-    }).catch(err => { 
+    }).catch(err => {
         console.error(err);
-        console.log('Sync: ' + 'OFF'.red); 
+        console.log('Sync: ' + 'OFF'.red);
     });
 })
 
@@ -87,6 +97,6 @@ app.get('/getWsdl', async (req, res) => {
 
 
 app.post('/testSecurity/:id', async (req, res) => {
-    const resu = await db.collection('cars').removeOne({_id: ObjectID(req.params.id)});
+    const resu = await db.collection('cars').removeOne({ _id: ObjectID(req.params.id) });
     res.status(200).json(req.body).send();
 });

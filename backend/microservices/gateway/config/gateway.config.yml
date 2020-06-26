@@ -62,7 +62,7 @@ pipelines:
             changeOrigin: true
       - cors:
         - action:
-            origin: ['http://localhost:3000', 'http://localhost:3001']
+            origin: ['http://localhost:3000', 'http://localhost:3001', 'https://localhost:8080']
             methods: 'HEAD,PUT,PATCH,POST,DELETE'
   cars:
     apiEndpoints:
@@ -83,7 +83,7 @@ pipelines:
             changeOrigin: true
       - cors:
         - action:
-            origin: ['http://localhost:3000', 'http://localhost:3001']
+            origin: ['http://localhost:3000', 'http://localhost:3001', 'https://localhost:8080']
             methods: 'HEAD,PUT,PATCH,POST,DELETE'
   message:
     apiEndpoints:
@@ -99,7 +99,7 @@ pipelines:
             changeOrigin: true
       - cors:
         - action:
-            origin: ['http://localhost:3000', 'http://localhost:3001']
+            origin: ['http://localhost:3000', 'http://localhost:3001', 'https://localhost:8080']
             methods: 'HEAD,PUT,PATCH,POST,DELETE'
   webhook:
     apiEndpoints:
@@ -115,7 +115,7 @@ pipelines:
             changeOrigin: true
       - cors:
         - action:
-            origin: ['http://localhost:3000', 'http://localhost:3001']
+            origin: ['http://localhost:3000', 'http://localhost:3001', 'https://localhost:8080']
             methods: 'HEAD,PUT,PATCH,POST,DELETE'
   orders:
     apiEndpoints:
@@ -131,7 +131,7 @@ pipelines:
             changeOrigin: true
       - cors:
         - action:
-            origin: ['http://localhost:3000', 'http://localhost:3001']
+            origin: ['http://localhost:3000', 'http://localhost:3001', 'https://localhost:8080']
             methods: 'HEAD,PUT,PATCH,POST,DELETE'
   search:
     apiEndpoints:
@@ -147,5 +147,5 @@ pipelines:
             changeOrigin: true
       - cors:
         - action:
-            origin: ['http://localhost:3000', 'http://localhost:3001']
+            origin: ['http://localhost:3000', 'http://localhost:3001', 'https://localhost:8080']
             methods: 'HEAD,PUT,PATCH,POST,DELETE'

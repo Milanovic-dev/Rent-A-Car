@@ -60,6 +60,8 @@ function generateAlias(str) {
     return str;
 }
 
+const striptags = require('striptags');
+
 
 class Register extends Component {
 
@@ -71,6 +73,12 @@ class Register extends Component {
     }
 
     submit(data) {
+        data.firstName ? data.firstName = striptags(data.firstName) : data.firstName = "";
+        data.lastName ? data.lastName = striptags(data.lastName) : data.lastName = "";
+        data.email ? data.email = striptags(data.email) : data.email = "";
+        data.username ? data.username = striptags(data.username) : data.username = "";
+        data.password ? data.password = striptags(data.password) : data.password = "";
+
         fetch('https://localhost:8080/auth/register', {
             method: 'POST',
             headers: {

@@ -31,7 +31,7 @@ class MileageReports extends Component {
         //     return;
         // }
 
-        fetch('http://localhost:8282/api/cars/completedRentals', {
+        fetch('https://localhost:8282/api/cars/completedRentals', {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -42,7 +42,7 @@ class MileageReports extends Component {
                 items: result
             })
         })
-        fetch('http://localhost:8282/api/cars/completedRentals/bundles', {
+        fetch('https://localhost:8282/api/cars/completedRentals/bundles', {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',

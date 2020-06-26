@@ -110,7 +110,7 @@ class BusyCar extends Component {
 
     componentDidMount() {
 
-        // fetch('http://localhost:8282/api/cars/v1/get/' + this.props[0].match.params.id, {
+        // fetch('https://localhost:8282/api/cars/v1/get/' + this.props[0].match.params.id, {
         //     method: 'GET',
         //     headers: {
         //         'Content-Type': 'application/json',

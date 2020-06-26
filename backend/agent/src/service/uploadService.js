@@ -24,7 +24,7 @@ function upload(file, callback) {
             {
                 status: 200,
                 response: {
-                    file: 'http://127.0.0.1:8282/uploads/' + filename
+                    file: 'https://localhost:8282/uploads/' + filename
                 }
             }
         )
