@@ -57,6 +57,11 @@ const signInForm = (props) => {
                 </Row>
                 <Row>
                     <Col md="12">
+                        <p>Forgot your password? <a href="/password/forgot"><b>Reset</b></a></p>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col md="12">
                         <p>Don't have an account? <a href="/signup"><b>Register now</b></a></p>
                     </Col>
                 </Row>
