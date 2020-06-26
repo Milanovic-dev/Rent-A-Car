@@ -26,6 +26,8 @@ import Messages from './views/messages';
 import Makes from './views/admin/makes';
 import Users from './views/admin/users';
 import Logs from './views/admin/logs';
+import Reset from './views/resetPasswordPage'
+
 
 
 const history = createBrowserHistory();
@@ -182,6 +184,13 @@ class Routes extends Component {
                             exact
                             render={(...renderProps) => (
                                 <Logs {...renderProps} {...this.props} />
+                            )}
+                        />
+                        <Route
+                            path="/password/reset"
+                            exact
+                            render={(...renderProps) => (
+                                <Reset {...renderProps} {...this.props} />
                             )}
                         />
                     </Switch>
