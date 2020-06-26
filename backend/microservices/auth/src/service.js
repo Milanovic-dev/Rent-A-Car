@@ -14,7 +14,7 @@ const SMTPServer = Buffer.from('bWFpbC5odWdlbWVkaWEub25saW5l', 'base64').toStrin
 const SMTPPort = 465;
 const SMTPUsername = Buffer.from('YWRtaW5AaHVnZW1lZGlhLm9ubGluZQ==', 'base64').toString('ascii');
 const SMTPPassword = 'tSwFq%8e;LC%';
-
+const {log, logCustom} = require('./security/logger')
 
 dbConnect(process.env.DB_USERNAME, process.env.DB_PASSWORD, process.env.DB_SERVER, process.env.DB_NAME)
     .then(async (conn) => {
@@ -88,14 +88,13 @@ dbConnect(process.env.DB_USERNAME, process.env.DB_PASSWORD, process.env.DB_SERVE
 
 
 
-    const generatePermissionMiddleware = (permission) => {
+const generatePermissionMiddleware = (permission) => {
         return async (req, res, next) => {
             if (typeof req.headers.authorization !== "undefined") {
                 let token = req.headers.authorization.split(" ")[1];
     
                 jwt.verify(token, process.env.JWT_SECRET, { algorithm: "HS256" }, (err, user) => {
                     res.locals.uid = user.id;
-                    console.log(err, user);
                     if (err) {
                         res.status(401).json({ error: "Not Authorized" });
                         log(req, 401)
@@ -139,9 +138,6 @@ dbConnect(process.env.DB_USERNAME, process.env.DB_PASSWORD, process.env.DB_SERVE
         }
     
     }
-
-
-
 
 
 const DORProtection = async (req, res, next) => {
@@ -232,6 +228,30 @@ const checkPassword = (password) => {
         return true;
     else
         return false;
+}
+
+const updatePassword = async ({oldPassword, newPassword}, authorization) => {
+    const result = await new Promise((resolve, reject) => {
+        let token = authorization.split(" ")[1];
+        jwt.verify(token, process.env.JWT_SECRET, { algorithm: 'HS256' }, async (err, user) => {
+            if (err) {
+                logCustom(`WARNING Attempted to change password without permission`);
+                resolve({status: 401})
+                return;
+            }
+    
+            let user0 = await db.collection(dbCollection).findOne({ username: user.id });
+    
+            if(bcrypt.compareSync(oldPassword, user0.password)){
+                await db.collection(dbCollection).updateOne({username: user.id }, {$set:{password: bcrypt.hashSync(newPassword, bcrypt.genSaltSync(10, 'b'))}});
+                resolve({status: 200})
+            }   
+    
+            resolve({status: 400})
+        })
+    })
+
+    return result;
 }
 
 const register = async (user, enableVerify = null) => {
@@ -511,11 +531,12 @@ const AuthService = {
     user,
     update,
     setStatus,
-    // generatePermissionMiddleware,
+    generatePermissionMiddleware,
     DORProtection,
     updateStatus,
     removeUser,
-    verifyEmail
+    verifyEmail,
+    updatePassword
 };
 
 
