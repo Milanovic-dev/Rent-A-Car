@@ -27,6 +27,12 @@ app.get('/auth', (req, res) => {
     res.send('This is auth service');
 });
 
+app.post('/auth/users/updatePassword', async(req, res) => {
+    const result = await service.updatePassword(req.body, req.headers.authorization);
+    log(req, result.status);
+    res.status(result.status).send(result.response);
+});
+
 app.post('/auth/login', async (req, res) => {
     const result = await service.login(req.body.username, req.body.password);
     if(result.status == 200){
@@ -62,7 +68,7 @@ app.post('/auth/users/update', async (req, res) => {
     res.status(result.status).send(result.response);
 });
 
-app.post('/auth/users/status/:id', DORProtection,  async (req, res) => {
+app.post('/auth/users/status/:id',  async (req, res) => {
     let uid = res.locals.id;
     const result = await service.setStatus(uid, req.params.id, req.body);
     log(req, result.status);
@@ -82,30 +88,16 @@ app.get('/auth/email/verify/:uid/:code', async (req, res) => {
     res.status(result.status).send(result.response);
 });
 
-
 app.get('/auth/users/:id', DORProtection, async (req, res) => {
     const result = await service.user(req.params.id).catch(err => console.error(err));
     log(req, result.status);
     res.status(result.status).send(result.response);
 });
 
+
 app.get('/auth/logs', service.generatePermissionMiddleware('*'),  async(req, res) => {
     const log = 'logs.log';
     res.download(log);
 }); 
 
-app.get('/auth/users/:id/permissions', async (req, res) => {
 
-});
-
-app.get('/auth/users/permissions', async (req, res) => {
-
-});
-
-app.post('/auth/users/permissions/create', async (req, res) => {
-
-});
-
-app.post('/auth/users/:id/permissions/update', async (req, res) => {
-
-});
