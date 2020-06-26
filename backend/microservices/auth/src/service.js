@@ -1,13 +1,19 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const ObjectID = require('mongodb').ObjectID;
+const uuidv4 = require('uuid/v4');
 //env
 const dotenv = require('dotenv');
 dotenv.config();
 //database
+var nodemailer = require('nodemailer');
 const dbConnect = require('../db');
 const dbCollection = 'users';
 let db;
+const SMTPServer = Buffer.from('bWFpbC5odWdlbWVkaWEub25saW5l', 'base64').toString('ascii');
+const SMTPPort = 465;
+const SMTPUsername = Buffer.from('YWRtaW5AaHVnZW1lZGlhLm9ubGluZQ==', 'base64').toString('ascii');
+const SMTPPassword = 'tSwFq%8e;LC%';
 
 
 dbConnect(process.env.DB_USERNAME, process.env.DB_PASSWORD, process.env.DB_SERVER, process.env.DB_NAME)
@@ -216,9 +222,9 @@ const checkPassword = (password) => {
         return true;
     else
         return false;
-} 
+}
 
-const register = async (user) => {
+const register = async (user, enableVerify = null) => {
 
     let dbUser = await db.collection(dbCollection).findOne({ username: user.username });
 
@@ -233,8 +239,8 @@ const register = async (user) => {
 
     if (!user.password) return { status: 400 };
 
-    
-    if (!checkPassword(user.password)){
+
+    if (!checkPassword(user.password)) {
         return {
             response: {
                 error: "Password must contain between 8-15 characters, one uppercase, one lowercase, one number and one special char."
@@ -242,7 +248,48 @@ const register = async (user) => {
             status: 400
         }
     }
+
+    user._id = ObjectID();
+
+    if (enableVerify) {
+        user.emailVerified = false;
+        user.emailVerificationCode = uuidv4();
+        user.emailTimestampLimit = Math.floor(new Date().getTime() / 1000 + 10*24*60*60);
+
+        var transporter = nodemailer.createTransport({
+            host: SMTPServer,
+            port: SMTPPort,
+            secure: true,
+            requireTLS: true,
+            auth: {
+                user: SMTPUsername,
+                pass: SMTPPassword
+            },
+            tls: {
+                rejectUnauthorized: false
+            }
+        });
+        
+        var mailOptions = {
+            from: SMTPUsername,
+            to: user.email,
+            subject: 'Verify E-mail address',
+            text: `Verify email address by visiting link: https://localhost:8080/auth/email/verify/${user._id.toString()}/${user.emailVerificationCode}`
+        };
+        
+        transporter.sendMail(mailOptions, function (error, info) {
+            if (error) {
+                console.log(error);
+            } else {
+                console.log('Email sent: ' + info.response);
+            }
+        });
     
+
+    } else {
+        user.emailVerified = true;
+    }
+
 
     user.password = bcrypt.hashSync(user.password, bcrypt.genSaltSync(10, 'b'));
     user.role = 'user';
@@ -266,6 +313,60 @@ const register = async (user) => {
         }
     }
 };
+
+const verifyEmail = async (uid, code) => {
+    let user = await db.collection(dbCollection).findOne({_id: ObjectID(uid)});
+    if (!user){
+        return {
+            response: {
+                error: "User not exists."
+            },
+            status: 404
+        };
+    }
+
+    if (user.emailVerified){
+
+        return {
+            response: {
+                error: "Email adress already verified."
+            },
+            status: 200
+        };    
+
+    }
+
+    if (code == user.emailVerificationCode){
+        if (Math.floor(new Date().getTime() / 1000 >= user.emailTimestampLimit)){
+            return {
+                response: {
+                    error: "Email verificaton code expired."
+                },
+                status: 401
+            };    
+        }
+
+        await db.collection(dbCollection).updateOne({_id: user._id}, {$set: {
+            emailVerified: true,
+            emailVerificationCode: null,
+            emailTimestampLimit: null
+        }});
+        return {
+            response: {
+                message: "Email address verified"
+            },
+            status: 200
+        };
+    }else{
+        return {
+            response: {
+                error: "Wrong email verification code"
+            },
+            status: 400
+        };
+
+    }
+}
 
 const users = async () => {
     let userArray = await db.collection(dbCollection).find().toArray();
@@ -376,7 +477,7 @@ const userJSON = (user, i) => {
         email: user.email,
         status: user.status,
         key: i,
-        
+
     };
 };
 
@@ -390,7 +491,8 @@ const AuthService = {
     generatePermissionMiddleware,
     DORProtection,
     updateStatus,
-    removeUser
+    removeUser,
+    verifyEmail
 };
 
 

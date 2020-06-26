@@ -58,9 +58,16 @@ app.post('/auth/users/status/:id', DORProtection,  async (req, res) => {
 });
 
 app.post('/auth/register', async (req, res) => {
-    const result = await service.register(req.body);
+    const result = await service.register(req.body, true);
     res.status(result.status).send(result.response);
 });
+
+app.get('/auth/email/verify/:uid/:code', async (req, res) => {
+    const result = await service.verifyEmail(req.params.uid, req.params.code);
+    res.status(result.status).send(result.response);
+});
+
+
 app.get('/auth/users/:id', DORProtection, async (req, res) => {
     console.log(req.cookie);
     const result = await service.user(req.params.id).catch(err => console.error(err));
