@@ -16,7 +16,7 @@ module.exports = function(app) {
         res.status(result.status).send(result.response);
     });
 
-    app.post('/review/create', async (req, res) => {
+    app.post('/review/create', service.generatePermissionMiddleware('comments-permission'), async (req, res) => {
         console.log(req.method + req.route.path);
 
         if(!req.body) return res.status('400');
@@ -24,19 +24,19 @@ module.exports = function(app) {
         let result = await service.create(req.body, req.headers.authorization);
         res.status(result.status).send(result.response);
     });
-    app.post('/review/allow/:id', async (req, res) => {
+    app.post('/review/allow/:id', service.generatePermissionMiddleware('admin-comment-permission'), async (req, res) => {
         console.log(req.method + req.route.path);
         let result = await service.allow(req.params.id);
         res.status(result.status).send(result.response);
     });
-    app.post('/review/disallow/:id', async (req, res) => {
+    app.post('/review/disallow/:id', service.generatePermissionMiddleware('admin-comment-permission'),  async (req, res) => {
         console.log(req.method + req.route.path);
         let result = await service.disallow(req.params.id);
         res.status(result.status).send(result.response);
     });
 
 
-    app.get('/review/pending/:id', async (req, res) => {
+    app.get('/review/pending/:id', service.generatePermissionMiddleware('admin-comment-permission'), async (req, res) => {
       console.log(req.method + req.route.path);
       
       if(!req.params.id) return res.status('400');
@@ -45,7 +45,7 @@ module.exports = function(app) {
       res.status(result.status).send(result.response);
     });
 
-    app.delete('/review/remove/:id', async (req, res) => {
+    app.delete('/review/remove/:id', service.generatePermissionMiddleware('admin-comment-permission'), async (req, res) => {
         console.log(req.method + req.route.path);
 
         if(!req.params.id) return res.status('400');

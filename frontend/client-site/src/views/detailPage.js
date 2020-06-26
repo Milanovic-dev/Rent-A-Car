@@ -62,6 +62,8 @@ function generateAlias(str) {
     return str;
 }
 
+const striptags = require('striptags');
+
 
 class DetailPage extends Component {
 
@@ -204,6 +206,8 @@ class DetailPage extends Component {
     }
 
     submitComment(data) {
+        data.comment ? data.comment = striptags(data.comment) : data.comment = "";
+
         let date = new Date();
         data.date = Math.floor(date.getTime() / 1000);
         data.date = moment.unix(data.date).format('DD.MM.YYYY, HH:mm')

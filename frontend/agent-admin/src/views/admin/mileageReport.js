@@ -9,6 +9,7 @@ import {
     Col,
 } from 'reactstrap';
 
+const striptags = require('striptags');
 
 
 class MileageReport extends Component {
@@ -36,8 +37,8 @@ class MileageReport extends Component {
 
         // }else{
 
-        data.newMileage ? data.newMileage = stripHtml(data.newMileage) : data.newMileage = "";
-        data.additionalInfo ? data.additionalInfo = stripHtml(data.additionalInfo) : data.additionalInfo = "";
+        data.newMileage ? data.newMileage = striptags(data.newMileage) : data.newMileage = "";
+        data.additionalInfo ? data.additionalInfo = striptags(data.additionalInfo) : data.additionalInfo = "";
 
         fetch(`https://localhost:8282/api/cars/mileageReport/` + this.props[0].match.params.id + '/' + this.props[0].match.params.carId, {
             method: 'POST',

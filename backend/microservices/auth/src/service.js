@@ -21,8 +21,12 @@ dbConnect(process.env.DB_USERNAME, process.env.DB_PASSWORD, process.env.DB_SERVE
             lastName: 'Milanovic',
             email: 'nikolamilanovic21@gmail.com',
             permissions: [
-                'testpermission1',
-                'testpermission2'
+                'orders-permission',
+                'client-orders-permission',
+                'messages-permission',
+                'car-action-permission',
+                'get-codebook-permission',
+                'comments-permission'
             ],
             role: 'user'
         });
@@ -34,9 +38,14 @@ dbConnect(process.env.DB_USERNAME, process.env.DB_PASSWORD, process.env.DB_SERVE
             lastName: 'Tucakov',
             email: 'milanatucakov@gmail.com',
             permissions: [
-                'testpermission2',
-                'testpermission3'
-            ]
+                'orders-permission',
+                'client-orders-permission',
+                'messages-permission',
+                'car-action-permission',
+                'get-codebook-permission',
+                'comments-permission'
+            ],
+            role: 'user'
         });
 
         register({
@@ -46,9 +55,14 @@ dbConnect(process.env.DB_USERNAME, process.env.DB_PASSWORD, process.env.DB_SERVE
             lastName: 'Stanojevic',
             email: 'milanstanojevic@gmail.com',
             permissions: [
-                'testpermission1',
-                'testpermission3'
-            ]
+                'orders-permission',
+                'client-orders-permission',
+                'messages-permission',
+                'car-action-permission',
+                'get-codebook-permission',
+                'comments-permission'
+            ],
+            role: 'user'
         });
 
         register({

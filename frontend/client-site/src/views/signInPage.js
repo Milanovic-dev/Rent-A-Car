@@ -14,6 +14,9 @@ import {
     CarouselItem,
 } from 'reactstrap';
 
+const striptags = require('striptags');
+
+
 class SignInPage extends Component {
 
     constructor(props) {
@@ -24,6 +27,9 @@ class SignInPage extends Component {
     }
 
     submit(data) {
+        data.username ? data.username = striptags(data.username) : data.username = "";
+        data.password ? data.password = striptags(data.password) : data.password = "";
+        
         fetch('https://localhost:8080/auth/login', {
             method: 'POST',
             headers: {
