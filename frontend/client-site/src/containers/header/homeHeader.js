@@ -139,6 +139,9 @@ class HomeHeader extends Component {
                                         {localStorage.getItem('token') ? 
                                         <>
                                         <NavItem>
+                                            <Link to='/password/change' className={this.props[0].location.pathname === '/password/change'  ? 'active' : null}>Change password</Link>
+                                        </NavItem>
+                                        <NavItem>
                                             <Link to='/car-attributes/make' className={this.props[0].location.pathname === '/car-attributes/make'  ? 'active' : null}>Car attributes</Link>
                                         </NavItem>
 

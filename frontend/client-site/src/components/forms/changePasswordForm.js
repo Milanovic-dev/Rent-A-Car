@@ -37,16 +37,6 @@ const changePasswordForm = (props) => {
                 <Row>
                     <Col md="12" className="input-wrap">
                         <Field
-                            name="username"
-                            component={renderTextField}
-                            label={"Enter your username"}
-                            placeholder="Username"
-                        />
-                    </Col>
-                </Row>
-                <Row>
-                    <Col md="12" className="input-wrap">
-                        <Field
                             name="oldPassword"
                             component={renderTextField}
                             label={"Enter your old password"}

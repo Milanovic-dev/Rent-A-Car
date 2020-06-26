@@ -26,25 +26,16 @@ class changePasswordPage extends Component {
 
     }
 
-    submit(data) {
-        data.newPassword ? data.newPassword = striptags(data.newPassword) : data.newPassword = "";
-        data.oldPassword ? data.oldPassword = striptags(data.oldPassword) : data.oldPassword = "";
-        
-        fetch('https://localhost:8080/auth/user/updatePassword', {
+    submit(data) {   
+        fetch('https://localhost:8080/auth/users/updatePassword', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${localStorage.getItem('token')}`
             },
             body: JSON.stringify(data)
-        }).then((res) => res.json()).then((result) => {
-            if (!result.error) {
-                console.log(result.status);
-            } else {
-                this.setState({
-                    error: result.error
-                })
-            }
+        }).then((res) => {
+            console.log(res.status);
         })
     }
 
