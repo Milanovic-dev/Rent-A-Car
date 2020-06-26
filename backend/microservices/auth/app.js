@@ -30,8 +30,8 @@ app.post('/auth/login', async (req, res) => {
     }
     res.status(result.status).send(result.response);
 });
-
-app.get('/auth/users', service.generatePermissionMiddleware('*'),  async (req, res) => {
+//service.generatePermissionMiddleware('admin-users'), 
+app.get('/auth/users',  async (req, res) => {
     const result = await service.users();
     res.status(result.status).send(result.response);
 });
