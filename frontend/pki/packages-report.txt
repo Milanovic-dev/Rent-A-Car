@@ -1,0 +1,25 @@
+
+                       === npm audit security report ===                        
+
+
+                                 Manual Review                                  
+             Some vulnerabilities require your attention to resolve             
+                                                                                
+          Visit https://go.npm.me/audit-guide for additional guidance           
+
+
+  Low             Prototype Pollution                                           
+
+  Package         yargs-parser                                                  
+
+  Patched in      >=13.1.2 <14.0.0 || >=15.0.1 <16.0.0 || >=18.1.2              
+
+  Dependency of   react-scripts                                                 
+
+  Path            react-scripts > webpack-dev-server > yargs > yargs-parser     
+
+  More info       https://npmjs.com/advisories/1500  
+  
+  Description of problem : Affected versions of yargs-parser are vulnerable to prototype pollution. Arguments are not properly sanitized, allowing an attacker to modify the prototype of Object, causing the addition or modification of an existing property that will exist on all objects.
+  Parsing the argument --foo.__proto__.bar baz' adds a bar property with value baz to all objects. This is only exploitable if attackers have control over the arguments being passed to yargs-parser
+  
