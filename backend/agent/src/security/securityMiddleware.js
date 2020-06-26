@@ -8,6 +8,7 @@ const hpp = require('hpp');
 const csrf = require('csurf');
 
 const csrfProtection = csrf({cookie:true});
+const { logCustom } = require('./logger');
 
 const sessionConfig = {
     secret: process.env.SESSION_SECRET,
@@ -27,7 +28,7 @@ const config = (app, server) => {
     app.use(session(sessionConfig));//https://www.npmjs.com/package/express-session
 
     toobusy.onLag((currentLag) => {
-        console.log("Event loop lag detected! Latency: " + currentLag + "ms");
+        logCustom("Event loop lag detected! Latency: " + currentLag + "ms");
     });
 
     process.on('SIGINT', () => {
