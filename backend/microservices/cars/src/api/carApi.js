@@ -11,8 +11,9 @@ module.exports = function(app){
         service.upload(req.files.file, res)
     });
 
+    //service.generatePermissionMiddleware('')
 
-    app.get('/cars/get/:id', service.generatePermissionMiddleware('cars-permission') , async (req, res) => {
+    app.get('/cars/get/:id', async (req, res) => {
 
         if(!req.params.id) return res.status('400');
 
@@ -20,7 +21,7 @@ module.exports = function(app){
         res.status(result.status).send(result.response);
     });
 
-    app.post('/cars/create', async (req, res) => {
+    app.post('/cars/create', service.generatePermissionMiddleware('car-action-permission'), async (req, res) => {
 
         if(!req.body) return res.status('400');
 
@@ -28,7 +29,7 @@ module.exports = function(app){
         res.status(result.status).send(result.response);
     });
 
-    app.put('/cars/update', async (req, res) => {
+    app.put('/cars/update', service.generatePermissionMiddleware('car-action-permission'), async (req, res) => {
         console.log(req.method + req.route.path);
 
         if(!req.body) return res.status('400');
@@ -36,7 +37,7 @@ module.exports = function(app){
         let result = await service.update(req.body);
         res.status(result.status).send(result.response);
     });
-    app.put('/cars/busy', async (req, res) => {
+    app.put('/cars/busy', service.generatePermissionMiddleware('car-action-permission'), async (req, res) => {
         console.log(req.body);
         if(!req.body) return res.status('400');
 
@@ -44,7 +45,7 @@ module.exports = function(app){
         res.status(result.status).send(result.response);
     });
 
-    app.delete('/cars/remove/:id', async (req, res) => {
+    app.delete('/cars/remove/:id',service.generatePermissionMiddleware('car-action-permission'), async (req, res) => {
 
         if(!req.params.id) return res.status('400');
 
@@ -57,7 +58,7 @@ module.exports = function(app){
         res.status(result.status).send(result.response);
     });
 
-    app.get('/cars/stats', async (req, res) => {
+    app.get('/cars/stats', service.generatePermissionMiddleware('cars-stats-permission'), async (req, res) => {
         console.log(req.method + req.route.path);
         let result = await service.stats();
         res.status(result.status).send(result.response);

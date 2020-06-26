@@ -14,6 +14,9 @@ import {
     CarouselItem,
 } from 'reactstrap';
 
+const striptags = require('striptags');
+
+
 class SignInPage extends Component {
 
     constructor(props) {

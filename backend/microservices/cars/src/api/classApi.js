@@ -2,7 +2,7 @@ const service = require('../services/classService');
 
 module.exports = function(app){
 
-    app.get('/class/get/:id', async (req, res) => {
+    app.get('/class/get/:id', service.generatePermissionMiddleware('get-codebook-permission'), async (req, res) => {
         console.log(req.method + req.route.path);
 
         if(!req.params.id) return res.status('400');
@@ -11,7 +11,7 @@ module.exports = function(app){
         res.status(result.status).send(result.response);
     });
 
-    app.post('/class/create', async (req, res) => {
+    app.post('/class/create', service.generatePermissionMiddleware('codebook-permission'), async (req, res) => {
         console.log(req.method + req.route.path);
 
         if(!req.body) return res.status('400');
@@ -20,7 +20,7 @@ module.exports = function(app){
         res.status(result.status).send(result.response);
     });
 
-    app.post('/class/update', async (req, res) => {
+    app.post('/class/update', service.generatePermissionMiddleware('codebook-permission'), async (req, res) => {
         console.log(req.method + req.route.path);
 
         if(!req.body) return res.status('400');
@@ -29,7 +29,7 @@ module.exports = function(app){
         res.status(result.status).send(result.response);
     });
 
-    app.delete('/class/remove/:id', async (req, res) => {
+    app.delete('/class/remove/:id', service.generatePermissionMiddleware('codebook-permission'), async (req, res) => {
         console.log(req.method + req.route.path);
 
         if(!req.params.id) return res.status('400');
@@ -38,7 +38,7 @@ module.exports = function(app){
         res.status(result.status).send(result.response);
     });
 
-    app.get('/class/all', async (req, res) => {
+    app.get('/class/all', service.generatePermissionMiddleware('get-codebook-permission'), async (req, res) => {
         console.log(req.method + req.route.path);
         let result = await service.getAll();
         res.status(result.status).send(result.response);

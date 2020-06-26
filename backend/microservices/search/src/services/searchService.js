@@ -12,6 +12,8 @@ dbConnect(process.env.DB_USERNAME, process.env.DB_PASSWORD, process.env.DB_SERVE
     console.log(`DB error: ${e}`);
 })
 
+
+
 const search = async (filter) => {
 
     let searchObject={};
