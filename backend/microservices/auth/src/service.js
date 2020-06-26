@@ -88,51 +88,51 @@ dbConnect(process.env.DB_USERNAME, process.env.DB_PASSWORD, process.env.DB_SERVE
 
 
 
-const generatePermissionMiddleware = (permission) => {
-    return async (req, res, next) => {
-        if (typeof req.headers.authorization !== "undefined") {
-            let token = req.headers.authorization.split(" ")[1];
+// const generatePermissionMiddleware = (permission) => {
+//     return async (req, res, next) => {
+//         if (typeof req.headers.authorization !== "undefined") {
+//             let token = req.headers.authorization.split(" ")[1];
 
-            jwt.verify(token, process.env.JWT_SECRET, { algorithm: "HS256" }, (err, user) => {
-                res.locals.uid = user.id;
+//             jwt.verify(token, process.env.JWT_SECRET, { algorithm: "HS256" }, (err, user) => {
+//                 res.locals.uid = user.id;
 
-                if (err) {
-                    res.status(401).json({ error: "Not Authorized" });
-                    return;
-                    //throw new Error("Not Authorized");
-                }
+//                 if (err) {
+//                     res.status(401).json({ error: "Not Authorized" });
+//                     return;
+//                     //throw new Error("Not Authorized");
+//                 }
 
-                db.collection(dbCollection).find({ _id: ObjectID(user.id) }).toArray((err, result) => {
-                    if (err) {
-                        res.status(404).json({ error: "Not Found" });
-                        return;
-                    }
+//                 db.collection(dbCollection).find({ _id: ObjectID(user.id) }).toArray((err, result) => {
+//                     if (err) {
+//                         res.status(404).json({ error: "Not Found" });
+//                         return;
+//                     }
 
-                    if (result && !result.length) {
-                        res.status(404).json({ error: "Not Found" });
-                        return;
-                    }
+//                     if (result && !result.length) {
+//                         res.status(404).json({ error: "Not Found" });
+//                         return;
+//                     }
 
-                    if (result[0].permission && result[0].permissions.indexOf('*') !== -1) {
-                        return next();
-                    }
+//                     if (result[0].permission && result[0].permissions.indexOf('*') !== -1) {
+//                         return next();
+//                     }
 
-                    if (result[0].permissions && result[0].permissions.indexOf(permission) !== -1) {
-                        return next();
-                    }
+//                     if (result[0].permissions && result[0].permissions.indexOf(permission) !== -1) {
+//                         return next();
+//                     }
 
-                    res.status(401).json({ error: "Not Authorized" });
-                    return;
-                });
-            });
-        } else {
-            res.status(401).json({ error: "Not Authorized" });
-            return;
-            //throw new Error("Not Authorized");
-        }
-    }
+//                     res.status(401).json({ error: "Not Authorized" });
+//                     return;
+//                 });
+//             });
+//         } else {
+//             res.status(401).json({ error: "Not Authorized" });
+//             return;
+//             //throw new Error("Not Authorized");
+//         }
+//     }
 
-}
+// }
 
 
 const DORProtection = async (req, res, next) => {
@@ -253,38 +253,7 @@ const register = async (user, enableVerify = null) => {
 
     if (enableVerify) {
         user.emailVerified = false;
-        user.emailVerificationCode = uuidv4();
-        user.emailTimestampLimit = Math.floor(new Date().getTime() / 1000 + 10*24*60*60);
-
-        var transporter = nodemailer.createTransport({
-            host: SMTPServer,
-            port: SMTPPort,
-            secure: true,
-            requireTLS: true,
-            auth: {
-                user: SMTPUsername,
-                pass: SMTPPassword
-            },
-            tls: {
-                rejectUnauthorized: false
-            }
-        });
-        
-        var mailOptions = {
-            from: SMTPUsername,
-            to: user.email,
-            subject: 'Verify E-mail address',
-            text: `Verify email address by visiting link: https://localhost:8080/auth/email/verify/${user._id.toString()}/${user.emailVerificationCode}`
-        };
-        
-        transporter.sendMail(mailOptions, function (error, info) {
-            if (error) {
-                console.log(error);
-            } else {
-                console.log('Email sent: ' + info.response);
-            }
-        });
-    
+        user.status = 1;
 
     } else {
         user.emailVerified = true;
@@ -294,7 +263,7 @@ const register = async (user, enableVerify = null) => {
     user.password = bcrypt.hashSync(user.password, bcrypt.genSaltSync(10, 'b'));
     user.role = 'user';
     user.regTimestamp = new Date().getUTCMilliseconds();
-    user.status = 0;
+    // user.status = 0;
 
     let storeResult = await db.collection(dbCollection).insertOne(user);
 
@@ -315,8 +284,8 @@ const register = async (user, enableVerify = null) => {
 };
 
 const verifyEmail = async (uid, code) => {
-    let user = await db.collection(dbCollection).findOne({_id: ObjectID(uid)});
-    if (!user){
+    let user = await db.collection(dbCollection).findOne({ _id: ObjectID(uid) });
+    if (!user) {
         return {
             response: {
                 error: "User not exists."
@@ -325,39 +294,41 @@ const verifyEmail = async (uid, code) => {
         };
     }
 
-    if (user.emailVerified){
+    if (user.emailVerified) {
 
         return {
             response: {
                 error: "Email adress already verified."
             },
             status: 200
-        };    
+        };
 
     }
 
-    if (code == user.emailVerificationCode){
-        if (Math.floor(new Date().getTime() / 1000 >= user.emailTimestampLimit)){
+    if (code == user.emailVerificationCode) {
+        if (Math.floor(new Date().getTime() / 1000 >= user.emailTimestampLimit)) {
             return {
                 response: {
                     error: "Email verificaton code expired."
                 },
                 status: 401
-            };    
+            };
         }
 
-        await db.collection(dbCollection).updateOne({_id: user._id}, {$set: {
-            emailVerified: true,
-            emailVerificationCode: null,
-            emailTimestampLimit: null
-        }});
+        await db.collection(dbCollection).updateOne({ _id: user._id }, {
+            $set: {
+                emailVerified: true,
+                emailVerificationCode: null,
+                emailTimestampLimit: null
+            }
+        });
         return {
             response: {
                 message: "Email address verified"
             },
             status: 200
         };
-    }else{
+    } else {
         return {
             response: {
                 error: "Wrong email verification code"
@@ -438,7 +409,49 @@ const updateStatus = async (id, status) => {
 
 
     // let admin = await db.collection(dbCollection).find({ _id: ObjectID(uid), role: 'admin' }).toArray(); //admin ili neko vec
+    if (status == 0) {
+        // user.emailVerificationCode = uuidv4();
+        // user.emailTimestampLimit = Math.floor(new Date().getTime() / 1000 + 10 * 24 * 60 * 60);
 
+        await db.collection(dbCollection).updateOne({ _id: ObjectID(id) }, {
+            $set: {
+                emailVerificationCode: uuidv4(),
+                emailTimestampLimit:  Math.floor(new Date().getTime() / 1000 + 10 * 24 * 60 * 60)
+            }
+        })
+    
+        let user =  await db.collection(dbCollection).findOne({_id: ObjectID(id)});
+        var transporter = nodemailer.createTransport({
+            host: SMTPServer,
+            port: SMTPPort,
+            secure: true,
+            requireTLS: true,
+            auth: {
+                user: SMTPUsername,
+                pass: SMTPPassword
+            },
+            tls: {
+                rejectUnauthorized: false
+            }
+        });
+
+        var mailOptions = {
+            from: SMTPUsername,
+            to: user.email,
+            subject: 'Verify E-mail address',
+            text: `Verify email address by visiting link: https://localhost:8080/auth/email/verify/${user._id.toString()}/${user.emailVerificationCode}`
+        };
+
+        transporter.sendMail(mailOptions, function (error, info) {
+            if (error) {
+                console.log(error);
+            } else {
+                console.log('Email sent: ' + info.response);
+            }
+        });
+
+
+    }
     await db.collection(dbCollection).updateOne({ _id: ObjectID(id) }, {
         $set: {
             status: status
@@ -488,7 +501,7 @@ const AuthService = {
     user,
     update,
     setStatus,
-    generatePermissionMiddleware,
+    // generatePermissionMiddleware,
     DORProtection,
     updateStatus,
     removeUser,
