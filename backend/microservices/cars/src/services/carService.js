@@ -49,7 +49,7 @@ const generatePermissionMiddleware = (permission) => {
 
             jwt.verify(token, process.env.JWT_SECRET, { algorithm: "HS256" }, (err, user) => {
                 res.locals.uid = user.id;
-                console.log(err,user);
+                console.log(err, user);
                 if (err) {
                     res.status(401).json({ error: "Not Authorized" });
                     return;
@@ -91,31 +91,29 @@ const generatePermissionMiddleware = (permission) => {
 
 const createCar = async (car, authorization) => {
 
-    
-  if(car == undefined) return { status: 400 }; 
 
-  if(!car.ownerId){
-      if(!authorization) return {status: 401};
-      const id = await verifyToken(authorization.split(' ')[1]);
-      car.ownerId = id;
-      let result = await db.collection(dbCollection).find({ownerId: id}).toArray();
-      console.log(result.length);
-      if(result.length >= 3)
-      {
-          return { status: 405 };
-      }
-  }
+    if (car == undefined) return { status: 400 };
 
-  let result = await db.collection(dbCollection).insertOne(car);
-  if(result.insertedId)
-  {
-      return {
-          response: result.insertedId,
-          status: 201
-      };
-  }
+    if (!car.ownerId) {
+        if (!authorization) return { status: 401 };
+        const id = await verifyToken(authorization.split(' ')[1]);
+        car.ownerId = id;
+        let result = await db.collection(dbCollection).find({ ownerId: id }).toArray();
+        console.log(result.length);
+        if (result.length >= 3) {
+            return { status: 405 };
+        }
+    }
 
-  return { status: 500 };
+    let result = await db.collection(dbCollection).insertOne(car);
+    if (result.insertedId) {
+        return {
+            response: result.insertedId,
+            status: 201
+        };
+    }
+
+    return { status: 500 };
 };
 
 const updateCar = async (car) => {
@@ -213,10 +211,16 @@ const getCar = async (id, authorization) => {
             _id: ObjectID(id)
         }
     );
-    const userId = await verifyToken(authorization.split(' ')[1]);
+    let userId = null;
+    let orders = [];
+    let bundles = [];
+    if (authorization && authorization.indexOf(' ') != -1) {
+        userId = await verifyToken(authorization.split(' ')[1]);
+        orders = await db.collection('orders').find({ $and: [{ carId: id }, { renterId: userId }] }).toArray();
+        bundles = await db.collection('bundles').find({ $and: [{ renterId: userId }] }).toArray();
+    }
     console.log(userId);
-    let orders = await db.collection('orders').find({ $and: [{ carId: id }, { renterId: userId }] }).toArray();
-    let bundles = await db.collection('bundles').find({ $and: [{ renterId: userId }] }).toArray();
+
 
     let bndl = 0;
     for (let i = 0; i < bundles.length; i++) {
