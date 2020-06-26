@@ -19,5 +19,14 @@
 
   More info       https://nodesecurity.io/advisories/1500
 
-found 1 low severity vulnerability in 2939 scanned packages
+  found 1 low severity vulnerability in 2939 scanned packages
   1 vulnerability requires manual review. See the full report for details.
+
+  Description of problem : Affected versions of yargs-parser are vulnerable to prototype pollution. Arguments are not properly sanitized, allowing an attacker to modify the prototype of Object, causing the addition or modification of an existing property that will exist on all objects.
+  Parsing the argument --foo.__proto__.bar baz' adds a bar property with value baz to all objects. This is only exploitable if attackers have control over the arguments being passed to yargs-parser
+  
+  1.It could be used for privilege escalation.
+  2.The library could be used to parse user input received from different sources:
+  a) terminal emulators
+  b) system calls from other code bases
+  c) CLI RPC servers
