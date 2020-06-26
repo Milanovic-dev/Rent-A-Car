@@ -31,6 +31,9 @@ const forms = {
     'model': ModelForm
 }
 
+const striptags = require('striptags');
+
+
 class Makes extends Component {
     constructor(props) {
         super(props);
@@ -47,6 +50,8 @@ class Makes extends Component {
 
 
     add(data) {
+        data.name ? data.name = striptags(data.name) : data.name = "";
+
         if (this.props[0].match.params.id !== 'new') {
             fetch(`https://localhost:8080/${this.props[0].match.params.type}/update`, {
                 method: 'POST',

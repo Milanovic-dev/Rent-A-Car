@@ -12,7 +12,7 @@ module.exports = function(app){
     });
 
 
-    app.get('/cars/get/:id', async (req, res) => {
+    app.get('/cars/get/:id', service.generatePermissionMiddleware('cars-permission') , async (req, res) => {
 
         if(!req.params.id) return res.status('400');
 
