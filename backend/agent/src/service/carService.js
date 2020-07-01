@@ -1,6 +1,8 @@
 const ObjectID = require('mongodb').ObjectID;
 const dbCollection = 'cars';
 const dbConnect = require('../../db');
+const moment = require('moment');
+
 let db;
 dbConnect(process.env.DB_USERNAME, process.env.DB_PASSWORD, process.env.DB_SERVER, process.env.DB_NAME)
     .then((conn) => {
@@ -12,6 +14,11 @@ dbConnect(process.env.DB_USERNAME, process.env.DB_PASSWORD, process.env.DB_SERVE
 const createCar = async (car) => {
 
     if (car == undefined) return { status: 400 };
+
+    if(car.from && car.to){
+        car.toFormatted = moment.unix(car.to).format('DD MMM hh:mm')
+        car.fromFormatted = moment.unix(car.from).format('DD MMM hh:mm');
+    }
 
     let result = await db.collection(dbCollection).insertOne(car);
     if (result.insertedId) {

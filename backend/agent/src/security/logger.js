@@ -35,7 +35,7 @@ const log = async (req, statusCode) => {
         reason = "Reason: Unauthrozied access";
     }
 
-    const toLog = `[${moment().toISOString()}]: ${type} ${reason ? reason : ""} "${req.protocol.toUpperCase()}/${req.httpVersion} ${req.secure ? "TLS" : "NO TLS"} ${req.method} ${req.url} ${statusCode}"  ${req.hostname} ${ip} ${req.device.type.toUpperCase()} ${req.get('user-agent')} ${req.get('content-type')} ${req.get('content-length') ? req.get('content-length') : "*"} ${token} ${JSON.stringify(req.params)} ${JSON.stringify(req.query)} \n`;
+    const toLog = `[${moment().toISOString()}]: ${type} ${reason ? reason : ""} "${req.protocol.toUpperCase()}/${req.httpVersion} ${req.secure ? "TLS" : "NO TLS"} ${req.method} ${req.url} ${statusCode}"  ${req.hostname} ${ip} ${req.get('user-agent')} ${req.get('content-type')} ${req.get('content-length') ? req.get('content-length') : "*"} ${token} ${JSON.stringify(req.params)} ${JSON.stringify(req.query)} \n`;
     const stream = fs.createWriteStream('logs.log', {flags:'a'})
     stream.write(toLog); 
     stream.end();

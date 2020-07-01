@@ -135,6 +135,8 @@ class InventoryPage extends Component {
                                                         userCar={product.userCar}
                                                         from={product.from}
                                                         to={product.to}
+                                                        fromFormatted={product.fromFormatted}
+                                                        toFormatted={product.toFormatted}
                                                     />
                                                 </Col>
                                             )

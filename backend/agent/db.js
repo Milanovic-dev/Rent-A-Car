@@ -125,6 +125,7 @@ class dbSyncWrapper {
   };
 
   async sync(){
+   if(!global.ms_conn) return;
    return new Promise(async (resolve, reject) => {
       const timestamp = Date.now();
 
@@ -134,15 +135,8 @@ class dbSyncWrapper {
          console.log(`Sync: `.yellow + ` failed (No token)`.red);
          return;
       }
-      let soapClient;
 
-      try{
-         const soapClient = await getClient();
-      } catch(err){
-         resolve('error');
-         return;
-      }
-   
+      const soapClient = await getClient();
       const diffData = await this.db.collection('changes').find().toArray();   
       const requestBody = JSON.stringify({data:diffData, auth:{token: accessToken}});
    

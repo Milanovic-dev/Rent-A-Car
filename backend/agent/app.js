@@ -11,10 +11,7 @@ const colors = require('colors');
 const fs = require('fs');
 const device = require('express-device');
 
-const { logCustom } = require('./src/security/logger')
 const soapService = require('./src/soap/soapService');
-
-const securityMiddleware = require('./src/security/securityMiddleware');
 
 // Server
 //const server = http.createServer(app);
@@ -23,9 +20,6 @@ const httpsOptions = {
     cert: fs.readFileSync('./security/cert.crt')
 }
 const server = https.createServer(httpsOptions, app);
-
-const { ObjectID } = require('mongodb');
-const db = require('./db');
 
 
 app.use(bodyParser.json({ limit: '20mb' }));
@@ -37,7 +31,6 @@ app.use(cors({
 }));
 app.use('/uploads', express.static('uploads'))
 app.use(fileUpload());
-app.use(device.capture());
 
 require('./src/api/carApi')(app);
 require('./src/api/pricelistApi')(app);
@@ -45,14 +38,12 @@ require('./src/api/uploadApi')(app);
 require('./src/api/orderApi')(app);
 require('./src/api/messagesApi')(app);
 
-securityMiddleware.config(app, server);
 
 server.listen(8282, () => {
-    logCustom('Starting the server on port 8282');
     console.log("Agent Server running on port 8282!");
 });
 
-
+global.ms_conn = false;
 
 require('./db')().then(db => {
     //Register to Microservices Webhook
@@ -67,6 +58,7 @@ require('./db')().then(db => {
                 await db.saveToken(res.accessToken);
                 console.log('Sync: '.yellow + 'ON'.green);
                 await db.sync();
+                global.ms_conn = true;
             }
             else {
                 console.error('Could not subscribe. Status:' + res.status);
@@ -85,9 +77,4 @@ app.get('/', async (req, res) => {
     res.send('This is agent backend');
 });
 
-app.get('/getWsdl', async (req, res) => {
-    const wsdl = fs.readFileSync('service.wsdl', 'utf8');
-    res.type('application/xml');
-    res.send(wsdl);
-});
 

@@ -10,6 +10,7 @@ const dbCollection = 'cars';
 const uuidv4 = require('uuid/v4');
 const { response } = require('express');
 const { log, logCustom } = require('../security/logger')
+const moment = require('moment');
 let db;
 dbConnect(process.env.DB_USERNAME, process.env.DB_PASSWORD, process.env.DB_SERVER, process.env.DB_NAME)
     .then((conn) => {
@@ -97,7 +98,6 @@ const generatePermissionMiddleware = (permission) => {
 
 const createCar = async (car, authorization) => {
 
-
     if (car == undefined) return { status: 400 };
 
     if (!car.ownerId) {
@@ -109,6 +109,11 @@ const createCar = async (car, authorization) => {
         if (result.length >= 3) {
             return { status: 405 };
         }
+    }
+
+    if(car.from && car.to){
+        car.toFormatted = moment.unix(car.to).format('DD MMM hh:mm')
+        car.fromFormatted = moment.unix(car.from).format('DD MMM hh:mm');
     }
 
     let result = await db.collection(dbCollection).insertOne(car);

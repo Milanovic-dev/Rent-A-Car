@@ -14,16 +14,6 @@ const options = {
     request: specialRequest
 };
 
-const service = {
-    
-};
-
-const xml = fs.readFileSync('service.wsdl', 'utf8');
-
-const createService = async (server, callback) => {
-    soap.listen(server, '/wsdl', service, xml, callback);
-}
-
 const getClient = async () => {
     return new Promise((resolve, reject) => {
         soap.createClient(hostUrl, options, async (err, client) => {
@@ -37,8 +27,5 @@ const getClient = async () => {
 }
 
 module.exports = {
-    service,
-    options,
-    getClient,
-    createService
+    getClient
 }

@@ -11,3 +11,14 @@
 [2020-06-26T17:31:41.519Z]: ERRORR Attempted login for user undefined
 [2020-06-26T17:31:46.017Z]: Starting the server on port 8282
 [2020-06-26T17:31:48.342Z]: Starting the server on port 8282
+[2020-06-28T14:49:26.137Z]: Starting the server on port 8282
+[2020-06-28T14:49:48.543Z]: INFO  "HTTPS/1.1 TLS GET /api/cars/all 200"  localhost ::1 PHONE PostmanRuntime/7.26.1 application/json 748 Has Bearer {} {} 
+[2020-06-28T14:49:51.412Z]: INFO  "HTTPS/1.1 TLS GET /api/cars/all 200"  localhost ::1 PHONE PostmanRuntime/7.26.1 application/json 748 Has Bearer {} {} 
+[2020-06-28T14:49:52.539Z]: INFO  "HTTPS/1.1 TLS GET /api/cars/all 200"  localhost ::1 PHONE PostmanRuntime/7.26.1 application/json 748 Has Bearer {} {} 
+[2020-06-28T14:49:56.266Z]: INFO  "HTTPS/1.1 TLS GET /api/cars/all 200"  localhost ::1 PHONE PostmanRuntime/7.26.1 application/json 748 Has Bearer {} {} 
+[2020-06-28T14:51:34.889Z]: Starting the server on port 8282
+[2020-06-28T14:57:05.922Z]: INFO  "HTTPS/1.1 TLS GET /api/cars/all 200"  localhost ::1 Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.116 Safari/537.36 application/json * Has Bearer {} {} 
+[2020-06-28T15:00:03.221Z]: INFO  "HTTPS/1.1 TLS POST /api/cars/create 201"  localhost ::1 Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.116 Safari/537.36 application/json 344 Has Bearer {} {} 
+[2020-06-28T15:00:03.252Z]: INFO  "HTTPS/1.1 TLS GET /api/cars/all 200"  localhost ::1 Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.116 Safari/537.36 application/json * Has Bearer {} {} 
+[2020-06-28T15:01:01.412Z]: INFO  "HTTPS/1.1 TLS GET /api/cars/all 200"  localhost ::1 Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.116 Safari/537.36 application/json * Has Bearer {} {} 
+[2020-06-28T15:02:07.180Z]: INFO  "HTTPS/1.1 TLS GET /api/cars/all 200"  localhost ::1 Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.116 Safari/537.36 application/json * Has Bearer {} {} 

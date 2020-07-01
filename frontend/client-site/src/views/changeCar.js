@@ -88,8 +88,6 @@ class ChangeCar extends Component {
 
 
         } else {
-            data.to = moment.unix(data.to).format("DD MMM hh:mm");
-            data.from = moment.unix(data.from).format("DD MMM hh:mm");
             fetch(`https://localhost:8080/cars/create`, {
                 method: 'POST',
                 headers: {

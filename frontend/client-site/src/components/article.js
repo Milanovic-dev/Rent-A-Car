@@ -48,7 +48,7 @@ export class Article extends Component {
                 <img src={this.props.images ? this.props.images[0] : ""} />
                 <div className="content">
                     <h6 className="title"><a href={`/cars/${this.props.id}`} style={{color:'black'}}>{this.props.title}</a></h6>
-                    <p className="title" style={{marginTop:'-20%', fontWeight:500, fontSize: 15}}>{`${this.props.from} - ${this.props.to}`}</p>
+                    <p className="title" style={{marginTop:'-20%', fontWeight:500, fontSize: 15}}>{`${this.props.fromFormatted} - ${this.props.toFormatted}`}</p>
                     <ul className="attrs">
                         <li><Isvg src={fuel_icon} /> {this.props.fuel}</li>
                         <li><Isvg src={calendar_icon} /> {this.props.year}</li>
