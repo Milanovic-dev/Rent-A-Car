@@ -1,8 +1,7 @@
-//env
 const dotenv = require('dotenv');
 dotenv.config();
 //database
-const dbConnect = require('../../db');
+const dbConnect = require('../db');
 const dbCollection = 'cars';
 let db;
 dbConnect(process.env.DB_USERNAME, process.env.DB_PASSWORD, process.env.DB_SERVER, process.env.DB_NAME)
@@ -23,13 +22,12 @@ const search = async (filter) => {
         return { status: 400 };
     }
 
-    console.log(filter);
-
     if(filter.takePoint) searchObject.location = filter.takePoint;
     if(filter.returnPoint) searchObject.returnPoint = filter.returnPoint;
-    //if(filter.takeDate) searchObject.from = filter.takeDate;
-    //if(filter.returnDate) searchObject.to = filter.returnDate;
-    //TODO: FIX THIS SHIT
+    
+    searchObject.fromISO = {$gt: new Date(filter.from)};
+    searchObject.toISO = {$lt: new Date(filter.to)};
+
     if(filter.make) searchObject.make = filter.make;
     if(filter.model) searchObject.model = filter.model;
     if(filter.fuel) searchObject.fuel = filter.fuel;
@@ -42,9 +40,35 @@ const search = async (filter) => {
     if(filter.cdw) searchObject.cdw = filter.cdw;
     if(filter.seatCount) searchObject.seatCount = filter.seatCount;
 
+    console.log(searchObject);
+
     let result = await db.collection(dbCollection).find(searchObject).toArray();
 
     return { response: result, status: 200 };
 }
 
-module.exports = {search}
+
+const getForm = async () => {
+    let response = {};
+
+    response.classes = await db.collection('classes').find({}).toArray();
+    response.fuels = await db.collection('fuels').find({}).toArray();
+    response.makes = await db.collection('makes').find({}).toArray();
+    response.models = await db.collection('models').find({}).toArray();
+
+    const maxPriceCar = await db.collection('cars').find({}).sort({price: -1}).limit(1).toArray();
+    const minPriceCar = await db.collection('cars').find().sort({price: +1}).limit(1).toArray();
+
+    response.maxPrice = maxPriceCar[0].price;
+    response.minPrice = minPriceCar[0].price;
+
+    const maxMileageCar  = await db.collection('cars').find({}).sort({mileage: -1}).limit(1).toArray();
+    const minMileageCar = await db.collection('cars').find({}).sort({mileage: +1}).limit(1).toArray();
+
+    response.maxMileage = maxMileageCar[0].mileage;
+    response.minMileage = minMileageCar[0].mileage;
+
+    return {status: 200, response};
+}
+
+module.exports = {search, getForm}

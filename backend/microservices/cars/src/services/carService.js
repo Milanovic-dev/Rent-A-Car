@@ -105,7 +105,6 @@ const createCar = async (car, authorization) => {
         const id = await verifyToken(authorization.split(' ')[1]);
         car.ownerId = id;
         let result = await db.collection(dbCollection).find({ ownerId: id }).toArray();
-        console.log(result.length);
         if (result.length >= 3) {
             return { status: 405 };
         }
@@ -114,6 +113,8 @@ const createCar = async (car, authorization) => {
     if(car.from && car.to){
         car.toFormatted = moment.unix(car.to).format('DD MMM hh:mm')
         car.fromFormatted = moment.unix(car.from).format('DD MMM hh:mm');
+        car.toISO = new Date(car.to).toISOString();
+        car.fromISO = new Date(car.from).toISOString();
     }
 
     let result = await db.collection(dbCollection).insertOne(car);

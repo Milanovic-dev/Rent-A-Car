@@ -14,10 +14,12 @@ dbConnect(process.env.DB_USERNAME, process.env.DB_PASSWORD, process.env.DB_SERVE
 const createCar = async (car) => {
 
     if (car == undefined) return { status: 400 };
-
+    
     if(car.from && car.to){
         car.toFormatted = moment.unix(car.to).format('DD MMM hh:mm')
         car.fromFormatted = moment.unix(car.from).format('DD MMM hh:mm');
+        car.toISO = new Date(car.to).toISOString();
+        car.fromISO = new Date(car.from).toISOString();
     }
 
     let result = await db.collection(dbCollection).insertOne(car);
