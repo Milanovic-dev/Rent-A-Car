@@ -36,6 +36,7 @@
     "soap": "^0.31.0",
     "strong-soap": "^2.0.0",
     "toobusy-js": "^0.5.1",
+    "uuid4": "^2.0.2",
     "validator": "^13.0.0"
   }
 }

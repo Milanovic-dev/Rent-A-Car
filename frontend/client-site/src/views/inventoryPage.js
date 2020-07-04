@@ -34,7 +34,12 @@ class InventoryPage extends Component {
     
 
     componentDidMount() {
-        fetch('https://localhost:8080/cars/', {
+        const queryString = window.location.search;
+        console.log(queryString);
+        const urlParams = new URLSearchParams(queryString);
+        const sort = urlParams.get('sort')
+        console.log(sort);
+        fetch(`https://localhost:8080/cars/${sort}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -56,12 +61,16 @@ class InventoryPage extends Component {
             'Newer ads',
             'Oldest ads',
             'Highest price',
-            'Lowest price'
+            'Lowest price',
+            'Highest rate',
+            'Lowest rate',
+            'Highest km',
+            'Lowest km'
         ]
 
         return (
             <div className={this.props.menu ? "inventory-wrap active-menu-animation" : "inventory-wrap"}>
-                <PageHeader page='Fahrzeuge' {...this.props} />
+                <PageHeader page='Offers' {...this.props} />
                 <div className="page-wrap">
                     <Container>
                         <Row>
@@ -82,27 +91,41 @@ class InventoryPage extends Component {
                                             <DropdownMenu className="dropdown-animation">
                                                 <DropdownItem onClick={() => {
                                                     let filters = this.state.filters;
-                                                    filters.sort = 0;
-                                                    this.props[0].history.push(`/vehical/${encodeURIComponent(btoa(JSON.stringify(filters)))}`)
-
-                                                }}>From newer to older ad</DropdownItem>
-                                                <DropdownItem onClick={() => {
-                                                    let filters = this.state.filters;
-                                                    filters.sort = 1;
-                                                    this.props[0].history.push(`/vehical/${encodeURIComponent(btoa(JSON.stringify(filters)))}`)
-
-                                                }}>From older to newer ad</DropdownItem>
-                                                <DropdownItem onClick={() => {
-                                                    let filters = this.state.filters;
                                                     filters.sort = 2;
-                                                    this.props[0].history.push(`/vehical/${encodeURIComponent(btoa(JSON.stringify(filters)))}`)
+                                                    this.props[0].history.push(`/ads?sort=2`)
                                                 }}>From lower to higher price</DropdownItem>
                                                 <DropdownItem onClick={() => {
                                                     let filters = this.state.filters;
                                                     filters.sort = 3;
-                                                    this.props[0].history.push(`/vehical/${encodeURIComponent(btoa(JSON.stringify(filters)))}`)
+                                                    this.props[0].history.push(`/ads?sort=3`)
 
                                                 }}>From higher to lower price</DropdownItem>
+                                                <DropdownItem onClick={() => {
+                                                    let filters = this.state.filters;
+                                                    filters.sort = 4;
+                                                    this.props[0].history.push(`/ads?sort=4`)
+
+                                                }}>From higher to lower rate</DropdownItem>
+                                                <DropdownItem onClick={() => {
+                                                    let filters = this.state.filters;
+                                                    filters.sort = 5;
+                                                    this.props[0].history.push(`/ads?sort=5`)
+
+                                                }}>From lower to higher rate</DropdownItem>
+                                                <DropdownItem onClick={() => {
+                                                    let filters = this.state.filters;
+                                                    filters.sort = 6;
+                                                    this.props[0].history.push(`/ads?sort=6`)
+
+                                                }}>From higher to lower km</DropdownItem>
+                                                <DropdownItem onClick={() => {
+                                                    let filters = this.state.filters;
+                                                    filters.sort = 7;
+                                                    this.props[0].history.push(`/ads?sort=7`)
+
+                                                }}>From lower to higher km</DropdownItem>
+
+                                                
                                             </DropdownMenu>
                                         </Dropdown>
                                         {/* <div className="btn">

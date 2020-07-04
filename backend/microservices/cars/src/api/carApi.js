@@ -57,8 +57,8 @@ module.exports = function(app){
         res.status(result.status).send(result.response);
     });
 
-    app.get('/cars', async (req, res) => {
-        let result = await service.getAll(req.headers.authorization);
+    app.get('/cars/:sort', async (req, res) => {
+        let result = await service.getAll(req.headers.authorization,req.params.sort);
         log(req, result.status);
         res.status(result.status).send(result.response);
     });
