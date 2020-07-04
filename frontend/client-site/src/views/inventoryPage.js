@@ -70,14 +70,12 @@ class InventoryPage extends Component {
     render() {
 
         let sort = [
-            'Newer ads',
-            'Oldest ads',
-            'Highest price',
-            'Lowest price',
-            'Highest rate',
-            'Lowest rate',
-            'Highest km',
-            'Lowest km'
+            'Lower to higher price',
+            'Higher to lower price',
+            'Higher to lower rate',
+            'Lower to higher price',
+            'Higher to lower mileage',
+            'Lower to higher mileage'
         ]
 
         return (
@@ -129,13 +127,13 @@ class InventoryPage extends Component {
                                                     filters.sort = 6;
                                                     this.props[0].history.push(`/ads?sort=6`)
 
-                                                }}>From higher to lower km</DropdownItem>
+                                                }}>From higher to lower mileage</DropdownItem>
                                                 <DropdownItem onClick={() => {
                                                     let filters = this.state.filters;
                                                     filters.sort = 7;
                                                     this.props[0].history.push(`/ads?sort=7`)
 
-                                                }}>From lower to higher km</DropdownItem>
+                                                }}>From lower to higher mileage</DropdownItem>
 
                                                 
                                             </DropdownMenu>
