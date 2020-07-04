@@ -262,9 +262,26 @@ const getCar = async (id, authorization) => {
     return { status: 404 };
 };
 
-const getAll = async (authorization) => {
+const getAll = async (authorization, sort) => {
+    let sortObject={price : 1};
+    
+    if(sort === 3){
+        sortObject={price: -1}
+    }
+    if(sort === 4){
+        sortObject={rating: -1}
+    }
+    if(sort === 5){
+        sortObject={rating: 1}
+    }
+    if(sort === 6){
+        sortObject={mileage: -1}
+    }
+    if(sort === 7){
+        sortObject={mileage: 1}
+    }
 
-    let result = await db.collection(dbCollection).find().toArray();
+    let result = await db.collection(dbCollection).find().sort(sortObject).toArray();
 
     if (authorization) {
         const id = await verifyToken(authorization.split(' ')[1]);
