@@ -89,7 +89,7 @@ const cartForm = (props) => {
                                 <Col md="12" className="cart-item" key={i}>
                                     <span className="cart-item-image"><img width="120px" src={item.images ? item.images[0] : ""}></img></span>
                                     <span className="cart-item-info"><NavLink style={{color:'#da212e'}} to={`/cars/${item._id}`}>{`${item.make} ${item.model} ${item.power}kw`}</NavLink></span>
-                                    <span className="cart-item-options">{item.from && item.to ? `${item.from} - ${item.to}`: `N/A`}</span>
+                                    <span className="cart-item-options">{item.fromFormatted && item.toFormatted ? `${item.fromFormatted} - ${item.toFormatted}`: `N/A`}</span>
                                     <span className="cart-item-price">{item.price}€</span>
                                     <button className="cart-item-remove" style={{backgroundColor:'white'}} onClick={(e)=> {removeFromCart(e, item._id)}}><Isvg src={Delete}></Isvg></button>
                                 </Col>

@@ -46,6 +46,18 @@ class InventoryPage extends Component {
             })
         })
 
+        fetch('https://localhost:8080/search/getForm', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('token')}`
+            },
+        }).then((res) => res.json()).then((result) => {
+            this.setState({
+                productFilters: result
+            })
+        })
+
     }
 
 

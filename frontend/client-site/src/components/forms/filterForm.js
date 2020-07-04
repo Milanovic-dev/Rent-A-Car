@@ -53,22 +53,13 @@ const renderRangeSliderField = ({
 
 
 let FilterForm = (props) => {
-    const { handleSubmit, pristine, reset, submitting } = props;
-    let models;
-    if (props.manufacturer && props.productFilters && props.productFilters.manufacturers) {
-        for (let i = 0; i < props.productFilters.manufacturers.length; i++) {
-            if (props.productFilters.manufacturers[i].name === props.manufacturer) {
-                models = props.productFilters.manufacturers[i].models;
-            }
-        }
+    const { handleSubmit, pristine, reset, submitting, productFilters } = props;
 
-    }
     return (
         <div className={props.searchForm ? "filter-form" : "filter-form hide-mobile"}>
             <h3>SEARCH OPTIONS</h3>
             <form onSubmit={handleSubmit} >
                 <Row>
-
                     <Col md="12">
                         <div className="input-wrap">
                             <Field
@@ -78,9 +69,9 @@ let FilterForm = (props) => {
                                 placeholder="- Choose make -"
                             >
                                 {
-                                    props.productFilters && props.productFilters.manufacturers && props.productFilters.manufacturers.map((manufacturer, idx) => {
+                                    productFilters && props.productFilters.makes && props.productFilters.makes.map((name, idx) => {
                                         return (
-                                            <option value={manufacturer.name}>{manufacturer.name}</option>
+                                            <option value={name}>{name}</option>
                                         )
                                     })
                                 }
@@ -89,17 +80,17 @@ let FilterForm = (props) => {
                         </div>
 
                     </Col>
-                    {models ?
+                    {productFilters.models ?
                         <Col md="12">
                             <div className="input-wrap">
                                 <Field
                                     name="model"
                                     component={renderSelectField}
-                                    label="MAKE"
+                                    label="Model"
                                     placeholder= "- Choose make -"
                                 >
                                     {
-                                        models && models.map((model, idx) => {
+                                        productFilters && productFilters.models.map((model, idx) => {
                                             return (
                                                 <option value={model}>{model}</option>
                                             )
@@ -119,15 +110,15 @@ let FilterForm = (props) => {
                     <Col md="12">
                         <div className="input-wrap">
                             <Field
-                                name="color"
+                                name="class"
                                 component={renderSelectField}
                                 label="CLASS"
                                 placeholder="- Choose class -"
                             >
                                 {
-                                    props.productFilters && props.productFilters.colors && props.productFilters.colors.map((color, idx) => {
+                                    productFilters && productFilters.classes && productFilters.classes.map((name, idx) => {
                                         return (
-                                            <option value={color}>{color}</option>
+                                            <option value={name}>{name}</option>
                                         )
                                     })
                                 }
@@ -148,7 +139,7 @@ let FilterForm = (props) => {
                             >
 
                                 {
-                                    props.productFilters && props.productFilters.fuels && props.productFilters.fuels.map((color, idx) => {
+                                    productFilters && productFilters.fuels && productFilters.fuels.map((color, idx) => {
                                         return (
                                             <option value={color}>{color}</option>
                                         )
@@ -170,7 +161,7 @@ let FilterForm = (props) => {
                                 placeholder="- Choose transmission -"
                             >
                                 {
-                                    props.productFilters && props.productFilters.transmissions && props.productFilters.transmissions.map((color, idx) => {
+                                    productFilters && productFilters.transmissions && productFilters.transmissions.map((color, idx) => {
                                         return (
                                             <option value={color}>{color}</option>
                                         )
