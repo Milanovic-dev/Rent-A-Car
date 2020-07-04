@@ -1,5 +1,6 @@
 const dotenv = require('dotenv');
 dotenv.config();
+const moment = require('moment');
 //database
 const dbConnect = require('../db');
 const dbCollection = 'cars';
@@ -21,12 +22,14 @@ const search = async (filter) => {
     {
         return { status: 400 };
     }
-
+    console.log(filter);
     if(filter.takePoint) searchObject.location = filter.takePoint;
     if(filter.returnPoint) searchObject.returnPoint = filter.returnPoint;
     
-    searchObject.fromISO = {$gt: new Date(filter.from)};
-    searchObject.toISO = {$lt: new Date(filter.to)};
+    if(filter.takeDate && filter.returnDate){
+        searchObject.fromISO = {$lt: new Date(moment.unix(filter.takeDate).toISOString())};
+        searchObject.toISO = {$gt: new Date(moment.unix(filter.returnDate).toISOString())};
+    }
 
     if(filter.make) searchObject.make = filter.make;
     if(filter.model) searchObject.model = filter.model;

@@ -18,8 +18,8 @@ const createCar = async (car) => {
     if(car.from && car.to){
         car.toFormatted = moment.unix(car.to).format('DD MMM hh:mm')
         car.fromFormatted = moment.unix(car.from).format('DD MMM hh:mm');
-        car.toISO = new Date(car.to).toISOString();
-        car.fromISO = new Date(car.from).toISOString();
+        car.toISO = new Date(moment.unix(car.to).toISOString())
+        car.fromISO = new Date(moment.unix(car.from).toISOString())
     }
 
     let result = await db.collection(dbCollection).insertOne(car);
