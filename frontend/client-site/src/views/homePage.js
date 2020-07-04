@@ -73,17 +73,7 @@ class HomePage extends Component {
                 newestProducts: result
             })
         })
-        /*
-        if (data.year) {
-            if (!data.year[0]) {
-                data.year[0] = this.state.productFilters.minProductionYear;
-            }
-            if (!data.year[1]) {
-                data.year[1] = this.state.productFilters.maxProductionYear;
-            }
-        }
-        this.props[0].history.push(`/cars/${encodeURIComponent(btoa(JSON.stringify(data)))}`)
-        */
+
     }
 
 
@@ -174,6 +164,8 @@ class HomePage extends Component {
                                                 price={product.price}
                                                 from={product.from}
                                                 to={product.to}
+                                                fromFormatted={product.fromFormatted}
+                                                toFormatted={product.toFormatted}
                                             />
                                         </Col>
                                     )
