@@ -47,7 +47,8 @@ class InventoryPage extends Component {
             },
         }).then((res) => res.json()).then((result) => {
             this.setState({
-                items: result
+                items: result,
+                filters: {sort}
             })
         })
 
@@ -101,37 +102,42 @@ class InventoryPage extends Component {
                                             <DropdownMenu className="dropdown-animation">
                                                 <DropdownItem onClick={() => {
                                                     let filters = this.state.filters;
-                                                    filters.sort = 2;
-                                                    this.props[0].history.push(`/ads?sort=2`)
+                                                    filters.sort = 0;
+                                                    this.props[0].history.push(`/ads?sort=0`);
+                                                    window.location.reload();
                                                 }}>From lower to higher price</DropdownItem>
                                                 <DropdownItem onClick={() => {
                                                     let filters = this.state.filters;
-                                                    filters.sort = 3;
-                                                    this.props[0].history.push(`/ads?sort=3`)
-
+                                                    filters.sort = 1;
+                                                    this.props[0].history.push(`/ads?sort=1`);
+                                                    window.location.reload();
                                                 }}>From higher to lower price</DropdownItem>
                                                 <DropdownItem onClick={() => {
                                                     let filters = this.state.filters;
-                                                    filters.sort = 4;
-                                                    this.props[0].history.push(`/ads?sort=4`)
+                                                    filters.sort = 2;
+                                                    this.props[0].history.push(`/ads?sort=2`);
+                                                    window.location.reload();
 
                                                 }}>From higher to lower rate</DropdownItem>
                                                 <DropdownItem onClick={() => {
                                                     let filters = this.state.filters;
-                                                    filters.sort = 5;
-                                                    this.props[0].history.push(`/ads?sort=5`)
+                                                    filters.sort = 3;
+                                                    this.props[0].history.push(`/ads?sort=3`);
+                                                    window.location.reload();
 
                                                 }}>From lower to higher rate</DropdownItem>
                                                 <DropdownItem onClick={() => {
                                                     let filters = this.state.filters;
-                                                    filters.sort = 6;
-                                                    this.props[0].history.push(`/ads?sort=6`)
+                                                    filters.sort = 4;
+                                                    this.props[0].history.push(`/ads?sort=4`);
+                                                    window.location.reload();
 
                                                 }}>From higher to lower mileage</DropdownItem>
                                                 <DropdownItem onClick={() => {
                                                     let filters = this.state.filters;
-                                                    filters.sort = 7;
-                                                    this.props[0].history.push(`/ads?sort=7`)
+                                                    filters.sort = 5;
+                                                    this.props[0].history.push(`/ads?sort=5`);
+                                                    window.location.reload();
 
                                                 }}>From lower to higher mileage</DropdownItem>
 

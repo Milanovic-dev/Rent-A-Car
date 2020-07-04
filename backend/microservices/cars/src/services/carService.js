@@ -265,19 +265,19 @@ const getCar = async (id, authorization) => {
 const getAll = async (authorization, sort) => {
     let sortObject={price : 1};
     
-    if(sort == 3){
+    if(sort == 1){
         sortObject={price: -1}
     }
-    if(sort == 4){
+    if(sort == 2){
         sortObject={rating: -1}
     }
-    if(sort == 5){
+    if(sort == 3){
         sortObject={rating: 1}
     }
-    if(sort == 6){
+    if(sort == 4){
         sortObject={mileage: -1}
     }
-    if(sort == 7){
+    if(sort == 5){
         sortObject={mileage: 1}
     }
 
