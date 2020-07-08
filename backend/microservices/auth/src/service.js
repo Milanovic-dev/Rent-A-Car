@@ -5,6 +5,7 @@ const uuidv4 = require('uuid/v4');
 //env
 const dotenv = require('dotenv');
 dotenv.config();
+
 //database
 var nodemailer = require('nodemailer');
 const dbConnect = require('../db');
@@ -14,7 +15,7 @@ const SMTPServer = Buffer.from('bWFpbC5odWdlbWVkaWEub25saW5l', 'base64').toStrin
 const SMTPPort = 465;
 const SMTPUsername = Buffer.from('YWRtaW5AaHVnZW1lZGlhLm9ubGluZQ==', 'base64').toString('ascii');
 const SMTPPassword = 'tSwFq%8e;LC%';
-const {log, logCustom} = require('./security/logger')
+const { log, logCustom } = require('./security/logger')
 
 dbConnect(process.env.DB_USERNAME, process.env.DB_PASSWORD, process.env.DB_SERVER, process.env.DB_NAME)
     .then(async (conn) => {
@@ -89,55 +90,55 @@ dbConnect(process.env.DB_USERNAME, process.env.DB_PASSWORD, process.env.DB_SERVE
 
 
 const generatePermissionMiddleware = (permission) => {
-        return async (req, res, next) => {
-            if (typeof req.headers.authorization !== "undefined") {
-                let token = req.headers.authorization.split(" ")[1];
-    
-                jwt.verify(token, process.env.JWT_SECRET, { algorithm: "HS256" }, (err, user) => {
-                    res.locals.uid = user.id;
+    return async (req, res, next) => {
+        if (typeof req.headers.authorization !== "undefined") {
+            let token = req.headers.authorization.split(" ")[1];
+
+            jwt.verify(token, process.env.JWT_SECRET, { algorithm: "HS256" }, (err, user) => {
+                res.locals.uid = user.id;
+                if (err) {
+                    res.status(401).json({ error: "Not Authorized" });
+                    log(req, 401)
+                    logCustom('WARNING Attempted access to resource without permission ');
+                    return;
+                    //throw new Error("Not Authorized");
+                }
+
+                db.collection('users').find({ username: user.id }).toArray((err, result) => {
                     if (err) {
-                        res.status(401).json({ error: "Not Authorized" });
-                        log(req, 401)
-                        logCustom('WARNING Attempted access to resource without permission ');
+                        res.status(404).json({ error: "Not Found" });
                         return;
-                        //throw new Error("Not Authorized");
                     }
-    
-                    db.collection('users').find({ username: user.id }).toArray((err, result) => {
-                        if (err) {
-                            res.status(404).json({ error: "Not Found" });
-                            return;
-                        }
-    
-                        if (result && !result.length) {
-                            res.status(404).json({ error: "Not Found" });
-                            return;
-                        }
-    
-                        if (result[0].permissions && result[0].permissions.indexOf('*') !== -1) {
-                            return next();
-                        }
-    
-                        if (result[0].permissions && result[0].permissions.indexOf(permission) !== -1) {
-                            return next();
-                        }
-    
-                        res.status(401).json({ error: "Not Authorized" });
-                        log(req, 401)
-                        logCustom('WARNING 401 Attempted access to resource without permission ');
+
+                    if (result && !result.length) {
+                        res.status(404).json({ error: "Not Found" });
                         return;
-                    });
+                    }
+
+                    if (result[0].permissions && result[0].permissions.indexOf('*') !== -1) {
+                        return next();
+                    }
+
+                    if (result[0].permissions && result[0].permissions.indexOf(permission) !== -1) {
+                        return next();
+                    }
+
+                    res.status(401).json({ error: "Not Authorized" });
+                    log(req, 401)
+                    logCustom('WARNING 401 Attempted access to resource without permission ');
+                    return;
                 });
-            } else {
-                res.status(401).json({ error: "Not Authorized" });
-                log(req, 401)
-                logCustom('WARNING 401 Attempted access to resource without permission ');
-                return;
-                //throw new Error("Not Authorized");
-            }
+            });
+        } else {
+            res.status(401).json({ error: "Not Authorized" });
+            log(req, 401)
+            logCustom('WARNING 401 Attempted access to resource without permission ');
+            return;
+            //throw new Error("Not Authorized");
         }
-    
     }
+
+}
 
 
 const DORProtection = async (req, res, next) => {
@@ -230,24 +231,24 @@ const checkPassword = (password) => {
         return false;
 }
 
-const updatePassword = async ({oldPassword, newPassword}, authorization) => {
+const updatePassword = async ({ oldPassword, newPassword }, authorization) => {
     const result = await new Promise((resolve, reject) => {
         let token = authorization.split(" ")[1];
         jwt.verify(token, process.env.JWT_SECRET, { algorithm: 'HS256' }, async (err, user) => {
             if (err) {
                 logCustom(`WARNING Attempted to change password without permission`);
-                resolve({status: 401})
+                resolve({ status: 401 })
                 return;
             }
-    
+
             let user0 = await db.collection(dbCollection).findOne({ username: user.id });
-    
-            if(bcrypt.compareSync(oldPassword, user0.password)){
-                await db.collection(dbCollection).updateOne({username: user.id }, {$set:{password: bcrypt.hashSync(newPassword, bcrypt.genSaltSync(10, 'b'))}});
-                resolve({status: 200})
-            }   
-    
-            resolve({status: 400})
+
+            if (bcrypt.compareSync(oldPassword, user0.password)) {
+                await db.collection(dbCollection).updateOne({ username: user.id }, { $set: { password: bcrypt.hashSync(newPassword, bcrypt.genSaltSync(10, 'b')) } });
+                resolve({ status: 200 })
+            }
+
+            resolve({ status: 400 })
         })
     })
 
@@ -446,11 +447,11 @@ const updateStatus = async (id, status) => {
         await db.collection(dbCollection).updateOne({ _id: ObjectID(id) }, {
             $set: {
                 emailVerificationCode: uuidv4(),
-                emailTimestampLimit:  Math.floor(new Date().getTime() / 1000 + 10 * 24 * 60 * 60)
+                emailTimestampLimit: Math.floor(new Date().getTime() / 1000 + 10 * 24 * 60 * 60)
             }
         })
-    
-        let user =  await db.collection(dbCollection).findOne({_id: ObjectID(id)});
+
+        let user = await db.collection(dbCollection).findOne({ _id: ObjectID(id) });
         var transporter = nodemailer.createTransport({
             host: SMTPServer,
             port: SMTPPort,
@@ -536,7 +537,7 @@ const AuthService = {
     updateStatus,
     removeUser,
     verifyEmail,
-    updatePassword
+    updatePassword,
 };
 
 

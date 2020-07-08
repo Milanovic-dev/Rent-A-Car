@@ -2089,3 +2089,23 @@ button{
     }
     
 }
+
+.debt-box{
+    width: 100%;
+    border: 2px solid $red;
+    text-align: center;
+    padding: 20px 0;
+    margin-bottom: 40px;
+    h1{
+        font-size: 18px;
+        text-transform: uppercase;
+        color: $red;
+    }
+    h2{
+        font-size: 14px;
+        color: $red;
+    }
+    a{
+        text-decoration: none;
+    }
+}
