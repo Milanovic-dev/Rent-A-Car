@@ -176,11 +176,13 @@ let SearchForm = (props) => {
                                     label="Choose a make"
                                 >
                                 {
-                                    props && props.make.map((make, idx) => {
+                                    /*
+                                    props.productFilters && props.productFilters.productFilters.make.map((make, idx) => {
                                         return (
                                             <option value={make}>{make}</option>
                                         )
                                     })
+                                    */
                                 }
                                 </Field>
                             </div>
@@ -193,11 +195,13 @@ let SearchForm = (props) => {
                                     label="Choose a model"
                                 >
                                 {
-                                    props && props.model.map((model, idx) => {
+                                    /*
+                                    props.productFilters && props.productFilters.model.map((model, idx) => {
                                         return (
                                             <option value={model}>{model}</option>
                                         )
                                     })
+                                    */
                                 }
                                 </Field>
                             </div>
@@ -212,11 +216,13 @@ let SearchForm = (props) => {
                                     label="Choose a fuel"
                                 >
                                 {
-                                    props && props.fuel.map((fuel, idx) => {
+                                    /*
+                                    props.productFilters && props.productFilters.fuel.map((fuel, idx) => {
                                         return (
                                             <option value={fuel}>{fuel}</option>
                                         )
                                     })
+                                    */
                                 }   
                                 </Field>
                             </div>
@@ -229,11 +235,13 @@ let SearchForm = (props) => {
                                     label="Choose a transmission"
                                 >
                                 {
-                                    props && props.transmission.map((transmission, idx) => {
+                                    /*
+                                    props.productFilters && props.productFilters.transmission.map((transmission, idx) => {
                                         return (
                                             <option value={transmission}>{transmission}</option>
                                         )
                                     })
+                                    */
                                 }  
                                 </Field>
                             </div>
@@ -248,11 +256,13 @@ let SearchForm = (props) => {
                                     label="Choose a class"
                                 >
                                 {
-                                    props && props.class.map((carClass, idx) => {
+                                    /*
+                                    props.productFilters && props.productFilters.class.map((carClass, idx) => {
                                         return (
                                             <option value={carClass}>{carClass}</option>
                                         )
                                     })
+                                    */
                                 }  
                                 </Field>
                             </div>
