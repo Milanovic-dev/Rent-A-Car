@@ -434,6 +434,38 @@ const getUser = async (authorization) => {
 
     return { status: 404 };
 }
+const debts = async (authorization) => {
+    const user = await verifyToken(authorization.split(' ')[1]);
+
+    let debts = await db.collection('debts').find({ $and: [{ user: user }] }).toArray();
+
+    let result = debts;
+    
+
+    if (result) {
+        
+        return {
+            response: result,
+            status: 200
+        };
+    }
+
+    return { status: 404 };
+}
+const payDebt = async (id) => {
+    let debt = await db.collection('debts').updateOne({ _id: ObjectID(id)}, {$set:{status: 'PAID'}});    
+
+    if (debt) {
+        
+        return {
+            response: debt,
+            status: 200
+        };
+    }
+
+    return { status: 404 };
+}
+
 
 
 const verifyToken = async (token) => {
@@ -472,5 +504,7 @@ module.exports = {
     getOrderRequests,
     getBundleRequests,
     generatePermissionMiddleware,
-    getUser
+    getUser,
+    debts,
+    payDebt
 }

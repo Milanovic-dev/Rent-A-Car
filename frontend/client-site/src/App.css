@@ -1268,6 +1268,21 @@ button {
     padding: 8px 16px;
     font-size: 18px;
     font-weight: 500; }
+  .table .table-row .button-paid {
+    background-color: #FFFFFF;
+    color: #F1646C;
+    border: 2px solid #F1646C;
+    outline: none;
+    cursor: unset;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    float: left;
+    border-radius: 27px;
+    padding: 8px 16px;
+    font-size: 18px;
+    font-weight: 500; }
 
 .valid-reservation {
   width: 24px;

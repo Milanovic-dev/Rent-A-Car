@@ -138,6 +138,16 @@ app.get('/orders/loggedUser', service.generatePermissionMiddleware('orders-permi
     log(req, result.status);
     res.status(result.status).send(result.response);
 }); 
+app.get('/orders/debts', service.generatePermissionMiddleware('orders-permission'), async(req, res) => {
+    const result = await service.debts(req.headers.authorization);
+    log(req, result.status);
+    res.status(result.status).send(result.response);
+}); 
+app.post('/orders/debts/:id', service.generatePermissionMiddleware('orders-permission'), async(req, res) => {
+    const result = await service.payDebt(req.params.id);
+    log(req, result.status);
+    res.status(result.status).send(result.response);
+}); 
 
 app.get('/orders/:id', service.generatePermissionMiddleware('orders-permission'), async (req, res) => {
     const result = await service.getOrder(req.params.id);

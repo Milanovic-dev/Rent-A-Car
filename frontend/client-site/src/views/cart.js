@@ -114,7 +114,7 @@ class Cart extends Component {
                                     this.state.debts && this.state.debts.length > 0 ?
                                         <div className="debt-box">
                                             <h1>you must pay the debt before you can complete the order, you owe {this.state.totalDebt} €</h1>
-                                            <Link to='/'><h2>Pay debt</h2></Link>
+                                            <Link to='/debts'><h2>Pay debt</h2></Link>
                                         </div>
                                         :
                                         <Form onSubmit={this.submit} debts={this.state.debts} data={this.state.orders} checkBundle={this.checkBundle} />

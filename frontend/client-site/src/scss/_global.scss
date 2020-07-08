@@ -1736,6 +1736,23 @@ button{
                 font-size: 18px;
                 font-weight: 500;
             }
+            .button-paid{
+                background-color: $white;
+                color: $red;
+                border: 2px solid $red;
+                outline: none;
+                cursor: unset;
+
+                height: 40px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                float: left;
+                border-radius: 27px;
+                padding: 8px 16px;
+                font-size: 18px;
+                font-weight: 500;
+            }
         }
     }
     
