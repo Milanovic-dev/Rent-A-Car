@@ -57,8 +57,8 @@ require('./db')().then(db => {
             if (res.accessToken) {
                 await db.saveToken(res.accessToken);
                 console.log('Sync: '.yellow + 'ON'.green);
-                await db.sync();
                 global.ms_conn = true;
+                await db.sync();
             }
             else {
                 console.error('Could not subscribe. Status:' + res.status);

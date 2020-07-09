@@ -257,6 +257,12 @@ const getOrder = async (id) => {
 
     const car = await db.collection('cars').findOne({_id: ObjectID(order.carId)});
     order.car = car;
+
+    if(order.car.pricelistId){
+        const pricelist = await db.collection('pricelists').findOne({_id: ObjectID(order.car.pricelistId)});
+        order.car.pricelist = pricelist;
+    }
+
     return { status: 200, response: order };
 };
 
@@ -274,6 +280,10 @@ const getBundle = async (id) => {
 
     for(const carId of bundle.carIds){
         const car = await db.collection('cars').findOne({_id:ObjectID(carId)});
+        if(car.pricelistId){
+            const pricelist = await db.collection('pricelists').findOne({_id: ObjectID(car.pricelistId)});
+            car.pricelist = pricelist;
+        }
         cars.push(car);
     }
 
@@ -291,6 +301,10 @@ const getOrders = async (authorization) => {
     for(let order of result){
         const car = await db.collection('cars').findOne({_id: ObjectID(order.carId)});
         order.car = car;
+        if(order.car.pricelistId){
+            const pricelist = await db.collection('pricelists').findOne({_id: ObjectID(order.car.pricelistId)});
+            order.car.pricelist = pricelist;
+        }
     }
 
     return {status: 200, response: result};
@@ -307,6 +321,10 @@ const getBundles = async (authorization) => {
         bundle.cars = [];
         for(let carId of bundle.carIds){
             const car = await db.collection('cars').findOne({_id: ObjectID(carId)});
+            if(car.pricelistId){
+                const pricelist = await db.collection('pricelists').findOne({_id: ObjectID(car.pricelistId)});
+                car.pricelist = pricelist;
+            }
             bundle.cars.push(car);
         }
     }
@@ -322,6 +340,10 @@ const getOrderRequests = async (authorization) => {
 
     for(let order of result){
         const car = await db.collection('cars').findOne({_id: ObjectID(order.carId)});
+        if(car.pricelistId){
+            const pricelist = await db.collection('pricelists').findOne({_id: ObjectID(car.pricelistId)});
+            car.pricelist = pricelist;
+        }
         order.car = car;
     }
 
@@ -338,6 +360,10 @@ const getBundleRequests = async (authorization) => {
         bundle.cars = [];
         for(let carId of bundle.carIds){
             const car = await db.collection('cars').findOne({_id: ObjectID(carId)});
+            if(car.pricelistId){
+                const pricelist = await db.collection('pricelists').findOne({_id: ObjectID(car.pricelistId)});
+                car.pricelist = pricelist;
+            }
             bundle.cars.push(car);
         }
     }
@@ -385,8 +411,13 @@ const getCart = async (authorization) => {
     let result = [];
     for(const item of cart){
         const car = await db.collection('cars').findOne({_id: ObjectID(item.carId)});
-        if(car)
+        if(car){
+            if(car.pricelistId){
+                const pricelist = await db.collection('pricelists').findOne({_id: ObjectID(car.pricelistId)});
+                car.pricelist = pricelist;
+            }
             result.push(car);
+        }
     }
 
     const groups = groupBy(result, 'ownerId');

@@ -80,7 +80,8 @@ dbConnect(process.env.DB_USERNAME, process.env.DB_PASSWORD, process.env.DB_SERVE
             email: 'admin@gmail.com',
             permissions: [
                 '*',
-            ]
+            ],
+            role: 'admin'
         });
 
     }).catch((e) => {
@@ -525,6 +526,25 @@ const userJSON = (user, i) => {
     };
 };
 
+const sessionUser = async (authorization) => {
+    return new Promise((resolve, reject) => {
+        const token = authorization ? authorization.split(" ")[1] : null;
+    
+        if(!token) return {status: 401};
+    
+        jwt.verify(token, process.env.JWT_SECRET, async (err, userData) => {
+            if(err){
+                reject({status: 401});
+            }
+    
+            const id = userData.id;
+            let res = await db.collection('users').findOne({username: id});
+            res = userJSON(res);
+            resolve({status: 200, response: res});
+        })
+    })
+}
+
 const AuthService = {
     login,
     register,
@@ -538,6 +558,7 @@ const AuthService = {
     removeUser,
     verifyEmail,
     updatePassword,
+    sessionUser
 };
 
 

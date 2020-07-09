@@ -11,6 +11,7 @@ app.use(bodyParser.json());
 const server = http.createServer(app);
 
 const soapService = require('./src/soap/soapService');
+const service = require('./src/service');
 
 server.listen(4000, () => {
     console.log(`Webhook microservice running!`);
@@ -45,18 +46,18 @@ dbConnect(process.env.DB_USERNAME, process.env.DB_PASSWORD, process.env.DB_SERVE
     console.log(`DB error: ${e}`);
 })
 
-app.get('/webhook/testChanges', async(req, res) => {
-    let result = await db.collection('changes').find().toArray();
-    res.json(result);
+
+app.post('/webhook/agents/create', async (req, res) => {
+    let result = await service.createAgent(req.body);
+    res.status(result.status).send();
 });
-
-
-app.get('/webhook/getOrders', async(req,res) => {
-    let result = await db.collection('orders').find({}).toArray();
-    res.status(200).send(result);
-})
 
 app.delete('/webhook/drop', async(req, res) => {
     db.dropDatabase();
     res.send('ok');
+})
+
+app.get('/webhook/testChanges', async(req, res) => {
+    let result = await db.collection('changes').find().toArray();
+    res.status(200).send(result);
 })

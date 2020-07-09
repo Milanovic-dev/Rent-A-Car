@@ -176,6 +176,7 @@ class InventoryPage extends Component {
                                                         to={product.to}
                                                         fromFormatted={product.fromFormatted}
                                                         toFormatted={product.toFormatted}
+                                                        pricelist={product.pricelist}
                                                     />
                                                 </Col>
                                             )

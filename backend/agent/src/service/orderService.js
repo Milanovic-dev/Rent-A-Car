@@ -57,7 +57,7 @@ const acceptBundle = async (id) => {
 
     if(res.modifiedCount == 1){
         for(const carId of bundle.carIds){
-            const otherBundles = await db.collection('bundles').find({carIds: carId}).toArray();
+            const otherBundles = await db.collection('bundles').find({_id: {$ne: ObjectID(id)}, carIds: carId}).toArray();
             for(const bundle of otherBundles){
                 await db.collection('bundles').updateOne({_id: ObjectID(bundle._id)}, {$set:{status: 'CANCELED'}});
             }

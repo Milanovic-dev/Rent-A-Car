@@ -294,7 +294,7 @@ class DetailPage extends Component {
                                         <div className="price">
                                             <label>PRICE</label>
                                             <div>
-                                                <p>{this.state.product && this.state.product.price}€</p>
+                                                <p>{this.state.product && this.state.product.pricelist.pricePerDay}/Day€</p>
                                             </div>
                                         </div>
                                         <div className="spacer"></div>

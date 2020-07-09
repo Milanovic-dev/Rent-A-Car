@@ -4,6 +4,7 @@ import fuel_icon from '../assets/svg/fuel.svg';
 import calendar_icon from '../assets/svg/calendar.svg';
 import guage_icon from '../assets/svg/guage.svg';
 import cartIcon from '../assets/svg/shopping-cart.svg';
+import { NavLink } from 'react-router-dom';
 
 export class Article extends Component {
     constructor(props) {
@@ -56,7 +57,7 @@ export class Article extends Component {
                     </ul>
                     <div className="divider"></div>
                     <div className="price-container">
-                        <span className="price">{this.props.price}€</span>
+                    <NavLink to={`/pricelist/${this.props.pricelist._id}`}><span className="price">{this.props.pricelist.pricePerDay}/Day € <span style={{ color: 'green', marginRight: '10px' }}>{this.props.pricelist.sale} %</span></span></NavLink>
                     </div>
                     {!this.props.userCar ?
                     <div className={this.state.addedToCart ? "addToCart-button-added" : "addToCart-button"} onClick={()=> {this.addToCart(this.props.id)}}>

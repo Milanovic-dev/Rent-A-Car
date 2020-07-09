@@ -171,6 +171,7 @@ class dbSyncWrapper {
          if(responseBody){
             for(let i = 0 ; i < responseBody.updates.length ; i++){
                const collName = responseBody.updates[i].collName;
+               console.log(collName);
                for(let j = 0 ; j < responseBody.updates[i].toInsert.length ; j++){
                   responseBody.updates[i].toInsert[j]._id = ObjectID(responseBody.updates[i].toInsert[j]._id);
                   this.db.collection(collName).insertOne(responseBody.updates[i].toInsert[j]);

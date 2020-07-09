@@ -15,6 +15,20 @@ dbConnect(process.env.DB_USERNAME, process.env.DB_PASSWORD, process.env.DB_SERVE
     console.log(`DB error: ${e}`);
 })
 
+
+const createAgent = async ({username, password}) => {
+    if(!username || !password) return {status: 400};
+
+    const pass = bcrypt.hashSync(password, 10);
+    let result = await db.collection('agents').insertOne({username, password: pass});
+
+    if(result.insertedId){
+        return {status: 201};
+    }
+
+    return {status: 500};
+}
+
 const subscribeAgent = async (args) => {
 
     const agent = await db.collection('agents').findOne({username: args.username});
@@ -122,5 +136,6 @@ const error = (status, reason) => {
 
 module.exports = {
     subscribeAgent,
-    sync
+    sync,
+    createAgent
 }

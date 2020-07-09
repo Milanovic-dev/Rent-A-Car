@@ -11,7 +11,7 @@ import {
     Col
 } from 'reactstrap';
 
-class Cars extends Component {
+class Pricelists extends Component {
     constructor(props) {
         super(props);
         this.get = this.get.bind(this);
@@ -27,11 +27,7 @@ class Cars extends Component {
     }
     
     get() {
-        // if (!localStorage.token) {
-        //     return;
-        // }
-        
-        fetch('https://localhost:8282/api/cars/all', {
+        fetch('https://localhost:8282/api/pricelist/all', {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -43,29 +39,10 @@ class Cars extends Component {
                 items: result
             })
         })
-
     }
 
     delete(id) {
-        // if (!localStorage.token) {
-        //     return;
-        // }
 
-        fetch('https://localhost:8282/api/cars/remove/' + id, {
-            method: 'DELETE',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${localStorage.getItem('token')}`
-            },
-        }).then((res) => {
-            if(res.status == 200){
-                this.get()
-            }
-            else
-            {
-                
-            }
-        })
     }
 
     render() {
@@ -75,21 +52,21 @@ class Cars extends Component {
                 <Container fluid className="table">
                     <Row className="page-title">
                         <Col lg="12">
-                            <h3>Cars</h3>
+                            <h3>Pricelists</h3>
                         </Col>
                     </Row>
                     <Row className="table-head">
                         <Col lg="2">
-                            <span className="name">IMAGE</span>
+                            <span className="name">ID</span>
                         </Col>
                         <Col lg="2">
-                            <span className="name">NAME</span>
+                            <span className="name">PRICE/DAY</span>
                         </Col>
                         <Col lg="2">
-                            <span className="name">PRICE</span>
+                            <span className="name">PRICE/KM</span>
                         </Col>
                         <Col lg="2">
-                            <span className="name">LOCATION</span>
+                            <span className="name">Sale</span>
                         </Col>
                         <Col lg="2" className="actions">
                             <span className="name">OPTIONS</span>
@@ -100,20 +77,18 @@ class Cars extends Component {
                             return (
                                 <Row className="table-row" key={idx}>
                                     <Col lg="2">
-                                        <img src={item.images ? item.images[0] : "" } style={{width:120}}></img>
+                                    <span className="value">{item._id}</span>
                                     </Col>
                                     <Col lg="2">
-                                        <span className="value">{item.make} {item.model}</span>
+                                        <span className="value">{item.pricePerDay}€</span>
                                     </Col>
                                     <Col lg="2">
-                                        <span className="value">{item.pricelist.pricePerDay}/day€</span>
+                                        <span className="value">{item.pricePerKM}€</span>
                                     </Col>
                                     <Col lg="2">
-                                        <span className="value">{item.location}</span>
+                                        <span className="value">{item.sale}%</span>
                                     </Col>
                                     <Col lg="3" className="actions">
-                                        <Link to={`/cars/${item._id}`}><Isvg src={editIcon} /></Link>
-                                        <Link to={`/cars/busy/${item._id}`}><Isvg src={car} /></Link>
                                         <button onClick={() => this.delete(item._id)}><Isvg src={deleteIcon} /></button>
                                     </Col>
                                 </Row>
@@ -126,4 +101,4 @@ class Cars extends Component {
     }
 }
 
-export default Page(Cars);
+export default Page(Pricelists);

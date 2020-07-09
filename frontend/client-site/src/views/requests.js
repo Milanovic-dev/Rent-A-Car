@@ -176,7 +176,6 @@ class Requests extends Component {
     }
 
     renderOrders(item, i){
-        console.log(item);
         return (
         <>
             <Col md="12" key={i}>
@@ -185,8 +184,8 @@ class Requests extends Component {
                     <div className="order-sidebar"></div>
                     <span className="order-item-img"><img width="120px" src={item.car.images ? item.car.images[0] : ""} alt=""></img></span>
                     <span className="order-item-info"><NavLink style={{color:'#da212e'}} to={`/cars/${item.car._id}`}>{`${item.car.make} ${item.car.model} ${item.car.power}kw`}</NavLink></span>
-                    <span className="order-item-options">{item.from && item.to ? `${item.fromFormatted} - ${item.toFormatted}` : 'N/A'}</span>
-                    <span className="order-item-price">{item.car.price}€</span>
+                    <span className="order-item-options">{item.car.from && item.car.to ? `${item.car.fromFormatted} - ${item.car.toFormatted}` : 'N/A'}</span>
+                    <span className="order-item-price"><NavLink style={{color:'#da212e'}} to={`/pricelist/${item.car.pricelist._id}`}>{item.car.pricelist ? item.car.pricelist.pricePerDay : item.car.price}/Day €</NavLink></span>
                     <span className="order-item-owner">{item.renterId}</span>
                     <span className="order-item-status" style={{color: this.getStatusColor(item.status)}}>{item.status}</span>
                     {item.status == 'PENDING' ? (<>
@@ -223,7 +222,7 @@ class Requests extends Component {
                                 <span className="order-item-img"><img width="120px" src={car.images ? car.images[0] : ""} alt=""></img></span>
                                 <span className="order-item-info"><NavLink style={{color:'#da212e'}} to={`/cars/${car._id}`}>{`${car.make} ${car.model} ${car.power}kw `}</NavLink></span>
                                 <span className="order-item-options">{car.from && car.to ? `${car.fromFormatted} - ${car.toFormatted}` : 'N/A'}</span>
-                                <span className="order-item-price">{car.price}€</span>
+                                <span className="order-item-price"><NavLink style={{color:'#da212e'}} to={`/pricelist/${car.pricelist._id}`}>{car.pricelist ? car.pricelist.pricePerDay : car.price}/Day€</NavLink></span>
                             </div>
                             </CardBody>
                         </Card>)

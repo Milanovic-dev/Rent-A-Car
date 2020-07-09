@@ -3,7 +3,7 @@ const isDocker = require('is-docker');
 const { ObjectID } = require('mongodb');
 let connection;
 
-const ignore = ['agents', 'fuels', 'makes', 'models', 'pricelist'];
+const ignore = ['agents', 'fuels', 'makes', 'models'];
 
 module.exports = function(username, password, server, dbName) {
    return new Promise((resolve, reject) => {
