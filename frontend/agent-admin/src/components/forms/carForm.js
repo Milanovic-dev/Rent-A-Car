@@ -12,8 +12,7 @@ import {
 
 
 const form = (props) => {
-    const { handleSubmit, pristine, submitting } = props;
-    console.log(pristine, submitting);
+    const { handleSubmit, pricelist } = props;
 
     return (
         <form onSubmit={handleSubmit}>
@@ -170,10 +169,16 @@ const form = (props) => {
                                     <Col lg="6" className="input-wrap">
                                         <Field
                                             name="price"
-                                            component={renderTextField}
+                                            component={renderSelectField}
                                             label={"Price"}
                                             placeholder=""
-                                        ></Field>
+                                        >
+                                            {pricelist ? pricelist.map((item , i) => {
+                                                return (
+                                                    <option value={`${item.pricePerDay}/Day - ${item.pricePerKM}/KM - ${item.priceCDWP}CDWP`}>{item.pricePerDay}/Day - {item.pricePerKM}/KM - {item.priceCDWP}CDWP</option>
+                                                )
+                                            }): null}
+                                        </Field>
                                     </Col>
                                     <Col lg="6" className="input-wrap">
                                         <Field

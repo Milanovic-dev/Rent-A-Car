@@ -41,7 +41,7 @@ import User from './views/admin/user';
 import Test from './views/admin/test';
 import Orders from './views/admin/carOrders';
 import Bundles from './views/admin/carBundles';
-
+import Pricelists from './views/admin/pricelists'
 //
 
 
@@ -174,9 +174,6 @@ class Routes extends Component {
                             )}
                         />
 
-
-
-
                         <Route
                             path="/fuels"
                             exact
@@ -184,7 +181,6 @@ class Routes extends Component {
                                 <Fuels {...renderProps} {...this.props} />
                             )}
                         />
-
 
                         <Route
                             path="/fuels/new"
@@ -209,7 +205,6 @@ class Routes extends Component {
                                 <Classes {...renderProps} {...this.props} />
                             )}
                         />
-
 
                         <Route
                             path="/classes/new"
@@ -261,7 +256,6 @@ class Routes extends Component {
                             )}
                         />
 
-
                         <Route
                             path="/carStats"
                             exact
@@ -269,7 +263,6 @@ class Routes extends Component {
                                 <CarStats {...renderProps} {...this.props} />
                             )}
                         />
-
                         <Route
                             path="/test"
                             exact
@@ -291,6 +284,14 @@ class Routes extends Component {
                             exact
                             render={(...renderProps) => (
                                 <Bundles {...renderProps} {...this.props} />
+                            )}
+                        />
+
+                        <Route
+                            path="/pricelists"
+                            exact
+                            render={(...renderProps) => (
+                                <Pricelists {...renderProps} {...this.props} />
                             )}
                         />
                     </Switch>

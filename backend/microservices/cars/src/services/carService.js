@@ -117,6 +117,10 @@ const createCar = async (car, authorization) => {
         car.fromISO = new Date(moment.unix(car.from).toISOString())
     }
 
+    if(car.cdwp){
+        car.cdwp = car.cdwp == 'yes';
+    }
+
     let result = await db.collection(dbCollection).insertOne(car);
     if (result.insertedId) {
         return {
@@ -231,8 +235,6 @@ const getCar = async (id, authorization) => {
         orders = await db.collection('orders').find({ $and: [{ carId: id }, { renterId: userId }] }).toArray();
         bundles = await db.collection('bundles').find({ $and: [{ renterId: userId }] }).toArray();
     }
-    console.log(userId);
-
 
     let bndl = 0;
     for (let i = 0; i < bundles.length; i++) {
@@ -243,13 +245,16 @@ const getCar = async (id, authorization) => {
         }
 
     }
-    console.log(orders.length);
-    console.log(bndl);
 
     if (orders.length > 0 || bndl > 0) {
         result.commentAllow = true;
     } else {
         result.commentAllow = false;
+    }
+
+    if(result.pricelistId){
+        const pricelist = await db.collection('pricelists').findOne({_id: ObjectID(result.pricelistId)});
+        result.pricelist = pricelist;
     }
 
     if (result) {
@@ -282,6 +287,13 @@ const getAll = async (authorization, sort) => {
     }
 
     let result = await db.collection(dbCollection).find().sort(sortObject).toArray();
+
+    for(const car of result){
+        if(car.pricelistId){
+            const pricelist = await db.collection('pricelists').findOne({_id: ObjectID(car.pricelistId)});
+            car.pricelist = pricelist;
+        }
+    }
 
     if (authorization) {
         const id = await verifyToken(authorization.split(' ')[1]);

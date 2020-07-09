@@ -28,7 +28,7 @@ import Users from './views/admin/users';
 import Logs from './views/admin/logs';
 import Reset from './views/resetPasswordPage'
 import ChangePassword from './views/changePasswordPage'
-
+import Pricelist from './views/pricelist';
 
 
 
@@ -200,6 +200,13 @@ class Routes extends Component {
                             exact
                             render={(...renderProps) => (
                                 <ChangePassword {...renderProps} {...this.props} />
+                            )}
+                        />
+                        <Route
+                            path="/pricelist/:id"
+                            exact
+                            render={(...renderProps) => (
+                                <Pricelist {...renderProps} {...this.props} />
                             )}
                         />
                     </Switch>

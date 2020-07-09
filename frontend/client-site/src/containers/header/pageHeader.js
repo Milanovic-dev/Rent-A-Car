@@ -18,8 +18,32 @@ class PageHeader extends Component {
         super(props);
 
         this.state = {
-            cartSize: 0
+            cartSize: 0,
+            user: null
         };
+
+        this.getUser = this.getUser.bind(this);
+    }
+
+    componentDidMount(){
+        this.getUser();
+    }
+
+    getUser() {
+        fetch('https://localhost:8080/auth/sessionUser', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('token')}`
+            }
+        }).then(async (res) => {
+            const user = await res.json();
+            this.setState({
+                user
+            })
+
+            console.log(this.state);
+        })
     }
 
     render() {

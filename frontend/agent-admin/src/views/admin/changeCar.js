@@ -78,6 +78,17 @@ class ChangeCar extends Component {
                 })
             });
         }
+
+        fetch('https://localhost:8282/api/pricelist/all', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('token')}`
+            },
+        }).then((res) => res.json()).then((result) => {
+            this.state.pricelists = result;
+            this.forceUpdate();
+        })
     }
 
     render() {
@@ -93,9 +104,9 @@ class ChangeCar extends Component {
                     </Row>
                     {
                         this.state.data ?
-                            <Form initialValues={this.state.data} onSubmit={this.add} />
+                            <Form initialValues={this.state.data} onSubmit={this.add} pricelist={this.state.pricelists}  />
                             :
-                            <Form onSubmit={this.add} />
+                            <Form onSubmit={this.add} pricelist={this.state.pricelists} />
                     }
                 </Container>
             </div>

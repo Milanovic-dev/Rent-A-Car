@@ -27,6 +27,7 @@ app.use((req, res, next) => {
 });
 
 const service = require('./src/services/carService');
+const pricelistService = require('./src/services/pricelistService');
 
 app.listen(4000, () => {
     console.log(`Cars microservice running!`);
@@ -39,15 +40,22 @@ require('./src/api/modelApi') (app);
 require('./src/api/fuelApi') (app);
 require('./src/api/classApi') (app);
 require('./src/api/reviewApi') (app);
+require('./src/api/pricelistApi') (app);
 
 const dbConnect = require('./db');
 let db;
 dbConnect(process.env.DB_USERNAME, process.env.DB_PASSWORD, process.env.DB_SERVER, process.env.DB_NAME)
 .then(async (conn) => {
     db = conn;
-    await service.create({make:"Audi", model:"A4", power:"110", fuel:'Diesel', productionYear:'2014', from:1592864623, to:1593864623, price:500, transmission:'Manual', rating: 4.7, seatCount: 4, mileage:150000, ownerId:'Agent0', images:['https://localhost:8080/cars/uploads/audi-a4.jpg'], color:'Dark Silver', location: 'Novi Sad', limitMileage: '200000', class:'Small Car', cdwp: 'yes', description: 'Very reliable and very cheap.Do not miss this chance!'});
-    await service.create({make:"BMW", model:"M3", power:"90", fuel:'Petrol', productionYear:'2014', from:1561982221, to:1564660621, price:800, transmission:'Automatic', rating: 3.0, seatCount: 4, mileage:100000, ownerId:'Agent0', images:['https://localhost:8080/cars/uploads/M3.jpg'], color:'Blue', location: 'Novi Sad', limitMileage: '200000', class:'Saloon', cdwp: 'yes'});
-    await service.create({make:"Mercedes", model:"E220", power:"110", fuel:'Diesel', productionYear:'2015', from:1593604621, to:1601553421, price:1100, transmission:'Manual', rating: 4.4, seatCount: 4, mileage:120000, ownerId:'user0', images:['https://localhost:8080/cars/uploads/merc.jpg'], color:'White', location: 'Novi Sad', limitMileage: '200000', class:'Saloon', cdwp: 'no'});
+    const { create } = require('./src/services/pricelistService');
+
+    const p1 = await pricelistService.create({pricePerDay: 50, pricePerKM: 30, priceCDWP: 150, sale: 10, ownerId:'Agent0'});
+    const p2 = await pricelistService.create({pricePerDay: 30, pricePerKM: 15, priceCDWP: 100, sale:0, ownerId:'Agent0'});
+    const p3 = await pricelistService.create({pricePerDay: 200, pricePerKM: 80, priceCDWP: 150, sale: 5, ownerId:'Agent0'});
+
+    await service.create({make:"Audi", model:"A4", power:"110", fuel:'Diesel', pricelistId: p1.response, productionYear:'2014', from:1592864623, to:1593864623, price:500, transmission:'Manual', rating: 4.7, seatCount: 4, mileage:150000, ownerId:'Agent0', images:['https://localhost:8080/cars/uploads/audi-a4.jpg'], color:'Dark Silver', location: 'Novi Sad', limitMileage: '200000', class:'Small Car', cdwp: 'yes', description: 'Very reliable and very cheap.Do not miss this chance!'});
+    await service.create({make:"BMW", model:"M3", power:"90", fuel:'Petrol', pricelistId: p2.response, productionYear:'2014', from:1561982221, to:1564660621, price:800, transmission:'Automatic', rating: 3.0, seatCount: 4, mileage:100000, ownerId:'Agent0', images:['https://localhost:8080/cars/uploads/M3.jpg'], color:'Blue', location: 'Novi Sad', limitMileage: '200000', class:'Saloon', cdwp: 'yes'});
+    await service.create({make:"Mercedes", model:"E220", power:"110", fuel:'Diesel', pricelistId: p3.response, productionYear:'2015', from:1593604621, to:1601553421, price:1100, transmission:'Manual', rating: 4.4, seatCount: 4, mileage:120000, ownerId:'user0', images:['https://localhost:8080/cars/uploads/merc.jpg'], color:'White', location: 'Novi Sad', limitMileage: '200000', class:'Saloon', cdwp: 'no'});
 }).catch((e) => {
     console.log(`DB error: ${e}`);
 })

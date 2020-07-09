@@ -46,21 +46,6 @@ const cartForm = (props) => {
         })
     }
 
-    const total = () => {
-        let sum = 0;
-
-        for(const order of data){
-            for(const car of order.cars){
-                sum += parseInt(car.price);
-                if(order.isBundle){
-                    sum -= (parseInt(car.price) / 10 * 2)
-                }
-            }       
-        }
-
-        return sum;
-    }
-
     return (
         <form onSubmit={handleSubmit} className="contact-form space-form" style={{width:1000, marginLeft: -150}}>
             <Row>
@@ -90,7 +75,7 @@ const cartForm = (props) => {
                                     <span className="cart-item-image"><img width="120px" src={item.images ? item.images[0] : ""}></img></span>
                                     <span className="cart-item-info"><NavLink style={{color:'#da212e'}} to={`/cars/${item._id}`}>{`${item.make} ${item.model} ${item.power}kw`}</NavLink></span>
                                     <span className="cart-item-options">{item.fromFormatted && item.toFormatted ? `${item.fromFormatted} - ${item.toFormatted}`: `N/A`}</span>
-                                    <span className="cart-item-price">{item.price}€</span>
+                                    <span className="cart-item-price">{item.pricelist ? item.pricelist.pricePerDay : item.price}/Day €</span>
                                     <button className="cart-item-remove" style={{backgroundColor:'white'}} onClick={(e)=> {removeFromCart(e, item._id)}}><Isvg src={Delete}></Isvg></button>
                                 </Col>
                                 )
@@ -102,9 +87,7 @@ const cartForm = (props) => {
                 }           
                 <Row>
                 <Col md="12" style={{marginTop: '3%'}}>
-                        <div className="input-wrap buttons">
-                            <h5 style={{fontWeight:'bold'}}>Total: {data ? total() : ''}€</h5>
-                        </div>
+    
                     </Col>
                     <Col md="12" style={{marginTop: '-3%'}}>
                         <div className="input-wrap buttons">

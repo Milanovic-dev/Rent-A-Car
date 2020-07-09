@@ -88,11 +88,16 @@ app.get('/auth/email/verify/:uid/:code', async (req, res) => {
     res.status(result.status).send(result.response);
 });
 
-app.get('/auth/users/:id', DORProtection, async (req, res) => {
+app.get('/auth/users/:id', async (req, res) => {
     const result = await service.user(req.params.id).catch(err => console.error(err));
     log(req, result.status);
     res.status(result.status).send(result.response);
 });
+
+app.get('/auth/sessionUser', async(req, res) => {
+    const result = await service.sessionUser(req.headers.authorization);
+    res.status(result.status).send(result.response);
+})
 
 
 app.get('/auth/logs', service.generatePermissionMiddleware('*'),  async(req, res) => {

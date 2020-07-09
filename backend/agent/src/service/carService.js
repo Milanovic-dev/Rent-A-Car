@@ -144,8 +144,15 @@ const getAll = async () => {
         await db.sync();
     }catch(err){
 
+        
     } finally {
         let result = await db.collection(dbCollection).find({}).toArray();
+                for(const car of result){
+                    if(car.pricelistId){
+                        const pricelist = await db.collection('pricelists').findOne({_id: ObjectID(car.pricelistId)});
+                        car.pricelist = pricelist;
+                    }
+                }       
         return {
             response: result,
             status: 200
