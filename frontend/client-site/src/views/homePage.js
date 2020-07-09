@@ -54,8 +54,7 @@ class HomePage extends Component {
 
       
     componentDidMount() {
-        fetch('https://showroom-api.novamedia.agency/cars/filters').then((res) => res.json()).then((productFilters) => { console.log(productFilters); this.setState({ productFilters }); })
-
+        fetch('https:/localhost:8080/search/getForm').then((res) => res.json()).then((productFilters) => { console.log(productFilters); this.setState({ productFilters }); })
     }
 
     searchProducts(data) {

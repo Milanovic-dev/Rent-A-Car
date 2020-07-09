@@ -136,7 +136,7 @@ let SearchForm = (props) => {
                 </Row>
                 <div className="form-wrap">
                     <Row >
-                        <Col lg="6">
+                        <Col lg="4">
                             <div className="input-wrap">
                                 <Field
                                     name="takePoint"
@@ -148,7 +148,7 @@ let SearchForm = (props) => {
                         </Col>
                     </Row>
                     <Row>
-                        <Col lg="6">
+                        <Col lg="4">
                             <div className="input-wrap">
                                 <Field
                                     name="takeDate"
@@ -157,9 +157,7 @@ let SearchForm = (props) => {
                                 />
                             </div>
                         </Col>
-                    </Row>
-                    <Row>
-                        <Col lg="6">
+                        <Col lg="4">
                             <div className="input-wrap">
                                 <Field
                                     name="returnDate"
@@ -170,7 +168,169 @@ let SearchForm = (props) => {
                         </Col>
                     </Row>
                     <Row>
-                        <Col lg="6">
+                        <Col lg="4">
+                            <div className="input-wrap">
+                                <Field
+                                    name="make"
+                                    component={renderSelectField}
+                                    label="Choose a make"
+                                >
+                                {
+                                    /*
+                                    props.productFilters && props.productFilters.productFilters.make.map((make, idx) => {
+                                        return (
+                                            <option value={make}>{make}</option>
+                                        )
+                                    })
+                                    */
+                                }
+                                </Field>
+                            </div>
+                        </Col>
+                        <Col lg="4">
+                            <div className="input-wrap">
+                                <Field
+                                    name="model"
+                                    component={renderSelectField}
+                                    label="Choose a model"
+                                >
+                                {
+                                    /*
+                                    props.productFilters && props.productFilters.model.map((model, idx) => {
+                                        return (
+                                            <option value={model}>{model}</option>
+                                        )
+                                    })
+                                    */
+                                }
+                                </Field>
+                            </div>
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col lg="4">
+                            <div className="input-wrap">
+                                <Field
+                                    name="fuel"
+                                    component={renderSelectField}
+                                    label="Choose a fuel"
+                                >
+                                {
+                                    /*
+                                    props.productFilters && props.productFilters.fuel.map((fuel, idx) => {
+                                        return (
+                                            <option value={fuel}>{fuel}</option>
+                                        )
+                                    })
+                                    */
+                                }   
+                                </Field>
+                            </div>
+                        </Col>
+                        <Col lg="4">
+                            <div className="input-wrap">
+                                <Field
+                                    name="transmission"
+                                    component={renderSelectField}
+                                    label="Choose a transmission"
+                                >
+                                {
+                                    /*
+                                    props.productFilters && props.productFilters.transmission.map((transmission, idx) => {
+                                        return (
+                                            <option value={transmission}>{transmission}</option>
+                                        )
+                                    })
+                                    */
+                                }  
+                                </Field>
+                            </div>
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col lg="4">
+                            <div className="input-wrap">
+                                <Field
+                                    name="class"
+                                    component={renderSelectField}
+                                    label="Choose a class"
+                                >
+                                {
+                                    /*
+                                    props.productFilters && props.productFilters.class.map((carClass, idx) => {
+                                        return (
+                                            <option value={carClass}>{carClass}</option>
+                                        )
+                                    })
+                                    */
+                                }  
+                                </Field>
+                            </div>
+                        </Col>
+                        <Col lg="4">
+                            <div className="input-wrap">
+                                <Field
+                                    name="cdw"
+                                    component={renderSelectField}
+                                    label="Has a cdw?"
+                                >
+                                    <option value="true">Yes</option>
+                                    <option value="false">No</option>
+                                </Field>
+                            </div>
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col lg="4">
+                            <div className="input-wrap">
+                                <Field
+                                    name="lowestPrice"
+                                    component={renderTextField}
+                                    label="Choose a lowest price"
+                                />
+                            </div>
+                        </Col>
+                        <Col lg="4">
+                            <div className="input-wrap">
+                                <Field
+                                    name="highestPrice"
+                                    component={renderTextField}
+                                    label="Choose a highest price"
+                                />
+                            </div>
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col lg="4">
+                            <div className="input-wrap">
+                                <Field
+                                    name="Mileage"
+                                    component={renderTextField}
+                                    label="Choose a mileage"
+                                />
+                            </div>
+                        </Col>
+                        <Col lg="4">
+                            <div className="input-wrap">
+                                <Field
+                                    name="intentedMileage"
+                                    component={renderTextField}
+                                    label="Choose an intendent Mileage"
+                                />
+                            </div>
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col lg="4">
+                            <div className="input-wrap">
+                                <Field
+                                    name="seatCount"
+                                    component={renderTextField}
+                                    label="Choose an seat count"
+                                />
+                            </div>
+                        </Col>
+                        <Col lg="4">
                             <div className="input-wrap buttons">
                                 <button type="button" className="button clear-btn" onClick={reset}>Reset</button>
                                 <button type="submit" className="button black-btn right-chevron" >Search</button>

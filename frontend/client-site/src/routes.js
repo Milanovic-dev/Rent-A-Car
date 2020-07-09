@@ -20,6 +20,8 @@ import Register from './views/register';
 import Cart from './views/cart';
 import Orders from './views/orders';
 import Requests from './views/requests'
+import Debts from './views/debts'
+
 
 import Comments from './views/admin/comments';
 import Messages from './views/messages';
@@ -143,6 +145,13 @@ class Routes extends Component {
                             exact
                             render={(...renderProps) => (
                                 <InventoryPage {...renderProps} {...this.props} />
+                            )}
+                        />
+                        <Route
+                            path="/debts"
+                            exact
+                            render={(...renderProps) => (
+                                <Debts {...renderProps} {...this.props} />
                             )}
                         />
                         <Route

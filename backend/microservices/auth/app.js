@@ -106,3 +106,4 @@ app.get('/auth/logs', service.generatePermissionMiddleware('*'),  async(req, res
 }); 
 
 
+

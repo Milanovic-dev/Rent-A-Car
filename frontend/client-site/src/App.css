@@ -1268,6 +1268,21 @@ button {
     padding: 8px 16px;
     font-size: 18px;
     font-weight: 500; }
+  .table .table-row .button-paid {
+    background-color: #FFFFFF;
+    color: #F1646C;
+    border: 2px solid #F1646C;
+    outline: none;
+    cursor: unset;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    float: left;
+    border-radius: 27px;
+    padding: 8px 16px;
+    font-size: 18px;
+    font-weight: 500; }
 
 .valid-reservation {
   width: 24px;
@@ -1523,6 +1538,22 @@ button {
   justify-content: center; }
   .messages-icon svg path {
     fill: #FFFFFF; }
+
+.debt-box {
+  width: 100%;
+  border: 2px solid #F1646C;
+  text-align: center;
+  padding: 20px 0;
+  margin-bottom: 40px; }
+  .debt-box h1 {
+    font-size: 18px;
+    text-transform: uppercase;
+    color: #F1646C; }
+  .debt-box h2 {
+    font-size: 14px;
+    color: #F1646C; }
+  .debt-box a {
+    text-decoration: none; }
 
 .button {
   height: 40px;
