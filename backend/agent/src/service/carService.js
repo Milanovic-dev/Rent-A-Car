@@ -2,6 +2,7 @@ const ObjectID = require('mongodb').ObjectID;
 const dbCollection = 'cars';
 const dbConnect = require('../../db');
 const moment = require('moment');
+const jwt = require('jsonwebtoken');
 
 let db;
 dbConnect(process.env.DB_USERNAME, process.env.DB_PASSWORD, process.env.DB_SERVER, process.env.DB_NAME)
@@ -11,11 +12,28 @@ dbConnect(process.env.DB_USERNAME, process.env.DB_PASSWORD, process.env.DB_SERVE
         console.log(`DB error: ${e}`);
     })
 
+const verifyToken = async (token) => {
+
+    if (!token) return '400';
+
+    const result = await new Promise((resolve, reject) => {
+        jwt.verify(token, '-###ejirjewiori%^*#ewjcr123iwercm872371###-', (err, tokenData) => {
+            if (err) {
+                console.error(err);
+                reject('401');
+            }
+            const username = tokenData;
+            resolve(username.id);
+        });
+    });
+    return result;
+}
+
 const createCar = async (car) => {
 
     if (car == undefined) return { status: 400 };
-    
-    if(car.from && car.to){
+
+    if (car.from && car.to) {
         car.toFormatted = moment.unix(car.to).format('DD MMM hh:mm')
         car.fromFormatted = moment.unix(car.from).format('DD MMM hh:mm');
         car.toISO = new Date(moment.unix(car.to).toISOString())
@@ -86,19 +104,19 @@ const updateCar = async (car) => {
 
 const removeCar = async (id) => {
 
-    const orders = await db.collection('orders').find({carId: id}).toArray();
+    const orders = await db.collection('orders').find({ carId: id }).toArray();
 
-    if(orders){
-        if(orders.length > 0){
-            return {status: 400};
+    if (orders) {
+        if (orders.length > 0) {
+            return { status: 400 };
         }
     }
 
-    const bundles = await db.collection('bundles').find({carIds: {$in:[id]}}).toArray();
+    const bundles = await db.collection('bundles').find({ carIds: { $in: [id] } }).toArray();
 
-    if(bundles){
-        if(bundles.length > 0){
-            return {status:400};
+    if (bundles) {
+        if (bundles.length > 0) {
+            return { status: 400 };
         }
     }
 
@@ -118,9 +136,9 @@ const removeCar = async (id) => {
 
 
 const getCar = async (id) => {
-    try{
+    try {
         await db.sync();
-    } catch(err){
+    } catch (err) {
 
     }
     let result = await db.collection(dbCollection).findOne(
@@ -140,9 +158,9 @@ const getCar = async (id) => {
 }
 
 const getAll = async () => {
-    try{
+    try {
         await db.sync();
-    }catch(err){
+    } catch (err) {
 
     } finally {
         let result = await db.collection(dbCollection).find({}).toArray();
@@ -259,7 +277,8 @@ const completedRentals = async () => {
     };
 };
 const milReport = async (id, carId) => {
-    let mileageReport = await db.collection('mileageReports').find({$and : [{ orderId: id }, { carId: carId }]}).toArray();
+
+    let mileageReport = await db.collection('mileageReports').find({ $and: [{ orderId: id }, { carId: carId }] }).toArray();
     if (mileageReport[0]) {
         let bundles = await db.collection('bundles').find({ _id: ObjectID(id) }).toArray();
         let order = await db.collection('orders').find({ _id: ObjectID(id) }).toArray();
@@ -300,7 +319,7 @@ const milReport = async (id, carId) => {
                 response: result,
                 status: 200
             };
-        }else{
+        } else {
             let result = bundles[0];
             let car = await db.collection('cars').find({ _id: ObjectID(carId) }).toArray();
             result.car = car[0];
@@ -317,9 +336,8 @@ const milReport = async (id, carId) => {
 
 
 const mileageReport = async (data, id, carId) => {
-    let mileageReport = await db.collection('mileageReports').find({$and : [{ orderId: id }, { carId: carId }]}).toArray();
+    let mileageReport = await db.collection('mileageReports').find({ $and: [{ orderId: id }, { carId: carId }] }).toArray();
     if (mileageReport[0]) {
-        console.log(data);
         if (data == undefined) return { status: 400 };
         let newMileage = Number(data.car.mileage) - Number(mileageReport[0].newMileage) + Number(data.newMileage);
         await db.collection(dbCollection).updateOne({ _id: ObjectID(data.car._id) }, {
@@ -328,14 +346,22 @@ const mileageReport = async (data, id, carId) => {
             }
         }
         );
-        // if(data.newMileage > data.limitMileage){
-        //     await db.collection('users').updateOne({ _id : ObjectID(data.userId)},{
-        //         $set: {
-        //             debt: "20" //neka vrijednost za dug
-        //         }
-        //     }
-        // );
-        // }
+        let debt = await db.collection('debts').find({ $and: [{ orderId: id }, { carId: carId }] }).toArray();
+        if(debt[0]){
+            await db.collection('debts').deleteOne({ _id: ObjectID(debt[0]._id) });
+        }
+
+        if (Number(data.newMileage) > Number(data.car.limitMileage)) {
+            let obj = {
+                debt: '100',
+                user: data.renterId,
+                overstepMileage: String(Number(data.newMileage) - Number(data.car.limitMileage)),
+                orderId: id,
+                carId: carId,
+                status: 'PENDING'
+            }
+            await db.collection('debts').insertOne(obj);
+        }
 
 
         let result = await db.collection('mileageReports').updateOne({ _id: ObjectID(mileageReport[0]._id) }, {
@@ -363,14 +389,17 @@ const mileageReport = async (data, id, carId) => {
             }
         }
         );
-        // if(data.newMileage > data.limitMileage){
-        //     await db.collection('users').updateOne({ _id : ObjectID(data.userId)},{
-        //         $set: {
-        //             debt: "20" //neka vrijednost za dug
-        //         }
-        //     }
-        // );
-        // }
+        if (Number(data.newMileage) > Number(data.car.limitMileage)) {
+            let obj = {
+                debt: '100',
+                user: data.renterId,
+                overstepMileage: String(Number(data.newMileage) - Number(data.car.limitMileage)),
+                orderId: id,
+                carId: carId,
+                status: 'PENDING'
+            }
+            await db.collection('debts').insertOne(obj);
+        }
 
         let obj = {};
         obj.newMileage = data.newMileage;
@@ -433,41 +462,41 @@ const carStats = async (sort) => {
 };
 
 const busyCar = async (car) => {
-    
-    if(car == undefined) return { status: 400 }; 
+
+    if (car == undefined) return { status: 400 };
 
     let dbCar = await db.collection(dbCollection).findOne(
         {
             _id: ObjectID(car.id)
         }
     );
-  
-    if(!dbCar){
-        return { status:404 };
+
+    if (!dbCar) {
+        return { status: 404 };
     }
 
-    await db.collection('orders').updateMany({carId: car.id}, {$set:{status: 'CANCELED'}});
-  
+    await db.collection('orders').updateMany({ carId: car.id }, { $set: { status: 'CANCELED' } });
+
     let result = await db.collection(dbCollection).updateOne(
         {
-            _id : ObjectID(car.id)
+            _id: ObjectID(car.id)
         },
         {
             $set: {
                 busyFrom: car.busyFrom,
-                busyTo: car.busyTo                
+                busyTo: car.busyTo
             }
         }
     );
-    
-  
-    if(result.modifiedCount == 1){
+
+
+    if (result.modifiedCount == 1) {
         db.sync();
-        return { status:200 };
+        return { status: 200 };
     }
-  
+
     return { status: 404 };
-  };
+};
 
 module.exports = {
     create: createCar,
