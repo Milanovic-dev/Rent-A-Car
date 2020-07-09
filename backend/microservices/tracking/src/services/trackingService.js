@@ -11,6 +11,21 @@ dbConnect(process.env.DB_USERNAME, process.env.DB_PASSWORD, process.env.DB_SERVE
 }).catch((e) => {
     console.log(`DB error: ${e}`);
 })
+var Queue = require('better-queue');
+
+var trackingQueue = new Queue(async (batch, cb)  => {
+    console.log('tracking worker')
+    console.log(batch.length)
+    for(let i=0;i<batch.length;i++){
+        await db.collection(dbCollection).insertOne(batch[i]);
+    }
+
+    cb();
+  }, { batchSize: 100, batchDelay: 10000 });
+
+
+
+
 
 const get = async (carId) => {
 
@@ -26,13 +41,23 @@ const get = async (carId) => {
 
 const track = async (carId, data) => {
 
-    await db.collection(dbCollection).insertOne({
+    /*await db.collection(dbCollection).insertOne({
         carId: carId,
         renterId: data.renterId,
         ownerId: data.ownerId,
         coordinates: data.coordinates,
         timestamp: Math.floor(new Date().getTime() / 1000)
-    })
+    })*/
+
+    trackingQueue.push({
+        carId: carId,
+        renterId: data.renterId,
+        ownerId: data.ownerId,
+        coordinates: data.coordinates,
+        timestamp: Math.floor(new Date().getTime() / 1000)
+    });
+
+
 
     return { response: {
         error: null,
@@ -42,4 +67,7 @@ const track = async (carId, data) => {
 
 
 
-module.exports = {get}
+
+
+
+module.exports = {get, track}

@@ -23,6 +23,7 @@
     "nodemon": "^2.0.3",
     "performance": "^1.4.0",
     "soap": "^0.31.0",
-    "strong-soap": "^2.0.0"
+    "strong-soap": "^2.0.0",
+    "better-queue": "^3.8.10"
   }
 }

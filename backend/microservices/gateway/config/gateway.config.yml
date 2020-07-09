@@ -29,6 +29,9 @@ apiEndpoints:
   message:
     paths:
       - '/message/*'
+  tracking:
+    paths:
+      - '/tracking/*'
 serviceEndpoints:
   auth:
     url: 'http://auth:4000'
@@ -42,6 +45,8 @@ serviceEndpoints:
     url: 'http://search:4000'
   message:
     url: 'http://message:4000'
+  tracking:
+    url: 'http://tracking:4000'
 
 policies:
   - proxy
@@ -96,6 +101,22 @@ pipelines:
       - proxy:
         - action: 
             serviceEndpoint: message
+            changeOrigin: true
+      - cors:
+        - action:
+            origin: ['http://localhost:3000', 'http://localhost:3001', 'https://localhost:8080']
+            methods: 'HEAD,PUT,PATCH,POST,DELETE'
+  tracking:
+    apiEndpoints:
+      - tracking
+    policies:
+      - rate-limit:
+        - action:
+            max: 1000
+            windowMs: 1000
+      - proxy:
+        - action: 
+            serviceEndpoint: tracking
             changeOrigin: true
       - cors:
         - action:
