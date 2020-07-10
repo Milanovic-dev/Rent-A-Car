@@ -31,6 +31,8 @@ import Logs from './views/admin/logs';
 import Reset from './views/resetPasswordPage'
 import ChangePassword from './views/changePasswordPage'
 import Pricelist from './views/pricelist';
+import RegisterAgent from './views/registerAgent';
+import Agents from './views/agents';
 
 import TrackingSimulator from './views/trackingSimulator'
 
@@ -226,6 +228,20 @@ class Routes extends Component {
                             exact
                             render={(...renderProps) => (
                                 <Pricelist {...renderProps} {...this.props} />
+                            )}
+                        />
+                        <Route
+                            path="/registerAgent"
+                            exact
+                            render={(...renderProps) => (
+                                <RegisterAgent {...renderProps} {...this.props} />
+                            )}
+                        />
+                        <Route
+                            path="/agents"
+                            exact
+                            render={(...renderProps) => (
+                                <Agents {...renderProps} {...this.props} />
                             )}
                         />
                     </Switch>

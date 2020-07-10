@@ -39,13 +39,17 @@ dbConnect(process.env.DB_USERNAME, process.env.DB_PASSWORD, process.env.DB_SERVE
     const bcrypt = require('bcrypt');
     if(!coll){
         const pass = bcrypt.hashSync('agent', 10);
-        db.collection('agents').insertOne({username:"Agent0", password: pass});
+        db.collection('agents').insertOne({username:"Agent0", password: pass, companyName: 'AgentCompany0'});
     }
 
 }).catch((e) => {
     console.log(`DB error: ${e}`);
 })
 
+app.get('/webhook/agents', async (req, res) => {
+    let result = await service.getAgents(req.body);
+    res.status(result.status).send(result.response);
+})
 
 app.post('/webhook/agents/create', async (req, res) => {
     let result = await service.createAgent(req.body);
