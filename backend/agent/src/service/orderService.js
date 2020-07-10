@@ -35,6 +35,32 @@ const acceptOrder = async (id) => {
 
     return { status: 404 };
 }
+const finishOrder = async (id) => {
+
+    if(!id) return { status:400 }
+    const order = await db.collection('orders').findOne({_id: ObjectID(id)});
+
+    let res = await db.collection('orders').updateOne({_id: ObjectID(id)}, {$set:{status: 'FINISHED'}});
+    
+    
+    if(res.modifiedCount == 1){
+        // let otherOrders = await db.collection('orders').find({_id: {$ne: ObjectID(id)}, carId: order.carId}).toArray();
+ 
+        // for(const order of otherOrders){
+        //     await db.collection('orders').updateOne({_id:ObjectID(order._id)}, {$set:{status: 'CANCELED'}});
+        // }
+
+        // const otherBundles = await db.collection('bundles').find({carIds: order.carId}).toArray();
+        // for(const bundle of otherBundles){
+        //     await db.collection('bundles').updateOne({_id: ObjectID(bundle._id)}, {$set:{status: 'CANCELED'}});
+        // }
+
+        db.sync();
+        return {status: 200};
+    }
+
+    return { status: 404 };
+}
 
 const declineOrder = async (id) => {
     if(!id) return { status:400 }
@@ -87,7 +113,18 @@ const declineBundle = async (id) => {
 
     return { status: 404 };
 }
+const finishBundle = async (id) => {
+    if(!id) return { status:400 }
 
+    const res = await db.collection('bundles').updateOne({_id: ObjectID(id)}, {$set:{status: 'FINISHED'}});
+
+    if(res.modifiedCount == 1){
+        db.sync();
+        return {status: 200};
+    }
+
+    return { status: 404 };
+}
 const getAll = async () => {
     await db.sync();
     let res = await db.collection('orders').find({}).toArray();
@@ -119,7 +156,9 @@ module.exports = {
     getAll,
     getAllBundles,
     acceptOrder,
+    finishOrder,
     declineOrder,
     acceptBundle,
-    declineBundle
+    declineBundle,
+    finishBundle
 }

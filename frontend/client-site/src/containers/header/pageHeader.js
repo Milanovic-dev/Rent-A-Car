@@ -25,6 +25,7 @@ class PageHeader extends Component {
     }
 
 
+
     getNavOptions () {
         const role = localStorage.getItem('role');
         if(role){
@@ -115,6 +116,7 @@ class PageHeader extends Component {
                                 </Row>
                                 <Row className="navigation">
                                     <Nav>
+
                                         {this.getNavOptions()}
                                     </Nav>
                                 </Row>

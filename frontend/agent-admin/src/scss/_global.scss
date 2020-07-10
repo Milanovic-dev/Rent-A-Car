@@ -300,11 +300,41 @@ button{
         border-radius: 6px;
         outline: none;
         border: 0;
-        bottom: 45px;
-
-    
+        bottom: 45px;    
 }
-
+.button2{
+    background-color: $red;
+    padding: 13px 20px 12px 20px;
+    font-size: 18px;
+    font-weight: $semiBold;
+    color: $white;
+    border-radius: 6px;
+    outline: none;
+    border: 0;
+    bottom: 45px;    
+}
+.button3{
+    background-color: transparent;
+    padding: 13px 20px 12px 20px;
+    font-size: 18px;
+    font-weight: $semiBold;
+    color: $blue;
+    border-radius: 6px;
+    outline: none;
+    border: 1px solid $blue;
+    bottom: 45px;    
+}
+.button4{
+background-color: transparent;
+padding: 13px 20px 12px 20px;
+font-size: 18px;
+font-weight: $semiBold;
+color: $red;
+border-radius: 6px;
+outline: none;
+border: 1px solid $red;
+bottom: 45px;    
+}
 .contact-box{
     label{
         font-size: 15px;
