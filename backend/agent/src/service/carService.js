@@ -4,6 +4,8 @@ const dbConnect = require('../../db');
 const moment = require('moment');
 const jwt = require('jsonwebtoken');
 
+const { getClient } = require('../soap/soapService');
+
 let db;
 dbConnect(process.env.DB_USERNAME, process.env.DB_PASSWORD, process.env.DB_SERVER, process.env.DB_NAME)
     .then((conn) => {
@@ -157,20 +159,35 @@ const getCar = async (id) => {
     return { status: 404 };
 }
 
+const getAllAttribures = async (expressRes) => {
+    const soapClient = await getClient();
+    soapClient.GetAttributes({}, async (err, res) => {
+        responseBody = JSON.parse(res);
+        console.log(responseBody);
+        expressRes.status(200).send(responseBody);
+        return;
+    });
+    // let result = {};
+    // return {
+    //     response: result,
+    //     status: 200
+    // }
+};
+
 const getAll = async () => {
     try {
         await db.sync();
     } catch (err) {
 
-        
+
     } finally {
         let result = await db.collection(dbCollection).find({}).toArray();
-                for(const car of result){
-                    if(car.pricelistId){
-                        const pricelist = await db.collection('pricelists').findOne({_id: ObjectID(car.pricelistId)});
-                        car.pricelist = pricelist;
-                    }
-                }       
+        for (const car of result) {
+            if (car.pricelistId) {
+                const pricelist = await db.collection('pricelists').findOne({ _id: ObjectID(car.pricelistId) });
+                car.pricelist = pricelist;
+            }
+        }
         return {
             response: result,
             status: 200
@@ -305,16 +322,16 @@ const mileageReport = async (data, id, carId) => {
         }
         );
         let debit = 0;
-        let car = await db.collection(dbCollection).findOne({ _id: ObjectID(carId)});
-        if(car.pricelistId){
-            const pricelist = await db.collection('pricelists').findOne({_id: ObjectID(car.pricelistId)});
+        let car = await db.collection(dbCollection).findOne({ _id: ObjectID(carId) });
+        if (car.pricelistId) {
+            const pricelist = await db.collection('pricelists').findOne({ _id: ObjectID(car.pricelistId) });
             car.pricelist = pricelist;
             debit = (Number(data.newMileage) - Number(data.car.limitMileage)) * Number(car.pricelist.pricePerKM);
         }
         console.log("DUG: " + debit);
 
         let debt = await db.collection('debts').find({ $and: [{ orderId: id }, { carId: carId }] }).toArray();
-        if(debt[0]){
+        if (debt[0]) {
             await db.collection('debts').deleteOne({ _id: ObjectID(debt[0]._id) });
         }
 
@@ -357,9 +374,9 @@ const mileageReport = async (data, id, carId) => {
         }
         );
         let debit = 0;
-        let car = await db.collection(dbCollection).findOne({ _id: ObjectID(carId)});
-        if(car.pricelistId){
-            const pricelist = await db.collection('pricelists').findOne({_id: ObjectID(car.pricelistId)});
+        let car = await db.collection(dbCollection).findOne({ _id: ObjectID(carId) });
+        if (car.pricelistId) {
+            const pricelist = await db.collection('pricelists').findOne({ _id: ObjectID(car.pricelistId) });
             car.pricelist = pricelist;
             debit = (Number(data.newMileage) - Number(data.car.limitMileage)) * Number(car.pricelist.pricePerKM);
         }
@@ -485,5 +502,6 @@ module.exports = {
     completedRentalsBundles,
     completedRental,
     getAll,
-    busy: busyCar
+    busy: busyCar,
+    getAllMakes: getAllAttribures
 };

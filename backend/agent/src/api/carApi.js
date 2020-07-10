@@ -31,6 +31,10 @@ module.exports = function(app){
         log(req, result.status);
         res.status(result.status).send(result.response);
     });
+    app.get('/api/make', async (req, res) => {
+        console.log(req.method + req.route.path);
+        service.getAllMakes(res);
+    });
 
     app.post('/api/cars/mileageReport/:id/:carId', async (req, res) => {
         let result = await service.mileageReport(req.body, req.params.id, req.params.carId);

@@ -1,5 +1,7 @@
 import React from 'react';
-import { Field, reduxForm } from 'redux-form'
+import { Field, reduxForm, formValueSelector } from 'redux-form'
+import { connect } from 'react-redux'
+
 import {
     Row,
     Col,
@@ -111,10 +113,10 @@ export const renderDateTimeField = ({
         />
     )
 
-const carForm = (props) => {
-    const { handleSubmit, pristine, submitting, fuel, make, model, classes, makeSelected=null } = props;
+let SelectingFormValuesForm = (props) => {
+    const { handleSubmit, pristine, submitting, fuel, make, model, classes} = props;
     console.log(pristine, submitting);
-
+    console.log(props.makes);
     return (
         <form onSubmit={handleSubmit} className="contact-form">
             <Row>
@@ -127,16 +129,16 @@ const carForm = (props) => {
                         <Col lg="6" className="input-wrap">
                             <Field
                                 name="make"
-                                component={renderTextField}
+                                component={renderSelectField}
                                 // label={"Make"}
                                 placeholder="Make"
                             >
-                                {/* {make ? make.map((item, i) => {
+                                {make ? make.map((item, i) => {
                                     return (
-                                        <option value={item._id}>{item.name}</option>
+                                        <option value={item.name}>{item.name}</option>
 
                                     )
-                                }) : null} */}
+                                }) : null}
                             </Field>
                             
                             {/* <Field 
@@ -148,17 +150,21 @@ const carForm = (props) => {
                         <Col lg="6" className="input-wrap">
                             <Field
                                 name="model"
-                                component={renderTextField}
+                                component={renderSelectField}
                                 // label={"Model"}
                                 placeholder="Model"
                             >
-                                
-                                {/* {model ? model.map((item, i) => {
-                                    return (
-                                        <option value={item._id}>{item.name}</option>
-
-                                    )
-                                }) : null} */}
+                                {model ? model.map((item, i) => {
+                                    {
+                                        if(props.makes == item.makeName){
+                                            return (
+                                                <option value={item.name}>{item.name}</option>
+        
+                                            )
+                                        }
+                                    }
+                                   
+                                }) : null}
                             </Field>
                         </Col>
                         <Col lg="6" className="input-wrap">
@@ -178,16 +184,16 @@ const carForm = (props) => {
                                 placeholder="Fuel"
                             >
 
-                                {/* {fuel ? fuel.map((item, i) => {
+                                {fuel ? fuel.map((item, i) => {
                                     return (
-                                        <option value={item._id}>{item.name}</option>
+                                        <option value={item.name}>{item.name}</option>
 
                                     )
-                                }) : null} */}
-                                <option value="diesel">Diesel</option>
+                                }) : null}
+                                {/* <option value="diesel">Diesel</option>
                                 <option value="gasoline">Gasoline</option>
                                 <option value="hybrid">Hybrid</option>
-                                <option value="electric">Electric</option>
+                                <option value="electric">Electric</option> */}
                             </Field>
                         </Col>
                         <Col lg="6" className="input-wrap">
@@ -208,13 +214,13 @@ const carForm = (props) => {
                                 // label={"Class"}
                                 placeholder="Class"
                             >
-                                {/* {classes ? classes.map((item, i) => {
+                                {classes ? classes.map((item, i) => {
                                     return (
-                                        <option value={item._id}>{item.name}</option>
+                                        <option value={item.name}>{item.name}</option>
 
                                     )
-                                }) : null} */}
-                                <option value="cabriolet-roadster">Cabriolet / Roadster</option>
+                                }) : null}
+                                {/* <option value="cabriolet-roadster">Cabriolet / Roadster</option>
 
                                 <option value="estate-car">Estate Car</option>
 
@@ -226,7 +232,7 @@ const carForm = (props) => {
 
                                 <option value="suv-off-road-vehicle-pickup-truck">SUV / Off-road Vehicle / Pickup Truck</option>
 
-                                <option value="van-minibus">Van / Minibus</option>
+                                <option value="van-minibus">Van / Minibus</option> */}
 
 
 
@@ -363,6 +369,22 @@ const carForm = (props) => {
     )
 }
 
-export default reduxForm({
-    form: 'carForm'  // a unique identifier for this form
-})(carForm)
+// The order of the decoration does not matter.
+
+// Decorate with redux-form
+SelectingFormValuesForm = reduxForm({
+    form: 'selectingFormValues' // a unique identifier for this form
+  })(SelectingFormValuesForm)
+  
+  // Decorate with connect to read form values
+  const selector = formValueSelector('selectingFormValues') // <-- same as form name
+  SelectingFormValuesForm = connect(state => {
+    // can select values individually
+    const makes = selector(state, 'make')
+    // or together as a group
+    return {
+        makes,
+    }
+  })(SelectingFormValuesForm)
+  
+  export default SelectingFormValuesForm

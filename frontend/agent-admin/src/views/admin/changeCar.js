@@ -89,6 +89,16 @@ class ChangeCar extends Component {
             this.state.pricelists = result;
             this.forceUpdate();
         })
+        fetch('https://localhost:8282/api/make', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('token')}`
+            },
+        }).then((res) => res.json()).then((result) => {
+            this.state.make = result;
+            // this.forceUpdate();
+        })
     }
 
     render() {
