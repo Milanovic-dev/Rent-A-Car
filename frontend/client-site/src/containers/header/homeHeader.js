@@ -33,7 +33,7 @@ class HomeHeader extends Component {
 
             });
         })
-        this.getUser();
+        // this.getUser();
 
     }
 
