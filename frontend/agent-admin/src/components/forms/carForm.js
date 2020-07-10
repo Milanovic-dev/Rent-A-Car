@@ -1,5 +1,6 @@
 import React from 'react';
-import { Field, reduxForm } from 'redux-form'
+import { Field, reduxForm, formValueSelector } from 'redux-form'
+import { connect } from 'react-redux'
 import { renderTextField, renderHtmlField, renderGalleryField, renderImageField, renderSelectField, renderDateTimeField } from './fields/renderFields';
 
 import {
@@ -11,9 +12,8 @@ import {
 //const required = value => value ? undefined : "Required"
 
 
-const form = (props) => {
-    const { handleSubmit, pricelist } = props;
-
+let SelectingFormValuesForm = (props) => {
+    const { handleSubmit, pricelist, make, classes, model, fuel } = props;
     return (
         <form onSubmit={handleSubmit}>
             <Row>
@@ -31,10 +31,18 @@ const form = (props) => {
                                     <Col lg="6" className="input-wrap">
                                         <Field
                                             name="make"
-                                            component={renderTextField}
+                                            component={renderSelectField}
                                             label={"Make"}
                                             placeholder=""
-                                        ></Field>
+                                        >
+                                            {make ? make.map((item, i) => {
+                                                return (
+                                                    <option value={item.name}>{item.name}</option>
+
+                                                )
+                                            }) : null}
+                                        </Field>
+
                                         {/* <Field 
                                             type="hidden"
                                             name="csrf"
@@ -44,10 +52,22 @@ const form = (props) => {
                                     <Col lg="6" className="input-wrap">
                                         <Field
                                             name="model"
-                                            component={renderTextField}
+                                            component={renderSelectField}
                                             label={"Model"}
                                             placeholder=""
-                                        ></Field>
+                                        >
+                                            {model ? model.map((item, i) => {
+                                                {
+                                                    if (props.makes == item.makeName) {
+                                                        return (
+                                                            <option value={item.name}>{item.name}</option>
+
+                                                        )
+                                                    }
+                                                }
+
+                                            }) : null}
+                                        </Field>
                                     </Col>
                                     <Col lg="6" className="input-wrap">
                                         <Field
@@ -65,10 +85,16 @@ const form = (props) => {
                                             label={"Fuel"}
                                             placeholder=""
                                         >
-                                            <option value="diesel">Diesel</option>
+                                            {fuel ? fuel.map((item, i) => {
+                                                return (
+                                                    <option value={item.name}>{item.name}</option>
+
+                                                )
+                                            }) : null}
+                                            {/* <option value="diesel">Diesel</option>
                                             <option value="gasoline">Gasoline</option>
                                             <option value="hybrid">Hybrid</option>
-                                            <option value="electric">Electric</option>
+                                            <option value="electric">Electric</option> */}
                                         </Field>
                                     </Col>
                                     <Col lg="6" className="input-wrap">
@@ -89,7 +115,13 @@ const form = (props) => {
                                             label={"Class"}
                                             placeholder=""
                                         >
-                                            <option value="cabriolet-roadster">Cabriolet / Roadster</option>
+                                            {classes ? classes.map((item, i) => {
+                                                return (
+                                                    <option value={item.name}>{item.name}</option>
+
+                                                )
+                                            }) : null}
+                                            {/* <option value="cabriolet-roadster">Cabriolet / Roadster</option>
 
                                             <option value="estate-car">Estate Car</option>
 
@@ -101,7 +133,7 @@ const form = (props) => {
 
                                             <option value="suv-off-road-vehicle-pickup-truck">SUV / Off-road Vehicle / Pickup Truck</option>
 
-                                            <option value="van-minibus">Van / Minibus</option>
+                                            <option value="van-minibus">Van / Minibus</option> */}
 
 
 
@@ -173,13 +205,13 @@ const form = (props) => {
                                             label={"Price"}
                                             placeholder=""
                                         >
-                                            {pricelist ? pricelist.map((item , i) => {
+                                            {pricelist ? pricelist.map((item, i) => {
                                                 return (
                                                     // <option value={`${item.pricePerDay}/Day - ${item.pricePerKM}/KM - ${item.priceCDWP}CDWP`}>{item.pricePerDay}/Day - {item.pricePerKM}/KM - {item.priceCDWP}CDWP</option>
                                                     <option value={item._id}>{item.pricePerDay}/Day - {item.pricePerKM}/KM - {item.priceCDWP}CDWP</option>
 
                                                 )
-                                            }): null}
+                                            }) : null}
                                         </Field>
                                     </Col>
                                     <Col lg="6" className="input-wrap">
@@ -246,6 +278,22 @@ const form = (props) => {
     )
 }
 
-export default reduxForm({
-    form: 'form'  // a unique identifier for this form
-})(form)
+// The order of the decoration does not matter.
+
+// Decorate with redux-form
+SelectingFormValuesForm = reduxForm({
+    form: 'selectingFormValues' // a unique identifier for this form
+})(SelectingFormValuesForm)
+
+// Decorate with connect to read form values
+const selector = formValueSelector('selectingFormValues') // <-- same as form name
+SelectingFormValuesForm = connect(state => {
+    // can select values individually
+    const makes = selector(state, 'make')
+    // or together as a group
+    return {
+        makes,
+    }
+})(SelectingFormValuesForm)
+
+export default SelectingFormValuesForm

@@ -40,7 +40,7 @@ class Select extends Component {
                     <DropdownMenu className="dropdown-animation">
                         {
                             childrenArray && childrenArray.length ? childrenArray.map((children,idx) => {
-                                if (children.props)
+                                if (children && children.props)
                                 return (
                                     <DropdownItem key={idx} onClick={() => {this.props.onChange(children.props.value); if (this.props.additionalAction) {console.log('test'); this.props.additionalAction(this.props.scope, children.props.value)} }}>{children.props.children}</DropdownItem>
                                 );
