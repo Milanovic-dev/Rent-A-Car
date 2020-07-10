@@ -32,6 +32,7 @@ import Reset from './views/resetPasswordPage'
 import ChangePassword from './views/changePasswordPage'
 
 
+import TrackingSimulator from './views/trackingSimulator'
 
 
 const history = createBrowserHistory();
@@ -133,6 +134,15 @@ class Routes extends Component {
                                 <DetailPage {...renderProps} {...this.props} />
                             )}
                         />
+                        <Route
+                            path="/tracking-simulator/:id"
+                            exact
+                            render={(...renderProps) => (
+                                <TrackingSimulator {...renderProps} {...this.props} />
+                            )}
+                        />
+
+
                         <Route
                             path="/signin"
                             exact
