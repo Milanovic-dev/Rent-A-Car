@@ -168,14 +168,16 @@ const form = (props) => {
                                     </Col>
                                     <Col lg="6" className="input-wrap">
                                         <Field
-                                            name="price"
+                                            name="pricelistId"
                                             component={renderSelectField}
                                             label={"Price"}
                                             placeholder=""
                                         >
                                             {pricelist ? pricelist.map((item , i) => {
                                                 return (
-                                                    <option value={`${item.pricePerDay}/Day - ${item.pricePerKM}/KM - ${item.priceCDWP}CDWP`}>{item.pricePerDay}/Day - {item.pricePerKM}/KM - {item.priceCDWP}CDWP</option>
+                                                    // <option value={`${item.pricePerDay}/Day - ${item.pricePerKM}/KM - ${item.priceCDWP}CDWP`}>{item.pricePerDay}/Day - {item.pricePerKM}/KM - {item.priceCDWP}CDWP</option>
+                                                    <option value={item._id}>{item.pricePerDay}/Day - {item.pricePerKM}/KM - {item.priceCDWP}CDWP</option>
+
                                                 )
                                             }): null}
                                         </Field>

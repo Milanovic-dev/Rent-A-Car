@@ -94,25 +94,25 @@ const renderTextField = ({
         />
     )
 
-    export const renderDateTimeField = ({
-        input,
-        placeholder,
-        label,
-        meta: { touched, error },
-      }) => (
-      
-          <DateTime
+export const renderDateTimeField = ({
+    input,
+    placeholder,
+    label,
+    meta: { touched, error },
+}) => (
+
+        <DateTime
             placeholder={placeholder}
             label={label}
             errorText={touched && error}
             error={touched && error}
-      
+
             {...input}
-          />
-        )   
+        />
+    )
 
 const carForm = (props) => {
-    const { handleSubmit, pristine, submitting } = props;
+    const { handleSubmit, pristine, submitting, fuel, make, model, classes, makeSelected=null } = props;
     console.log(pristine, submitting);
 
     return (
@@ -130,7 +130,15 @@ const carForm = (props) => {
                                 component={renderTextField}
                                 // label={"Make"}
                                 placeholder="Make"
-                            ></Field>
+                            >
+                                {/* {make ? make.map((item, i) => {
+                                    return (
+                                        <option value={item._id}>{item.name}</option>
+
+                                    )
+                                }) : null} */}
+                            </Field>
+                            
                             {/* <Field 
                                             type="hidden"
                                             name="csrf"
@@ -143,7 +151,15 @@ const carForm = (props) => {
                                 component={renderTextField}
                                 // label={"Model"}
                                 placeholder="Model"
-                            ></Field>
+                            >
+                                
+                                {/* {model ? model.map((item, i) => {
+                                    return (
+                                        <option value={item._id}>{item.name}</option>
+
+                                    )
+                                }) : null} */}
+                            </Field>
                         </Col>
                         <Col lg="6" className="input-wrap">
                             <Field
@@ -161,6 +177,13 @@ const carForm = (props) => {
                                 // label={"Fuel"}
                                 placeholder="Fuel"
                             >
+
+                                {/* {fuel ? fuel.map((item, i) => {
+                                    return (
+                                        <option value={item._id}>{item.name}</option>
+
+                                    )
+                                }) : null} */}
                                 <option value="diesel">Diesel</option>
                                 <option value="gasoline">Gasoline</option>
                                 <option value="hybrid">Hybrid</option>
@@ -185,6 +208,12 @@ const carForm = (props) => {
                                 // label={"Class"}
                                 placeholder="Class"
                             >
+                                {/* {classes ? classes.map((item, i) => {
+                                    return (
+                                        <option value={item._id}>{item.name}</option>
+
+                                    )
+                                }) : null} */}
                                 <option value="cabriolet-roadster">Cabriolet / Roadster</option>
 
                                 <option value="estate-car">Estate Car</option>
@@ -202,6 +231,7 @@ const carForm = (props) => {
 
 
                             </Field>
+
                         </Col>
                         <Col lg="6" className="input-wrap">
                             <Field
@@ -263,10 +293,18 @@ const carForm = (props) => {
                         </Col>
                         <Col lg="6" className="input-wrap">
                             <Field
-                                name="price"
+                                name="pricelist.pricePerDay"
                                 component={renderTextField}
                                 // label={"Price"}
-                                placeholder="Price"
+                                placeholder="Price per day"
+                            ></Field>
+                        </Col>
+                        <Col lg="6" className="input-wrap">
+                            <Field
+                                name="pricelist.pricePerKM"
+                                component={renderTextField}
+                                // label={"Price"}
+                                placeholder="Price per km"
                             ></Field>
                         </Col>
                         <Col lg="6" className="input-wrap">

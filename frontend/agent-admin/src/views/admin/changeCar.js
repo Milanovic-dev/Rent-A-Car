@@ -31,7 +31,7 @@ class ChangeCar extends Component {
         data.power ? data.power = striptags(data.power) : data.power = "";
         data.seatCount ? data.seatCount = striptags(data.seatCount) : data.seatCount = "";
         data.location ? data.location = striptags(data.location) : data.location = "";
-        data.price ? data.price = striptags(data.price) : data.price = "";
+        // data.pricelist.pricePerDay ? data.pricelist.pricePerDay = striptags(data.pricelist.pricePerDay) : data.pricelist.pricePerDay = "";
         data.description ? data.description = striptags(data.description) : data.description = "";
 
         console.log(data);
