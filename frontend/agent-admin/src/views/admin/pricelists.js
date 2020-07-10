@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import Isvg from 'react-inlinesvg';
 import Page from '../../containers/admin/page';
 import editIcon from '../../assets/svg/edit.svg';
@@ -15,7 +15,6 @@ class Pricelists extends Component {
     constructor(props) {
         super(props);
         this.get = this.get.bind(this);
-        this.delete = this.delete.bind(this);
 
         this.state = {
             items: []
@@ -39,10 +38,6 @@ class Pricelists extends Component {
                 items: result
             })
         })
-    }
-
-    delete(id) {
-
     }
 
     render() {
@@ -89,7 +84,7 @@ class Pricelists extends Component {
                                         <span className="value">{item.sale}%</span>
                                     </Col>
                                     <Col lg="3" className="actions">
-                                        <button onClick={() => this.delete(item._id)}><Isvg src={deleteIcon} /></button>
+                                        <NavLink to={`/pricelist/${item._id}`}><button><Isvg src={editIcon} /></button></NavLink>
                                     </Col>
                                 </Row>
                             )
