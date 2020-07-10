@@ -96,60 +96,17 @@ class ChangeCar extends Component {
                 'Authorization': `Bearer ${localStorage.getItem('token')}`
             },
         }).then((res) => res.json()).then((result) => {
+            this.setState({
+                makes: result.makes,
+                models: result.models,
+                classes: result.classes,
+                fuels: result.fuels
+            })
             // this.state.make = result;
             // this.forceUpdate();
         })
 
-        let obj = {
-            makes: [
-                {
-                    name: 'Audi',
-                    _id: '1',
-                },
-                {
-                    name: 'BMW',
-                    _id: '2',
-                }
-            ],
-            models: [
-                {
-                    name: 'a4',
-                    makeName: 'Audi',
-                    make: '1',
-                    _id: '3'
-                },
-                {
-                    name: 'a6',
-                    makeName: 'Audi',
-                    make: '1',
-                    _id: '4'
-                },
-                {
-                    name: '320',
-                    makeName: 'BMW',
-                    make: '2',
-                    _id: '5'
-                }
-            ],
-            classes: [
-                {
-                    name: 'limuzina',
-                    _id: '6'
-                }
-            ],
-            fuels: [
-                {
-                    name: 'dizel',
-                    _id: '7'
-                }
-            ]
-        }
-        this.setState({
-            makes: obj.makes,
-            models: obj.models,
-            classes: obj.classes,
-            fuels: obj.fuels
-        })
+        
     }
 
     render() {
