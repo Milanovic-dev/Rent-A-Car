@@ -2,3 +2,4 @@
 *package-lock.json
 backend/agent/logs.txt
 frontend/agent-site/build
+backend/agent/logs.log

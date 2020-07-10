@@ -33,10 +33,9 @@ const updatePricelist = async (ps) => {
 
     let dbPs = await db.collection(dbCollection).findOne(
         {
-            _id: ObjectID(car._id)
+            _id: ObjectID(ps._id)
         }
     );
-
     if(!dbPs){
         return { status:404 };
     }
@@ -47,16 +46,19 @@ const updatePricelist = async (ps) => {
         },
         {
             $set: {
-                price: ps.price ? ps.price : dbPs.price
+                pricePerDay: ps.pricePerDay,
+                pricePerKM: ps.pricePerKM,
+                priceCDWP: ps.priceCDWP,
+                sale: ps.sale
             }
         }
     );
-
+        console.log(result);
     if(result.modifiedCount == 1){
         return { status:200 };
     }
 
-    return { status: 404 };
+    return { status: 400 };
 };
 
 const removePricelist = async (id) => {
@@ -91,6 +93,7 @@ const getPricelist = async (id) => {
 };
 
 const getAll = async () => {
+    await db.sync();
     let result = await db.collection(dbCollection).find().toArray();
 
     return {
