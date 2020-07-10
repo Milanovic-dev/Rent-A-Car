@@ -42,10 +42,12 @@ import Test from './views/admin/test';
 import Orders from './views/admin/carOrders';
 import Bundles from './views/admin/carBundles';
 import Pricelists from './views/admin/pricelists'
+import ChangePricelist from './views/admin/changePricelist';
 //
 
 
 import Messages from './views/admin/messages';
+import Map from './views/admin/map';
 
 
 
@@ -87,6 +89,14 @@ class Routes extends Component {
                             exact
                             render={(...renderProps) => (
                                 <TestLogin {...renderProps} {...this.props} />
+                            )}
+                        />
+
+                        <Route
+                            path="/map"
+                            exact
+                            render={(...renderProps) => (
+                                <Map {...renderProps} {...this.props} />
                             )}
                         />
 
@@ -292,6 +302,21 @@ class Routes extends Component {
                             exact
                             render={(...renderProps) => (
                                 <Pricelists {...renderProps} {...this.props} />
+                            )}
+                        />
+
+                        <Route
+                            path="/pricelist/new"
+                            exact
+                            render={(...renderProps) => (
+                                <ChangePricelist {...renderProps} {...this.props} />
+                            )}
+                        />
+                        <Route
+                            path="/pricelist/:id"
+                            exact
+                            render={(...renderProps) => (
+                                <ChangePricelist {...renderProps} {...this.props} />
                             )}
                         />
                     </Switch>

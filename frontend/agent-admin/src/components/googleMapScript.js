@@ -5,7 +5,7 @@ export class GoogleMapScript extends Component{
   {
     var ref = window.document.getElementsByTagName("script")[0];
     var script = window.document.createElement("script");
-    script.src = "https://maps.googleapis.com/maps/api/js?sensor=false&key="+this.props.API_KEY+"&callback=googleMapsCallback&language=ba&region=BA";
+    script.src = "https://maps.googleapis.com/maps/api/js?sensor=false&key="+this.props.API_KEY+"&callback=googleMapsCallback&language=hr&region=BA";
     script.async = true;
     script.defer = true;
 

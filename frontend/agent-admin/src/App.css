@@ -962,7 +962,7 @@ button {
   text-decoration: none; }
 
 .map {
-  height: 500px; }
+  height: 100vh; }
 
 .google-map-marker {
   position: absolute;

@@ -58,6 +58,12 @@ class Sidebar extends Component {
                             </Link>
                         </li>
                         <li>
+                            <Link to='/pricelist/new' className={this.props[0].location.pathname === '/pricelist/new' ? 'active' : null}>
+                                <Isvg src={list} />
+                                Create Pricelist
+                            </Link>
+                        </li>
+                        <li>
                             <Link to='/pricelists' className={this.props[0].location.pathname === '/pricelists' ? 'active' : null}>
                                 <Isvg src={list} />
                                 Pricelists

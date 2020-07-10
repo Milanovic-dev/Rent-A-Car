@@ -121,6 +121,12 @@ const createCar = async (car, authorization) => {
         car.cdwp = car.cdwp == 'yes';
     }
 
+    if(car.pricePerDay && car.pricePerKM){
+        const pricelist = {pricePerDay: car.pricePerDay, pricePerKM: car.pricePerKM, priceCDWP: 50, sale: 0};
+        const result = await db.collection('pricelists').insertOne(pricelist);
+        car.pricelistId = result.insertedId;
+    }
+
     let result = await db.collection(dbCollection).insertOne(car);
     if (result.insertedId) {
         return {

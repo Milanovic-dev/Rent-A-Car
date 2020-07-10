@@ -7,7 +7,7 @@ import Select from '../components/forms/fields/select'
 import Isvg from 'react-inlinesvg';
 import { Field, reduxForm } from 'redux-form'
 import Tabs from '../components/forms/fields/tabs';
-import { NavLink } from 'react-router-dom';
+import { NavLink, Link } from 'react-router-dom';
 import Delete from '../assets/svg/delete.svg';
 
 import {
@@ -159,6 +159,8 @@ class Orders extends Component {
                     <span className="order-item-price"><NavLink to={`/pricelist/${item.car.pricelist._id}`}>{item.car.pricelist ? item.car.pricelist.pricePerDay : 'N/A'}/Day €</NavLink></span>
                     <span className="order-item-owner">{item.ownerId}</span>
                     <span className="order-item-status" style={{color: this.getStatusColor(item.status)}}>{item.status}</span>
+                    <span className="bundle-item-track"><Link to={`/tracking-simulator/${item._id}`}>TRACK </Link> </span>
+
                     <button disabled={item.status == "PAID"} className="cart-item-remove" style={{borderStyle:'none'}} onClick={(e)=> this.revokeOrder(e,item._id)} style={{backgroundColor:'white'}}><Isvg src={Delete}></Isvg></button>
                 </div>
             </Col>

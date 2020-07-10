@@ -534,9 +534,11 @@ const sessionUser = async (authorization) => {
     
         jwt.verify(token, process.env.JWT_SECRET, async (err, userData) => {
             if(err){
-                reject({status: 401});
+                return reject({status: 401});
             }
-    
+            
+            if(!userData) return {status: 401};
+
             const id = userData.id;
             let res = await db.collection('users').findOne({username: id});
             res = userJSON(res);
