@@ -36,6 +36,20 @@
                     </xsd:all>
                 </xsd:complexType>
             </xsd:element>
+            <xsd:element name="GetAttributesRequest">
+                <xsd:complexType>
+                    <xsd:all>
+                        <xsd:element name="requestBody" nillable="false"  type="string" />
+                    </xsd:all>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="GetAttributesResponse">
+                <xsd:complexType>
+                    <xsd:all>
+                        <xsd:element name="responseBody" nillable="false" type="string" />
+                    </xsd:all>
+                </xsd:complexType>
+            </xsd:element>
 </xsd:schema>
 </wsdl:types>
     <wsdl:message name="SubscribeAgentRequestInput">
@@ -50,6 +64,12 @@
     <wsdl:message name="SynchronizeRequestOutput">
         <wsdl:part name="body" element="xsd1:SynchronizeResponse" />
     </wsdl:message>
+    <wsdl:message name="GetAttributesRequestInput">
+        <wsdl:part name="body" element="xsd1:GetAttributesRequest" />
+    </wsdl:message>
+    <wsdl:message name="GetAttributesRequestOutput">
+        <wsdl:part name="body" element="xsd1:GetAttributesResponse" />
+    </wsdl:message>
 <wsdl:portType name="WebhookPort">
     <wsdl:operation name="SubscribeAgent">
             <wsdl:input message="tns:SubscribeAgentRequestInput" />
@@ -58,6 +78,10 @@
     <wsdl:operation name="Synchronize">
             <wsdl:input message="tns:SynchronizeRequestInput" />
             <wsdl:output message="tns:SynchronizeRequestOutput" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAttributes">
+            <wsdl:input message="tns:GetAttributesRequestInput" />
+            <wsdl:output message="tns:GetAttributesRequestOutput" />
     </wsdl:operation>
 </wsdl:portType>
     <wsdl:binding name="WebhookBinding" type="tns:WebhookPort">
@@ -74,6 +98,16 @@
     
     <wsdl:operation name="Synchronize">
             <soap:operation soapAction="http://localhost:4000/Synchronize" />
+            <wsdl:input>
+                <soap:body use="literal" />
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal" />
+            </wsdl:output>
+        </wsdl:operation>
+    
+    <wsdl:operation name="GetAttributes">
+            <soap:operation soapAction="http://localhost:4000/GetAttributes" />
             <wsdl:input>
                 <soap:body use="literal" />
             </wsdl:input>
