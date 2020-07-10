@@ -85,6 +85,21 @@ class Bundles extends Component {
             }
         })
     }
+    finishOrder(e, id) {
+        e.preventDefault();
+
+        fetch(`https://localhost:8282/api/orders/bundles/finish/${id}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('token')}`
+            },
+        }).then(res => {
+            if (res.status == 200) {
+                window.location.reload();
+            }
+        })
+    }
 
     render() {
 
@@ -133,12 +148,32 @@ class Bundles extends Component {
                                     <Col lg="2">
                                         <span className="name" style={{color: this.getStatusColor(item.status)}}>{item.status}</span>
                                     </Col>
-                                    <Col lg="1">
+                                    {
+                                        !(item.status == "FINISHED") ?
+                                        <>
+                                            {
+                                                item.status == "PAID" ?
+                                                    <Col lg="1">
+                                                        <span className="name"><button className="button" onClick={(e) => this.finishOrder(e, item._id)}>FINISH</button></span>
+                                                    </Col>
+                                                    :
+                                                    <Col lg="1">
+                                                        <span className="name"><button className={item.status == "PAID" || item.status == "PENDING" ? 'button' : 'button3'} disabled={item.status == 'PAID'} onClick={(e) => this.acceptOrder(e, item._id)}>Accept</button></span>
+                                                    </Col>
+                                            }
+
+                                            < Col lg="1">
+                                                <span className="name"><button className={item.status == "CANCELED" || item.status == "PENDING" ? 'button2' : 'button4'} disabled={item.status == 'CANCELED'} onClick={(e) => this.declineOrder(e, item._id)}>Decline</button></span>
+                                            </Col>
+                                        </>
+                                        : null
+                                    }
+                                    {/* <Col lg="1">
                                         <span className="name"><button disabled={item.status == 'PAID' || item.status == "CANCELED"} onClick={(e) => this.acceptOrder(e, item._id)}>Accept</button></span>
                                     </Col> 
                                     <Col lg="1">
                                         <span className="name"><button disabled={item.status == 'CANCELED'} onClick={(e) => this.declineOrder(e, item._id)}>Decline</button></span>
-                                    </Col>   
+                                    </Col>    */}
                                 </Row>
                             )
                         })

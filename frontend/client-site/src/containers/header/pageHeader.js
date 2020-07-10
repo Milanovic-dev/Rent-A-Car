@@ -25,7 +25,7 @@ class PageHeader extends Component {
         this.getUser = this.getUser.bind(this);
     }
 
-    componentDidMount(){
+    componentDidMount() {
         this.getUser();
     }
 
@@ -70,41 +70,64 @@ class PageHeader extends Component {
                                 </Row>
                                 <Row className="navigation">
                                     <Nav>
-                                    <NavItem>
-                                            <Link to='/' className={this.props[0].location.pathname === '/'  ? 'active' : null}>Home Page</Link>
+                                        <NavItem>
+                                            <Link to='/' className={this.props[0].location.pathname === '/' ? 'active' : null}>Home Page</Link>
                                         </NavItem>
                                         <NavItem>
-                                            <Link to='/ads' className={this.props[0].location.pathname === '/ads'  ? 'active' : null}>Offers</Link>
+                                            <Link to='/ads' className={this.props[0].location.pathname === '/ads' ? 'active' : null}>Offers</Link>
                                         </NavItem>
-                                        <NavItem>
-                                            <Link to='/cars/new' className={this.props[0].location.pathname === '/cars/new'  ? 'active' : null}>Create ad</Link>
-                                        </NavItem>
-                                        {!localStorage.getItem('token') ? 
-                                        <><NavItem>
-                                            <Link to='/signin' className={this.props[0].location.pathname === '/signin'  ? 'active' : null}>Sign in</Link>
-                                        </NavItem>
-                                        <NavItem>
-                                            <Link to='/signup' className={this.props[0].location.pathname === '/signup'  ? 'active' : null}>Sign up</Link>
-                                        </NavItem></>
-                                        : null}
-                                        {localStorage.getItem('token') ? 
-                                        <>
-                                        <NavItem>
-                                            <Link to='/requests' className={this.props[0].location.pathname === '/requests'  ? 'active' : null}>My Requests</Link>
-                                        </NavItem>
-                                        <NavItem>
-                                            <Link to='/orders' className={this.props[0].location.pathname === '/orders'  ? 'active' : null}>My Orders</Link>
-                                        </NavItem>
-                                        <NavItem>
-                                            <Link to='/cart' className={this.props[0].location.pathname === '/cart'  ? 'active' : null}>{this.state.cartSize != 0 ? `My Cart (${this.state.cartSize})` : 'My Cart'}</Link>
-                                        </NavItem>
-                                        <NavItem>
-                                            <Link to='/' onClick={() => {
-                                                localStorage.removeItem('token');
-                                            }}>Log out</Link>
-                                        </NavItem>
-                                        </>
-                                        : null}
+
+                                        {!localStorage.getItem('token') ?
+                                            <><NavItem>
+                                                <Link to='/signin' className={this.props[0].location.pathname === '/signin' ? 'active' : null}>Sign in</Link>
+                                            </NavItem>
+                                                <NavItem>
+                                                    <Link to='/signup' className={this.props[0].location.pathname === '/signup' ? 'active' : null}>Sign up</Link>
+                                                </NavItem></>
+                                            : null}
+                                        {localStorage.getItem('token') ?
+                                            <>
+                                                {
+                                                    this.state.user && this.state.user.username == 'admin' ?
+
+
+                                                        <>
+                                                            <NavItem>
+                                                                <Link to='/car-attributes/make' className={this.props[0].location.pathname === '/car-attributes/make' ? 'active' : null}>Car attributes</Link>
+                                                            </NavItem>
+                                                            <NavItem>
+                                                                <Link to='/comments' className={this.props[0].location.pathname === '/comments' ? 'active' : null}>Comments</Link>
+                                                            </NavItem>
+                                                        </>
+                                                        :
+                                                        <>
+                                                            <NavItem>
+                                                                <Link to='/cars/new' className={this.props[0].location.pathname === '/cars/new' ? 'active' : null}>Create ad</Link>
+                                                            </NavItem>
+                                                            <NavItem>
+                                                                <Link to='/debts' className={this.props[0].location.pathname === '/debts' ? 'active' : null}>Debts</Link>
+                                                            </NavItem>
+                                                        </>
+                                                }
+
+
+                                                <NavItem>
+                                                    <Link to='/requests' className={this.props[0].location.pathname === '/requests' ? 'active' : null}>My Requests</Link>
+                                                </NavItem>
+
+                                                <NavItem>
+                                                    <Link to='/orders' className={this.props[0].location.pathname === '/orders' ? 'active' : null}>My Orders</Link>
+                                                </NavItem>
+                                                <NavItem>
+                                                    <Link to='/cart' className={this.props[0].location.pathname === '/cart' ? 'active' : null}>{this.state.cartSize != 0 ? `My Cart (${this.state.cartSize})` : 'My Cart'}</Link>
+                                                </NavItem>
+                                                <NavItem>
+                                                    <Link to='/' onClick={() => {
+                                                        localStorage.removeItem('token');
+                                                    }}>Log out</Link>
+                                                </NavItem>
+                                            </>
+                                            : null}
                                     </Nav>
                                 </Row>
                             </Col>
