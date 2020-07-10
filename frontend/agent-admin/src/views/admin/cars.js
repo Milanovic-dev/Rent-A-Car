@@ -106,7 +106,7 @@ class Cars extends Component {
                                         <span className="value">{item.make} {item.model}</span>
                                     </Col>
                                     <Col lg="2">
-                                        <span className="value">{item.pricelist.pricePerDay}/day€</span>
+                                        <span className="value">{item.pricelist && item.pricelist.pricePerDay}/day€</span>
                                     </Col>
                                     <Col lg="2">
                                         <span className="value">{item.location}</span>
