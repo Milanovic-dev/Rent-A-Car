@@ -134,8 +134,19 @@ const error = (status, reason) => {
     return JSON.stringify({status, reason});
 };
 
+
+const getAttributes = async () => {
+    const classes = await db.getDirectDb().collection('classes').find({}).toArray();
+    const fuels = await db.getDirectDb().collection('fuels').find({}).toArray();
+    const makes = await db.getDirectDb().collection('makes').find({}).toArray();
+    const models = await db.getDirectDb().collection('models').find({}).toArray();
+
+    return JSON.stringify({classes, fuels, makes, models});
+}
+
 module.exports = {
     subscribeAgent,
     sync,
-    createAgent
+    createAgent,
+    getAttributes
 }
