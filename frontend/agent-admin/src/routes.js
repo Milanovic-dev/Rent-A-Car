@@ -46,6 +46,7 @@ import Pricelists from './views/admin/pricelists'
 
 
 import Messages from './views/admin/messages';
+import Map from './views/admin/map';
 
 
 
@@ -87,6 +88,14 @@ class Routes extends Component {
                             exact
                             render={(...renderProps) => (
                                 <TestLogin {...renderProps} {...this.props} />
+                            )}
+                        />
+
+                        <Route
+                            path="/map"
+                            exact
+                            render={(...renderProps) => (
+                                <Map {...renderProps} {...this.props} />
                             )}
                         />
 
