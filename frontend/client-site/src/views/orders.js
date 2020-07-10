@@ -159,7 +159,7 @@ class Orders extends Component {
                     <span className="order-item-price"><NavLink to={`/pricelist/${item.car.pricelist._id}`}>{item.car.pricelist ? item.car.pricelist.pricePerDay : 'N/A'}/Day €</NavLink></span>
                     <span className="order-item-owner">{item.ownerId}</span>
                     <span className="order-item-status" style={{color: this.getStatusColor(item.status)}}>{item.status}</span>
-                    <span className="bundle-item-track"><Link to={`/tracking-simulator/${item._id}`}>TRACK </Link> </span>
+                    <span className="bundle-item-track"><Link to={`/tracking-simulator/${item._id}`}>GPS SIM </Link> </span>
 
                     <button disabled={item.status == "PAID"} className="cart-item-remove" style={{borderStyle:'none'}} onClick={(e)=> this.revokeOrder(e,item._id)} style={{backgroundColor:'white'}}><Isvg src={Delete}></Isvg></button>
                 </div>

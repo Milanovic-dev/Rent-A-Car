@@ -93,7 +93,7 @@ class Routes extends Component {
                         />
 
                         <Route
-                            path="/map"
+                            path="/map/:id"
                             exact
                             render={(...renderProps) => (
                                 <Map {...renderProps} {...this.props} />

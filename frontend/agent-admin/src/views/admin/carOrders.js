@@ -126,10 +126,21 @@ class Orders extends Component {
                                         <span className="name">{item.renterId}</span>
                                     </Col>
                                     <Col lg="2">
-                                        <span className="name" style={{color: this.getStatusColor(item.status)}}>{item.status}</span>
+                                        <span className="name" style={{color: this.getStatusColor(item.status)}}>{item.status}
+                                        {
+                                            item.status == 'PAID' ?
+                                            <Link to={`/map/${item.carId}`} style={{marginLeft: 10}}>TRACK</Link>
+                                            :
+
+                                            null
+                                        }
+                                        
+
+                                        </span>
                                     </Col>
                                     <Col lg="1">
-                                        <span className="name"><button disabled={item.status == 'PAID' || item.status == "CANCELED"} onClick={(e) => this.acceptOrder(e, item._id)}>Accept</button></span>
+                                        <span className="name"><button disabled={item.status == 'PAID' || item.status == "CANCELED"} onClick={(e) => this.acceptOrder(e, item._id)}>Accept</button> 
+                                         </span>
                                     </Col> 
                                     <Col lg="1">
                                         <span className="name"><button disabled={item.status == 'CANCELED'} onClick={(e) => this.declineOrder(e, item._id)}>Decline</button></span>

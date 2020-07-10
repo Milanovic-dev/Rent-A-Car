@@ -37,6 +37,7 @@ require('./src/api/pricelistApi')(app);
 require('./src/api/uploadApi')(app);
 require('./src/api/orderApi')(app);
 require('./src/api/messagesApi')(app);
+require('./src/api/trackingApi')(app);
 
 
 server.listen(8282, () => {

@@ -7,6 +7,7 @@ const ObjectID = require('mongodb').ObjectID;
 const dbConnect = require('../db');
 const { GridFSBucket } = require('mongodb');
 const dbCollection = 'orders';
+const {sendMail} = require('./mail')
 let db;
 dbConnect(process.env.DB_USERNAME, process.env.DB_PASSWORD, process.env.DB_SERVER, process.env.DB_NAME)
 .then((conn) => {
@@ -41,8 +42,8 @@ const generatePermissionMiddleware = (permission) => {
                 console.log(err,user);
                 if (err) {
                     res.status(401).json({ error: "Not Authorized" });
-                    log(req, 401)
-                    logCustom('WARNING Attempted access to resource without permission ');
+                    //log(req, 401)
+                    //logCustom('WARNING Attempted access to resource without permission ');
                     return;
                 }
 
@@ -66,15 +67,15 @@ const generatePermissionMiddleware = (permission) => {
                     }
 
                     res.status(401).json({ error: "Not Authorized" });
-                    log(req, 401)
-                    logCustom('WARNING 401 Attempted access to resource without permission ');
+                    //log(req, 401)
+                    //logCustom('WARNING 401 Attempted access to resource without permission ');
                     return;
                 });
             });
         } else {
             res.status(401).json({ error: "Not Authorized" });
-            log(req, 401)
-            logCustom('WARNING 401 Attempted access to resource without permission ');
+            //log(req, 401)
+            //logCustom('WARNING 401 Attempted access to resource without permission ');
             return;
             //throw new Error("Not Authorized");
         }
@@ -86,6 +87,7 @@ const placeOrders = async (orders, authorization) => {
     if(!authorization) return {status: 401};
 
     const renterId = await verifyToken(authorization.split(' ')[1]);
+    let user = await db.collection('users').findOne({ username: renterId });
 
     if(!orders || !renterId) return { status:400 };
     if(orders.length == 0) return { status:400 };
@@ -93,9 +95,13 @@ const placeOrders = async (orders, authorization) => {
     for(const order of orders){
         if(order.isBundle){
             createAsBundle(order.cars, order.ownerId, renterId);
+            sendMail(user.email, 'Bundle placed', `Bundle successfully placed.`)
+    
         }
         else{
             createAsOrders(order.cars, renterId);
+            sendMail(user.email, 'Order placed', `Order successfully placed.`)
+
         }
     }
 

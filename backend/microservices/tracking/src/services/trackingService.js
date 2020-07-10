@@ -17,11 +17,12 @@ var trackingQueue = new Queue(async (batch, cb)  => {
     console.log('tracking worker')
     console.log(batch.length)
     for(let i=0;i<batch.length;i++){
+        console.log(batch[i])
         await db.collection(dbCollection).insertOne(batch[i]);
     }
 
     cb();
-  }, { batchSize: 100, batchDelay: 10000 });
+  }, { batchSize: 200, batchDelay: 10000 });
 
 
 
@@ -49,13 +50,17 @@ const track = async (carId, data) => {
         timestamp: Math.floor(new Date().getTime() / 1000)
     })*/
 
-    trackingQueue.push({
-        carId: carId,
-        renterId: data.renterId,
-        ownerId: data.ownerId,
-        coordinates: data.coordinates,
-        timestamp: Math.floor(new Date().getTime() / 1000)
-    });
+    for(let i=0;i<data.coordinatesArray.length;i++){
+        trackingQueue.push({
+            carId: carId,
+            renterId: data.renterId,
+            ownerId: data.ownerId,
+            coordinates: data.coordinatesArray[i][0],
+            timestamp: data.coordinatesArray[i][1]
+        });
+    
+    }
+
 
 
 

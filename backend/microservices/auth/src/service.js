@@ -4,18 +4,15 @@ const ObjectID = require('mongodb').ObjectID;
 const uuidv4 = require('uuid/v4');
 //env
 const dotenv = require('dotenv');
+const {sendMail} = require('./mail');
 dotenv.config();
 
 //database
-var nodemailer = require('nodemailer');
 const dbConnect = require('../db');
 const dbCollection = 'users';
 let db;
-const SMTPServer = Buffer.from('bWFpbC5odWdlbWVkaWEub25saW5l', 'base64').toString('ascii');
-const SMTPPort = 465;
-const SMTPUsername = Buffer.from('YWRtaW5AaHVnZW1lZGlhLm9ubGluZQ==', 'base64').toString('ascii');
-const SMTPPassword = 'tSwFq%8e;LC%';
 const { log, logCustom } = require('./security/logger')
+
 
 dbConnect(process.env.DB_USERNAME, process.env.DB_PASSWORD, process.env.DB_SERVER, process.env.DB_NAME)
     .then(async (conn) => {
@@ -71,6 +68,24 @@ dbConnect(process.env.DB_USERNAME, process.env.DB_PASSWORD, process.env.DB_SERVE
             ],
             role: 'user'
         });
+
+        register({
+            username: 'milan-stanojevic',
+            password: 'Milan2020#',
+            firstName: 'Milan',
+            lastName: 'Stanojevic',
+            email: 'stanojevic.milan97@gmail.com',
+            permissions: [
+                'orders-permission',
+                'client-orders-permission',
+                'messages-permission',
+                'car-action-permission',
+                'get-codebook-permission',
+                'comments-permission'
+            ],
+            role: 'user'
+        });
+
 
         register({
             username: 'admin',
@@ -453,7 +468,7 @@ const updateStatus = async (id, status) => {
         })
 
         let user = await db.collection(dbCollection).findOne({ _id: ObjectID(id) });
-        var transporter = nodemailer.createTransport({
+        /*var transporter = nodemailer.createTransport({
             host: SMTPServer,
             port: SMTPPort,
             secure: true,
@@ -480,8 +495,14 @@ const updateStatus = async (id, status) => {
             } else {
                 console.log('Email sent: ' + info.response);
             }
-        });
+        });*/
 
+        sendMail(user.email, 'Verify E-mail address', `Verify email address by visiting link: https://localhost:8080/auth/email/verify/${user._id.toString()}/${user.emailVerificationCode}`)
+
+
+    }else {
+        let user = await db.collection(dbCollection).findOne({ _id: ObjectID(id) });
+        sendMail(user.email, 'Blocked from service', `You have been blocked on rent a car site`)
 
     }
     await db.collection(dbCollection).updateOne({ _id: ObjectID(id) }, {
@@ -529,20 +550,20 @@ const userJSON = (user, i) => {
 const sessionUser = async (authorization) => {
     return new Promise((resolve, reject) => {
         const token = authorization ? authorization.split(" ")[1] : null;
-    
-        if(!token) return {status: 401};
-    
+
+        if (!token) return { status: 401 };
+
         jwt.verify(token, process.env.JWT_SECRET, async (err, userData) => {
-            if(err){
-                return reject({status: 401});
+            if (err) {
+                return reject({ status: 401 });
             }
-            
-            if(!userData) return {status: 401};
+
+            if (!userData) return { status: 401 };
 
             const id = userData.id;
-            let res = await db.collection('users').findOne({username: id});
+            let res = await db.collection('users').findOne({ username: id });
             res = userJSON(res);
-            resolve({status: 200, response: res});
+            resolve({ status: 200, response: res });
         })
     })
 }

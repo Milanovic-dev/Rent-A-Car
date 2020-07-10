@@ -112,7 +112,7 @@ pipelines:
     policies:
       - rate-limit:
         - action:
-            max: 1000
+            max: 100000
             windowMs: 1000
       - proxy:
         - action: 

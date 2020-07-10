@@ -3001,11 +3001,12 @@ export default class Map extends React.Component {
 
         let idx = 0;
 
+
+        let arr = [];
+
         const timer = setInterval(() => {
-            marker.setPosition(new window.google.maps.LatLng(points[idx].geometry.coordinates[1], points[idx].geometry.coordinates[0]
-                ))
-                map.setCenter(new window.google.maps.LatLng(points[idx].geometry.coordinates[1], points[idx].geometry.coordinates[0]
-                    ))
+
+            if (arr.length >= 30 || idx >= points.length ) {
 
                 fetch(`https://localhost:8080/tracking/${this.state.order.carId}/track`, {
                     method: 'POST',
@@ -3015,15 +3016,35 @@ export default class Map extends React.Component {
 
                     },
                     body: JSON.stringify({
-                        renderId: this.state.order.renterId,
+                        renterId: this.state.order.renterId,
                         ownerId: this.state.order.ownerId,
-                        coordinates: [points[idx].geometry.coordinates[1], points[idx].geometry.coordinates[0]]
+                        coordinatesArray : arr
                     })
                 })
-    
-                if (idx > 50){
+
+                if (idx >= points.length){
                     clearInterval(timer);
+                    return;
+                }else{
+                    arr = [];
                 }
+
+            }
+
+
+            marker.setPosition(new window.google.maps.LatLng(points[idx].geometry.coordinates[1], points[idx].geometry.coordinates[0]
+                ))
+                map.setCenter(new window.google.maps.LatLng(points[idx].geometry.coordinates[1], points[idx].geometry.coordinates[0]
+                    ))
+
+                arr.push( [[points[idx].geometry.coordinates[1], points[idx].geometry.coordinates[0]], Math.floor(new Date().getTime() / 1000)] );
+
+
+                
+    
+                /*if (idx > 50){
+                    clearInterval(timer);
+                }*/
                 idx++;
             }, 50)
 

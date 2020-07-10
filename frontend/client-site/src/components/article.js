@@ -44,7 +44,9 @@ export class Article extends Component {
     }
 
     render() {
-        const realPrice = this.props.pricelist.pricePerDay - ((this.props.pricelist.pricePerDay / 10) * (this.props.pricelist.sale/10));
+        let pricePerDay = this.props.pricelist ? this.props.pricelist.pricePerDay : 0;
+        let sale = this.props.pricelist ? this.props.pricelist.sale : 0
+        const realPrice = pricePerDay - ((pricePerDay / 10) * (sale/10));
         return (
             <div className="article-box" key={this.props.id}>
                 <img src={this.props.images ? this.props.images[0] : ""} />
@@ -58,7 +60,7 @@ export class Article extends Component {
                     </ul>
                     <div className="divider"></div>
                     <div className="price-container">
-                    <NavLink to={`/pricelist/${this.props.pricelist._id}`}><span className="price">{realPrice}/Day € <span style={{ color: 'green', marginRight: '10px' }}>{this.props.pricelist.sale} %</span></span></NavLink>
+                    <NavLink to={`/pricelist/${this.props.pricelist ? this.props.pricelist._id : null}`}><span className="price">{realPrice}/Day € <span style={{ color: 'green', marginRight: '10px' }}>{sale} %</span></span></NavLink>
                     </div>
                     {!this.props.userCar ?
                     <div className={this.state.addedToCart ? "addToCart-button-added" : "addToCart-button"} onClick={()=> {this.addToCart(this.props.id)}}>
