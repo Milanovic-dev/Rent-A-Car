@@ -57,6 +57,51 @@ class ChangeCar extends Component {
             });
         }
 
+        fetch('https://localhost:8080/make/all', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('token')}`
+            },
+        }).then((res) => res.json()).then((result) => {
+            this.setState({
+                make: result
+            })
+        })
+        fetch('https://localhost:8080/model/all', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('token')}`
+            },
+        }).then((res) => res.json()).then((result) => {
+            this.setState({
+                model: result
+            })
+        })
+        fetch('https://localhost:8080/fuel/all', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('token')}`
+            },
+        }).then((res) => res.json()).then((result) => {
+            this.setState({
+                fuel: result
+            })
+        })
+        fetch('https://localhost:8080/class/all', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('token')}`
+            },
+        }).then((res) => res.json()).then((result) => {
+            this.setState({
+                classes: result
+            })
+        })
+
     }
 
 
@@ -125,9 +170,9 @@ class ChangeCar extends Component {
                         </Row>
                         {
                             this.state.data ?
-                                <Form initialValues={this.state.data} onSubmit={this.add} />
+                                <Form initialValues={this.state.data} make={this.state.make} model={this.state.model} fuel={this.state.fuel} classes={this.state.classes} onSubmit={this.add} />
                                 :
-                                <Form onSubmit={this.add} />
+                                <Form onSubmit={this.add} make={this.state.make} model={this.state.model} fuel={this.state.fuel} classes={this.state.classes}/>
 
                         }
                         {/* <Form onSubmit={this.add}/> */}

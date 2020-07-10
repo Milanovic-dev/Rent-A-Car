@@ -4,6 +4,8 @@ const dbConnect = require('../../db');
 const moment = require('moment');
 const jwt = require('jsonwebtoken');
 
+const { getClient } = require('../soap/soapService');
+
 let db;
 dbConnect(process.env.DB_USERNAME, process.env.DB_PASSWORD, process.env.DB_SERVER, process.env.DB_NAME)
     .then((conn) => {
@@ -157,20 +159,35 @@ const getCar = async (id) => {
     return { status: 404 };
 }
 
+const getAllAttribures = async (expressRes) => {
+    const soapClient = await getClient();
+    soapClient.GetAttributes({}, async (err, res) => {
+        responseBody = JSON.parse(res);
+        console.log(responseBody);
+        expressRes.status(200).send(responseBody);
+        return;
+    });
+    // let result = {};
+    // return {
+    //     response: result,
+    //     status: 200
+    // }
+};
+
 const getAll = async () => {
     try {
         await db.sync();
     } catch (err) {
 
-        
+
     } finally {
         let result = await db.collection(dbCollection).find({}).toArray();
-                for(const car of result){
-                    if(car.pricelistId){
-                        const pricelist = await db.collection('pricelists').findOne({_id: ObjectID(car.pricelistId)});
-                        car.pricelist = pricelist;
-                    }
-                }       
+        for (const car of result) {
+            if (car.pricelistId) {
+                const pricelist = await db.collection('pricelists').findOne({ _id: ObjectID(car.pricelistId) });
+                car.pricelist = pricelist;
+            }
+        }
         return {
             response: result,
             status: 200
@@ -205,56 +222,7 @@ const completedRental = async (id) => {
     };
 };
 
-/*const completedRentals = async () => {
-    await db.collection('orders').insertOne({
-         'cars': [
-                        {
-                            'make': 'audi',
-                            'model': 'a6',
-                            'productionYear': '2015',
-                            'dateStart': '15.06.2020',
-                            'dateEnd': '20.06.2020',
-                            'rentedCar': 'audi a6 2015'
-                        },
-                        {
-                            'make': 'bmw',
-                            'model': 'x3',
-                            'productionYear': '2015',
-                            'dateStart': '15.06.2020',
-                            'dateEnd': '20.06.2020',
-                            'rentedCar': 'bmw x3 2015'
-                        },
-                        {
-                            'make': 'golf',
-                            'model': 'mk7',
-                            'productionYear': '2015',
-                            'dateStart': '15.06.2020',
-                            'dateEnd': '20.06.2020',
-                            'rentedCar': 'audi a6 2015'
-                        }
-                    ],
-                    'status': 'PENDING',
-                    'totalCars': '3',
-                    'finished': true
-        });
-        await db.collection('orders').insertOne({
-            'cars': [
-                           {
-                               'make': 'audi',
-                               'model': 'a6',
-                               'productionYear': '2015',
-                               'dateStart': '15.06.2020',
-                               'dateEnd': '20.06.2020',
-                               'rentedCar': 'audi a6 2015'
-                           },
-                           
-                       ],
-                       'status': 'PENDING',
-                       'totalCars': '1',
-                       'finished': true
-           });
-    }
-*/
+
 const completedRentalsBundles = async () => {
     let result = [];
     result = await db.collection('bundles').find({ status: "FINISHED" }).toArray();
@@ -353,14 +321,23 @@ const mileageReport = async (data, id, carId) => {
             }
         }
         );
+        let debit = 0;
+        let car = await db.collection(dbCollection).findOne({ _id: ObjectID(carId) });
+        if (car.pricelistId) {
+            const pricelist = await db.collection('pricelists').findOne({ _id: ObjectID(car.pricelistId) });
+            car.pricelist = pricelist;
+            debit = (Number(data.newMileage) - Number(data.car.limitMileage)) * Number(car.pricelist.pricePerKM);
+        }
+        console.log("DUG: " + debit);
+
         let debt = await db.collection('debts').find({ $and: [{ orderId: id }, { carId: carId }] }).toArray();
-        if(debt[0]){
+        if (debt[0]) {
             await db.collection('debts').deleteOne({ _id: ObjectID(debt[0]._id) });
         }
 
         if (Number(data.newMileage) > Number(data.car.limitMileage)) {
             let obj = {
-                debt: '100',
+                debt: String(debit),
                 user: data.renterId,
                 overstepMileage: String(Number(data.newMileage) - Number(data.car.limitMileage)),
                 orderId: id,
@@ -396,9 +373,17 @@ const mileageReport = async (data, id, carId) => {
             }
         }
         );
+        let debit = 0;
+        let car = await db.collection(dbCollection).findOne({ _id: ObjectID(carId) });
+        if (car.pricelistId) {
+            const pricelist = await db.collection('pricelists').findOne({ _id: ObjectID(car.pricelistId) });
+            car.pricelist = pricelist;
+            debit = (Number(data.newMileage) - Number(data.car.limitMileage)) * Number(car.pricelist.pricePerKM);
+        }
+        console.log("DUG: " + debit);
         if (Number(data.newMileage) > Number(data.car.limitMileage)) {
             let obj = {
-                debt: '100',
+                debt: String(debit),
                 user: data.renterId,
                 overstepMileage: String(Number(data.newMileage) - Number(data.car.limitMileage)),
                 orderId: id,
@@ -517,5 +502,6 @@ module.exports = {
     completedRentalsBundles,
     completedRental,
     getAll,
-    busy: busyCar
+    busy: busyCar,
+    getAllMakes: getAllAttribures
 };

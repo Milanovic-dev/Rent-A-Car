@@ -93,10 +93,10 @@ dbConnect(process.env.DB_USERNAME, process.env.DB_PASSWORD, process.env.DB_SERVE
             firstName: 'Admin',
             lastName: 'Admin',
             email: 'admin@gmail.com',
+            role: 'admin',
             permissions: [
                 '*',
             ],
-            role: 'admin'
         });
 
     }).catch((e) => {
@@ -214,7 +214,8 @@ const login = async (username, password) => {
 
                 return {
                     response: {
-                        token
+                        token,
+                        role: user.role
                     },
                     status: 200
                 };
@@ -306,11 +307,12 @@ const register = async (user, enableVerify = null) => {
         user.emailVerified = true;
     }
 
+    if(!user.role){
+        user.role = 'user';
+    }
 
     user.password = bcrypt.hashSync(user.password, bcrypt.genSaltSync(10, 'b'));
-    user.role = 'user';
     user.regTimestamp = new Date().getUTCMilliseconds();
-    // user.status = 0;
 
     let storeResult = await db.collection(dbCollection).insertOne(user);
 

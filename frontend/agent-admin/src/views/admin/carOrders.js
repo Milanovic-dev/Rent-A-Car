@@ -25,9 +25,9 @@ class Orders extends Component {
     componentDidMount() {
         this.get();
     }
-    
+
     get() {
-        
+
         fetch('https://localhost:8282/api/orders/all', {
             method: 'GET',
             headers: {
@@ -39,21 +39,20 @@ class Orders extends Component {
                 items: result
             })
         })
-        
+
     }
 
-    getStatusColor(status){
-        if(status == 'PENDING'){
+    getStatusColor(status) {
+        if (status == 'PENDING') {
             return '#FDA50F'
-        }else if(status == 'CANCELED'){
+        } else if (status == 'CANCELED') {
             return 'red'
-        }else
-        {
+        } else {
             return 'green'
         }
     }
 
-    acceptOrder(e, id){
+    acceptOrder(e, id) {
         e.preventDefault();
 
         fetch(`https://localhost:8282/api/orders/accept/${id}`, {
@@ -63,13 +62,28 @@ class Orders extends Component {
                 'Authorization': `Bearer ${localStorage.getItem('token')}`
             },
         }).then(res => {
-            if(res.status == 200){
+            if (res.status == 200) {
+                window.location.reload();
+            }
+        })
+    }
+    finishOrder(e, id) {
+        e.preventDefault();
+
+        fetch(`https://localhost:8282/api/orders/finish/${id}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('token')}`
+            },
+        }).then(res => {
+            if (res.status == 200) {
                 window.location.reload();
             }
         })
     }
 
-    declineOrder(e, id){
+    declineOrder(e, id) {
         e.preventDefault();
 
         fetch(`https://localhost:8282/api/orders/decline/${id}`, {
@@ -79,7 +93,7 @@ class Orders extends Component {
                 'Authorization': `Bearer ${localStorage.getItem('token')}`
             },
         }).then(res => {
-            if(res.status == 200){
+            if (res.status == 200) {
                 window.location.reload();
             }
         })
@@ -126,31 +140,45 @@ class Orders extends Component {
                                         <span className="name">{item.renterId}</span>
                                     </Col>
                                     <Col lg="2">
-                                        <span className="name" style={{color: this.getStatusColor(item.status)}}>{item.status}
-                                        {
+
+                                        <span className="name" style={{ color: this.getStatusColor(item.status) }}>{item.status}
+{
                                             item.status == 'PAID' ?
                                             <Link to={`/map/${item.carId}`} style={{marginLeft: 10}}>TRACK</Link>
                                             :
 
                                             null
                                         }
-                                        
-
-                                        </span>
+</span>
                                     </Col>
-                                    <Col lg="1">
-                                        <span className="name"><button disabled={item.status == 'PAID' || item.status == "CANCELED"} onClick={(e) => this.acceptOrder(e, item._id)}>Accept</button> 
-                                         </span>
-                                    </Col> 
-                                    <Col lg="1">
-                                        <span className="name"><button disabled={item.status == 'CANCELED'} onClick={(e) => this.declineOrder(e, item._id)}>Decline</button></span>
-                                    </Col>   
+                                    {
+                                        !(item.status == "FINISHED") ?
+                                        <>
+                                            {
+                                                item.status == "PAID" ?
+                                                    <Col lg="1">
+                                                        <span className="name"><button className="button" onClick={(e) => this.finishOrder(e, item._id)}>FINISH</button></span>
+                                                    </Col>
+                                                    :
+                                                    <Col lg="1">
+                                                        <span className="name"><button className={item.status == "PAID" || item.status == "PENDING" ? 'button' : 'button3'} disabled={item.status == 'PAID'} onClick={(e) => this.acceptOrder(e, item._id)}>Accept</button></span>
+                                                    </Col>
+                                            }
+
+                                            < Col lg="1">
+                                                <span className="name"><button className={item.status == "CANCELED" || item.status == "PENDING" ? 'button2' : 'button4'} disabled={item.status == 'CANCELED'} onClick={(e) => this.declineOrder(e, item._id)}>Decline</button></span>
+                                            </Col>
+                                        </>
+                                        : null
+                                    }
+
+
                                 </Row>
                             )
                         })
                     }
                 </Container>
-            </div>
+            </div >
         );
     }
 }

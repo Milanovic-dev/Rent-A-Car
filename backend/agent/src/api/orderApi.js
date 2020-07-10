@@ -19,6 +19,11 @@ module.exports = function(app){
         log(req, res, 'info');
         res.status(result.status).send();
     });
+    app.post('/api/orders/finish/:id', async(req, res) => {
+        let result = await service.finishOrder(req.params.id, 'orders');
+        log(req, res, 'info');
+        res.status(result.status).send();
+    });
 
     app.post('/api/orders/decline/:id', async(req ,res) => {
         let result = await service.declineOrder(req.params.id, 'orders');
@@ -28,6 +33,11 @@ module.exports = function(app){
 
     app.post('/api/orders/bundles/accept/:id', async(req, res) => {
         let result = await service.acceptBundle(req.params.id, 'bundles');
+        log(req, result.status);
+        res.status(result.status).send();
+    });
+    app.post('/api/orders/bundles/finish/:id', async(req, res) => {
+        let result = await service.finishBundle(req.params.id, 'bundles');
         log(req, result.status);
         res.status(result.status).send();
     });

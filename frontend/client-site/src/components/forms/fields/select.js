@@ -16,7 +16,9 @@ class Select extends Component {
     }
 
     render() {
-        
+        if(!this.props.children ){
+            return null;
+        }
         return (
             <div>
                 <Dropdown className="select-field" isOpen={this.state.dropdownOpen} toggle={() => { this.setState({ dropdownOpen: !this.state.dropdownOpen }) }}>
@@ -28,7 +30,7 @@ class Select extends Component {
                     <DropdownMenu className="dropdown-animation">
                         {
                             this.props.children && this.props.children.map((children) => {
-                                if (children.props)
+                                if (children && children.props)
                                 return (
                                     <DropdownItem onClick={() => this.props.onChange(children.props.value)}>{children.props.children}</DropdownItem>
                                 )

@@ -773,6 +773,39 @@ button {
   border: 0;
   bottom: 45px; }
 
+.button2 {
+  background-color: #F1646C;
+  padding: 13px 20px 12px 20px;
+  font-size: 18px;
+  font-weight: 600;
+  color: #FFFFFF;
+  border-radius: 6px;
+  outline: none;
+  border: 0;
+  bottom: 45px; }
+
+.button3 {
+  background-color: transparent;
+  padding: 13px 20px 12px 20px;
+  font-size: 18px;
+  font-weight: 600;
+  color: #2196F3;
+  border-radius: 6px;
+  outline: none;
+  border: 1px solid #2196F3;
+  bottom: 45px; }
+
+.button4 {
+  background-color: transparent;
+  padding: 13px 20px 12px 20px;
+  font-size: 18px;
+  font-weight: 600;
+  color: #F1646C;
+  border-radius: 6px;
+  outline: none;
+  border: 1px solid #F1646C;
+  bottom: 45px; }
+
 .contact-box label {
   font-size: 15px;
   font-weight: 400;

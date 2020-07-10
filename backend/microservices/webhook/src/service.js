@@ -16,11 +16,11 @@ dbConnect(process.env.DB_USERNAME, process.env.DB_PASSWORD, process.env.DB_SERVE
 })
 
 
-const createAgent = async ({username, password}) => {
+const createAgent = async ({username, password, companyName}) => {
     if(!username || !password) return {status: 400};
 
     const pass = bcrypt.hashSync(password, 10);
-    let result = await db.collection('agents').insertOne({username, password: pass});
+    let result = await db.collection('agents').insertOne({username, password: pass, companyName});
 
     if(result.insertedId){
         return {status: 201};
@@ -144,9 +144,16 @@ const getAttributes = async () => {
     return JSON.stringify({classes, fuels, makes, models});
 }
 
+const getAgents = async () => {
+    const agents = await db.getDirectDb().collection('agents').find({}).toArray();
+
+    return {status: 200, response: agents};
+}
+
 module.exports = {
     subscribeAgent,
     sync,
     createAgent,
-    getAttributes
+    getAttributes,
+    getAgents
 }

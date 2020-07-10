@@ -31,7 +31,7 @@ class ChangeCar extends Component {
         data.power ? data.power = striptags(data.power) : data.power = "";
         data.seatCount ? data.seatCount = striptags(data.seatCount) : data.seatCount = "";
         data.location ? data.location = striptags(data.location) : data.location = "";
-        data.price ? data.price = striptags(data.price) : data.price = "";
+        // data.pricelist.pricePerDay ? data.pricelist.pricePerDay = striptags(data.pricelist.pricePerDay) : data.pricelist.pricePerDay = "";
         data.description ? data.description = striptags(data.description) : data.description = "";
 
         console.log(data);
@@ -89,6 +89,24 @@ class ChangeCar extends Component {
             this.state.pricelists = result;
             this.forceUpdate();
         })
+        fetch('https://localhost:8282/api/make', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('token')}`
+            },
+        }).then((res) => res.json()).then((result) => {
+            this.setState({
+                makes: result.makes,
+                models: result.models,
+                classes: result.classes,
+                fuels: result.fuels
+            })
+            // this.state.make = result;
+            // this.forceUpdate();
+        })
+
+        
     }
 
     render() {
@@ -104,9 +122,9 @@ class ChangeCar extends Component {
                     </Row>
                     {
                         this.state.data ?
-                            <Form initialValues={this.state.data} onSubmit={this.add} pricelist={this.state.pricelists}  />
+                            <Form initialValues={this.state.data} onSubmit={this.add} pricelist={this.state.pricelists} make={this.state.makes} model={this.state.models} classes={this.state.classes} fuel={this.state.fuels} />
                             :
-                            <Form onSubmit={this.add} pricelist={this.state.pricelists} />
+                            <Form onSubmit={this.add} pricelist={this.state.pricelists} make={this.state.makes} model={this.state.models} classes={this.state.classes} fuel={this.state.fuels}/>
                     }
                 </Container>
             </div>

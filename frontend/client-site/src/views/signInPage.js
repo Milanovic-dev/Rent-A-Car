@@ -39,6 +39,7 @@ class SignInPage extends Component {
         }).then((res) => res.json()).then((result) => {
             if (!result.error) {
                 localStorage.setItem('token', result.token);
+                localStorage.setItem('role', result.role);
                 this.setState({
                     _done: true
                 })
