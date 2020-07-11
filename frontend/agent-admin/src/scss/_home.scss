@@ -590,3 +590,27 @@ color: $red;
             text-align: left !important;
         }
     }
+
+    .map-info{
+        position:fixed;
+        top: 30px;
+        left: 30px;
+        width: 300px;
+        background-color: $white;
+        border-radius: 15px;
+        overflow: hidden;
+        img {
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        h6 {
+            padding: 0 20px;
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+
+        p {
+            padding: 0 20px;
+        }
+    }
