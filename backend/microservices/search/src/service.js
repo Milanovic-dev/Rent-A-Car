@@ -4,7 +4,7 @@ const moment = require('moment');
 //database
 const dbConnect = require('../db');
 const dbCollection = 'cars';
-const ObjectID = require('mongodb');
+const ObjectID = require('mongodb').ObjectID;
 let db;
 dbConnect(process.env.DB_USERNAME, process.env.DB_PASSWORD, process.env.DB_SERVER, process.env.DB_NAME)
 .then(async (conn) => {
@@ -37,20 +37,40 @@ const search = async (filter) => {
     if(filter.fuel) searchObject.fuel = filter.fuel;
     if(filter.transmission) searchObject.transmission = filter.transmission;
     if(filter.class) searchObject.class = filter.class;
-    if(filter.lowestPrice) searchObject.price.$gt = filter.lowestPrice;
-    if(filter.hightestPrice) searchObject.price.$lt = filter.highestPrice;
-    if(filter.mileage) searchObject.mileage = {$lt: parseInt(filter.mileage)};
-    if(filter.intentedMileage) searchObject.intentedMileage.$lt = filter.intentedMileage;
+    if(filter.mileage) searchObject.mileage = {$lte: parseInt(filter.mileage)};
     if(filter.cdwp) searchObject.cdwp = filter.cdwp == 'true';
-    if(filter.seatCount) searchObject.seatCount = filter.seatCount;
+    if(filter.seatCount) searchObject.seatCount = {$lte: parseInt(filter.seatCount)};
     console.log(searchObject)
     let result = await db.collection(dbCollection).find(searchObject).toArray();
 
+    let ret = [];
+
     for(let car of result){
-        car.pricelist = {}
+        if(car.pricelistId){
+            const pricelist = await db.collection('pricelists').findOne({_id: ObjectID(car.pricelistId)})
+            car.pricelist = pricelist;
+        }
+
+        if(filter.desiredMileage){
+            const desiredMileage = parseInt(filter.desiredMileage);
+
+            const currentMileage = parseInt(car.mileage);
+            const limitMileage = parseInt(car.limitMileage);
+
+            if(limitMileage - currentMileage < desiredMileage){
+                continue;
+            }
+            else{
+                ret.push(car);
+            }
+        }
+        else
+        {
+            ret.push(car);
+        }
     }
 
-    return { response: result, status: 200 };
+    return { response: ret, status: 200 };
 }
 
 

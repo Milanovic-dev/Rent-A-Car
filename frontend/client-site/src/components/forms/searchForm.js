@@ -277,7 +277,7 @@ let SearchForm = (props) => {
                         <Col lg="4">
                             <div className="input-wrap">
                                 <Field
-                                    name="lowestPrice"
+                                    name="desiredMileage"
                                     component={renderTextField}
                                     label="Desired KM"
                                     placeholder="- KM to go -"
@@ -296,6 +296,18 @@ let SearchForm = (props) => {
                                     <option value="true">Yes</option>
                                     <option value="false">No</option>
                                 </Field>
+                            </div>
+                        </Col>
+                    </Row>
+                    <Row>               
+                        <Col lg="4">
+                            <div className="input-wrap">
+                                <Field
+                                    name="seatCount"
+                                    component={renderTextField}
+                                    label="Seat Count"
+                                    placeholder="- Choose seat count -"
+                                />
                             </div>
                         </Col>
                     </Row>
