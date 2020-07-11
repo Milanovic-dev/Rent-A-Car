@@ -121,6 +121,14 @@ const createCar = async (car, authorization) => {
         car.cdwp = car.cdwp == 'yes';
     }
 
+    if(car.mileage){
+        car.mileage = parseInt(car.mileage);
+    }
+
+    if(car.limitMileage){
+        car.limitMileage = parseInt(car.limitMileage);
+    }
+
     if(car.pricePerDay && car.pricePerKM){
         const pricelist = {pricePerDay: car.pricePerDay, pricePerKM: car.pricePerKM, priceCDWP: 50, sale: 0};
         const result = await db.collection('pricelists').insertOne(pricelist);

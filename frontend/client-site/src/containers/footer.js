@@ -66,7 +66,7 @@ export class Footer extends Component {
                         <Col md="4">
                             <div className="contact hide-mobile">
                                 <i className="mdi mdi-map-marker" /> Find us on
-                                <p>{this.props.config ? this.props.config.address : ''}</p>
+                                <p>Karadjordjeva 8, Novi Sad, Serbia</p>
                             </div>
                         </Col>
                         <div className="spacer"></div>

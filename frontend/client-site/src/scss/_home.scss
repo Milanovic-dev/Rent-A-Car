@@ -145,7 +145,7 @@
                 font-size: 64px;
                 font-weight: 600;
                 float: left;
-                background-color: $dark-black;
+                background-color: rgba(255, 0, 0, 0);
                 margin-bottom: 0;
                 
 
@@ -155,7 +155,7 @@
 
                 &:nth-child(1){
                     padding: 10px 14px 0 14px;
-                    background-color: $dark-black;
+                    background-color: rgba(255, 0, 0, 0);
                     margin-top: 120px;
                     
                     @media only screen and (max-width: 1200px) {
@@ -167,7 +167,7 @@
 
                 &:nth-child(2){
                     padding: 0 14px 0 14px;
-                    background-color: $dark-black;
+                    background-color: rgba(255, 0, 0, 0);
                     min-width: 390px;
                     @media only screen and (max-width: 1200px) {
                         padding: 0 10px 0 10px;

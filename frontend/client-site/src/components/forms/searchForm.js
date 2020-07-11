@@ -1,22 +1,16 @@
 import React from 'react';
 import { Field, reduxForm } from 'redux-form'
-import { connect } from 'react-redux';
-import { formValueSelector } from 'redux-form';  // ES6
 import Text from './fields/text';
-import { handleMobileSearchForm } from '../../actions/index';
 import {
     Container,
     Row,
     Col,
 } from 'reactstrap';
-import Isvg from 'react-inlinesvg';
 
 import DateTime from './fields/datePicker';
 import Select from './fields/select';
 import RangeSlider from './fields/rangeSlider';
 import Tabs from './fields/tabs';
-
-import car_icon from '../../assets/svg/car.svg';
 
 const renderTextField = ({
     input,
@@ -103,19 +97,7 @@ export const renderDateTimeField = ({
 
 
 let SearchForm = (props) => {
-    const { handleSubmit, pristine, reset, submitting } = props;
-    //console.log(props);
-
-    //console.log(props.productFilters);
-    let models;
-    if (props.manufacturer && props.productFilters && props.productFilters.manufacturers) {
-        for (let i = 0; i < props.productFilters.manufacturers.length; i++) {
-            if (props.productFilters.manufacturers[i].name === props.manufacturer) {
-                models = props.productFilters.manufacturers[i].models;
-            }
-        }
-
-    }
+    const { handleSubmit, reset, productFilters } = props;
 
     return (
         <Container className={props.searchForm ? "search-form" : "search-form hide-mobile"}>
@@ -128,8 +110,8 @@ let SearchForm = (props) => {
                             name="condition"
                             component={renderTabsField}
                         >
-                            <option value="all">Primary search</option>
-                            <option value="ankauf">Extended search</option>
+                            <option value="all">Extended Search</option>
+                            <option value="all">EN</option>
                         </Field>
                     </Col>
                     
@@ -174,15 +156,14 @@ let SearchForm = (props) => {
                                     name="make"
                                     component={renderSelectField}
                                     label="Choose a make"
+                                    placeholder="- Choose a make -"
                                 >
                                 {
-                                    /*
-                                    props.productFilters && props.productFilters.productFilters.make.map((make, idx) => {
+                                    productFilters && productFilters.makes.map((item, idx) => {
                                         return (
-                                            <option value={make}>{make}</option>
+                                            <option value={item.name}>{item.name}</option>
                                         )
                                     })
-                                    */
                                 }
                                 </Field>
                             </div>
@@ -193,56 +174,15 @@ let SearchForm = (props) => {
                                     name="model"
                                     component={renderSelectField}
                                     label="Choose a model"
+                                    placeholder="- Choose a model -"
                                 >
-                                {
-                                    /*
-                                    props.productFilters && props.productFilters.model.map((model, idx) => {
-                                        return (
-                                            <option value={model}>{model}</option>
-                                        )
-                                    })
-                                    */
-                                }
-                                </Field>
-                            </div>
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col lg="4">
-                            <div className="input-wrap">
-                                <Field
-                                    name="fuel"
-                                    component={renderSelectField}
-                                    label="Choose a fuel"
-                                >
-                                {
-                                    /*
-                                    props.productFilters && props.productFilters.fuel.map((fuel, idx) => {
-                                        return (
-                                            <option value={fuel}>{fuel}</option>
-                                        )
-                                    })
-                                    */
-                                }   
-                                </Field>
-                            </div>
-                        </Col>
-                        <Col lg="4">
-                            <div className="input-wrap">
-                                <Field
-                                    name="transmission"
-                                    component={renderSelectField}
-                                    label="Choose a transmission"
-                                >
-                                {
-                                    /*
-                                    props.productFilters && props.productFilters.transmission.map((transmission, idx) => {
-                                        return (
-                                            <option value={transmission}>{transmission}</option>
-                                        )
-                                    })
-                                    */
-                                }  
+                                    {
+                                        productFilters && productFilters.models.map((item, idx) => {
+                                            return (
+                                                <option value={item.name}>{item.name}</option>
+                                            )
+                                        })
+                                    }
                                 </Field>
                             </div>
                         </Col>
@@ -254,39 +194,71 @@ let SearchForm = (props) => {
                                     name="class"
                                     component={renderSelectField}
                                     label="Choose a class"
+                                    placeholder="- Choose a class -"
                                 >
-                                {
-                                    /*
-                                    props.productFilters && props.productFilters.class.map((carClass, idx) => {
+                                    {
+                                    productFilters && productFilters.classes && productFilters.classes.map((item, idx) => {
                                         return (
-                                            <option value={carClass}>{carClass}</option>
+                                            <option value={item.name}>{item.name}</option>
                                         )
                                     })
-                                    */
-                                }  
+                                }
                                 </Field>
                             </div>
                         </Col>
                         <Col lg="4">
                             <div className="input-wrap">
                                 <Field
-                                    name="cdw"
+                                    name="fuel"
                                     component={renderSelectField}
-                                    label="Has a cdw?"
+                                    label="Choose a fuel type"
+                                    placeholder="- Choose fuel -"
                                 >
-                                    <option value="true">Yes</option>
-                                    <option value="false">No</option>
+                                    {
+                                    productFilters && productFilters.fuels && productFilters.fuels.map((item, idx) => {
+                                        return (
+                                            <option value={item.name}>{item.name}</option>
+                                        )
+                                    })
+                                }
                                 </Field>
                             </div>
                         </Col>
                     </Row>
-                    <Row>
+                    <Row>               
+                        <Col lg="4">
+                            <div className="input-wrap">
+                                <Field
+                                    name="transmission"
+                                    component={renderSelectField}
+                                    label="Choose a transmission"
+                                    placeholder="- Choose a transmission -"
+                                >
+                                    <option value={undefined}>None</option>
+                                    <option value="manual">Manual</option>
+                                    <option value="automatic">Automatic</option>
+                                </Field>
+                            </div>
+                        </Col>
+                        <Col lg="4">
+                            <div className="input-wrap">
+                                <Field
+                                    name="mileage"
+                                    component={renderTextField}
+                                    label="Choose a mileage"
+                                    placeholder="- Choose a mileage -"
+                                />
+                            </div>
+                        </Col>
+                    </Row>
+                    <Row>               
                         <Col lg="4">
                             <div className="input-wrap">
                                 <Field
                                     name="lowestPrice"
                                     component={renderTextField}
-                                    label="Choose a lowest price"
+                                    label="Choose a price (FROM)"
+                                    placeholder="- From price -"
                                 />
                             </div>
                         </Col>
@@ -295,42 +267,40 @@ let SearchForm = (props) => {
                                 <Field
                                     name="highestPrice"
                                     component={renderTextField}
-                                    label="Choose a highest price"
+                                    label="Choose a price (TO)"
+                                    placeholder="- To price -"
                                 />
                             </div>
                         </Col>
                     </Row>
-                    <Row>
+                    <Row>               
                         <Col lg="4">
                             <div className="input-wrap">
                                 <Field
-                                    name="Mileage"
+                                    name="lowestPrice"
                                     component={renderTextField}
-                                    label="Choose a mileage"
+                                    label="Desired KM"
+                                    placeholder="- KM to go -"
                                 />
                             </div>
                         </Col>
                         <Col lg="4">
                             <div className="input-wrap">
                                 <Field
-                                    name="intentedMileage"
-                                    component={renderTextField}
-                                    label="Choose an intendent Mileage"
-                                />
+                                    name="cdwp"
+                                    component={renderSelectField}
+                                    label="With CDWP"
+                                    placeholder="- Choose CDWP -"
+                                >
+                                    <option value={undefined}>None</option>
+                                    <option value="true">Yes</option>
+                                    <option value="false">No</option>
+                                </Field>
                             </div>
                         </Col>
                     </Row>
                     <Row>
-                        <Col lg="4">
-                            <div className="input-wrap">
-                                <Field
-                                    name="seatCount"
-                                    component={renderTextField}
-                                    label="Choose an seat count"
-                                />
-                            </div>
-                        </Col>
-                        <Col lg="4">
+                        <Col lg="8">
                             <div className="input-wrap buttons">
                                 <button type="button" className="button clear-btn" onClick={reset}>Reset</button>
                                 <button type="submit" className="button black-btn right-chevron" >Search</button>
@@ -344,31 +314,10 @@ let SearchForm = (props) => {
     )
 }
 
-const mapDispatchToProps = (dispatch, ownProps) => {
-    //console.log(dispatch);
-    return {
-        handleMobileSearchForm: (val) => {
-            dispatch(handleMobileSearchForm(val))
-        }
-    }
-}
-
-
 SearchForm = reduxForm({
     form: 'searchForm', // a unique identifier for this form,
     initialValues: { condition: 'all' }
 })(SearchForm)
 
-
-// Decorate with connect to read form values
-const selector = formValueSelector('searchForm') // <-- same as form name
-SearchForm = connect(state => {
-    // can select values individually
-    const manufacturer = selector(state, 'manufacturer')
-    return {
-        manufacturer,
-        searchForm: state.searchForm
-    }
-}, mapDispatchToProps)(SearchForm)
 
 export default SearchForm

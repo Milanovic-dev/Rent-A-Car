@@ -52,13 +52,13 @@ class HomeHeader extends Component {
                     <Link to='/cars/new' className={this.props[0].location.pathname === '/cars/new'  ? 'active' : null}>Create ad</Link>
                 </NavItem>
                 <NavItem>
-                    <Link to='/requests' className={this.props[0].location.pathname === '/requests'  ? 'active' : null}>My Requests</Link>
+                    <Link to='/requests' className={this.props[0].location.pathname === '/requests'  ? 'active' : null}>Requests</Link>
                 </NavItem>
                 <NavItem>
-                    <Link to='/orders' className={this.props[0].location.pathname === '/orders'  ? 'active' : null}>My Orders</Link>
+                    <Link to='/orders' className={this.props[0].location.pathname === '/orders'  ? 'active' : null}>Orders</Link>
                 </NavItem>
                 <NavItem>
-                    <Link to='/cart' className={this.props[0].location.pathname === '/cart'  ? 'active' : null}>My Cart</Link>
+                    <Link to='/cart' className={this.props[0].location.pathname === '/cart'  ? 'active' : null}>Cart</Link>
                 </NavItem>
                 <NavItem>
                     <Link to='/' onClick={() => {
@@ -119,8 +119,6 @@ class HomeHeader extends Component {
         const slides = this.state.slides.map((item) => {
             return (
                 <CarouselItem
-                    onExiting={this.onExiting}
-                    onExited={this.onExited}
                     key={item.image}
                 >
                     <img src={item.imagebg} alt={item.name} />
@@ -131,9 +129,7 @@ class HomeHeader extends Component {
                                     <h3 className="top-bottom-animation">RENT A CAR</h3>
                                     <h3 className="top-bottom-animation">SERVICE</h3>
                                     <img className="image car-animation" src={item.image} />
-
                                 </Col>
-
                             </Row>
                         </Container>
                     </div>

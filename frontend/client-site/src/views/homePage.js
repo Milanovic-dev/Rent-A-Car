@@ -27,23 +27,11 @@ import {
 class HomePage extends Component {
     constructor(props) {
         super(props);
-
-        this.next = this.next.bind(this);
-        this.previous = this.previous.bind(this);
-        this.goToIndex = this.goToIndex.bind(this);
-        this.onExiting = this.onExiting.bind(this);
-        this.onExited = this.onExited.bind(this);
         this.searchProducts = this.searchProducts.bind(this);
 
         this.state = {
             newestProducts: [],
-            commingSoonProducts: [],
-            productFilters: null,
-            manufacturerModels: [],
-            filters: {},
-            gallery: [],
-            activeIndex: 0,
-            counter: 0
+            productFilters: null
         };
     }
 
@@ -54,7 +42,13 @@ class HomePage extends Component {
 
       
     componentDidMount() {
-        fetch('https:/localhost:8080/search/getForm').then((res) => res.json()).then((productFilters) => { console.log(productFilters); this.setState({ productFilters }); })
+        fetch('https:/localhost:8080/search/getForm')
+        .then(async (res) => {
+            const data = await res.json();
+            this.setState({
+                productFilters: data
+            })
+        })
     }
 
     searchProducts(data) {
@@ -84,55 +78,7 @@ class HomePage extends Component {
         this.animating = false;
     }
 
-    next() {
-        if (this.animating) return;
-        const nextIndex = this.state.activeIndex === this.state.gallery.length - 1 ? 0 : this.state.activeIndex + 1;
-        this.setState({ activeIndex: nextIndex });
-    }
-
-    previous() {
-        if (this.animating) return;
-        const nextIndex = this.state.activeIndex === 0 ? this.state.gallery.length - 1 : this.state.activeIndex - 1;
-        this.setState({ activeIndex: nextIndex });
-    }
-
-    goToIndex(newIndex) {
-        if (this.animating) return;
-        this.setState({ activeIndex: newIndex });
-    }
-
-    componentWillUnmount() {
-
-    }
-
     render() {
-        const settings = {
-            dots: false,
-            infinite: true,
-            speed: 500,
-            slidesToShow: window.innerWidth < 768 ? 3 : 6,
-            slidesToScroll: 1,
-            autoplay: true,
-            autoplaySpeed: 2000,
-              };
-
-        const { activeIndex } = this.state;
-
-        const slides = this.props.images && this.props.images.map((item) => {
-            return (
-                <CarouselItem
-                    tag="div"
-                    key={item}
-                    onExiting={this.onExiting}
-                    onExited={this.onExited}
-                >
-                    <div className="lightbox-item">
-                        <img src={item} />
-                    </div>
-
-                </CarouselItem>
-            );
-        });
 
         return (
             <div className={this.props.menu ? "home-wrap active-menu-animation" : "home-wrap"}>
@@ -165,39 +111,16 @@ class HomePage extends Component {
                                                 to={product.to}
                                                 fromFormatted={product.fromFormatted}
                                                 toFormatted={product.toFormatted}
+                                                pricelist={product.pricelist}
                                             />
                                         </Col>
                                     )
                                 })
                             }
-
-                        </Row>
-
-                    </Container>
-                </section>
-
-               
-
-
-
-                
-
-                <section className="section map-section">
-                    <Container fluid>
-
-                        <Row>
-                            <Col md="12">
-                                <Map {...this.props} />
-                            </Col>
                         </Row>
                     </Container>
                 </section>
-
-
                 <Footer {...this.props} />
-
-
-
             </div >
         );
     }

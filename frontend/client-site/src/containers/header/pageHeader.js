@@ -41,13 +41,13 @@ class PageHeader extends Component {
                     <Link to='/cars/new' className={this.props[0].location.pathname === '/cars/new'  ? 'active' : null}>Create ad</Link>
                 </NavItem>
                 <NavItem>
-                    <Link to='/requests' className={this.props[0].location.pathname === '/requests'  ? 'active' : null}>My Requests</Link>
+                    <Link to='/requests' className={this.props[0].location.pathname === '/requests'  ? 'active' : null}>Requests</Link>
                 </NavItem>
                 <NavItem>
-                    <Link to='/orders' className={this.props[0].location.pathname === '/orders'  ? 'active' : null}>My Orders</Link>
+                    <Link to='/orders' className={this.props[0].location.pathname === '/orders'  ? 'active' : null}>Orders</Link>
                 </NavItem>
                 <NavItem>
-                    <Link to='/cart' className={this.props[0].location.pathname === '/cart'  ? 'active' : null}>My Cart</Link>
+                    <Link to='/cart' className={this.props[0].location.pathname === '/cart'  ? 'active' : null}>Cart</Link>
                 </NavItem>
                 <NavItem>
                     <Link to='/' onClick={() => {

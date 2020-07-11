@@ -44,6 +44,7 @@ export class Article extends Component {
     }
 
     render() {
+
         return (
             <div className="article-box" key={this.props.id}>
                 <img src={this.props.images ? this.props.images[0] : ""} />
