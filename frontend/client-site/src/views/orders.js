@@ -223,8 +223,8 @@ class Orders extends Component {
                                     <Row>
                                         <Col md="12">
                                             <div className="select-header">
-                                                <button className={this.state.showingOrders ? "select-orders selected" : 'select-orders'} onClick={this.selectShow}>My Orders</button>
-                                                <button className={!this.state.showingOrders ? "select-orders selected" : 'select-orders'} onClick={this.selectShow}>My Bundles</button>
+                                                <button className={this.state.showingOrders ? "select-orders selected" : 'select-orders'} onClick={this.selectShow}>Orders</button>
+                                                <button className={!this.state.showingOrders ? "select-orders selected" : 'select-orders'} onClick={this.selectShow}>Bundles</button>
                                             </div>
                                         </Col>
                                     </Row>

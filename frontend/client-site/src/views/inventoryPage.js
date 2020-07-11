@@ -14,14 +14,13 @@ import {
     DropdownToggle,
     DropdownMenu,
     DropdownItem,
-
+    Spinner
 } from 'reactstrap';
 
 class InventoryPage extends Component {
     constructor(props) {
         super(props);
-        // this.searchProducts = this.searchProducts.bind(this);
-        // this.fetchItems = this.fetchItems.bind(this);
+
         this.state = {
             products: [],
             productFilters: {},
@@ -156,7 +155,7 @@ class InventoryPage extends Component {
 
                                 <Row className="articles">
                                     {
-                                        this.state.items.map((product) => {
+                                        this.state.items.length != 0 ? this.state.items.map((product) => {
                                             return (
                                                 <Col md="4" xs="6">
 
@@ -180,7 +179,7 @@ class InventoryPage extends Component {
                                                     />
                                                 </Col>
                                             )
-                                        })
+                                        }) : <div><Spinner style={{ marginLeft:'500px', marginTop: '200px' }} color="danger" /></div>
                                     }
 
                                 </Row>

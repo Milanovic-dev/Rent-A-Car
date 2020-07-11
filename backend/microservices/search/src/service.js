@@ -4,6 +4,7 @@ const moment = require('moment');
 //database
 const dbConnect = require('../db');
 const dbCollection = 'cars';
+const ObjectID = require('mongodb');
 let db;
 dbConnect(process.env.DB_USERNAME, process.env.DB_PASSWORD, process.env.DB_SERVER, process.env.DB_NAME)
 .then(async (conn) => {
@@ -17,12 +18,12 @@ dbConnect(process.env.DB_USERNAME, process.env.DB_PASSWORD, process.env.DB_SERVE
 const search = async (filter) => {
 
     let searchObject={};
-
+    
     if(filter.takePoint == "" & filter.takeDate == "" && filter.returnDate == "")
     {
         return { status: 400 };
     }
-    console.log(filter);
+
     if(filter.takePoint) searchObject.location = filter.takePoint;
     if(filter.returnPoint) searchObject.returnPoint = filter.returnPoint;
     
@@ -38,20 +39,15 @@ const search = async (filter) => {
     if(filter.class) searchObject.class = filter.class;
     if(filter.lowestPrice) searchObject.price.$gt = filter.lowestPrice;
     if(filter.hightestPrice) searchObject.price.$lt = filter.highestPrice;
-    if(filter.mileage) searchObject.mileage = filter.mileage;
+    if(filter.mileage) searchObject.mileage = {$lt: parseInt(filter.mileage)};
     if(filter.intentedMileage) searchObject.intentedMileage.$lt = filter.intentedMileage;
-    if(filter.cdw) searchObject.cdw = filter.cdw;
+    if(filter.cdwp) searchObject.cdwp = filter.cdwp == 'true';
     if(filter.seatCount) searchObject.seatCount = filter.seatCount;
-
-    console.log(searchObject);
-
+    console.log(searchObject)
     let result = await db.collection(dbCollection).find(searchObject).toArray();
 
-    for(const car of result){
-        if(car.pricelistId){
-            const pricelist = await db.collection('pricelists').findOne({_id: ObjectID(car.pricelistId)});
-            car.pricelist = pricelist;
-        }
+    for(let car of result){
+        car.pricelist = {}
     }
 
     return { response: result, status: 200 };
@@ -65,18 +61,6 @@ const getForm = async () => {
     response.fuels = await db.collection('fuels').find({}).toArray();
     response.makes = await db.collection('makes').find({}).toArray();
     response.models = await db.collection('models').find({}).toArray();
-
-    const maxPriceCar = await db.collection('cars').find({}).sort({price: -1}).limit(1).toArray();
-    const minPriceCar = await db.collection('cars').find().sort({price: +1}).limit(1).toArray();
-
-    response.maxPrice = maxPriceCar[0].price;
-    response.minPrice = minPriceCar[0].price;
-
-    const maxMileageCar  = await db.collection('cars').find({}).sort({mileage: -1}).limit(1).toArray();
-    const minMileageCar = await db.collection('cars').find({}).sort({mileage: +1}).limit(1).toArray();
-
-    response.maxMileage = maxMileageCar[0].mileage;
-    response.minMileage = minMileageCar[0].mileage;
 
     return {status: 200, response};
 }

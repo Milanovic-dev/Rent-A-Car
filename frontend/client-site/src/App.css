@@ -2800,14 +2800,14 @@ button {
         font-size: 64px;
         font-weight: 600;
         float: left;
-        background-color: #222222;
+        background-color: rgba(255, 0, 0, 0);
         margin-bottom: 0; }
         @media only screen and (max-width: 1200px) {
           .home-wrap .home-slider .slide-content h3 {
             font-size: 22px; } }
         .home-wrap .home-slider .slide-content h3:nth-child(1) {
           padding: 10px 14px 0 14px;
-          background-color: #222222;
+          background-color: rgba(255, 0, 0, 0);
           margin-top: 120px; }
           @media only screen and (max-width: 1200px) {
             .home-wrap .home-slider .slide-content h3:nth-child(1) {
@@ -2815,7 +2815,7 @@ button {
               padding: 6px 10px 0 10px; } }
         .home-wrap .home-slider .slide-content h3:nth-child(2) {
           padding: 0 14px 0 14px;
-          background-color: #222222;
+          background-color: rgba(255, 0, 0, 0);
           min-width: 390px; }
           @media only screen and (max-width: 1200px) {
             .home-wrap .home-slider .slide-content h3:nth-child(2) {

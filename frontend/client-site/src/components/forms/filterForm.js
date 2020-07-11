@@ -63,15 +63,15 @@ let FilterForm = (props) => {
                     <Col md="12">
                         <div className="input-wrap">
                             <Field
-                                name="manufacturer"
+                                name="make"
                                 component={renderSelectField}
                                 label="Make"
                                 placeholder="- Choose make -"
                             >
                                 {
-                                    productFilters && props.productFilters.makes && props.productFilters.makes.map((name, idx) => {
+                                    productFilters && props.productFilters.makes && props.productFilters.makes.map((item, idx) => {
                                         return (
-                                            <option value={name}>{name}</option>
+                                            <option value={item.name}>{item.name}</option>
                                         )
                                     })
                                 }
@@ -90,9 +90,9 @@ let FilterForm = (props) => {
                                     placeholder= "- Choose make -"
                                 >
                                     {
-                                        productFilters && productFilters.models.map((model, idx) => {
+                                        productFilters && productFilters.models.map((item, idx) => {
                                             return (
-                                                <option value={model}>{model}</option>
+                                                <option value={item.name}>{item.name}</option>
                                             )
                                         })
                                     }
@@ -116,9 +116,9 @@ let FilterForm = (props) => {
                                 placeholder="- Choose class -"
                             >
                                 {
-                                    productFilters && productFilters.classes && productFilters.classes.map((name, idx) => {
+                                    productFilters && productFilters.classes && productFilters.classes.map((item, idx) => {
                                         return (
-                                            <option value={name}>{name}</option>
+                                            <option value={item.name}>{item.name}</option>
                                         )
                                     })
                                 }
@@ -139,9 +139,9 @@ let FilterForm = (props) => {
                             >
 
                                 {
-                                    productFilters && productFilters.fuels && productFilters.fuels.map((color, idx) => {
+                                    productFilters && productFilters.fuels && productFilters.fuels.map((item, idx) => {
                                         return (
-                                            <option value={color}>{color}</option>
+                                            <option value={item.name}>{item.name}</option>
                                         )
                                     })
                                 }
@@ -161,9 +161,9 @@ let FilterForm = (props) => {
                                 placeholder="- Choose transmission -"
                             >
                                 {
-                                    productFilters && productFilters.transmissions && productFilters.transmissions.map((color, idx) => {
+                                    productFilters && productFilters.transmissions && productFilters.transmissions.map((item, idx) => {
                                         return (
-                                            <option value={color}>{color}</option>
+                                            <option value={item.name}>{item.name}</option>
                                         )
                                     })
                                 }
@@ -172,32 +172,7 @@ let FilterForm = (props) => {
                         </div>
 
                     </Col>
-                
-                   <Col md="12">
-                    <div className="input-wrap">
-                                <Field
-                                    name="price"
-                                    component={renderRangeSliderField}
-                                    label="Price"
-                                    min={props.productFilters.minPrice}
-                                    max={props.productFilters.maxPrice}
-                                    defaultValue={[props.productFilters.minPrice, props.productFilters.maxPrice]}
-
-                                />
-                        </div>
-                    </Col>
-                    <Col md="12">
-                    <div className="input-wrap">
-                            <Field
-                                name="mileage"
-                                component={renderRangeSliderField}
-                                label="Mileage"
-                                min={props.productFilters.minMileage}
-                                max={props.productFilters.maxMileage}
-                                defaultValue={[props.productFilters.minMileage, props.productFilters.maxMileage]}
-                            />
-                    </div>
-                    </Col>
+            
 
                     <Col md="12">
                         <div className="input-wrap buttons">
