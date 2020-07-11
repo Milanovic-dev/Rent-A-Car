@@ -47,6 +47,13 @@ const search = async (filter) => {
 
     let result = await db.collection(dbCollection).find(searchObject).toArray();
 
+    for(const car of result){
+        if(car.pricelistId){
+            const pricelist = await db.collection('pricelists').findOne({_id: ObjectID(car.pricelistId)});
+            car.pricelist = pricelist;
+        }
+    }
+
     return { response: result, status: 200 };
 }
 

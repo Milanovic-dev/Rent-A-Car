@@ -75,7 +75,7 @@ const cartForm = (props) => {
                                     <span className="cart-item-image"><img width="120px" src={item.images ? item.images[0] : ""}></img></span>
                                     <span className="cart-item-info"><NavLink style={{color:'#da212e'}} to={`/cars/${item._id}`}>{`${item.make} ${item.model} ${item.power}kw`}</NavLink></span>
                                     <span className="cart-item-options">{item.fromFormatted && item.toFormatted ? `${item.fromFormatted} - ${item.toFormatted}`: `N/A`}</span>
-                                    <span className="cart-item-price">{item.pricelist ? item.pricelist.pricePerDay : item.price}/Day €</span>
+                                    <span className="cart-item-price"><NavLink style={{ color:'#da212e'}} to={`/pricelist/${item.pricelist._id}`}>{getDiscountedPrice(item.pricelist.pricePerDay, item.pricelist.sale)}/Day €</NavLink></span>
                                     <button className="cart-item-remove" style={{backgroundColor:'white'}} onClick={(e)=> {removeFromCart(e, item._id)}}><Isvg src={Delete}></Isvg></button>
                                 </Col>
                                 )
@@ -97,6 +97,16 @@ const cartForm = (props) => {
                 </Row>
             </form>
     )
+}
+
+const getDiscountedPrice = (price, sale) => {
+    if(!price) return 0;
+
+    if(!sale) return price;
+
+    let p = price;
+    p -= ((p / 10) * (sale / 10));
+    return p;
 }
 
 export default reduxForm({
